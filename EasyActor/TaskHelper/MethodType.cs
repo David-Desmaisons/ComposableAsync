@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EasyActor.TaskHelper
 {
-    internal enum MethodType
+    internal enum TaskType
     {
         None,
         Task,

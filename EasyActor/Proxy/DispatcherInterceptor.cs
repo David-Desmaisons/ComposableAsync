@@ -25,10 +25,10 @@ namespace EasyActor
 
             switch(td.MethodType)
             {
-                case MethodType.None:
+                case TaskType.None:
                     throw new NotSupportedException("Method should be return Task or Task<T>");
 
-                case MethodType.Task:
+                case TaskType.Task:
                     var tcs = new TaskCompletionSource<object>();
 
                     invocation.ReturnValue = _Queue.Enqueue(() =>
@@ -38,7 +38,7 @@ namespace EasyActor
 
                     break;
 
-                case MethodType.GenericTask:
+                case TaskType.GenericTask:
                      var mi = _Proceed.MakeGenericMethod(td.Type);
                      mi.Invoke(this, new[] { invocation });
                     break;

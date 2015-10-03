@@ -13,10 +13,10 @@ namespace EasyActor.TaskHelper
         internal static TaskDescription GetTaskType(this Type @this)
         {
             if (@this == typeof(Task))
-                return new TaskDescription(){ MethodType = MethodType.Task };
+                return new TaskDescription(){ MethodType = TaskType.Task };
             if (@this.IsGenericType && @this.GetGenericTypeDefinition() == typeof(Task<>))
-                return new TaskDescription() {  Type = @this.GetGenericArguments()[0], MethodType = MethodType.GenericTask };
-            return new TaskDescription() { MethodType = MethodType.None };
+                return new TaskDescription() {  Type = @this.GetGenericArguments()[0], MethodType = TaskType.GenericTask };
+            return new TaskDescription() { MethodType = TaskType.None };
         }
 
     }

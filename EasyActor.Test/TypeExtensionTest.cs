@@ -16,7 +16,7 @@ namespace EasyActor.Test
 
             var target = st.GetTaskType();
 
-            target.MethodType.Should().Be(MethodType.None);
+            target.MethodType.Should().Be(TaskType.None);
             target.Type.Should().BeNull();
         }
 
@@ -27,7 +27,7 @@ namespace EasyActor.Test
 
             var target = st.GetTaskType();
 
-            target.MethodType.Should().Be(MethodType.Task);
+            target.MethodType.Should().Be(TaskType.Task);
             target.Type.Should().BeNull();
         }
 
@@ -38,7 +38,7 @@ namespace EasyActor.Test
 
             var target = st.GetTaskType();
 
-            target.MethodType.Should().Be(MethodType.GenericTask);
+            target.MethodType.Should().Be(TaskType.GenericTask);
             target.Type.Should().Be(typeof(string));
         }
     }
