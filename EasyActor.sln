@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor", "EasyActor\EasyActor.csproj", "{487FAEA3-4503-4E5B-B10B-48B689DBF174}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor.Test", "EasyActor.Test\EasyActor.Test.csproj", "{D3A0E7F2-381E-4B87-8BA6-3BFB979C5992}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor.Examples", "EasyActor.Examples\EasyActor.Examples.csproj", "{7CAC3D8A-E284-4EBD-8386-F1BC17E3C9F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{487FAEA3-4503-4E5B-B10B-48B689DBF174}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{487FAEA3-4503-4E5B-B10B-48B689DBF174}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{487FAEA3-4503-4E5B-B10B-48B689DBF174}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{487FAEA3-4503-4E5B-B10B-48B689DBF174}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3A0E7F2-381E-4B87-8BA6-3BFB979C5992}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3A0E7F2-381E-4B87-8BA6-3BFB979C5992}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3A0E7F2-381E-4B87-8BA6-3BFB979C5992}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3A0E7F2-381E-4B87-8BA6-3BFB979C5992}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CAC3D8A-E284-4EBD-8386-F1BC17E3C9F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CAC3D8A-E284-4EBD-8386-F1BC17E3C9F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CAC3D8A-E284-4EBD-8386-F1BC17E3C9F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CAC3D8A-E284-4EBD-8386-F1BC17E3C9F0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
