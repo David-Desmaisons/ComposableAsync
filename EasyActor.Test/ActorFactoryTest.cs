@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace EasyActor.Test
 {
      [TestFixture]
-    public class ActorifyTest
+    public class ActorFactoryTest
     {
         public interface Interface
         {
@@ -77,7 +77,7 @@ namespace EasyActor.Test
         }
         private ActorFactory Actorify;
 
-        public ActorifyTest()
+        public ActorFactoryTest()
         {       
         }
 
@@ -89,7 +89,7 @@ namespace EasyActor.Test
 
 
         [Test]
-        public async Task DoAsync_ShouldRunOnOtherThread()
+        public async Task Method_Should_Run_On_Separated_Thread()
         {
             var current = Thread.CurrentThread;
             var target = new Class();
@@ -102,7 +102,7 @@ namespace EasyActor.Test
         }
 
          [Test]
-        public async Task DoAsync_ShouldRunOn_Always_Same_Thread()
+        public async Task Method_Should_Always_Run_On_Same_Thread()
         {
             var target = new Class();
             var intface = Actorify.Build<Interface>(target);
@@ -116,7 +116,43 @@ namespace EasyActor.Test
         }
 
          [Test]
-         public async Task Method_ShouldRunOn_Same_Thread_After_Await()
+         public async Task Each_Actor_Should_Run_On_Separated_Thread_When_Shared_Thread_Is_False()
+         {
+             //arrange
+             var target1 = new Class();
+             var target2 = new Class();
+             var intface1 = Actorify.Build<Interface>(target1);
+             var intface2 = Actorify.Build<Interface>(target2);
+
+             //act
+             await intface1.DoAsync();
+             await intface2.DoAsync();
+
+             //assert
+             target1.CallingThread.Should().NotBe(target2.CallingThread);
+         }
+
+         [Test]
+         public async Task All_Actors_Should_Run_On_Same_Thread_When_SharedThread_Is_True()
+         {
+
+             var factory = new ActorFactory(SharedThread:true);
+             //arrange
+             var target1 = new Class();
+             var target2 = new Class();
+             var intface1 = factory.Build<Interface>(target1);
+             var intface2 = factory.Build<Interface>(target2);
+
+             //act
+             await intface1.DoAsync();
+             await intface2.DoAsync();
+
+             //assert
+             target1.CallingThread.Should().Be(target2.CallingThread);
+         }
+
+         [Test]
+         public async Task Method_Should_Run_On_Same_Thread_After_Await()
          {
              var target = new Class();
              var intface = Actorify.Build<Interface>(target);
@@ -129,7 +165,7 @@ namespace EasyActor.Test
          
 
         [Test]
-        public async Task Build_Delayed_Shoul_Be_Awaited()
+        public async Task Task_returned_By_Method_Should_Be_Awaited()
         {
             var target = new Class();
             var intface = Actorify.Build<Interface>(target);
@@ -139,7 +175,7 @@ namespace EasyActor.Test
         }
 
         [Test]
-        public async Task Build_Delayed_Result_Should_Run_OnOtherTread()
+        public async Task Method_With_Task_T_Should_Run_On_Separated_Tread()
         {
             var current = Thread.CurrentThread;
             var target = new Class();
@@ -154,7 +190,7 @@ namespace EasyActor.Test
 
 
          [Test]
-        public void Build_No_Task_Should_Throw_Exception()
+        public void Method_returning_void_Task_Should_Throw_Exception()
         {
             var intface = Actorify.Build<Interface>(new Class());
             Action Do = () => intface.Do();

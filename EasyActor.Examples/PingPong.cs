@@ -83,7 +83,7 @@ namespace EasyActor.Examples
         [Test]
         public async Task Test()
         {
-            var fact = new ActorFactory(Priority.Highest);
+            var fact = new ActorFactory(priority: Priority.Highest);
 
             var basicponger = new Ponger();
             IPonger ponger = fact.Build<IPonger>(basicponger);

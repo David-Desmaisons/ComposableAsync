@@ -13,9 +13,9 @@ namespace EasyActor
     internal class DispatcherInterceptor : IInterceptor
     {
         private AsyncQueueMonoThreadDispatcher _Queue;
-        public DispatcherInterceptor(Priority iPriority)
+        public DispatcherInterceptor(AsyncQueueMonoThreadDispatcher iqueue)
         {
-            _Queue = new AsyncQueueMonoThreadDispatcher(iPriority);
+            _Queue = iqueue;
         }
 
         public void Intercept(IInvocation invocation)

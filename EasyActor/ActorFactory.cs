@@ -4,22 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
+using EasyActor.Queue;
 
 namespace EasyActor
 {
-    public class ActorFactory
+    public class ActorFactory : IActorFactory
     {
         private ProxyGenerator _Generator;
         private Priority _Priority;
-        public ActorFactory(Priority iPriority= Priority.Normal)
+        private AsyncQueueMonoThreadDispatcher _Queue;
+
+        public ActorFactory(bool SharedThread=false, Priority priority= Priority.Normal)
         {
-            _Priority = iPriority;
+            if (SharedThread)
+            {
+                _Queue = new AsyncQueueMonoThreadDispatcher(priority);
+            }
+            _Priority = priority;
             _Generator = new ProxyGenerator();
         }
 
-        public T Build<T>(T concrete, Nullable<Priority> iPriority=null) where T:class
+        public T Build<T>(T concrete) where T:class
         {
-            return _Generator.CreateInterfaceProxyWithTargetInterface<T>(concrete, new IInterceptor[] { new DispatcherInterceptor(iPriority ?? _Priority) });
+            var queue = _Queue ?? new AsyncQueueMonoThreadDispatcher(_Priority);
+            return _Generator.CreateInterfaceProxyWithTargetInterface<T>(concrete, new IInterceptor[] { new DispatcherInterceptor(queue) });
         }
     }
 }
