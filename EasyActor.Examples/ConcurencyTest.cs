@@ -47,7 +47,7 @@ namespace EasyActor.Examples
         [SetUp]
         public void SetUp()
         {
-            _Threads = Enumerable.Range(0, _ThreadCount).Select(_ => new Thread(() => TestActor())).ToList();
+            _Threads = Enumerable.Range(0, _ThreadCount).Select(_ => new Thread(() => {TestActor().Wait();})).ToList();
         }
 
         [TearDown]
