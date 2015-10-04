@@ -10,11 +10,12 @@ If you are looking for a complete Actor solution including remoting, resiliency 
 
 Motivation
 --------------
-	-Simplify concurent programing getting rid of manual lock hell.
-	-Use actor concept: actor leaves in their own thread and comunicate with immutable message.
-	-Leverage C# 5.0 ansychroneous API (Task, async , await): actors comunicate with other component with Task
-	-Transparent for consumer: EasyActor actors can be any C# interface returning Task.
-	-Fast: performance overhead should be minize
+
+* Simplify concurent programing getting rid of manual lock hell.
+* Use actor concept: actor leaves in their own thread and comunicate with immutable message.
+* Leverage C# 5.0 ansychroneous API (Task, async , await): actors comunicate with other component with Task
+* Transparent for consumer: EasyActor actors can be any C# interface returning Task.
+* Fast: performance overhead should be minize
 
 Features
 --------
