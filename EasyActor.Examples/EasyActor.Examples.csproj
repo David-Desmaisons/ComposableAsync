@@ -57,6 +57,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="ConcurencyTest.cs" />
     <Compile Include="PingPong.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

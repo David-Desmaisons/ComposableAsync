@@ -44,6 +44,7 @@ namespace EasyActor.Examples
                 else
                     _Thread = Thread.CurrentThread;
             }
+            Console.WriteLine("Ping from thread {0}", Thread.CurrentThread.ManagedThreadId);
             s_Count++;
             m_Ponger.Pong();
             return Task.FromResult<object>(null);
@@ -69,7 +70,7 @@ namespace EasyActor.Examples
                     _Thread = Thread.CurrentThread;
             }
             s_Count++;
-
+            Console.WriteLine("Pong from thread {0}", Thread.CurrentThread.ManagedThreadId);
             if (pinger != null)
                 pinger.Ping();
 
@@ -78,12 +79,12 @@ namespace EasyActor.Examples
     }
 
     [TestFixture]
-    public class pingpong
+    public class PingPong
     {
         [Test]
         public async Task Test()
         {
-            var fact = new ActorFactory(priority: Priority.Highest);
+            var fact = new ActorFactory(priority: Priority.AboveNormal);
 
             var basicponger = new Ponger();
             IPonger ponger = fact.Build<IPonger>(basicponger);
