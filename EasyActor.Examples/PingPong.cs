@@ -9,71 +9,29 @@ using FluentAssertions;
 
 namespace EasyActor.Examples
 {
-    public interface IPinger
+    public interface IPingPonger
     {
         Task Ping();
     }
 
-    public interface IPonger
+    internal class PingPonger : IPingPonger
     {
-        Task Pong();
-    }
+        public int Count {get;set;}
+        public string Name { get; private set; }
 
-    internal class Pinger : IPinger
-    {
-        public int s_Count = 0;
-        private readonly IPonger m_Ponger;
-        private Thread _Thread = null;
-        public bool Check { get; set; }
+        internal IPingPonger Ponger { get; set; }
 
-        public Pinger(IPonger ponger)
+        public PingPonger(string iName)
         {
-            m_Ponger = ponger;
+            Name = iName;
         }
-
-
 
         public Task Ping()
         {
-            if (Check)
-            {
-                if (_Thread != null)
-                {
-                    _Thread.Should().Be(Thread.CurrentThread);
-                }
-                else
-                    _Thread = Thread.CurrentThread;
-            }
-            Console.WriteLine("Ping from thread {0}", Thread.CurrentThread.ManagedThreadId);
-            s_Count++;
-            m_Ponger.Pong();
-            return Task.FromResult<object>(null);
-        }
-    }
-
-    internal class Ponger : IPonger
-    {
-        public int s_Count = 0;
-        private Thread _Thread = null;
-        public bool Check { get; set; }
-
-        internal IPinger pinger { get; set; }
-        public Task Pong()
-        {
-            if (Check)
-            {
-                if (_Thread != null)
-                {
-                    _Thread.Should().Be(Thread.CurrentThread);
-                }
-                else
-                    _Thread = Thread.CurrentThread;
-            }
-            s_Count++;
-            Console.WriteLine("Pong from thread {0}", Thread.CurrentThread.ManagedThreadId);
-            if (pinger != null)
-                pinger.Ping();
-
+            Console.WriteLine("{0} Ping from thread {1}",Name, Thread.CurrentThread.ManagedThreadId);
+            Count++;
+            if (Ponger != null)
+                Ponger.Ping();
             return Task.FromResult<object>(null);
         }
     }
@@ -86,19 +44,20 @@ namespace EasyActor.Examples
         {
             var fact = new ActorFactory(priority: Priority.AboveNormal);
 
-            var basicponger = new Ponger();
-            IPonger ponger = fact.Build<IPonger>(basicponger);
-            var basicpinger = new Pinger(ponger);
+            var One = new PingPonger("Bjorg");
+            IPingPonger Actor1 = fact.Build<IPingPonger>(One);
 
+            var Two = new PingPonger("Lendl");
+            IPingPonger Actor2 = fact.Build<IPingPonger>(Two);
 
-            IPinger pinger = fact.Build<IPinger>(basicpinger);
-            basicponger.pinger = pinger;
+            One.Ponger = Actor2;
+            Two.Ponger = Actor1;
 
-            await pinger.Ping();
+            await Actor1.Ping();
             Thread.Sleep(10000);
 
-            Console.WriteLine(basicpinger.s_Count);
-            Console.WriteLine(basicponger.s_Count);
+            Console.WriteLine(One.Count);
+            Console.WriteLine(Two.Count);
         }
     }
 }
