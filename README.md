@@ -48,7 +48,7 @@ Create an actor:
 		var fact = new ActorFactory();
 		var fooActor = fact.Build<IFoo>( new ConcreteFoo());
 		...
-		//This call will ConcreteFoo Bar in its own thread
+		//This will call ConcreteFoo Bar in its own thread
 		await fooActor.Bar();
 		
 		
