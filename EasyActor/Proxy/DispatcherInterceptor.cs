@@ -12,6 +12,11 @@ namespace EasyActor
 {
     internal class DispatcherInterceptor : IInterceptor
     {
+        private static MethodInfo _Proceed = typeof(DispatcherInterceptor).GetMethod("Proceed", BindingFlags.Instance | BindingFlags.NonPublic);
+       
+        private static MethodInfo _Dispose = typeof(IDisposable).GetMethod("Dispose", BindingFlags.Instance | BindingFlags.Public);
+
+
         private AsyncQueueMonoThreadDispatcher _Queue;
         public DispatcherInterceptor(AsyncQueueMonoThreadDispatcher iqueue)
         {
@@ -20,7 +25,18 @@ namespace EasyActor
 
         public void Intercept(IInvocation invocation)
         {
+
             var method =  invocation.Method;
+
+            if (method ==_Dispose)
+            {
+                if (invocation.MethodInvocationTarget!=null)
+                    invocation.Proceed();
+
+                return;
+            }
+
+
             var td = method.ReturnType.GetTaskType();
 
             switch(td.MethodType)
@@ -45,8 +61,7 @@ namespace EasyActor
             }
         }
 
-        private static MethodInfo _Proceed = typeof(DispatcherInterceptor).GetMethod("Proceed", BindingFlags.Instance | BindingFlags.NonPublic);
-
+  
 
         private void Proceed<T>(IInvocation invocation)
         {

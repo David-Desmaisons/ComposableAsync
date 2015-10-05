@@ -9,10 +9,15 @@ namespace EasyActor.Test
      [TestFixture]
     public class ActorFactoryTest
     {
-        public interface Interface
+
+         public interface Interface1
+         {
+             Task DoAsync();
+         }
+
+        public interface Interface : Interface1
         {
             Task SlowDoAsync();
-            Task DoAsync();
 
             Task<int> ComputeAsync(int value);
 
@@ -75,6 +80,28 @@ namespace EasyActor.Test
                 return Task.FromResult<int>(value);
             }
         }
+
+        public class DisposbaleClass : Interface1, IDisposable
+        {
+            public DisposbaleClass()
+            {
+                IsDisposed = false;
+            }
+
+            public bool IsDisposed { get; private set; }
+
+            public Task DoAsync()
+            {
+                return Task.FromResult<object>(null);
+            }
+
+            public void Dispose()
+            {
+                IsDisposed = true;
+            }
+        }
+
+
         private ActorFactory Actorify;
 
         public ActorFactoryTest()
@@ -209,7 +236,8 @@ namespace EasyActor.Test
          public async Task Actor__Dispose_Should_Cancel_Thread_Loop()
          {
              //arrange
-             var intface = Actorify.Build<Interface>(new Class());
+             var dispclass = new DisposbaleClass();
+             var intface = Actorify.Build<Interface1>(dispclass);
 
              //act
              await intface.DoAsync();
@@ -219,7 +247,7 @@ namespace EasyActor.Test
              disp.Dispose();
 
              //assert
-
+             dispclass.IsDisposed.Should().BeTrue();
          }
     }
 }
