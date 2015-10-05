@@ -16,7 +16,7 @@ Motivation
 * Leverage C# 5.0 ansychroneous API (Task, async , await): actors comunicate with other component with Task
 * Receive return from actor with Task<T>
 * Transparent for consumer: EasyActor actors can be any C# interface returning Task.
-* Fast: performance overhead should be minize
+* Fast: performance overhead should be minimum
 
 Features
 --------
@@ -69,6 +69,8 @@ EasyActor also garantees that code running after awaited task will also run on t
 		      //This code also run on actor thread
 		      ....
 		}
+
+[Ping Pomg Example here](https://github.com/David-Desmaisons/EasyActor/wiki/Ping-Pong-Example)
 
 How it works
 ------------
