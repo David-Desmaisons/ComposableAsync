@@ -27,7 +27,7 @@ namespace EasyActor
         public T Build<T>(T concrete) where T:class
         {
             var queue = _Queue ?? new AsyncQueueMonoThreadDispatcher(_Priority);
-            return _Generator.CreateInterfaceProxyWithTargetInterface<T>(concrete, new IInterceptor[] { new DispatcherInterceptor(queue) });
+            return (T)_Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new Type[]{typeof(IDisposable)},concrete,  new IInterceptor[] { new DispatcherInterceptor(queue) });
         }
     }
 }

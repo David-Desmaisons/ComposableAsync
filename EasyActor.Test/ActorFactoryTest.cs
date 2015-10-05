@@ -196,5 +196,30 @@ namespace EasyActor.Test
             Action Do = () => intface.Do();
             Do.ShouldThrow<NotSupportedException>();
         }
+
+         [Test]
+         public void Actor_Should_Be_Disposable()
+         {
+             var intface = Actorify.Build<Interface>(new Class()) as IDisposable;
+
+             intface.Should().NotBeNull();
+         }
+
+         [Test]
+         public async Task Actor__Dispose_Should_Cancel_Thread_Loop()
+         {
+             //arrange
+             var intface = Actorify.Build<Interface>(new Class());
+
+             //act
+             await intface.DoAsync();
+
+             var disp = intface as IDisposable;
+
+             disp.Dispose();
+
+             //assert
+
+         }
     }
 }
