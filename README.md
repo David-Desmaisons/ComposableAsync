@@ -43,9 +43,11 @@ Create an actor:
 		//ConcreteFoo definition
 		public class ConcreteFoo : IFoo
 		{
-		    public Task Bar()
+		    public Task<int> Bar()
 		    {
 		      //Implementation here...
+		      
+		      return Task.FromResult<int>(2);
 		    }
 		}
 		...
@@ -54,8 +56,29 @@ Create an actor:
 		var fooActor = fact.Build<IFoo>( new ConcreteFoo());
 		...
 		//This will call ConcreteFoo Bar in its own thread
-		await fooActor.Bar();
+		var res = await fooActor.Bar();
 		
+###ActorFactory constructor parameter  
+
+		var factory = new ActorFactory(SharedThread:false, priority:Priority.AboveNormal);
+
+* priority (default to Normal) to choose the priority of the Thread priority where Actor methods will run. This value maps directly with Thread priority.
+
+		public enum Priority
+		{
+		    Lowest,
+		    BelowNormal,
+		    Normal,
+		    AboveNormal,
+		    Highest
+		}
+
+* SharedThread (default to false): if true all the actors will leave in the same thread. This option may be helpfull if you have to create a lot of actors which have to perform short lived methods and you do not want to create a thread for each one.
+
+###SynchronizationContext
+
+
+EasyActor also garantees that code running after awaited task will also run on the actor Thread (in a similar way than task on UI Thread):		
 		
 EasyActor also garantees that code running after awaited task will also run on the actor Thread (in a similar way than task on UI Thread):
 
@@ -70,7 +93,7 @@ EasyActor also garantees that code running after awaited task will also run on t
 		      ....
 		}
 
-[Ping Pomg Example here](https://github.com/David-Desmaisons/EasyActor/wiki/Ping-Pong-Example)
+[Classic Ping Pong Example here](https://github.com/David-Desmaisons/EasyActor/wiki/Ping-Pong-Example)
 
 How it works
 ------------
