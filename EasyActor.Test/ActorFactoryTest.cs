@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
 using NUnit.Framework;
+using EasyActor.TaskHelper;
 
 namespace EasyActor.Test
 {
@@ -37,7 +38,7 @@ namespace EasyActor.Test
             {
                 CallingThread = Thread.CurrentThread;
                 Done = true;
-                return Task.FromResult<object>(null);
+                return TaskBuilder.GetCompleted();
             }
 
 
@@ -68,7 +69,7 @@ namespace EasyActor.Test
                 CallingThread = Thread.CurrentThread;
                 Thread.Sleep(1000);
                 Done = true;
-                return Task.FromResult<object>(null);
+                return TaskBuilder.GetCompleted();
             }
 
 
@@ -246,6 +247,7 @@ namespace EasyActor.Test
 
              disp.Dispose();
 
+             Thread.Sleep(1500);
              //assert
              dispclass.IsDisposed.Should().BeTrue();
          }

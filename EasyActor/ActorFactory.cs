@@ -12,13 +12,13 @@ namespace EasyActor
     {
         private ProxyGenerator _Generator;
         private Priority _Priority;
-        private AsyncQueueMonoThreadDispatcher _Queue;
+        private MonoThreadedQueue _Queue;
 
         public ActorFactory(bool SharedThread=false, Priority priority= Priority.Normal)
         {
             if (SharedThread)
             {
-                _Queue = new AsyncQueueMonoThreadDispatcher(priority);
+                _Queue = new MonoThreadedQueue(priority);
             }
             _Priority = priority;
             _Generator = new ProxyGenerator();
@@ -26,8 +26,8 @@ namespace EasyActor
 
         public T Build<T>(T concrete) where T:class
         {
-            var queue = _Queue ?? new AsyncQueueMonoThreadDispatcher(_Priority);
-            return (T)_Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new Type[]{typeof(IDisposable)},concrete,  new IInterceptor[] { new DispatcherInterceptor(queue) });
+            var queue = _Queue ?? new MonoThreadedQueue(_Priority);
+            return (T)_Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new Type[] { typeof(IDisposable) }, concrete, new IInterceptor[] { new DispatcherInterceptor(queue, _Queue!=null) });
         }
     }
 }

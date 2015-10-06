@@ -14,11 +14,11 @@ namespace EasyActor.Test
     public class DispatcherSynchronizationContextTest
     {
         private DispatcherSynchronizationContext _Dispatcher;
-        private AsyncQueueMonoThreadDispatcher _Queue;
+        private MonoThreadedQueue _Queue;
         [SetUp]
         public void SetUp()
         {
-            _Queue = new AsyncQueueMonoThreadDispatcher(Priority.Highest);
+            _Queue = new MonoThreadedQueue(Priority.Highest);
             _Dispatcher = new  DispatcherSynchronizationContext(_Queue);
         }
 

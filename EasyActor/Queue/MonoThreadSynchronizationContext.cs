@@ -11,10 +11,10 @@ namespace EasyActor.Queue
 
     public sealed class DispatcherSynchronizationContext : SynchronizationContext
     {
-        private readonly AsyncQueueMonoThreadDispatcher _dispatcher;
+        private readonly MonoThreadedQueue _dispatcher;
 
 
-        public DispatcherSynchronizationContext(AsyncQueueMonoThreadDispatcher dispatcher)
+        public DispatcherSynchronizationContext(MonoThreadedQueue dispatcher)
         {
             if (dispatcher == null)
                 throw new ArgumentNullException("dispatcher");

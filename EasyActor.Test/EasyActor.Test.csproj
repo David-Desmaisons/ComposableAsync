@@ -61,7 +61,7 @@
     <Compile Include="DispatcherSynchronizationContextTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeExtensionTest.cs" />
-    <Compile Include="AsyncQueueMonoThreadDispatcherTest.cs" />
+    <Compile Include="MonoThreadedQueueTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

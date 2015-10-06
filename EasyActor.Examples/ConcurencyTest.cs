@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using FluentAssertions;
 using System.Threading;
+using EasyActor.TaskHelper;
 
 namespace EasyActor.Examples
 {
@@ -27,7 +28,7 @@ namespace EasyActor.Examples
             var c = _Count;
             Thread.Sleep(5);
             _Count  = c + 1;
-            return Task.FromResult<object>(null);
+            return TaskBuilder.GetCompleted();
         }
 
         public Task<int> GetCount()

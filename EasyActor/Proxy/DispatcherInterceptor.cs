@@ -17,10 +17,12 @@ namespace EasyActor
         private static MethodInfo _Dispose = typeof(IDisposable).GetMethod("Dispose", BindingFlags.Instance | BindingFlags.Public);
 
 
-        private AsyncQueueMonoThreadDispatcher _Queue;
-        public DispatcherInterceptor(AsyncQueueMonoThreadDispatcher iqueue)
+        private MonoThreadedQueue _Queue;
+        private bool _Shared;
+        public DispatcherInterceptor(MonoThreadedQueue iqueue, bool iShared)
         {
             _Queue = iqueue;
+            _Shared = iShared;
         }
 
         public void Intercept(IInvocation invocation)
@@ -31,7 +33,20 @@ namespace EasyActor
             if (method ==_Dispose)
             {
                 if (invocation.MethodInvocationTarget!=null)
-                    invocation.Proceed();
+                {
+                    _Queue.Enqueue(() =>
+                    {
+                        invocation.Call<object>();
+                    });
+
+                    if (!_Shared)
+                    {
+                         _Queue.Enqueue(() => 
+                        {                 
+                            _Queue.Dispose();
+                        });
+                    }
+                }
 
                 return;
             }

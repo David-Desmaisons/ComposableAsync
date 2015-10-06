@@ -4,6 +4,7 @@ using System.Threading;
 using FluentAssertions;
 using NUnit.Framework;
 using EasyActor.Queue;
+using EasyActor.TaskHelper;
 
 namespace EasyActor.Test
 {
@@ -17,7 +18,7 @@ namespace EasyActor.Test
         {
             _RunningThread = Thread.CurrentThread;
             Thread.Sleep(sleep * 1000);
-            return Task.FromResult<object>(null);
+            return TaskBuilder.GetCompleted();
         }
 
         private Task<T> TaskFactory<T>(T result, int sleep = 1)
@@ -37,12 +38,18 @@ namespace EasyActor.Test
             throw new Exception();
         }
 
+        [SetUp]
+        public void SetUp()
+        {
+            _RunningThread = null;
+        }
+
           [Test]
         public async Task Enqueue_Should_Run_OnSeparatedThread()
         {
             Thread current = Thread.CurrentThread;
             //arrange
-            using (var target = new AsyncQueueMonoThreadDispatcher())
+            using (var target = new MonoThreadedQueue())
             {
 
                 //act
@@ -59,7 +66,7 @@ namespace EasyActor.Test
         {
             Thread current = Thread.CurrentThread;
             //arrange
-            using (var target = new AsyncQueueMonoThreadDispatcher())
+            using (var target = new MonoThreadedQueue())
             {
 
                 //act
@@ -77,7 +84,7 @@ namespace EasyActor.Test
         {
             Thread current = Thread.CurrentThread;
             //arrange
-            using (var target = new AsyncQueueMonoThreadDispatcher())
+            using (var target = new MonoThreadedQueue())
             {
                 Exception error=null;
                 //act
@@ -102,7 +109,7 @@ namespace EasyActor.Test
         {
             Thread current = Thread.CurrentThread;
             //arrange
-            using (var target = new AsyncQueueMonoThreadDispatcher())
+            using (var target = new MonoThreadedQueue())
             {   
                 //act
                 try
@@ -123,7 +130,7 @@ namespace EasyActor.Test
         {
             Thread current = Thread.CurrentThread;
             //arrange
-            using (var target = new AsyncQueueMonoThreadDispatcher())
+            using (var target = new MonoThreadedQueue())
             {
 
                 //act
@@ -140,7 +147,7 @@ namespace EasyActor.Test
         public async Task Enqueue_Should_DispatchException_With_Result()
         {
             //arrange
-            using (var target = new AsyncQueueMonoThreadDispatcher())
+            using (var target = new MonoThreadedQueue())
             {
                 Exception error = null;
                 //act
@@ -163,7 +170,7 @@ namespace EasyActor.Test
         {
             Thread current = Thread.CurrentThread;
             //arrange
-            using (var target = new AsyncQueueMonoThreadDispatcher())
+            using (var target = new MonoThreadedQueue())
             {
                 //act
                 try
@@ -187,7 +194,7 @@ namespace EasyActor.Test
         {
             Thread current = Thread.CurrentThread;
             //arrange
-            using (var target = new AsyncQueueMonoThreadDispatcher())
+            using (var target = new MonoThreadedQueue())
             {
                 bool done = false;
                 Action act = () => done=true;
@@ -206,7 +213,7 @@ namespace EasyActor.Test
         {
             Thread current = Thread.CurrentThread;
             //arrange
-            using (var target = new AsyncQueueMonoThreadDispatcher())
+            using (var target = new MonoThreadedQueue())
             {
                 Exception error = null;
                 Action act = () => Throw();
@@ -224,5 +231,166 @@ namespace EasyActor.Test
                 error.Should().NotBeNull();
             }
         }
+
+
+        [Test]
+        public async Task Enqueue_Should_Not_Cancel_Already_Runing_Task_OnDispose()
+        {
+            Task newTask = null;
+
+            //arrange
+            using (var target = new MonoThreadedQueue(Priority.Highest))
+            {
+                newTask =  target.Enqueue(() => TaskFactory(3));
+
+                while (_RunningThread == null)
+                {
+                    Thread.Sleep(100);
+                }
+            }
+
+            await newTask;
+            
+            _RunningThread.Should().NotBeNull();
+       
+            newTask.IsCanceled.Should().BeFalse();
+        }
+
+
+        [Test]
+        public async Task Enqueue_Task_Should_Cancel_Not_Started_Task_When_OnDispose()
+        {
+            Task newTask = null, notstarted = null;
+
+            //arrange
+            using (var target = new MonoThreadedQueue(Priority.Highest))
+            {
+                newTask = target.Enqueue(() => TaskFactory(3));
+
+                while (_RunningThread == null)
+                {
+                    Thread.Sleep(100);
+                }
+
+                //act
+                notstarted = target.Enqueue(() => TaskFactory(3));
+
+            }
+
+            
+            await newTask;
+
+            //assert
+            TaskCanceledException error = null;
+            try
+            {
+                await notstarted;
+            }
+            catch (TaskCanceledException e)
+            {
+                error = e;
+            }
+
+            notstarted.IsCanceled.Should().BeTrue();
+            error.Should().NotBeNull();
+        }
+
+
+        [Test]
+        public async Task Enqueue_Action_Should_Cancel_Not_Started_Task_When_OnDispose()
+        {
+            Task newTask = null, notstarted = null;
+            bool Done = false;
+
+            //arrange
+            using (var target = new MonoThreadedQueue(Priority.Highest))
+            {
+                newTask = target.Enqueue(() => TaskFactory(3));
+
+                while (_RunningThread == null)
+                {
+                    Thread.Sleep(100);
+                }
+
+                notstarted = target.Enqueue(() => { Done = true; });
+
+            }
+
+            await newTask;
+
+            TaskCanceledException error = null;
+            try
+            {
+                await notstarted;
+            }
+            catch (TaskCanceledException e)
+            {
+                error = e;
+            }
+
+            notstarted.IsCanceled.Should().BeTrue();
+            error.Should().NotBeNull();
+            Done.Should().BeFalse();
+        }
+
+
+       
+
+        [Test]
+        public async Task Enqueue_Task_Should_Cancel_Task_When_Added_On_Disposed_Queue()
+        {
+            MonoThreadedQueue queue = null;
+            //arrange
+            using (queue = new MonoThreadedQueue())
+            {
+                var task = queue.Enqueue(() => TaskFactory());
+            }
+
+            Task newesttask = queue.Enqueue(() => TaskFactory());
+
+            TaskCanceledException error = null;
+            try
+            {
+                await newesttask;
+            }
+            catch (TaskCanceledException e)
+            {
+                error = e;
+            }
+
+            newesttask.IsCanceled.Should().BeTrue();
+            error.Should().NotBeNull();
+        }
+
+
+
+        [Test]
+        public async Task Enqueue_Action_Should_Cancel_Task_When_Added_On_Disposed_Queue()
+        {
+            MonoThreadedQueue queue = null;
+            //arrange
+            using (queue = new MonoThreadedQueue())
+            {
+                var task = queue.Enqueue(() => TaskFactory());
+            }
+
+            bool Done = false;
+            Task newesttask = queue.Enqueue(() => { Done = true; });
+
+            TaskCanceledException error = null;
+            try
+            {
+                await newesttask;
+            }
+            catch (TaskCanceledException e)
+            {
+                error = e;
+            }
+
+            newesttask.IsCanceled.Should().BeTrue();
+            error.Should().NotBeNull();
+            Done.Should().BeFalse();
+        }
+
     }
 }

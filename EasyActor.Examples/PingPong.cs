@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using EasyActor.TaskHelper;
 
 namespace EasyActor.Examples
 {
@@ -32,7 +33,7 @@ namespace EasyActor.Examples
             Count++;
             if (Ponger != null)
                 Ponger.Ping();
-            return Task.FromResult<object>(null);
+            return TaskBuilder.GetCompleted();
         }
     }
 
