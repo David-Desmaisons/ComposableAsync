@@ -95,21 +95,36 @@ namespace EasyActor.Queue
                 }
 
             });
+            //ObjectDisposedException	 The BlockingCollection<T> has been disposed.
+            //InvalidOperationException The BlockingCollection<T> has been marked as complete with regards to additions.
+            //-or- The underlying collection didn't accept the item.
             return tcs.Task;
         }
 
+        private CancellationTokenSource _CTS;
+
         private void Consume()
         {
+            _CTS = new CancellationTokenSource();
+
             SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(this));
 
-            foreach (var action in _TaskQueue.GetConsumingEnumerable())
+            try
             {
-                action();
+                foreach (var action in _TaskQueue.GetConsumingEnumerable(_CTS.Token))
+                {
+                    action();
+                }
+            }
+            catch (OperationCanceledException)
+            {  
+                _TaskQueue.CompleteAdding();
             }
         }
+
         public void Dispose() 
-        { 
-            _TaskQueue.CompleteAdding(); 
+        {
+            _CTS.Cancel();
         }
     }
 }
