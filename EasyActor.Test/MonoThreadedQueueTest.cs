@@ -9,7 +9,7 @@ using EasyActor.TaskHelper;
 namespace EasyActor.Test
 {
     [TestFixture]
-    public class AsyncQueueMonoThreadDispatcherTest
+    public class MonoThreadQueueTest
     {
         private Thread _RunningThread;
 
@@ -365,7 +365,7 @@ namespace EasyActor.Test
 
 
         [Test]
-        public async Task Enqueue_Action_Should_Cancel_Task_When_Added_On_Disposed_Queue()
+        public async Task Enqueue_Action_Should_Cancel_Task_When_On_Disposed_Queue()
         {
             MonoThreadedQueue queue = null;
             //arrange
@@ -388,6 +388,72 @@ namespace EasyActor.Test
             }
 
             newesttask.IsCanceled.Should().BeTrue();
+            error.Should().NotBeNull();
+            Done.Should().BeFalse();
+        }
+
+        [Test]
+        public async Task Stop_Running_Task_Should_Continue_After_Stoping_Queue()
+        {
+            //arrange  
+            MonoThreadedQueue queue = new MonoThreadedQueue();
+            var task = queue.Enqueue(() => TaskFactory(3));
+            while (_RunningThread == null)
+            {
+                Thread.Sleep(100);
+            }
+
+            //act
+            queue.Stop();
+            await task;
+
+            //assert
+            task.IsCompleted.Should().BeTrue();
+        }
+
+        [Test]
+        public async Task Stop_Enqueued_Task_Should_Continue_After_Stoping_Queue()
+        {
+
+            //arrange  
+            MonoThreadedQueue queue = new MonoThreadedQueue();
+            Task task = queue.Enqueue(() => TaskFactory(3)) ,enqueuedtask = null;
+            while (_RunningThread == null)
+            {
+                Thread.Sleep(100);
+            }
+            enqueuedtask = queue.Enqueue(() => TaskFactory(3));
+
+            //act
+            queue.Stop();
+            await enqueuedtask;
+
+            //assert
+            task.IsCompleted.Should().BeTrue();
+            enqueuedtask.IsCompleted.Should().BeTrue();
+        }
+
+
+        [Test]
+        public async Task Stop_Enqueue_Items_Should_Return_Canceled_Task_After_Stoping_Queue()
+        {
+          
+            //arrange  
+            MonoThreadedQueue queue = new MonoThreadedQueue();
+            queue.Stop();
+
+            bool Done = false;
+
+            TaskCanceledException error = null;
+            try
+            {
+                await queue.Enqueue(() => { Done = true; });
+            }
+            catch (TaskCanceledException e)
+            {
+                error = e;
+            }
+
             error.Should().NotBeNull();
             Done.Should().BeFalse();
         }
