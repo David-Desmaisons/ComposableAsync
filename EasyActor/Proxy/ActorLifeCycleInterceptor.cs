@@ -17,10 +17,12 @@ namespace EasyActor
         private static MethodInfo _Stop = typeof(IActorLifeCycle).GetMethod("Stop", BindingFlags.Instance | BindingFlags.Public);
 
         private MonoThreadedQueue _Queue;
+        private IAsyncDisposable _IAsyncDisposable;
 
-        public ActorLifeCycleInterceptor(MonoThreadedQueue iqueue)
+        public ActorLifeCycleInterceptor(MonoThreadedQueue iqueue, IAsyncDisposable iAsyncDisposable)
         {
             _Queue = iqueue;
+            _IAsyncDisposable = iAsyncDisposable;
         }
 
         public void Intercept(IInvocation invocation)
@@ -34,14 +36,9 @@ namespace EasyActor
                 return;
             }
 
-            if (invocation.MethodInvocationTarget != null)
-            {
-                invocation.ReturnValue = _Queue.Enqueue(() =>
-                {
-                    invocation.Call<Task>();
-                });
-            }
-          
+            invocation.ReturnValue = (_IAsyncDisposable != null) ?
+                    _Queue.Enqueue(() => { return _IAsyncDisposable.DisposeAsync(); }) : TaskBuilder.GetCompleted();
+
             _Queue.Stop();
         }
 

@@ -26,7 +26,7 @@ namespace EasyActor
             if (_Queue==null)
             {
                 var queue = new MonoThreadedQueue(_Priority);
-                var interceptors = new IInterceptor[] { new ActorLifeCycleInterceptor(queue), new DispatcherInterceptor(queue) };
+                var interceptors = new IInterceptor[] { new ActorLifeCycleInterceptor(queue, concrete as IAsyncDisposable), new DispatcherInterceptor(queue) };
                 return (T)_Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new Type[] { typeof(IActorLifeCycle) }, concrete, interceptors);
             }
 

@@ -83,9 +83,9 @@ namespace EasyActor.Test
             }
         }
 
-        public class DisposbaleClass : Interface1, IActorLifeCycle
+        public class DisposableClass : Interface1, IAsyncDisposable
         {
-            public DisposbaleClass()
+            public DisposableClass()
             {
                 IsDisposed = false;
             }
@@ -97,18 +97,15 @@ namespace EasyActor.Test
                 return Task.FromResult<object>(null);
             }
 
-          
-
-            public Task Abort()
+            public Task DisposeAsync()
             {
                 IsDisposed = true;
                 return TaskBuilder.GetCompleted();
             }
 
-            public Task Stop()
+            public void Dispose()
             {
                 IsDisposed = true;
-                return TaskBuilder.GetCompleted();
             }
         }
 
@@ -246,16 +243,16 @@ namespace EasyActor.Test
          [Test]
          public void Actor_Should_Be_Implement_IActorLifeCycle()
          {
-             var intface = Actorify.Build<Interface1>(new DisposbaleClass()) as IActorLifeCycle;
+             var intface = Actorify.Build<Interface1>(new DisposableClass()) as IActorLifeCycle;
 
              intface.Should().NotBeNull();
          }
 
          [Test]
-         public async Task Actor_Stop_Should_Call_Proxified_Class()
+         public async Task Actor_Stop_Should_Call_Proxified_Class_On_IAsyncDisposable()
          {
              //arrange
-             var dispclass = new DisposbaleClass();
+             var dispclass = new DisposableClass();
              var intface = Actorify.Build<Interface1>(dispclass);
 
              //act
@@ -269,10 +266,10 @@ namespace EasyActor.Test
 
 
          [Test]
-         public async Task Actor_Disposed_Should_Cancel_Actor_Thread_And_Return_Cancelled_Thread()
+         public async Task Actor_Disposed_Should_Return_Cancelled_Task_On_Any_Method()
          {
              //arrange
-             var dispclass = new DisposbaleClass();
+             var dispclass = new DisposableClass();
              var intface = Actorify.Build<Interface1>(dispclass);
 
              //act

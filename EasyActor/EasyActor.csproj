@@ -45,6 +45,7 @@
     <Compile Include="ActorFactory.cs" />
     <Compile Include="IActorFactory.cs" />
     <Compile Include="IActorLifeCycle.cs" />
+    <Compile Include="IAsyncDisposable.cs" />
     <Compile Include="Proxy\ActorLifeCycleInterceptor.cs" />
     <Compile Include="Proxy\IInvocationExtension.cs" />
     <Compile Include="Proxy\DispatcherInterceptor.cs" />
