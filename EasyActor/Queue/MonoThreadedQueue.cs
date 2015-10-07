@@ -17,6 +17,7 @@ namespace EasyActor.Queue
 
         private BlockingCollection<IWorkItem> _TaskQueue = new BlockingCollection<IWorkItem>();
         private Thread _Current;
+        private CancellationTokenSource _CTS;
 
         public MonoThreadedQueue(Priority iPriority = Priority.Normal)
         {
@@ -90,8 +91,6 @@ namespace EasyActor.Queue
             return Enqueue(new AsyncWorkItem<T>(action));
         }
 
-        private CancellationTokenSource _CTS;
-
         private void Consume()
         {
             SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(this));
@@ -109,14 +108,19 @@ namespace EasyActor.Queue
                 foreach (var action in _TaskQueue.GetConsumingEnumerable())
                 {
                     action.Cancel();
-                }
-                _TaskQueue.Dispose();
-            }
+                } 
+            }   
+            _TaskQueue.Dispose();
         }
 
         public void Dispose() 
         {
             _CTS.Cancel();
+            _TaskQueue.CompleteAdding();
+        }
+
+        public void Stop()
+        {
             _TaskQueue.CompleteAdding();
         }
     }

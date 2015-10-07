@@ -16,18 +16,21 @@ namespace EasyActor
 
         public ActorFactory(bool SharedThread=false, Priority priority= Priority.Normal)
         {
-            if (SharedThread)
-            {
-                _Queue = new MonoThreadedQueue(priority);
-            }
+            _Queue =  SharedThread ? new MonoThreadedQueue(priority) : null;
             _Priority = priority;
             _Generator = new ProxyGenerator();
         }
 
         public T Build<T>(T concrete) where T:class
         {
-            var queue = _Queue ?? new MonoThreadedQueue(_Priority);
-            return (T)_Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new Type[] { typeof(IDisposable) }, concrete, new IInterceptor[] { new DispatcherInterceptor(queue, _Queue!=null) });
-        }
+            if (_Queue==null)
+            {
+                var queue = new MonoThreadedQueue(_Priority);
+                var interceptors = new IInterceptor[] { new ActorLifeCycleInterceptor(queue), new DispatcherInterceptor(queue) };
+                return (T)_Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new Type[] { typeof(IActorLifeCycle) }, concrete, interceptors);
+            }
+
+            return _Generator.CreateInterfaceProxyWithTargetInterface<T>(concrete, new IInterceptor[] { new DispatcherInterceptor(_Queue) });
+         }
     }
 }

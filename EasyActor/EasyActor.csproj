@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="ActorFactory.cs" />
     <Compile Include="IActorFactory.cs" />
+    <Compile Include="IActorLifeCycle.cs" />
+    <Compile Include="Proxy\ActorLifeCycleInterceptor.cs" />
     <Compile Include="Proxy\IInvocationExtension.cs" />
     <Compile Include="Proxy\DispatcherInterceptor.cs" />
     <Compile Include="Queue\MonoThreadedQueue.cs" />

@@ -38,6 +38,7 @@ namespace EasyActor.Test
             {
                 CallingThread = Thread.CurrentThread;
                 Done = true;
+                Thread.Sleep(200);
                 return TaskBuilder.GetCompleted();
             }
 
@@ -82,7 +83,7 @@ namespace EasyActor.Test
             }
         }
 
-        public class DisposbaleClass : Interface1, IDisposable
+        public class DisposbaleClass : Interface1, IActorLifeCycle
         {
             public DisposbaleClass()
             {
@@ -96,9 +97,18 @@ namespace EasyActor.Test
                 return Task.FromResult<object>(null);
             }
 
-            public void Dispose()
+          
+
+            public Task Abort()
             {
                 IsDisposed = true;
+                return TaskBuilder.GetCompleted();
+            }
+
+            public Task Stop()
+            {
+                IsDisposed = true;
+                return TaskBuilder.GetCompleted();
             }
         }
 
@@ -226,30 +236,68 @@ namespace EasyActor.Test
         }
 
          [Test]
-         public void Actor_Should_Be_Disposable()
+         public void Actor_Should_Be_Implement_IActorLifeCycle_Even_If_Wrapped_Mot()
          {
-             var intface = Actorify.Build<Interface>(new Class()) as IDisposable;
+             var intface = Actorify.Build<Interface>(new Class()) as IActorLifeCycle;
 
              intface.Should().NotBeNull();
          }
 
          [Test]
-         public async Task Actor__Dispose_Should_Cancel_Thread_Loop()
+         public void Actor_Should_Be_Implement_IActorLifeCycle()
+         {
+             var intface = Actorify.Build<Interface1>(new DisposbaleClass()) as IActorLifeCycle;
+
+             intface.Should().NotBeNull();
+         }
+
+         [Test]
+         public async Task Actor_Stop_Should_Call_Proxified_Class()
          {
              //arrange
              var dispclass = new DisposbaleClass();
              var intface = Actorify.Build<Interface1>(dispclass);
 
              //act
-             await intface.DoAsync();
+             IActorLifeCycle disp = intface as IActorLifeCycle;
 
-             var disp = intface as IDisposable;
+             await disp.Stop();
 
-             disp.Dispose();
-
-             Thread.Sleep(1500);
              //assert
              dispclass.IsDisposed.Should().BeTrue();
+         }
+
+
+         [Test]
+         public async Task Actor_Disposed_Should_Cancel_Actor_Thread_And_Return_Cancelled_Thread()
+         {
+             //arrange
+             var dispclass = new DisposbaleClass();
+             var intface = Actorify.Build<Interface1>(dispclass);
+
+             //act
+             var task = intface.DoAsync();
+
+             var disp = intface as IActorLifeCycle;
+
+             await disp.Stop();
+
+             TaskCanceledException error = null;
+             Task canc = null;
+             try
+             {
+                 canc=intface.DoAsync();
+                 await canc;
+             }
+             catch (TaskCanceledException e)
+             {
+                 error = e;
+             }
+           
+             //assert
+             error.Should().NotBeNull();
+             task.IsCompleted.Should().BeTrue();
+             canc.IsCanceled.Should().BeTrue();
          }
     }
 }

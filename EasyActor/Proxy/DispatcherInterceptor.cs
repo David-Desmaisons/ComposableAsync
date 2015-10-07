@@ -13,44 +13,18 @@ namespace EasyActor
     internal class DispatcherInterceptor : IInterceptor
     {
         private static MethodInfo _Proceed = typeof(DispatcherInterceptor).GetMethod("Proceed", BindingFlags.Instance | BindingFlags.NonPublic);
-       
-        private static MethodInfo _Dispose = typeof(IDisposable).GetMethod("Dispose", BindingFlags.Instance | BindingFlags.Public);
-
 
         private MonoThreadedQueue _Queue;
-        private bool _Shared;
-        public DispatcherInterceptor(MonoThreadedQueue iqueue, bool iShared)
+
+        public DispatcherInterceptor(MonoThreadedQueue iqueue)
         {
             _Queue = iqueue;
-            _Shared = iShared;
         }
 
         public void Intercept(IInvocation invocation)
         {
 
             var method =  invocation.Method;
-
-            if (method ==_Dispose)
-            {
-                if (invocation.MethodInvocationTarget!=null)
-                {
-                    _Queue.Enqueue(() =>
-                    {
-                        invocation.Call<object>();
-                    });
-
-                    if (!_Shared)
-                    {
-                         _Queue.Enqueue(() => 
-                        {                 
-                            _Queue.Dispose();
-                        });
-                    }
-                }
-
-                return;
-            }
-
 
             var td = method.ReturnType.GetTaskType();
 
@@ -75,7 +49,6 @@ namespace EasyActor
                     break;
             }
         }
-
   
 
         private void Proceed<T>(IInvocation invocation)

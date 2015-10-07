@@ -209,7 +209,7 @@ namespace EasyActor.Test
 
 
         [Test]
-        public async Task Enqueue_Should_DispatchException_OnAction()
+        public async Task Enqueue_Should_ReDispatch_Exception_OnAction()
         {
             Thread current = Thread.CurrentThread;
             //arrange
