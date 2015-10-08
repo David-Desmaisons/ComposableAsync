@@ -40,8 +40,10 @@ namespace EasyActor
                 invocation.ReturnValue = (_IAsyncDisposable != null) ?
                     _Queue.Enqueue(() => { return _IAsyncDisposable.DisposeAsync(); }) : TaskBuilder.GetCompleted();
                 _Queue.Stop();
+                return;
             }
-            else if (method == _Abort)
+            
+            if (method == _Abort)
             {
                 if (_IAsyncDisposable!=null)
                     _Queue.SetCleanUp(() => _IAsyncDisposable.DisposeAsync());

@@ -31,7 +31,7 @@ namespace EasyActor
             switch(td.MethodType)
             {
                 case TaskType.None:
-                    throw new NotSupportedException("Method should be return Task or Task<T>");
+                    throw new NotSupportedException("Actor method should only return Task or Task<T>");
 
                 case TaskType.Task:
                     var tcs = new TaskCompletionSource<object>();
