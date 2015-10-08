@@ -94,12 +94,13 @@ namespace EasyActor.Test
 
             public Task DoAsync()
             {
+                Thread.Sleep(800);
                 return Task.FromResult<object>(null);
             }
 
             public Task DisposeAsync()
             {
-                IsDisposed = true;
+                Dispose();
                 return TaskBuilder.GetCompleted();
             }
 
@@ -249,7 +250,7 @@ namespace EasyActor.Test
          }
 
          [Test]
-         public async Task Actor_Stop_Should_Call_Proxified_Class_On_IAsyncDisposable()
+         public async Task Actor_IActorLifeCycle_Stop_Should_Call_Proxified_Class_On_IAsyncDisposable()
          {
              //arrange
              var dispclass = new DisposableClass();
@@ -264,9 +265,8 @@ namespace EasyActor.Test
              dispclass.IsDisposed.Should().BeTrue();
          }
 
-
          [Test]
-         public async Task Actor_Disposed_Should_Return_Cancelled_Task_On_Any_Method()
+         public async Task Actor_Should_Return_Cancelled_Task_On_Any_Method_AfterCalling_IActorLifeCycle_Stop()
          {
              //arrange
              var dispclass = new DisposableClass();
@@ -291,6 +291,123 @@ namespace EasyActor.Test
                  error = e;
              }
            
+             //assert
+             error.Should().NotBeNull();
+             task.IsCompleted.Should().BeTrue();
+             canc.IsCanceled.Should().BeTrue();
+         }
+
+         [Test]
+         public async Task Actor_IActorLifeCycle_Stop_Should_Not_Cancel_Enqueued_Task()
+         {
+             //arrange
+             var dispclass = new DisposableClass();
+             var intface = Actorify.Build<Interface1>(dispclass);
+
+             Task Taskrunning = intface.DoAsync(), Takenqueued = intface.DoAsync();
+             Thread.Sleep(100);
+             //act
+             IActorLifeCycle disp = intface as IActorLifeCycle;
+
+             await disp.Stop(); 
+             await Takenqueued;
+
+             //assert
+             Takenqueued.IsCompleted.Should().BeTrue();
+         }
+
+
+
+         [Test]
+         public async Task Actor_IActorLifeCycle_Abort_Should_Call_Proxified_Class_On_IAsyncDisposable()
+         {
+             //arrange
+             var dispclass = new DisposableClass();
+             var intface = Actorify.Build<Interface1>(dispclass);
+
+             //act
+             IActorLifeCycle disp = intface as IActorLifeCycle;
+
+             await disp.Abort();
+
+             //assert
+             dispclass.IsDisposed.Should().BeTrue();
+         }
+
+         [Test]
+         public async Task Actor_IActorLifeCycle_Abort_Should_Not_Cancel_RunningTask()
+         {
+             //arrange
+             var dispclass = new DisposableClass();
+             var intface = Actorify.Build<Interface1>(dispclass);
+             IActorLifeCycle disp = intface as IActorLifeCycle;
+
+             //act
+             var Taskrunning = intface.DoAsync();
+             await disp.Abort();
+             await Taskrunning;
+             Thread.Sleep(100);
+ 
+             //assert
+             Taskrunning.IsCompleted.Should().BeTrue();
+         }
+
+         [Test]
+         public async Task Actor_IActorLifeCycle_Abort_Should_Cancel_Enqueued_Task()
+         {
+             //arrange
+             var dispclass = new DisposableClass();
+             var intface = Actorify.Build<Interface1>(dispclass);
+
+             Task Taskrunning = intface.DoAsync(), Takenqueued = intface.DoAsync();
+             Thread.Sleep(100);
+             //act
+             IActorLifeCycle disp = intface as IActorLifeCycle;
+
+             await disp.Abort();
+
+             //assert
+             TaskCanceledException error = null;
+             try
+             {
+                 await Takenqueued;
+             }
+             catch (TaskCanceledException e)
+             {
+                 error = e;
+             }
+
+             //assert
+             error.Should().NotBeNull();
+             Takenqueued.IsCanceled.Should().BeTrue();
+         }
+
+         [Test]
+         public async Task Actor_Should_Return_Cancelled_Task_On_Any_Method_AfterCalling_IActorLifeCycle_Abort()
+         {
+             //arrange
+             var dispclass = new DisposableClass();
+             var intface = Actorify.Build<Interface1>(dispclass);
+
+             //act
+             var task = intface.DoAsync();
+
+             var disp = intface as IActorLifeCycle;
+
+             await disp.Abort();
+
+             TaskCanceledException error = null;
+             Task canc = null;
+             try
+             {
+                 canc = intface.DoAsync();
+                 await canc;
+             }
+             catch (TaskCanceledException e)
+             {
+                 error = e;
+             }
+
              //assert
              error.Should().NotBeNull();
              task.IsCompleted.Should().BeTrue();

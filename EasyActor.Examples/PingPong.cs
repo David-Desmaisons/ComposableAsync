@@ -59,6 +59,9 @@ namespace EasyActor.Examples
 
             Console.WriteLine(One.Count);
             Console.WriteLine(Two.Count);
+
+            await ((IActorLifeCycle)(Actor1)).Stop();
+            await ((IActorLifeCycle)(Actor2)).Stop();
         }
     }
 }

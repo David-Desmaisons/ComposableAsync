@@ -18,6 +18,7 @@ namespace EasyActor.Queue
         private BlockingCollection<IWorkItem> _TaskQueue = new BlockingCollection<IWorkItem>();
         private Thread _Current;
         private CancellationTokenSource _CTS;
+        private AsyncActionWorkItem _Clean;
 
         public MonoThreadedQueue(Priority iPriority = Priority.Normal)
         {
@@ -90,6 +91,23 @@ namespace EasyActor.Queue
         {
             return Enqueue(new AsyncWorkItem<T>(action));
         }
+     
+        public void Dispose() 
+        {
+            _CTS.Cancel();
+            _TaskQueue.CompleteAdding();
+        }
+
+        public void Stop()
+        {
+            _TaskQueue.CompleteAdding();
+        }
+
+        public Task SetCleanUp(Func<Task> cleanup)
+        {
+            _Clean = new AsyncActionWorkItem(cleanup);
+            return _Clean.Task;
+        }
 
         private void Consume()
         {
@@ -103,25 +121,17 @@ namespace EasyActor.Queue
                 }
             }
             catch (OperationCanceledException)
-            {  
+            {
                 _TaskQueue.CompleteAdding();
                 foreach (var action in _TaskQueue.GetConsumingEnumerable())
                 {
                     action.Cancel();
-                } 
-            }   
+                }
+            }
             _TaskQueue.Dispose();
-        }
 
-        public void Dispose() 
-        {
-            _CTS.Cancel();
-            _TaskQueue.CompleteAdding();
-        }
-
-        public void Stop()
-        {
-            _TaskQueue.CompleteAdding();
+            if (_Clean != null)
+                _Clean.Do();
         }
     }
 }
