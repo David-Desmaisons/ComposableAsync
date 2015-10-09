@@ -41,10 +41,8 @@ namespace EasyActor
             if (method == _Stop)
             {
                 _Queue.Stop();
-                return;
-            }
-            
-            if (method == _Abort)
+            } 
+            else if (method == _Abort)
             {
                 _Queue.Dispose();
             }

@@ -51,12 +51,9 @@ namespace EasyActor.Queue
                 _TaskQueue.Add(workitem);
                 return workitem.Task;
             }
-            catch (Exception exception)
+            catch (Exception)
             {
-                if ((exception is ObjectDisposedException) || (exception is InvalidOperationException))
-                    return TaskBuilder.GetCancelled<object>();
-
-                throw;
+                return TaskBuilder.GetCancelled<object>();
             }
         }
 
@@ -67,12 +64,9 @@ namespace EasyActor.Queue
                 _TaskQueue.Add(workitem);
                 return workitem.Task;
             }
-            catch(Exception exception)
+            catch(Exception)
             {
-                if ((exception is ObjectDisposedException) || (exception is InvalidOperationException))
-                    return TaskBuilder.GetCancelled<T>();
-
-                throw;
+                return TaskBuilder.GetCancelled<T>();
             }
         }
 

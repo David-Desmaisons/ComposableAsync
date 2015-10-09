@@ -172,7 +172,7 @@ namespace EasyActor.Test
          public async Task All_Actors_Should_Run_On_Same_Thread_When_SharedThread_Is_True()
          {
 
-             var factory = new ActorFactory(SharedThread:true);
+             var factory = new SharedThreadActorFactory();
              //arrange
              var target1 = new Class();
              var target2 = new Class();

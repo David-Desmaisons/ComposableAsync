@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SharedThreadActorFactory.cs" />
     <Compile Include="ActorFactory.cs" />
     <Compile Include="IActorFactory.cs" />
     <Compile Include="IActorLifeCycle.cs" />

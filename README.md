@@ -22,7 +22,7 @@ Features
 --------
 
 EasyActor provide a factory allowing the transformation of POCO in actor that are then seen trougth an interface.
-Actor garantees that all calls to the actor interface will occur in a separated thread, sequencially.
+Actor guarantees that all calls to the actor interface will occur in a separated thread, sequencially.
 
 In order to work, The target interface should only expose methods returning Task or Task<T>.
 If this not the case, an exception will be raised at runtime when calling a none compliant method.
@@ -58,9 +58,11 @@ Create an actor:
 		//This will call ConcreteFoo Bar in its own thread
 		var res = await fooActor.Bar();
 		
-###ActorFactory constructor parameter  
+###ActorFactory constructor parameter
 
-		var factory = new ActorFactory(SharedThread:false, priority:Priority.AboveNormal);
+Standard factory is  ActorFactory:
+
+		var factory = new ActorFactory(priority:Priority.AboveNormal);
 
 * priority (default to Normal) to choose the priority of the Thread priority where Actor methods will run. This value maps directly with Thread priority.
 
@@ -72,8 +74,13 @@ Create an actor:
 		    AboveNormal,
 		    Highest
 		}
+		
+EasyActor offers another factory SharedThreadActorFactory:
 
-* SharedThread (default to false): if true all the actors will leave in the same thread. This option may be helpfull if you have to create a lot of actors which have to perform short lived methods and you do not want to create a thread for each one.
+		var factory = new SharedThreadActorFactory(priority:Priority.AboveNormal);
+
+
+All the actors created by this factory will live in the same thread. This option may be helpfull if you have to create a lot of actors which have to perform short lived methods and you do not want to create a thread for each one.
 
 ###SynchronizationContext
 
