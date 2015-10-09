@@ -60,11 +60,21 @@ Create an actor:
 		
 ###ActorFactory constructor parameter
 
-Standard factory is  ActorFactory:
+EasyActor provide currently two Actor factories. An actory factory implements the IActorFactory
+
+	//Factory to create actor from POCO
+	public interface IActorFactory
+	{
+            //Build an actor from a POCO
+            //T should an interface througth which the actor will be seen
+            T Build<T>(T concrete) where T : class;
+	}
+
+Standard factory is ActorFactory that will instanciate actors living each in its own thread:
 
 		var factory = new ActorFactory(priority:Priority.AboveNormal);
 
-* priority (default to Normal) to choose the priority of the Thread priority where Actor methods will run. This value maps directly with Thread priority.
+Priority argument (default to Normal) define the priority of the threads where Actor methods will run. This value maps directly with Thread priority.
 
 		public enum Priority
 		{
@@ -75,17 +85,17 @@ Standard factory is  ActorFactory:
 		    Highest
 		}
 		
-EasyActor offers another factory SharedThreadActorFactory:
+SharedThreadActorFactory is a factory where actors will share the thread where they will be executed:
 
 		var factory = new SharedThreadActorFactory(priority:Priority.AboveNormal);
 
 
-All the actors created by this factory will live in the same thread. This option may be helpfull if you have to create a lot of actors which have to perform short lived methods and you do not want to create a thread for each one.
+This option may be helpfull if you have to create a lot of actors which have to perform short lived methods and you do not want to create a thread for each one.
 
 ###SynchronizationContext
 
 
-EasyActor also garantees that code running after awaited task will also run on the actor Thread (in a similar way than task on UI Thread):		
+EasyActor also guarantees that code running after awaited task will also run on the actor Thread (in a similar way than task on UI Thread):		
 		
 EasyActor also garantees that code running after awaited task will also run on the actor Thread (in a similar way than task on UI Thread):
 
