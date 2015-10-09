@@ -35,24 +35,19 @@ namespace EasyActor
                 return;
             }
 
+            invocation.ReturnValue = _Queue.SetCleanUp(() =>
+                (_IAsyncDisposable != null) ? _IAsyncDisposable.DisposeAsync() : TaskBuilder.GetCompleted());
+
             if (method == _Stop)
             {
-                invocation.ReturnValue = (_IAsyncDisposable != null) ?
-                    _Queue.Enqueue(() => { return _IAsyncDisposable.DisposeAsync(); }) : TaskBuilder.GetCompleted();
                 _Queue.Stop();
             }
             else if (method == _Abort)
             {
-                if (_IAsyncDisposable!=null)
-                    _Queue.SetCleanUp(() => _IAsyncDisposable.DisposeAsync());
-
-                invocation.ReturnValue =
-                  _Queue.SetCleanUp(() =>   (_IAsyncDisposable != null) ? _IAsyncDisposable.DisposeAsync() : TaskBuilder.GetCompleted() ) ;
-
                 _Queue.Dispose();
             }
         }
-
-
     }
+
+
 }
