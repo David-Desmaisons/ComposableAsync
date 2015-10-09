@@ -59,7 +59,9 @@
   <ItemGroup>
     <Compile Include="ActorFactoryTest.cs" />
     <Compile Include="DispatcherSynchronizationContextTest.cs" />
+    <Compile Include="DummyClass\Class.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SharedThreadActorFactoryTest.cs" />
     <Compile Include="TypeExtensionTest.cs" />
     <Compile Include="MonoThreadedQueueTest.cs" />
   </ItemGroup>

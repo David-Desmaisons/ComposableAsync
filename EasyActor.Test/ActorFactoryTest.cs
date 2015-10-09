@@ -11,105 +11,7 @@ namespace EasyActor.Test
     public class ActorFactoryTest
     {
 
-         public interface Interface1
-         {
-             Task DoAsync();
-         }
-
-        public interface Interface : Interface1
-        {
-            Task SlowDoAsync();
-
-            Task<int> ComputeAsync(int value);
-
-            Task<Tuple<Thread, Thread>> DoAnRedoAsync();
-
-            void Do();
-
-            Task Throw();
-        }
-        public class Class : Interface
-        {
-
-            public Thread CallingThread { get;private set; }
-
-            public bool Done { get; set; }
-            public Task DoAsync()
-            {
-                CallingThread = Thread.CurrentThread;
-                Done = true;
-                Thread.Sleep(200);
-                return TaskBuilder.GetCompleted();
-            }
-
-
-            public async Task<Tuple<Thread,Thread>> DoAnRedoAsync()
-            {
-                CallingThread = Thread.CurrentThread;
-                var one = CallingThread;
-
-                await Task.Run(() => { Thread.Sleep(1000); });
-
-                Done = true;
-                return new Tuple<Thread, Thread>(one, Thread.CurrentThread);
-            }
-
-
-            public void Do()
-            {         
-            }
-
-
-            public Task Throw()
-            {
-                throw new Exception();
-            }
-
-            public Task SlowDoAsync()
-            {
-                CallingThread = Thread.CurrentThread;
-                Thread.Sleep(1000);
-                Done = true;
-                return TaskBuilder.GetCompleted();
-            }
-
-
-            public Task<int> ComputeAsync(int value)
-            {
-                CallingThread = Thread.CurrentThread;
-                Thread.Sleep(1000);
-                Done = true;
-                return Task.FromResult<int>(value);
-            }
-        }
-
-        public class DisposableClass : Interface1, IAsyncDisposable
-        {
-            public DisposableClass()
-            {
-                IsDisposed = false;
-            }
-
-            public bool IsDisposed { get; private set; }
-
-            public Task DoAsync()
-            {
-                Thread.Sleep(800);
-                return Task.FromResult<object>(null);
-            }
-
-            public Task DisposeAsync()
-            {
-                Dispose();
-                return TaskBuilder.GetCompleted();
-            }
-
-            public void Dispose()
-            {
-                IsDisposed = true;
-            }
-        }
-
+        
 
         private ActorFactory Actorify;
 
@@ -168,24 +70,7 @@ namespace EasyActor.Test
              target1.CallingThread.Should().NotBe(target2.CallingThread);
          }
 
-         [Test]
-         public async Task All_Actors_Should_Run_On_Same_Thread_When_SharedThread_Is_True()
-         {
-
-             var factory = new SharedThreadActorFactory();
-             //arrange
-             var target1 = new Class();
-             var target2 = new Class();
-             var intface1 = factory.Build<Interface>(target1);
-             var intface2 = factory.Build<Interface>(target2);
-
-             //act
-             await intface1.DoAsync();
-             await intface2.DoAsync();
-
-             //assert
-             target1.CallingThread.Should().Be(target2.CallingThread);
-         }
+      
 
          [Test]
          public async Task Method_Should_Run_On_Same_Thread_After_Await()
