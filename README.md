@@ -90,7 +90,7 @@ SharedThreadActorFactory is a factory where actors will share the thread where t
 		var factory = new SharedThreadActorFactory(priority:Priority.AboveNormal);
 
 
-This option may be helpfull if you have to create a lot of actors which have to perform short lived methods and you do not want to create a thread for each one.
+This option may be helpfull if you have to create a lot of actors which have to perform short lived methods and you do not want to create a thread for each one. Same as ActorFactory priority argument (default to Normal) define the priority of the thread where Actor methods will run.
 
 ###SynchronizationContext
 
