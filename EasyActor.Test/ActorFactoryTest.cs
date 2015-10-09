@@ -134,6 +134,26 @@ namespace EasyActor.Test
              intface.Should().NotBeNull();
          }
 
+
+
+         [Test]
+         public async Task Actor_IActorLifeCycle_Stop_Should_Cancel_Actor_Thread()
+         {
+             
+             //arrange
+             var clas = new Class();
+             var intface = Actorify.Build<Interface>(clas);
+
+             await intface.DoAsync();
+             //act
+             IActorLifeCycle disp = intface as IActorLifeCycle;
+
+             await disp.Stop();
+
+             //assert
+             clas.CallingThread.IsAlive.Should().BeFalse();
+         }
+
          [Test]
          public async Task Actor_IActorLifeCycle_Stop_Should_Call_Proxified_Class_On_IAsyncDisposable()
          {
@@ -199,6 +219,25 @@ namespace EasyActor.Test
 
              //assert
              Takenqueued.IsCompleted.Should().BeTrue();
+         }
+
+
+         [Test]
+         public async Task Actor_IActorLifeCycle_Abort_Should_Cancel_Actor_Thread()
+         {
+
+             //arrange
+             var clas = new Class();
+             var intface = Actorify.Build<Interface>(clas);
+
+             await intface.DoAsync();
+             //act
+             IActorLifeCycle disp = intface as IActorLifeCycle;
+
+             await disp.Abort();
+
+             //assert
+             clas.CallingThread.IsAlive.Should().BeFalse();
          }
 
 
