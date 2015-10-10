@@ -34,29 +34,29 @@ Usage - Example
 
 Create an actor:
 
-		//IFoo definition
-		public interface IFoo
-		{
-		    Task Bar();
-		}
+	//IFoo definition
+	public interface IFoo
+	{
+	    Task Bar();
+	}
 		
-		//ConcreteFoo definition
-		public class ConcreteFoo : IFoo
-		{
-		    public Task<int> Bar()
-		    {
-		      return Task.FromResult<int>(2);
-		    }
-		}
-		...
-		//Instanciate actor facory
-		var fact = new ActorFactory();
+	//ConcreteFoo definition
+	public class ConcreteFoo : IFoo
+	{
+	    public Task<int> Bar()
+	    {
+	      return Task.FromResult<int>(2);
+	    }
+	}
+	...
+	//Instanciate actor facory
+	var fact = new ActorFactory();
 		
-		//Instanciate an actor from a POCO
-		var fooActor = fact.Build<IFoo>( new ConcreteFoo());
-		...
-		//This will call ConcreteFoo Bar in its own thread
-		var res = await fooActor.Bar();
+	//Instanciate an actor from a POCO
+	var fooActor = fact.Build<IFoo>( new ConcreteFoo());
+	...
+	//This will call ConcreteFoo Bar in its own thread
+	var res = await fooActor.Bar();
 		
 ### Actor factories
 
@@ -118,9 +118,9 @@ IActorLifeCycle has two methods:
 
 	public interface IActorLifeCycle
 	{
-        	Task Abort();
+	      Task Abort();
 
-		Task Stop();
+	      Task Stop();
 	}
 	
 - Abort:
@@ -133,6 +133,18 @@ IActorLifeCycle has two methods:
 	- Wait for completion of all the queued tasks
 	- Call IAsyncDisposable.DisposeAsync on the proxified actor(s) if implemented
 	- Terminate actor thread 	
+	
+[IAsyncDisposable](https://github.com/dotnet/roslyn/issues/114) is the asynchroneous version of IDisposable:
+
+	public interface IAsyncDisposable : IDisposable
+	{
+		/// <summary>
+		///  Performs asyncronesouly application-defined tasks associated with freeing,
+		///  releasing, or resetting unmanaged resources.
+		/// </summary>
+		Task DisposeAsync();
+	}
+	
 
 [Classic Ping Pong Example here](https://github.com/David-Desmaisons/EasyActor/wiki/Ping-Pong-Example)
 
