@@ -45,20 +45,20 @@ Create an actor:
 		{
 		    public Task<int> Bar()
 		    {
-		      //Implementation here...
-		      
 		      return Task.FromResult<int>(2);
 		    }
 		}
 		...
 		//Instanciate actor facory
 		var fact = new ActorFactory();
+		
+		//Instanciate an actor from a POCO
 		var fooActor = fact.Build<IFoo>( new ConcreteFoo());
 		...
 		//This will call ConcreteFoo Bar in its own thread
 		var res = await fooActor.Bar();
 		
-###ActorFactory constructor parameter
+### Actor factories
 
 EasyActor provide currently two Actor factories. An actory factory implements the IActorFactory
 
@@ -72,43 +72,67 @@ EasyActor provide currently two Actor factories. An actory factory implements th
 
 Standard factory is ActorFactory that will instanciate actors living each in its own thread:
 
-		var factory = new ActorFactory(priority:Priority.AboveNormal);
+	var factory = new ActorFactory(priority:Priority.AboveNormal);
 
 Priority argument (default to Normal) define the priority of the threads where Actor methods will run. This value maps directly with Thread priority.
 
-		public enum Priority
-		{
-		    Lowest,
-		    BelowNormal,
-		    Normal,
-		    AboveNormal,
-		    Highest
-		}
-		
+	public enum Priority
+	{
+	    Lowest,
+	    BelowNormal,
+	    Normal,
+	    AboveNormal,
+	    Highest
+	}
+	
 SharedThreadActorFactory is a factory where actors will share the thread where they will be executed:
 
-		var factory = new SharedThreadActorFactory(priority:Priority.AboveNormal);
+	var factory = new SharedThreadActorFactory(priority:Priority.AboveNormal);
 
 
 This option may be helpfull if you have to create a lot of actors which have to perform short lived methods and you do not want to create a thread for each one. Same as ActorFactory priority argument (default to Normal) define the priority of the thread where Actor methods will run.
 
-###SynchronizationContext
-
+### SynchronizationContext
 
 EasyActor also guarantees that code running after awaited task will also run on the actor Thread (in a similar way than task on UI Thread):		
 		
 EasyActor also garantees that code running after awaited task will also run on the actor Thread (in a similar way than task on UI Thread):
 
-		//ConcreteFoo definition
-		public Task Bar()
-		{
-		      //Run on actor thread
-		      .....
-		      await AnotherTask();
-		      
-		      //This code also run on actor thread
-		      ....
-		}
+	//ConcreteFoo definition
+	public Task Bar()
+	{
+	      //Run on actor thread
+	      .....
+	      await AnotherTask();
+	      
+	      //This code also run on actor thread
+	      ....
+	}
+
+### Life Cycle
+
+Actor created by ActorFactory have a life cycle that can be controlled independently one from each other using the IActorLifeCycle interface that they implement.
+Actor created by SharedThreadActorFactory have the same life cycle that can be controlled using the IActorLifeCycle implemented on SharedThreadActorFactory.
+
+IActorLifeCycle has two methods:
+
+	public interface IActorLifeCycle
+	{
+        	Task Abort();
+
+		Task Stop();
+	}
+	
+- Abort:
+	- Cancel all the queued tasks: only currently executing task will be run to completion if any
+	- Call IAsyncDisposable.DisposeAsync on the proxified actor(s) if implemented
+	- Prevent further call to actor to be executed: actor will only return cancelled Tasks
+	- Terminate actor thread 
+- Stop:
+	- Prevent further call to actor to be executed: actor will only return cancelled Tasks
+	- Wait for completion of all the queued tasks
+	- Call IAsyncDisposable.DisposeAsync on the proxified actor(s) if implemented
+	- Terminate actor thread 	
 
 [Classic Ping Pong Example here](https://github.com/David-Desmaisons/EasyActor/wiki/Ping-Pong-Example)
 
