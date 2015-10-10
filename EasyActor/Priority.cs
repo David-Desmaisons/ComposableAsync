@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace EasyActor
 {
+    /// <summary>
+    ///  Priority for actor thread 
+    /// </summary>
     public enum Priority
     {
         Lowest,
