@@ -85,7 +85,7 @@ Priority argument (default to Normal) define the priority of the threads where A
 	    Highest
 	}
 	
-SharedThreadActorFactory is a factory where actors will share the thread where they will be executed:
+SharedThreadActorFactory is a factory where actors will share the same thread:
 
 	var factory = new SharedThreadActorFactory(priority:Priority.AboveNormal);
 
@@ -94,9 +94,7 @@ This option may be helpfull if you have to create a lot of actors which have to 
 
 ### SynchronizationContext
 
-EasyActor also guarantees that code running after awaited task will also run on the actor Thread (in a similar way than task on UI Thread):		
-		
-EasyActor also garantees that code running after awaited task will also run on the actor Thread (in a similar way than task on UI Thread):
+EasyActor also guarantees that code running after awaited task will also run on the actor Thread (in a similar way than task on UI Thread). This is done by setting the actor´s thread SynchronizationContext. For example: 		
 
 	//ConcreteFoo definition
 	public Task Bar()
