@@ -11,7 +11,7 @@ using EasyActor.TaskHelper;
 namespace EasyActor.Queue
 {
 
-    public class MonoThreadedQueue : IDisposable
+    public class MonoThreadedQueue : IDisposable, ITaskQueue
     {
         private static int _Count = 0;
 

@@ -10,13 +10,13 @@ using EasyActor.Queue;
 
 namespace EasyActor
 {
-    internal class DispatcherInterceptor : IInterceptor
+    internal class QueueDispatcherInterceptor : IInterceptor
     {
-        private static MethodInfo _Proceed = typeof(DispatcherInterceptor).GetMethod("Proceed", BindingFlags.Instance | BindingFlags.NonPublic);
+        private static MethodInfo _Proceed = typeof(QueueDispatcherInterceptor).GetMethod("Proceed", BindingFlags.Instance | BindingFlags.NonPublic);
 
-        private MonoThreadedQueue _Queue;
+        private ITaskQueue _Queue;
 
-        public DispatcherInterceptor(MonoThreadedQueue iqueue)
+        public QueueDispatcherInterceptor(ITaskQueue iqueue)
         {
             _Queue = iqueue;
         }

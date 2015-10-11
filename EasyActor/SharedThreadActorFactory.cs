@@ -26,7 +26,7 @@ namespace EasyActor
 
         public T Build<T>(T concrete) where T:class
         {
-            var res = _Generator.CreateInterfaceProxyWithTargetInterface<T>(concrete, new IInterceptor[] { new DispatcherInterceptor(_Queue) });
+            var res = _Generator.CreateInterfaceProxyWithTargetInterface<T>(concrete, new IInterceptor[] { new QueueDispatcherInterceptor(_Queue) });
 
             var disp = concrete as IAsyncDisposable;
             if (disp != null)
