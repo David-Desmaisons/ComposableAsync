@@ -146,6 +146,11 @@ IActorLifeCycle has two methods:
 
 [Classic Ping Pong Example here](https://github.com/David-Desmaisons/EasyActor/wiki/Ping-Pong-Example)
 
+Code coverage
+-------------
+
+100%
+
 How it works
 ------------
 Internally, EasyActor use [Castle Core DynamicProxy](https://github.com/castleproject/Core) to instaciate a proxy for the corresponding interface.
