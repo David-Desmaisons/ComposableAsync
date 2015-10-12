@@ -88,8 +88,14 @@ namespace EasyActor.Queue
      
         public void Dispose() 
         {
-            _CTS.Cancel();
-            _TaskQueue.CompleteAdding();
+            try
+            {
+                _CTS.Cancel();
+                _TaskQueue.CompleteAdding();
+            }
+            catch(ObjectDisposedException)
+            {
+            }
         }
 
         public void Stop()

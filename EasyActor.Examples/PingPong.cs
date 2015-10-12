@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using EasyActor.TaskHelper;
+using System.Diagnostics;
 
 namespace EasyActor.Examples
 {
@@ -43,7 +44,7 @@ namespace EasyActor.Examples
         [Test]
         public async Task Test()
         {
-            var fact = new ActorFactory(priority: Priority.AboveNormal);
+            var fact = new ActorFactory(priority: Priority.Normal);
 
             var One = new PingPonger("Bjorg");
             IPingPonger Actor1 = fact.Build<IPingPonger>(One);
@@ -54,14 +55,21 @@ namespace EasyActor.Examples
             One.Ponger = Actor2;
             Two.Ponger = Actor1;
 
+            var watch = new Stopwatch();
+            watch.Start();
+
             await Actor1.Ping();
             Thread.Sleep(10000);
 
+            await Task.WhenAll(((IActorLifeCycle)(Actor1)).Abort(), 
+                ((IActorLifeCycle)(Actor2)).Abort());
+
+            watch.Stop();
+
+            Console.WriteLine("Total Time: {0}", watch.Elapsed);
             Console.WriteLine(One.Count);
             Console.WriteLine(Two.Count);
 
-            await ((IActorLifeCycle)(Actor1)).Stop();
-            await ((IActorLifeCycle)(Actor2)).Stop();
         }
     }
 }
