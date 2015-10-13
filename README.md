@@ -32,14 +32,18 @@ Make also sure that all method parameters and return values are immutable to avo
 Usage - Example
 --------------
 
-Create an actor:
+To create an actor:
+
+1) Create an interface
 
 	//IFoo definition
 	public interface IFoo
 	{
 	    Task Bar();
 	}
-		
+	
+2) Implement the interface in a POCO	
+
 	//ConcreteFoo definition
 	public class ConcreteFoo : IFoo
 	{
@@ -48,13 +52,17 @@ Create an actor:
 	      return Task.FromResult<int>(2);
 	    }
 	}
-	...
+
+3) Use an EasyActor fatory to create an actor from the POCO
+
 	//Instanciate actor facory
 	var fact = new ActorFactory();
 		
 	//Instanciate an actor from a POCO
-	var fooActor = fact.Build<IFoo>( new ConcreteFoo());
-	...
+	IFoo fooActor = fact.Build<IFoo>( new ConcreteFoo());
+	
+4) Use the actor: all method call will be executed on a dedicated thread
+
 	//This will call ConcreteFoo Bar in its own thread
 	var res = await fooActor.Bar();
 		
@@ -145,6 +153,12 @@ IActorLifeCycle has two methods:
 	
 
 [Classic Ping Pong Example here](https://github.com/David-Desmaisons/EasyActor/wiki/Ping-Pong-Example)
+
+Comparaison with other frameworks
+---------------------------------
+
+- [Akka.net](http://getakka.net/) is a very complete actor solution: use it if you need a solution that includes remoting, resiliency and monitoring. Use EasyActor if you need small-footprint, fast, in process actor model. 
+- [n-act](https://code.google.com/p/n-act/) is similar to EasyActor, providing the same philosophy and similar API. That said, EasyActor provides more lifecycle options (via factories and IActorLifeCycle) and is faster than N-act (4.7x faster on the pingpong example).
 
 Code coverage
 -------------
