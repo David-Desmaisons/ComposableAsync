@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor.Test", "EasyActor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor.Examples", "EasyActor.Examples\EasyActor.Examples.csproj", "{7CAC3D8A-E284-4EBD-8386-F1BC17E3C9F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPongConsole", "PingPongConsole\PingPongConsole.csproj", "{15863971-F408-454C-A2B3-B1FBFB1B1BBF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{7CAC3D8A-E284-4EBD-8386-F1BC17E3C9F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CAC3D8A-E284-4EBD-8386-F1BC17E3C9F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CAC3D8A-E284-4EBD-8386-F1BC17E3C9F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15863971-F408-454C-A2B3-B1FBFB1B1BBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15863971-F408-454C-A2B3-B1FBFB1B1BBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15863971-F408-454C-A2B3-B1FBFB1B1BBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15863971-F408-454C-A2B3-B1FBFB1B1BBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

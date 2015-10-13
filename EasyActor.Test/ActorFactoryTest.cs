@@ -9,11 +9,9 @@ namespace EasyActor.Test
 {
      [TestFixture]
     public class ActorFactoryTest
-    {
+    {    
 
-        
-
-        private ActorFactory Actorify;
+        private ActorFactory _Factory;
 
         public ActorFactoryTest()
         {       
@@ -22,7 +20,7 @@ namespace EasyActor.Test
          [SetUp]
         public void TestUp()
         {
-            Actorify = new ActorFactory();
+            _Factory = new ActorFactory();
         }
 
 
@@ -31,7 +29,7 @@ namespace EasyActor.Test
         {
             var current = Thread.CurrentThread;
             var target = new Class();
-            var intface = Actorify.Build<Interface>(target);
+            var intface = _Factory.Build<Interface>(target);
             await intface.DoAsync();
 
             target.Done.Should().BeTrue();
@@ -43,7 +41,7 @@ namespace EasyActor.Test
         public async Task Method_Should_Always_Run_On_Same_Thread()
         {
             var target = new Class();
-            var intface = Actorify.Build<Interface>(target);
+            var intface = _Factory.Build<Interface>(target);
             await intface.DoAsync();
 
             var thread = target.CallingThread;
@@ -59,8 +57,8 @@ namespace EasyActor.Test
              //arrange
              var target1 = new Class();
              var target2 = new Class();
-             var intface1 = Actorify.Build<Interface>(target1);
-             var intface2 = Actorify.Build<Interface>(target2);
+             var intface1 = _Factory.Build<Interface>(target1);
+             var intface2 = _Factory.Build<Interface>(target2);
 
              //act
              await intface1.DoAsync();
@@ -76,7 +74,7 @@ namespace EasyActor.Test
          public async Task Method_Should_Run_On_Same_Thread_After_Await()
          {
              var target = new Class();
-             var intface = Actorify.Build<Interface>(target);
+             var intface = _Factory.Build<Interface>(target);
             
 
              var res = await intface.DoAnRedoAsync();
@@ -89,7 +87,7 @@ namespace EasyActor.Test
         public async Task Task_returned_By_Method_Should_Be_Awaited()
         {
             var target = new Class();
-            var intface = Actorify.Build<Interface>(target);
+            var intface = _Factory.Build<Interface>(target);
             await intface.SlowDoAsync();
 
             target.Done.Should().BeTrue();
@@ -100,7 +98,7 @@ namespace EasyActor.Test
         {
             var current = Thread.CurrentThread;
             var target = new Class();
-            var intface = Actorify.Build<Interface>(target);
+            var intface = _Factory.Build<Interface>(target);
             var result = await intface.ComputeAsync(25);
 
             result.Should().Be(25);
@@ -113,7 +111,7 @@ namespace EasyActor.Test
          [Test]
         public void Method_returning_void_Task_Should_Throw_Exception()
         {
-            var intface = Actorify.Build<Interface>(new Class());
+            var intface = _Factory.Build<Interface>(new Class());
             Action Do = () => intface.Do();
             Do.ShouldThrow<NotSupportedException>();
         }
@@ -121,7 +119,7 @@ namespace EasyActor.Test
          [Test]
          public void Actor_Should_Be_Implement_IActorLifeCycle_Even_If_Wrapped_Mot()
          {
-             var intface = Actorify.Build<Interface>(new Class()) as IActorLifeCycle;
+             var intface = _Factory.Build<Interface>(new Class()) as IActorLifeCycle;
 
              intface.Should().NotBeNull();
          }
@@ -129,7 +127,7 @@ namespace EasyActor.Test
          [Test]
          public void Actor_Should_Be_Implement_IActorLifeCycle()
          {
-             var intface = Actorify.Build<Interface1>(new DisposableClass()) as IActorLifeCycle;
+             var intface = _Factory.Build<Interface1>(new DisposableClass()) as IActorLifeCycle;
 
              intface.Should().NotBeNull();
          }
@@ -142,7 +140,7 @@ namespace EasyActor.Test
              
              //arrange
              var clas = new Class();
-             var intface = Actorify.Build<Interface>(clas);
+             var intface = _Factory.Build<Interface>(clas);
 
              await intface.DoAsync();
              //act
@@ -159,7 +157,7 @@ namespace EasyActor.Test
          {
              //arrange
              var dispclass = new DisposableClass();
-             var intface = Actorify.Build<Interface1>(dispclass);
+             var intface = _Factory.Build<Interface1>(dispclass);
 
              //act
              IActorLifeCycle disp = intface as IActorLifeCycle;
@@ -175,7 +173,7 @@ namespace EasyActor.Test
          {
              //arrange
              var dispclass = new DisposableClass();
-             var intface = Actorify.Build<Interface1>(dispclass);
+             var intface = _Factory.Build<Interface1>(dispclass);
 
              //act
              var task = intface.DoAsync();
@@ -207,7 +205,7 @@ namespace EasyActor.Test
          {
              //arrange
              var dispclass = new DisposableClass();
-             var intface = Actorify.Build<Interface1>(dispclass);
+             var intface = _Factory.Build<Interface1>(dispclass);
 
              Task Taskrunning = intface.DoAsync(), Takenqueued = intface.DoAsync();
              Thread.Sleep(100);
@@ -228,7 +226,7 @@ namespace EasyActor.Test
 
              //arrange
              var clas = new Class();
-             var intface = Actorify.Build<Interface>(clas);
+             var intface = _Factory.Build<Interface>(clas);
 
              await intface.DoAsync();
              //act
@@ -247,7 +245,7 @@ namespace EasyActor.Test
          {
              //arrange
              var dispclass = new DisposableClass();
-             var intface = Actorify.Build<Interface1>(dispclass);
+             var intface = _Factory.Build<Interface1>(dispclass);
 
              //act
              IActorLifeCycle disp = intface as IActorLifeCycle;
@@ -263,7 +261,7 @@ namespace EasyActor.Test
          {
              //arrange
              var dispclass = new DisposableClass();
-             var intface = Actorify.Build<Interface1>(dispclass);
+             var intface = _Factory.Build<Interface1>(dispclass);
              IActorLifeCycle disp = intface as IActorLifeCycle;
 
              //act
@@ -281,7 +279,7 @@ namespace EasyActor.Test
          {
              //arrange
              var dispclass = new DisposableClass();
-             var intface = Actorify.Build<Interface1>(dispclass);
+             var intface = _Factory.Build<Interface1>(dispclass);
 
              Task Taskrunning = intface.DoAsync(), Takenqueued = intface.DoAsync();
              Thread.Sleep(100);
@@ -311,7 +309,7 @@ namespace EasyActor.Test
          {
              //arrange
              var dispclass = new DisposableClass();
-             var intface = Actorify.Build<Interface1>(dispclass);
+             var intface = _Factory.Build<Interface1>(dispclass);
 
              //act
              var task = intface.DoAsync();

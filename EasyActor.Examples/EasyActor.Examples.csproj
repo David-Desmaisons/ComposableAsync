@@ -58,7 +58,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ConcurencyTest.cs" />
+    <Compile Include="IPingPonger.cs" />
     <Compile Include="PingPong.cs" />
+    <Compile Include="PingPonger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

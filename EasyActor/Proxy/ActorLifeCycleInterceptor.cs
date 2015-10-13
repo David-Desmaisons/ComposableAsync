@@ -12,9 +12,9 @@ namespace EasyActor
 {
     internal class ActorLifeCycleInterceptor : IInterceptor
     {
-
-        private static MethodInfo _Abort = typeof(IActorLifeCycle).GetMethod("Abort", BindingFlags.Instance | BindingFlags.Public);
-        private static MethodInfo _Stop = typeof(IActorLifeCycle).GetMethod("Stop", BindingFlags.Instance | BindingFlags.Public);
+        private static Type _IActorLifeCycleType = typeof(IActorLifeCycle);
+        private static MethodInfo _Abort = _IActorLifeCycleType.GetMethod("Abort", BindingFlags.Instance | BindingFlags.Public);
+        private static MethodInfo _Stop = _IActorLifeCycleType.GetMethod("Stop", BindingFlags.Instance | BindingFlags.Public);
 
         private MonoThreadedQueue _Queue;
         private IAsyncDisposable _IAsyncDisposable;
@@ -29,7 +29,7 @@ namespace EasyActor
         {
             var method = invocation.Method;
 
-            if (method.DeclaringType != typeof(IActorLifeCycle))
+            if (method.DeclaringType != _IActorLifeCycleType)
             {
                 invocation.Proceed();
                 return;

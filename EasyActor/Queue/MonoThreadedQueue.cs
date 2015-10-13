@@ -53,7 +53,7 @@ namespace EasyActor.Queue
             }
             catch (Exception)
             {
-                return TaskBuilder.GetCancelled<object>();
+                return TaskBuilder.GetCancelled();
             }
         }
 

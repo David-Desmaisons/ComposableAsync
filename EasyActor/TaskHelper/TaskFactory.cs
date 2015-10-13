@@ -8,9 +8,25 @@ namespace EasyActor.TaskHelper
 {
     public static class TaskBuilder
     {
+        private static Task _Completed;
+        private static Task _Cancelled;
+        static TaskBuilder()
+        {
+            _Completed = Task.FromResult<object>(null);
+
+            var tcs = new TaskCompletionSource<object>();
+            tcs.SetCanceled();
+            _Cancelled = tcs.Task;
+        }
+
         public static Task GetCompleted()
         {
-            return Task.FromResult<object>(null);
+            return _Completed;
+        }
+
+        public static Task GetCancelled()
+        {
+            return _Cancelled;
         }
 
         public static Task<T> GetCancelled<T>()
