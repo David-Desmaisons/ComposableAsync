@@ -36,7 +36,7 @@ namespace EasyActor.Test
             CallingThread = Thread.CurrentThread;
             Done = true;
             Thread.Sleep(200);
-            return TaskBuilder.GetCompleted();
+            return TaskBuilder.Completed;
         }
 
 
@@ -67,7 +67,7 @@ namespace EasyActor.Test
             CallingThread = Thread.CurrentThread;
             Thread.Sleep(1000);
             Done = true;
-            return TaskBuilder.GetCompleted();
+            return TaskBuilder.Completed;
         }
 
 
@@ -98,7 +98,7 @@ namespace EasyActor.Test
         public Task DisposeAsync()
         {
             Dispose();
-            return TaskBuilder.GetCompleted();
+            return TaskBuilder.Completed;
         }
 
         public void Dispose()

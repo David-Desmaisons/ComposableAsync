@@ -61,7 +61,7 @@
     <Compile Include="Queue\WorkItem.cs" />
     <Compile Include="SynchronizationContextFactory.cs" />
     <Compile Include="TaskHelper\TaskDescription.cs" />
-    <Compile Include="TaskHelper\TaskFactory.cs" />
+    <Compile Include="TaskHelper\TaskBuilder.cs" />
     <Compile Include="TaskHelper\TypeExtension.cs" />
     <Compile Include="TaskHelper\MethodType.cs" />
   </ItemGroup>

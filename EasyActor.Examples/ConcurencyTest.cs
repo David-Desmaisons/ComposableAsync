@@ -28,7 +28,7 @@ namespace EasyActor.Examples
             var c = _Count;
             Thread.Sleep(5);
             _Count  = c + 1;
-            return TaskBuilder.GetCompleted();
+            return TaskBuilder.Completed;
         }
 
         public Task<int> GetCount()

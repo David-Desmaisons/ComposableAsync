@@ -26,7 +26,7 @@ namespace EasyActor.Examples
             Count++;
             if (Ponger != null)
                 Ponger.Ping();
-            return TaskBuilder.GetCompleted();
+            return TaskBuilder.Completed;
         }
     }
 }

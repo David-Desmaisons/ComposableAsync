@@ -18,7 +18,7 @@ namespace EasyActor.Test
         {
             _RunningThread = Thread.CurrentThread;
             Thread.Sleep(sleep * 1000);
-            return TaskBuilder.GetCompleted();
+            return TaskBuilder.Completed;
         }
 
         private Task<T> TaskFactory<T>(T result, int sleep = 1)

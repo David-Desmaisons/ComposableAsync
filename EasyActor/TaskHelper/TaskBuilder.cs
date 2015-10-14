@@ -19,14 +19,14 @@ namespace EasyActor.TaskHelper
             _Cancelled = tcs.Task;
         }
 
-        public static Task GetCompleted()
+        public static Task Completed
         {
-            return _Completed;
+            get { return _Completed; }
         }
 
-        public static Task GetCancelled()
+        public static Task Cancelled
         {
-            return _Cancelled;
+            get {return _Cancelled;}
         }
 
         public static Task<T> GetCancelled<T>()

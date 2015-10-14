@@ -36,7 +36,7 @@ namespace EasyActor
             }
 
             invocation.ReturnValue = _Queue.SetCleanUp(() =>
-                (_IAsyncDisposable != null) ? _IAsyncDisposable.DisposeAsync() : TaskBuilder.GetCompleted());
+                (_IAsyncDisposable != null) ? _IAsyncDisposable.DisposeAsync() : TaskBuilder.Completed);
 
             if (method == _Stop)
             {
