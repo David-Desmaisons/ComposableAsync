@@ -60,6 +60,7 @@
     <Compile Include="Queue\AsyncWorkItem.cs" />
     <Compile Include="Queue\WorkItem.cs" />
     <Compile Include="SynchronizationContextFactory.cs" />
+    <Compile Include="TaskHelper\SynchronizationContextTaskScheduler.cs" />
     <Compile Include="TaskHelper\TaskDescription.cs" />
     <Compile Include="TaskHelper\TaskBuilder.cs" />
     <Compile Include="TaskHelper\TypeExtension.cs" />

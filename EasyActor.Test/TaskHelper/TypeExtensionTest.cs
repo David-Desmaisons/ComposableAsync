@@ -1,8 +1,10 @@
 ﻿using System;
-using EasyActor.TaskHelper;
-using FluentAssertions;
 using System.Threading.Tasks;
+
+using FluentAssertions;
 using NUnit.Framework;
+
+using EasyActor.TaskHelper;
 
 namespace EasyActor.Test
 {
