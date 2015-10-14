@@ -158,7 +158,7 @@ Comparaison with other frameworks
 ---------------------------------
 
 - [Akka.net](http://getakka.net/) is a very complete actor solution: use it if you need a solution that includes remoting, resiliency and monitoring. Use EasyActor if you need small-footprint, fast, in process actor model. 
-- [n-act](https://code.google.com/p/n-act/) is similar to EasyActor, providing the same philosophy and similar API. That said, EasyActor provides more lifecycle options (via factories and IActorLifeCycle) and is faster than N-act (4.7x faster on the pingpong example).
+- [n-act](https://code.google.com/p/n-act/) is similar to EasyActor, providing the same philosophy and similar API. That said, EasyActor provides more lifecycle options (via factories and IActorLifeCycle) and is faster than N-act (8x faster on the pingpong example).
 
 Code coverage
 -------------
