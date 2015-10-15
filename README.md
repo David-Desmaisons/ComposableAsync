@@ -78,7 +78,9 @@ EasyActor provide currently two Actor factories. An actory factory implements th
             T Build<T>(T concrete) where T : class;
 	}
 
-Standard factory is ActorFactory that will instanciate actors living each in its own thread:
+#### ActorFactory 
+
+ActorFactory is the standard factory for EasyFactor. Each actor created by this factory lives each in its own separated thread:
 
 	var factory = new ActorFactory(priority:Priority.AboveNormal);
 
@@ -93,12 +95,22 @@ Priority argument (default to Normal) define the priority of the threads where A
 	    Highest
 	}
 	
-SharedThreadActorFactory is a factory where actors will share the same thread:
+####  SharedThreadActorFactory 
+
+This factory creates actors that will share the same thread:
 
 	var factory = new SharedThreadActorFactory(priority:Priority.AboveNormal);
 
 
 This option may be helpfull if you have to create a lot of actors which have to perform short lived methods and you do not want to create a thread for each one. Same as ActorFactory priority argument (default to Normal) define the priority of the thread where Actor methods will run.
+
+####  SynchronizationContextFactory 
+
+SynchronizationContextFactory factory instanciate actors that will use the current synchronization context as the threading context. This means that if you instanciate a SynchronizationContextFactory in an UI thread (WPF or Windows Form), all the calls of the corresponding actors will happens in the same UI thread.
+
+	var factory = new SynchronizationContextFactory();
+
+Please note that if there is no SynchronizationContext associated with the thread calling SynchronizationContextFactory an exception will be raised.
 
 ### SynchronizationContext
 
