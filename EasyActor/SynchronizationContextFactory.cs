@@ -1,4 +1,5 @@
 ﻿using Castle.DynamicProxy;
+using EasyActor.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,11 @@ using System.Threading.Tasks;
 
 namespace EasyActor
 {
-    public class SynchronizationContextFactory : IActorFactory
+    public class SynchronizationContextFactory : ActorFactoryBase, IActorFactory
     {
-        private ProxyGenerator _Generator;
         private SynchronizationContextQueue _Context;
 
-        public SynchronizationContextFactory():
-            this(SynchronizationContext.Current)
+        public SynchronizationContextFactory(): this(SynchronizationContext.Current)
         {
         }
 
@@ -24,12 +23,11 @@ namespace EasyActor
                 throw new ArgumentNullException("synchronizationContext can not be null");
 
             _Context = new SynchronizationContextQueue(synchronizationContext);
-            _Generator = new ProxyGenerator();
         }
 
         public T Build<T>(T concrete) where T : class
         {
-            return _Generator.CreateInterfaceProxyWithTargetInterface<T>(concrete, new IInterceptor[] { new QueueDispatcherInterceptor(_Context) });   
+            return Create(concrete, _Context); 
         }
     }
 }

@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\ActorFactoryBase.cs" />
     <Compile Include="Queue\ITaskQueue.cs" />
     <Compile Include="Queue\SynchronizationContextQueue.cs" />
     <Compile Include="SharedThreadActorFactory.cs" />

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace EasyActor
 {
-    internal interface ITaskQueue
+    public interface ITaskQueue
     {
         Task Enqueue(Func<Task> action);
 
