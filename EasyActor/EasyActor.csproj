@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="ActorContext.cs" />
     <Compile Include="Factories\ActorFactoryBase.cs" />
+    <Compile Include="IActorContext.cs" />
     <Compile Include="Queue\ITaskQueue.cs" />
     <Compile Include="Queue\SynchronizationContextQueue.cs" />
     <Compile Include="SharedThreadActorFactory.cs" />
