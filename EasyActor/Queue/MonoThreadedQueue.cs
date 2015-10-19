@@ -111,7 +111,7 @@ namespace EasyActor.Queue
 
         private void Consume()
         {
-            SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(this));
+            SynchronizationContext.SetSynchronizationContext(this.SynchronizationContext);
 
             try
             {
@@ -132,6 +132,19 @@ namespace EasyActor.Queue
 
             if (_Clean != null)
                 _Clean.Do();
+        }
+
+
+        private SynchronizationContext _SynchronizationContext;
+        public SynchronizationContext SynchronizationContext
+        {
+            get 
+            {
+                if (_SynchronizationContext == null)
+                    _SynchronizationContext = new MonoThreadedQueueSynchronizationContext(this);
+
+                return _SynchronizationContext;
+            }
         }
     }
 }

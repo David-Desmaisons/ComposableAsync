@@ -13,20 +13,20 @@ namespace EasyActor.Test
     [TestFixture]
     public class DispatcherSynchronizationContextTest
     {
-        private DispatcherSynchronizationContext _Dispatcher;
+        private MonoThreadedQueueSynchronizationContext _Dispatcher;
         private MonoThreadedQueue _Queue;
         [SetUp]
         public void SetUp()
         {
             _Queue = new MonoThreadedQueue(Priority.Highest);
-            _Dispatcher = new  DispatcherSynchronizationContext(_Queue);
+            _Dispatcher = new  MonoThreadedQueueSynchronizationContext(_Queue);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_Throw_Exception_On_Null_Queue()
         {
-            new DispatcherSynchronizationContext(null);
+            new MonoThreadedQueueSynchronizationContext(null);
         }
 
         [Test]
@@ -86,7 +86,7 @@ namespace EasyActor.Test
             var cloned = _Dispatcher.CreateCopy();
 
             //assert
-            cloned.Should().BeAssignableTo<DispatcherSynchronizationContext>();
+            cloned.Should().BeAssignableTo<MonoThreadedQueueSynchronizationContext>();
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace EasyActor.Test
         {
             //arrange
 
-            var cloned = (DispatcherSynchronizationContext)_Dispatcher.CreateCopy();
+            var cloned = (MonoThreadedQueueSynchronizationContext)_Dispatcher.CreateCopy();
 
             //assert
             cloned.IsSame(_Dispatcher).Should().BeTrue();

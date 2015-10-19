@@ -9,12 +9,12 @@ namespace EasyActor.Queue
 {
    
 
-    public sealed class DispatcherSynchronizationContext : SynchronizationContext
+    public sealed class MonoThreadedQueueSynchronizationContext : SynchronizationContext
     {
         private readonly MonoThreadedQueue _dispatcher;
 
 
-        public DispatcherSynchronizationContext(MonoThreadedQueue dispatcher)
+        public MonoThreadedQueueSynchronizationContext(MonoThreadedQueue dispatcher)
         {
             if (dispatcher == null)
                 throw new ArgumentNullException("dispatcher");
@@ -34,14 +34,14 @@ namespace EasyActor.Queue
             _dispatcher.Enqueue(() => d(state));
         }
 
-        public bool IsSame(DispatcherSynchronizationContext iother)
+        public bool IsSame(MonoThreadedQueueSynchronizationContext iother)
         {
             return _dispatcher == iother._dispatcher;
         }
 
         public override SynchronizationContext CreateCopy()
         {
-            return new DispatcherSynchronizationContext(_dispatcher);
+            return new MonoThreadedQueueSynchronizationContext(_dispatcher);
         }
     }
 }

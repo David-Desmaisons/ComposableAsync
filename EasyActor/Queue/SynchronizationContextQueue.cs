@@ -28,5 +28,11 @@ namespace EasyActor
             _Context.Post(_ => workitem.Do(),null);
             return workitem.Task;
         }
+
+
+        public SynchronizationContext SynchronizationContext
+        {
+            get { return _Context; }
+        }
     }
 }

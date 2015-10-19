@@ -21,8 +21,6 @@ namespace EasyActor.Test
           [SetUp]
           public void TestUp()
           {
-              TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
-
               _UIMessageLoop = new WPFThreadingHelper();
               _UIMessageLoop.Start().Wait();
 
