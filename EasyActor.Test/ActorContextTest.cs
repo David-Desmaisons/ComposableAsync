@@ -55,6 +55,8 @@ namespace EasyActor.Test
             res.Should().NotBeNull();
         }
 
+      
+
 
         [Test]
         public async Task TaskFactory_Should_Return_TaskFactory_Compatible_With_Proxy_Thread_ActorFactory_Context()
@@ -66,6 +68,26 @@ namespace EasyActor.Test
             //act
             var res = target.TaskFactory;
             Thread tfthread = await res.StartNew(()=> Thread.CurrentThread);
+
+            tfthread.Should().Be(_Proxified.CallingThread);
+        }
+
+        [Test]
+        public async Task TaskFactory_Should_Return_TaskFactory_Compatible_With_Proxy_Thread_ActorFactory_Context_Lazy_Evaluation()
+        {
+            //arrange
+
+            var factory = new ActorFactory();
+            _Proxified = new Class();
+            var target = new ActorContext(_Proxified);
+            _Interface = factory.Build<Interface>(_Proxified);
+
+
+            await _Interface.DoAsync();
+
+            //act
+            var res = target.TaskFactory;
+            Thread tfthread = await res.StartNew(() => Thread.CurrentThread);
 
             tfthread.Should().Be(_Proxified.CallingThread);
         }
