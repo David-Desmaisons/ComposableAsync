@@ -11,6 +11,9 @@ namespace EasyActor
     /// </summary>
     public interface IActorFactoryBuilder
     {
-        IActorFactory GetFactory(ActorFactorType type);
+        /// <summary>
+        ///  Returns an actor factory corresponding to the ActorFactorType
+        /// </summary>
+        IActorFactory GetFactory(ActorFactorType type, Priority priority = Priority.Normal);
     }
 }

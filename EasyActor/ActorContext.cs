@@ -10,24 +10,20 @@ using EasyActor.TaskHelper;
 
 namespace EasyActor
 {
-    public class ActorContext
+    public class ActorContext : IActorContext
     {
-        private readonly object _Proxy;
-        public ActorContext(object proxy)
+        public ActorContext()
         {
-            _Proxy = proxy;
         }
 
-        public TaskFactory TaskFactory
-        {
-            get
-            {
-                SynchronizationContext synCon = ActorFactoryBase.GetContextFromProxy(_Proxy) ?? SynchronizationContext.Current;
-                if (synCon == null)
-                    return new TaskFactory();
 
-                return new TaskFactory(new SynchronizationContextTaskScheduler(synCon));
-            }
+        public TaskFactory GetTaskFactory(object proxy)
+        {
+            SynchronizationContext synCon = ActorFactoryBase.GetContextFromProxy(proxy) ?? SynchronizationContext.Current;
+            if (synCon == null)
+                return new TaskFactory();
+
+            return new TaskFactory(new SynchronizationContextTaskScheduler(synCon));
         }
     }
 }
