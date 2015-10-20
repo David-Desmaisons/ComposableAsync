@@ -15,7 +15,7 @@ namespace EasyActor
     public interface IAsyncDisposable : IDisposable
     {
         /// <summary>
-        ///  Performs asyncronesouly application-defined tasks associated with freeing,
+        ///  Performs asyncroneously application-defined tasks associated with freeing,
         ///  releasing, or resetting unmanaged resources.
         /// </summary>
         Task DisposeAsync();

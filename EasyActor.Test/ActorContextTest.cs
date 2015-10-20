@@ -66,7 +66,8 @@ namespace EasyActor.Test
             var res = _ActorContext.GetTaskFactory(_Proxified);
             Thread tfthread = await res.StartNew(()=> Thread.CurrentThread);
 
-
+            //assert
+            tfthread.Should().NotBeNull();
             tfthread.Should().Be(_Proxified.CallingThread);
         }
 
