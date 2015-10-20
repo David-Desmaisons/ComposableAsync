@@ -34,6 +34,12 @@ namespace EasyActor.Test
           }
 
           [Test]
+          public void Type_Should_Be_InCurrentContext()
+          {
+              _Target.Type.Should().Be(ActorFactorType.InCurrentContext);
+          }
+
+          [Test]
           [ExpectedException(typeof(ArgumentNullException))]
           public void Creating_SynchronizationContextFactory_WithoutContext_ThrowException()
           {

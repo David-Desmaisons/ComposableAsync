@@ -25,6 +25,11 @@ namespace EasyActor
             _Context = new SynchronizationContextQueue(synchronizationContext);
         }
 
+        public ActorFactorType Type
+        {
+            get { return ActorFactorType.InCurrentContext; }
+        }
+
         public T Build<T>(T concrete) where T : class
         {
             return Create(concrete, _Context); 

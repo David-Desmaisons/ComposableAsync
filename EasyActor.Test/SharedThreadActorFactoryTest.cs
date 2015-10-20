@@ -17,6 +17,12 @@ namespace EasyActor.Test
             _Factory = new SharedThreadActorFactory();
         }
 
+        [Test]
+        public void Type_Should_Be_Shared()
+        {
+            _Factory.Type.Should().Be(ActorFactorType.Shared);
+        }
+
 
         [Test]
         public async Task All_Actors_Should_Run_On_Same_Thread()

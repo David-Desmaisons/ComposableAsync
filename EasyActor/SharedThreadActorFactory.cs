@@ -26,6 +26,11 @@ namespace EasyActor
             _Disposable = new ConcurrentQueue<IAsyncDisposable>();
         }
 
+        public ActorFactorType Type
+        {
+            get { return ActorFactorType.Shared; }
+        }
+
         public T Build<T>(T concrete) where T:class
         {
             var res = Create(concrete, _Queue);

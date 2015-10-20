@@ -23,6 +23,14 @@ namespace EasyActor.Test
             _Factory = new ActorFactory();
         }
 
+        [Test]
+         public void Type_Should_Be_Standard()
+        {
+            _Factory.Type.Should().Be(ActorFactorType.Standard);
+        }
+
+        
+
 
         [Test]
         public async Task Method_Should_Run_On_Separated_Thread()

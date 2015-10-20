@@ -25,5 +25,10 @@ namespace EasyActor
             var queue = new MonoThreadedQueue(_Priority);
             return CreateIActorLifeCycle(concrete, queue, new ActorLifeCycleInterceptor(queue, concrete as IAsyncDisposable));
         }
+
+        public ActorFactorType Type
+        {
+            get { return ActorFactorType.Standard; }
+        }
     }
 }

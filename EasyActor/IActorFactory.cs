@@ -6,6 +6,8 @@ namespace EasyActor
     /// </summary>
     public interface IActorFactory
     {
+
+        ActorFactorType Type { get; }
         /// <summary>
         ///  Build an actor from a POCO
         ///  T should an interface througth which the actor will be seen
