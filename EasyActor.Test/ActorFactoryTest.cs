@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FluentAssertions;
 using System.Threading;
+
+using FluentAssertions;
 using NUnit.Framework;
+
 using EasyActor.TaskHelper;
 
 namespace EasyActor.Test
@@ -13,18 +15,14 @@ namespace EasyActor.Test
 
         private ActorFactory _Factory;
 
-        public ActorFactoryTest()
-        {       
-        }
-
-         [SetUp]
+        [SetUp]
         public void TestUp()
         {
             _Factory = new ActorFactory();
         }
 
         [Test]
-         public void Type_Should_Be_Standard()
+        public void Type_Should_Be_Standard()
         {
             _Factory.Type.Should().Be(ActorFactorType.Standard);
         }
