@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 
 
 namespace EasyActor.TaskHelper
-{
+{   
+    /// <summary>
+    /// Adapted from http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/TaskScheduler.cs,30e7d3d352bbb730
+    /// </summary>
     internal class SynchronizationContextTaskScheduler :  TaskScheduler
     {
         private SynchronizationContext m_synchronizationContext;
  
-        /// <summary>
-        /// Adapted from http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/TaskScheduler.cs,30e7d3d352bbb730
-        /// </summary>
+     
         public SynchronizationContextTaskScheduler(SynchronizationContext synContext)
         {
             if (synContext == null)
