@@ -9,6 +9,7 @@ using EasyActor.TaskHelper;
 using FluentAssertions;
 using System.Threading;
 using EasyActor.Test.WPFThreading;
+using EasyActor.Queue;
 
 namespace EasyActor.Test
 {
@@ -41,6 +42,8 @@ namespace EasyActor.Test
             //assert
             res.Should().NotBeNull();
         }
+
+     
 
 
         [Test]
@@ -90,6 +93,57 @@ namespace EasyActor.Test
 
             //assert
             tfthread.Should().Be(UIMessageLoop.UIThread);
+
+            UIMessageLoop.Stop();
+        }
+
+
+        [Test]
+        public void GetSynchronizationContext_Should_Return_Null_With_A_None_Proxied_Object()
+        {
+            //arrange
+            object random = new object();
+
+            //act
+            var res = _ActorContext.GetSynchronizationContext(random);
+
+            //assert
+            res.Should().BeNull();
+        }
+
+        [Test]
+        public async Task GetSynchronizationContext_Should_Return_SynchronizationContext_Compatible_With_Proxy_Thread_ActorFactory_Context()
+        {
+            //arrange
+            await _Interface.DoAsync();
+
+            //act
+            var res = _ActorContext.GetSynchronizationContext(_Proxified);
+
+            //assert
+            res.Should().BeAssignableTo<MonoThreadedQueueSynchronizationContext>();
+        }
+
+        [Test]
+        public void GetSynchronizationContext_Should_Return_SynchronizationContext_Compatible_With_Proxy_Thread_SynchronizationContextFactory_Context()
+        {
+            //arrange
+            var UIMessageLoop = new WPFThreadingHelper();
+            UIMessageLoop.Start().Wait();
+
+            var scf = UIMessageLoop.Dispatcher.Invoke(() => new SynchronizationContextFactory());
+
+            _Proxified = new Class();
+            _Interface = scf.Build<Interface>(_Proxified);
+
+            //act
+            var res = _ActorContext.GetSynchronizationContext(_Proxified);
+            var uisc = UIMessageLoop.Dispatcher.Invoke(()=>  SynchronizationContext.Current);
+         
+
+            //assert
+            res.Should().NotBeNull();
+            res.Should().Be(uisc);
 
             UIMessageLoop.Stop();
         }

@@ -19,11 +19,17 @@ namespace EasyActor
 
         public TaskFactory GetTaskFactory(object proxy)
         {
-            SynchronizationContext synCon = ActorFactoryBase.GetContextFromProxy(proxy) ?? SynchronizationContext.Current;
+            SynchronizationContext synCon = GetSynchronizationContext(proxy);
             if (synCon == null)
                 return new TaskFactory();
 
             return new TaskFactory(new SynchronizationContextTaskScheduler(synCon));
+        }
+
+
+        public SynchronizationContext GetSynchronizationContext(object proxy)
+        {
+           return ActorFactoryBase.GetContextFromProxy(proxy) ?? SynchronizationContext.Current;
         }
     }
 }

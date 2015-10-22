@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace EasyActor
 {
     /// <summary>
-    ///   IActorFactory factory
+    /// IActorFactory factory
     /// </summary>
     public interface IActorFactoryBuilder
     {
