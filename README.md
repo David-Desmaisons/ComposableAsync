@@ -3,7 +3,7 @@ EasyActor
 
 EasyActor implements a subset of [Actor pattern](https://en.wikipedia.org/wiki/Actor_model) for the .Net platform.
 
-EasyActor´s main goal is to provide a lightweigth, fast, easy to use framework to transform POCO in actors. 
+EasyActor is a lightweigth, fast, easy to use framework that transform POCO in actors. 
 
 If you are looking for a complete Actor solution including remoting, resiliency and monitoring take a look at [akka.net](http://getakka.net/).
 
