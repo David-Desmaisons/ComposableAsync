@@ -70,6 +70,20 @@ namespace EasyActor.Queue
             }
         }
 
+        public Task<T> Enqueue<T>(Func<T> action)
+        { 
+            var workitem = new WorkItem<T>(action);
+            try
+            {
+                _TaskQueue.Add(workitem);
+                return workitem.Task;
+            }
+            catch (Exception)
+            {
+                return TaskBuilder.GetCancelled<T>();
+            } 
+        }
+
         public Task Enqueue(Action action)
         {
             return Enqueue( new ActionWorkItem(action) );

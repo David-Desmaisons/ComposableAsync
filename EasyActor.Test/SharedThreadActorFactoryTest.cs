@@ -44,6 +44,19 @@ namespace EasyActor.Test
         }
 
         [Test]
+        public async Task BuildAsync_Should_Call_Constructor_On_Actor_Thread()
+        {
+            var current = Thread.CurrentThread;
+            Class target = null;
+            Interface intface = await _Factory.BuildAsync<Interface>(() => { target = new Class(); return target; });
+            await intface.DoAsync();
+
+            target.Done.Should().BeTrue();
+            target.CallingConstructorThread.Should().NotBe(current);
+            target.CallingConstructorThread.Should().Be(target.CallingThread);
+        }
+
+        [Test]
         public async Task Stop_Should_Kill_Thread()
         {
             //arrange

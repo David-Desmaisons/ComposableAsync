@@ -15,6 +15,15 @@ namespace EasyActor
         {
             _Context = synchronizationContext;
         }
+
+        public Task<T> Enqueue<T>(Func<T> action)
+        {
+            var workitem = new WorkItem<T>(action);
+            _Context.Post(_ => workitem.Do(), null);
+            return workitem.Task;
+        }
+
+
         public Task Enqueue(Func<Task> action)
         {
             var workitem = new AsyncActionWorkItem(action);

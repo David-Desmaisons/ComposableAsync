@@ -1,5 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using EasyActor.Factories;
+using EasyActor.TaskHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace EasyActor
             _Context = new SynchronizationContextQueue(synchronizationContext);
         }
 
+      
+
         public ActorFactorType Type
         {
             get { return ActorFactorType.InCurrentContext; }
@@ -33,6 +36,12 @@ namespace EasyActor
         public T Build<T>(T concrete) where T : class
         {
             return Create(concrete, _Context); 
+        }
+
+
+        public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
+        {
+            return _Context.Enqueue(() => Build<T>(concrete()));
         }
     }
 }

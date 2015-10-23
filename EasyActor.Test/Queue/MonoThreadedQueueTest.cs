@@ -102,6 +102,7 @@ namespace EasyActor.Test
             }
         }
 
+       
 
          [Test]
         
@@ -142,6 +143,28 @@ namespace EasyActor.Test
                 _RunningThread.Should().NotBe(current);
             }
         }
+
+        [Test]
+        public async Task Enqueue_Func_T_Should_With_Result()
+        {
+
+            Thread current = Thread.CurrentThread;
+            //arrange
+            using (var target = new MonoThreadedQueue())
+            {
+
+                Func<int> func = () => { _RunningThread = Thread.CurrentThread; return 25; };
+
+                //act
+                var res = await target.Enqueue(func);
+
+                //assert
+                res.Should().Be(25);
+                _RunningThread.Should().NotBeNull();
+                _RunningThread.Should().NotBe(current);
+            }
+        }
+
 
          [Test]
         public async Task Enqueue_Should_DispatchException_With_Result()
@@ -390,6 +413,35 @@ namespace EasyActor.Test
             newesttask.IsCanceled.Should().BeTrue();
             error.Should().NotBeNull();
             Done.Should().BeFalse();
+        }
+
+
+        [Test]
+        public async Task Enqueue_Func_T_Should_Cancel_Task_When_On_Disposed_Queue()
+        {
+            MonoThreadedQueue queue = null;
+            //arrange
+            using (queue = new MonoThreadedQueue())
+            {
+                var task = queue.Enqueue(() => TaskFactory());
+            }
+
+
+            Func<int> func = () => { return 25; };
+            Task newesttask = queue.Enqueue(func);
+
+            TaskCanceledException error = null;
+            try
+            {
+                await newesttask;
+            }
+            catch (TaskCanceledException e)
+            {
+                error = e;
+            }
+
+            newesttask.IsCanceled.Should().BeTrue();
+            error.Should().NotBeNull();
         }
 
         [Test]

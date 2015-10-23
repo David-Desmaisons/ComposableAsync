@@ -20,7 +20,7 @@ namespace EasyActor.Queue
         }
 
 
-        public Task Task
+        public Task<T> Task
         {
             get { return _Source.Task; }
         }

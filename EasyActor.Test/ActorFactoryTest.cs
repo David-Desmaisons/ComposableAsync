@@ -123,6 +123,21 @@ namespace EasyActor.Test
         }
 
          [Test]
+         public async Task BuildAsync_Should_Call_Constructor_On_Actor_Thread()
+         {
+             var current = Thread.CurrentThread;
+             Class target = null;
+             Interface intface = await _Factory.BuildAsync<Interface>(() => { target = new Class(); return target; });
+             await intface.DoAsync();
+
+             target.Done.Should().BeTrue();
+             target.CallingConstructorThread.Should().NotBe(current);
+             target.CallingConstructorThread.Should().Be(target.CallingThread);
+         }
+
+
+
+         [Test]
          public void Actor_Should_Be_Implement_IActorLifeCycle_Even_If_Wrapped_Mot()
          {
              var intface = _Factory.Build<Interface>(new Class()) as IActorLifeCycle;

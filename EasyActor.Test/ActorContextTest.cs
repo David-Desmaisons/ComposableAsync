@@ -143,7 +143,7 @@ namespace EasyActor.Test
 
             //assert
             res.Should().NotBeNull();
-            res.Should().Be(uisc);
+            res.Should().BeOfType(uisc.GetType());
 
             UIMessageLoop.Stop();
         }

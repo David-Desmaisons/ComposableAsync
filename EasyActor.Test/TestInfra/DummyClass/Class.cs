@@ -27,8 +27,13 @@ namespace EasyActor.Test
     }
     public class Class : Interface
     {
-
+        public Class()
+        {
+            CallingConstructorThread = Thread.CurrentThread;
+        }
         public Thread CallingThread { get; private set; }
+
+        public Thread CallingConstructorThread { get; private set; }
 
         public bool Done { get; set; }
         public Task DoAsync()

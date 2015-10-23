@@ -16,7 +16,7 @@ namespace EasyActor.Test
     public class SynchronizationContextFactoryTest
     {
           private WPFThreadingHelper _UIMessageLoop;
-          private SynchronizationContextFactory _Target;
+          private SynchronizationContextFactory _Factory;
 
           [SetUp]
           public void TestUp()
@@ -24,7 +24,7 @@ namespace EasyActor.Test
               _UIMessageLoop = new WPFThreadingHelper();
               _UIMessageLoop.Start().Wait();
 
-              _Target = _UIMessageLoop.Dispatcher.Invoke(() => new SynchronizationContextFactory());
+              _Factory = _UIMessageLoop.Dispatcher.Invoke(() => new SynchronizationContextFactory());
           }
 
           [TearDown]
@@ -36,7 +36,7 @@ namespace EasyActor.Test
           [Test]
           public void Type_Should_Be_InCurrentContext()
           {
-              _Target.Type.Should().Be(ActorFactorType.InCurrentContext);
+              _Factory.Type.Should().Be(ActorFactorType.InCurrentContext);
           }
 
           [Test]
@@ -51,7 +51,7 @@ namespace EasyActor.Test
           {
               //arrange
               var obj = new Class();
-              var actor = _Target.Build<Interface>(obj);
+              var actor = _Factory.Build<Interface>(obj);
 
               //act
               await actor.DoAsync();
@@ -65,7 +65,7 @@ namespace EasyActor.Test
           {
               //arrange
               var obj = new Class();
-              var actor = _Target.Build<Interface>(obj);
+              var actor = _Factory.Build<Interface>(obj);
 
               //act
               var res = await actor.ComputeAsync(5);
@@ -80,7 +80,7 @@ namespace EasyActor.Test
           {
               //arrange
               var obj = new Class();
-              var actor = _Target.Build<Interface>(obj);
+              var actor = _Factory.Build<Interface>(obj);
 
               //act
               await actor.DoAsync();
@@ -94,13 +94,26 @@ namespace EasyActor.Test
           {
               //arrange
               var obj = new Class();
-              var actor = _Target.Build<Interface>(obj);
+              var actor = _Factory.Build<Interface>(obj);
 
               //act
               await actor.ComputeAsync(5);
 
               //assert
               obj.CallingThread.Should().Be(_UIMessageLoop.UIThread);
+          }
+
+          [Test]
+          public async Task BuildAsync_Should_Call_Constructor_On_Actor_Thread()
+          {
+              var current = Thread.CurrentThread;
+              Class target = null;
+              Interface intface = await _Factory.BuildAsync<Interface>(() => { target = new Class(); return target; });
+              await intface.DoAsync();
+
+              target.Done.Should().BeTrue();
+              target.CallingConstructorThread.Should().NotBe(current);
+              target.CallingConstructorThread.Should().Be(target.CallingThread);
           }
 
     }

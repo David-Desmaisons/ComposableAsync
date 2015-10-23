@@ -42,6 +42,12 @@ namespace EasyActor
             return res;
         }
 
+
+        public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
+        {
+            return _Queue.Enqueue(() => Build<T>(concrete()));
+        }
+
         private Task GetEndTask()
         {
             return  _Queue.SetCleanUp(async () =>
@@ -67,5 +73,6 @@ namespace EasyActor
             _Queue.Stop();
             return res;
         }
+
     }
 }
