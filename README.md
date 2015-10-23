@@ -73,9 +73,17 @@ EasyActor provide currently two Actor factories. An actory factory implements th
 	//Factory to create actor from POCO
 	public interface IActorFactory
 	{
+            ///  Returns the type of the factory.
+            ActorFactorType Type { get; }
+            
             //Build an actor from a POCO
             //T should an interface througth which the actor will be seen
             T Build<T>(T concrete) where T : class;
+            
+            ///  Build asynchroneously an actor from a POCO
+            ///  using the actor thread to call the function creating the POCO.
+            ///  T should an interface througth which the actor will be seen
+            Task<T> BuildAsync<T>(Func<T> concrete) where T : class;
 	}
 
 #### ActorFactory 
