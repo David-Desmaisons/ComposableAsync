@@ -190,3 +190,8 @@ How it works
 Internally, EasyActor use [Castle Core DynamicProxy](https://github.com/castleproject/Core) to instaciate a proxy for the corresponding interface.
 All calls to the interface methods are intercepted and then redirected to run on the actor Threads.
 
+Nuget
+-----
+
+[Go nuget package](https://www.nuget.org/packages/EasyActor/)
+
