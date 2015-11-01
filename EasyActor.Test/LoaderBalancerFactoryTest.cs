@@ -117,6 +117,78 @@ namespace EasyActor.Test
         }
 
         [Test]
+        public void LoadBalancer_Should_Implement_IActorLifeCycle()
+        {
+            var target = _Factory.Build<Interface>(_Fact, 2);
+            target.Should().BeAssignableTo<IActorLifeCycle>();
+        }
+
+        [Test]
+        public async Task LoadBalancer_IActorLifeCycle_Abort_Should_NotThrowException()
+        {
+            var target = _Factory.Build<Interface>(_Fact, 2) as IActorLifeCycle;
+            await target.Abort();
+        }
+
+        [Test]
+        [ExpectedException(typeof(TaskCanceledException))]
+        public async Task LoadBalancer_IActorLifeCycle_Abort_Should_CancelTask()
+        {
+            var target = _Factory.Build<Interface>(_Fact, 2);
+            var lf = target as IActorLifeCycle;
+            await lf.Abort();
+
+            await target.SlowDoAsync();
+        }
+
+        [Test]
+        public async Task LoadBalancer_IActorLifeCycle_Abort_Should_CancelTask_Not_Run()
+        {
+            var target = _Factory.Build<Interface>(_Fact, 2);
+
+            var t1 = target.SlowDoAsync();
+            var t2 = target.SlowDoAsync();
+            var t3 = target.SlowDoAsync();
+            var t4 = target.SlowDoAsync();
+
+            var lf = target as IActorLifeCycle;
+            await lf.Abort();
+
+            try
+            {
+                await Task.WhenAll(t1,t2,t3,t4);
+            }
+            catch
+            {
+            }
+
+            t1.IsCompleted.Should().BeTrue();
+            t2.IsCompleted.Should().BeTrue();
+
+            t3.IsCanceled.Should().BeTrue();
+            t4.IsCanceled.Should().BeTrue();
+        }
+
+
+        [Test]
+        public async Task LoadBalancer_IActorLifeCycle_Stop_Should_NotThrowException()
+        {
+            var target = _Factory.Build<Interface>(_Fact, 2) as IActorLifeCycle;
+            await target.Stop();
+        }
+
+        [Test]
+        [ExpectedException(typeof(TaskCanceledException))]
+        public async Task LoadBalancer_IActorLifeCycle_Stop_Should_CancelTask()
+        {
+            var target = _Factory.Build<Interface>(_Fact, 2);
+            var lf = target as IActorLifeCycle;
+            await lf.Stop();
+
+            await target.SlowDoAsync();
+        }
+
+        [Test]
         public void Stress_Paralellism()
         {
 

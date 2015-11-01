@@ -27,7 +27,7 @@ namespace EasyActor
                 throw new ArgumentOutOfRangeException("ParrallelLimitation should be positive");
 
             var interceptors = new IInterceptor[] { new LoadBalanderInterceptor<T>(concrete, _BalancingOption, _ActorFactory, ParrallelLimitation) };
-            return ActorFactoryBase.Generator.CreateInterfaceProxyWithoutTarget<T>(interceptors);
+            return (T)ActorFactoryBase.Generator.CreateInterfaceProxyWithoutTarget(typeof(T), new Type[] { ActorFactoryBase.IActorLifeCycleType }, interceptors);
         }
     }
 }

@@ -1,12 +1,16 @@
-﻿using Castle.DynamicProxy;
-using EasyActor.Queue;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using Castle.DynamicProxy;
+
+using EasyActor.Queue;
+using EasyActor.TaskHelper;
+using EasyActor.Collections;
 
 namespace EasyActor.Proxy
 {
@@ -16,10 +20,13 @@ namespace EasyActor.Proxy
         private readonly Func<T> _Builder;
         private readonly int _ParrallelLimitation;
         private readonly BalancingOption _BalancingOption;
+        private bool _isCancelled = false;
 
         private readonly ConcurrentBag<Tuple<T, MonoThreadedQueue>> _actors = new ConcurrentBag<Tuple<T, MonoThreadedQueue>>();
         private readonly ActorFactory _ActorFactory;
         private readonly object _syncobject = new object();
+
+        private static Type _IActorLifeCycleType = typeof(IActorLifeCycle);
 
         internal LoadBalanderInterceptor(Func<T> builder, BalancingOption balancingOption, ActorFactory actorFactory, int parrallelLimitation)
         {
@@ -54,6 +61,9 @@ namespace EasyActor.Proxy
 
             lock(_syncobject)
             {
+                if (_isCancelled)
+                    return null;
+
                 //check again for fullness under lock for thread safety 
                 if (_actors.Count==_ParrallelLimitation)
                     return GetBestActor().Item2;
@@ -69,11 +79,31 @@ namespace EasyActor.Proxy
             }
         }
 
+        private void Cancel(IInvocation invocation)
+        {
+            lock (_syncobject)
+            {
+                _isCancelled = true;
+                var tasks = _actors.Select(a => (Task)invocation.CallOn(a.Item1 as IActorLifeCycle)).ToArray();
+                _actors.Clear();
+                invocation.ReturnValue = Task.WhenAll(tasks);
+            }
+        }
+
         [DebuggerNonUserCode]
         public void Intercept(IInvocation invocation)
         {
+            if (invocation.Method.DeclaringType == _IActorLifeCycleType)
+            {
+                Cancel(invocation);
+                return;
+            }
+
             var actor = GetCorrectActor();
-            invocation.ReturnValue =  invocation.CallOn(actor);
+            if (actor!=null)
+                invocation.ReturnValue = invocation.CallOn(actor);
+            else
+                invocation.ReturnValue = TaskBuilder.GetCancelled(invocation.Method.ReturnType);
         }
     }
 }

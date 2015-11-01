@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,5 +36,24 @@ namespace EasyActor.TaskHelper
             tcs.SetCanceled();
             return tcs.Task;
         }
+
+        private static MethodInfo _GetCancelled = typeof(TaskBuilder).GetMethod("GetCancelled", BindingFlags.Static | BindingFlags.Public);
+
+
+        internal static Task GetCancelled(this Type @this)
+        {
+            TaskDescription task = @this.GetTaskType();
+            switch (task.MethodType)
+            {                
+                case TaskType.Task:
+                    return Cancelled;
+
+                case TaskType.GenericTask:
+                    return (Task)_GetCancelled.MakeGenericMethod(task.Type).Invoke(null, new object[] { });    
+            }  
+            
+            return null;
+        }
+
     }
 }

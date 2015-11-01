@@ -42,6 +42,8 @@ namespace EasyActor.Test
 
         public static int Count { get; private set; }
 
+        public int DoAsyncCount { get; private set; }
+
         public Thread CallingThread { get; private set; }
 
         public Thread CallingConstructorThread { get; private set; }
@@ -49,6 +51,7 @@ namespace EasyActor.Test
         public bool Done { get; set; }
         public Task DoAsync()
         {
+            DoAsyncCount++;
             CallingThread = Thread.CurrentThread;
             Done = true;
             Thread.Sleep(200);

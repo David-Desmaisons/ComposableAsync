@@ -46,6 +46,7 @@
     <Compile Include="ActorFactorType.cs" />
     <Compile Include="ActorFactoryBuilder.cs" />
     <Compile Include="BalancingOption.cs" />
+    <Compile Include="Collections\Collection.cs" />
     <Compile Include="Factories\ActorFactoryBase.cs" />
     <Compile Include="IActorContext.cs" />
     <Compile Include="IActorFactoryBuilder.cs" />

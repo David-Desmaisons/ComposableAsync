@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 namespace EasyActor.Factories
 {
     public class ActorFactoryBase
-    {
-        private static Type _IActorLifeCycleType = typeof(IActorLifeCycle);
+    {      
         private static readonly ProxyGenerator _Generator;
         private static readonly Dictionary<object, SynchronizationContext> _SynchronizationContext = new Dictionary<object, SynchronizationContext>();
 
         internal static ProxyGenerator Generator {get {return _Generator;}}
+        internal static Type IActorLifeCycleType = typeof(IActorLifeCycle);
 
         static ActorFactoryBase()
         {
@@ -44,7 +44,7 @@ namespace EasyActor.Factories
         {
             var interceptors = new IInterceptor[] { interceptor, new QueueDispatcherInterceptor(queue) };
             Register(concrete, queue);  
-            return (T)_Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new Type[] { _IActorLifeCycleType }, concrete, interceptors);
+            return (T)_Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new Type[] { IActorLifeCycleType }, concrete, interceptors);
         }
     }
 }
