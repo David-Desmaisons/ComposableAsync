@@ -24,5 +24,11 @@ namespace EasyActor
 
             throw new ArgumentException("type not supported!");
         }
+
+
+        public ILoadBalancerFactory GetLoadBalancerFactory(BalancingOption option = BalancingOption.MinizeObjectCreation)
+        {
+            return new LoadBalancerFactory(option);
+        }
     }
 }

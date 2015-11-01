@@ -58,5 +58,14 @@ namespace EasyActor.Test
 
             res.Should().BeAssignableTo<SynchronizationContextFactory>();
         }
+
+
+        [Test]
+        public void GetFactory_LoadBalancerFactory_Return_LoadBalancerFactory()
+        {
+            var res = _ActorFactoryBuilder.GetLoadBalancerFactory();
+
+            res.Should().BeOfType<LoadBalancerFactory>();
+        }
     }
 }

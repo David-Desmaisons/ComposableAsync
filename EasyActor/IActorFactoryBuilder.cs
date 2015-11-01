@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 namespace EasyActor
 {
     /// <summary>
-    /// IActorFactory factory
+    /// IActorFactory and ILoadBalancerFactory factory
     /// </summary>
     public interface IActorFactoryBuilder
     {
         /// <summary>
-        ///  Returns an actor factory corresponding to the ActorFactorType
+        ///  Returns an actor factory corresponding to the given ActorFactorType
         /// </summary>
-        IActorFactory GetFactory(ActorFactorType type, Priority priority = Priority.Normal);
+        IActorFactory GetFactory(ActorFactorType type = ActorFactorType.Standard, Priority priority = Priority.Normal);
+
+        /// <summary>
+        ///  Returns an load balancer factory corresponding to the given BalancingOption
+        /// </summary>
+        ILoadBalancerFactory GetLoadBalancerFactory(BalancingOption option = BalancingOption.MinizeObjectCreation);
     }
 }
