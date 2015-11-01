@@ -183,7 +183,7 @@ Comparaison with other frameworks
 Code coverage
 -------------
 
-99.20%
+100%
 
 How it works
 ------------

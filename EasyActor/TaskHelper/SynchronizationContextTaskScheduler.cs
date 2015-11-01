@@ -46,6 +46,11 @@ namespace EasyActor.TaskHelper
             return null;
         }
 
+        public IEnumerable<Task> GetScheduledTasksEnumerable()
+        {
+            return GetScheduledTasks();
+        }
+
         public override Int32 MaximumConcurrencyLevel
         {
             get { return 1; }

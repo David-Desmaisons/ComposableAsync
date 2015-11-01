@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using EasyActor.TaskHelper;
+using System.Diagnostics;
 
 
 namespace EasyActor.Queue
@@ -19,6 +20,7 @@ namespace EasyActor.Queue
         private Thread _Current;
         private CancellationTokenSource _CTS;
         private AsyncActionWorkItem _Clean;
+        private bool _Running = false;
 
         public MonoThreadedQueue(Priority iPriority = Priority.Normal)
         {
@@ -31,6 +33,11 @@ namespace EasyActor.Queue
                 Name = string.Format("MonoThreadedQueue-{0}", _Count++)
             };
             _Current.Start();
+        }
+
+        public int EnqueuedTasksNumber
+        {
+            get { return _TaskQueue.Count + (_Running ? 1 : 0); }
         }
 
         public void Send(Action action)
@@ -131,7 +138,9 @@ namespace EasyActor.Queue
             {
                 foreach (var action in _TaskQueue.GetConsumingEnumerable(_CTS.Token))
                 {
+                    _Running = true;
                     action.Do();
+                    _Running = false;
                 }
             }
             catch (OperationCanceledException)
@@ -139,7 +148,9 @@ namespace EasyActor.Queue
                 _TaskQueue.CompleteAdding();
                 foreach (var action in _TaskQueue.GetConsumingEnumerable())
                 {
+                    _Running = true;
                     action.Cancel();
+                    _Running = false;
                 }
             }
             _TaskQueue.Dispose();

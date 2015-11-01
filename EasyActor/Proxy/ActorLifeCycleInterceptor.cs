@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using EasyActor.TaskHelper;
 using System.Reflection;
 using EasyActor.Queue;
+using System.Diagnostics;
 
 namespace EasyActor
 {
@@ -25,6 +26,7 @@ namespace EasyActor
             _IAsyncDisposable = iAsyncDisposable;
         }
 
+        [DebuggerNonUserCode]
         public void Intercept(IInvocation invocation)
         {
             var method = invocation.Method;

@@ -14,6 +14,8 @@ namespace EasyActor.Factories
         private static readonly ProxyGenerator _Generator;
         private static readonly Dictionary<object, SynchronizationContext> _SynchronizationContext = new Dictionary<object, SynchronizationContext>();
 
+        internal static ProxyGenerator Generator {get {return _Generator;}}
+
         static ActorFactoryBase()
         {
             _Generator = new ProxyGenerator();

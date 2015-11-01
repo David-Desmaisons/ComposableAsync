@@ -35,6 +35,19 @@ namespace EasyActor.Test.TaskHelper
             target.MaximumConcurrencyLevel.Should().Be(1);
         }
 
+
+         [Test]
+        public void GetScheduledTasksEnumerable_Should_Be_Null()
+        {
+            //Arrange
+            var synContext = Substitute.For<SynchronizationContext>();
+            var target = new SynchronizationContextTaskScheduler(synContext);
+
+            //Assert
+            target.GetScheduledTasksEnumerable().Should().BeNull();
+        }
+
+
         private SynchronizationContext BuildSynchronizationContext()
         {
             var synContext = Substitute.For<SynchronizationContext>();

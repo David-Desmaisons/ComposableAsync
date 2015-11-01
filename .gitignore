@@ -191,3 +191,6 @@ ModelManifest.xml
 /.nuget/packages.config
 *.ncrunchproject
 *.ncrunchsolution
+
+/.nunit
+*.nunit

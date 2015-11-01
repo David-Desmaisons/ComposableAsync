@@ -19,6 +19,8 @@ namespace EasyActor.Test
 
         Task<int> ComputeAsync(int value);
 
+        Task<decimal> ComputeAndWaitAsync(decimal value);
+
         Task<Tuple<Thread, Thread>> DoAnRedoAsync();
 
         void Do();
@@ -30,7 +32,16 @@ namespace EasyActor.Test
         public Class()
         {
             CallingConstructorThread = Thread.CurrentThread;
+            Count++;
         }
+
+        public static void ResetCount()
+        {
+            Count=0;
+        }
+
+        public static int Count { get; private set; }
+
         public Thread CallingThread { get; private set; }
 
         public Thread CallingConstructorThread { get; private set; }
@@ -71,6 +82,7 @@ namespace EasyActor.Test
         {
             CallingThread = Thread.CurrentThread;
             Thread.Sleep(1000);
+            Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
             Done = true;
             return TaskBuilder.Completed;
         }
@@ -82,6 +94,14 @@ namespace EasyActor.Test
             Thread.Sleep(1000);
             Done = true;
             return Task.FromResult<int>(value);
+        }
+
+        public Task<decimal> ComputeAndWaitAsync(decimal value)
+        {
+            CallingThread = Thread.CurrentThread;
+            Thread.Sleep( TimeSpan.FromMilliseconds((double)(value * 1000)));
+            Done = true;
+            return Task.FromResult<decimal>(value);
         }
     }
 

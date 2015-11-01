@@ -68,6 +68,7 @@
     <Compile Include="ActorContextTest.cs" />
     <Compile Include="ActorFactoryBuilderTest.cs" />
     <Compile Include="ActorFactoryTest.cs" />
+    <Compile Include="LoaderBalancerFactoryTest.cs" />
     <Compile Include="Queue\DispatcherSynchronizationContextTest.cs" />
     <Compile Include="TaskHelper\SynchronizationContextTaskSchedulerTest.cs" />
     <Compile Include="TestInfra\DummyClass\Class.cs" />

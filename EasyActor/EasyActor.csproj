@@ -45,9 +45,13 @@
     <Compile Include="ActorContext.cs" />
     <Compile Include="ActorFactorType.cs" />
     <Compile Include="ActorFactoryBuilder.cs" />
+    <Compile Include="BalancingOption.cs" />
     <Compile Include="Factories\ActorFactoryBase.cs" />
     <Compile Include="IActorContext.cs" />
     <Compile Include="IActorFactoryBuilder.cs" />
+    <Compile Include="ILoaderBalancerFactory.cs" />
+    <Compile Include="LoaderBalancerFactory.cs" />
+    <Compile Include="Proxy\LoadBalanderInterceptor.cs" />
     <Compile Include="Queue\ITaskQueue.cs" />
     <Compile Include="Queue\SynchronizationContextQueue.cs" />
     <Compile Include="SharedThreadActorFactory.cs" />
