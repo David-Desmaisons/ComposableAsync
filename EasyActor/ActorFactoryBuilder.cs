@@ -26,9 +26,9 @@ namespace EasyActor
         }
 
 
-        public ILoadBalancerFactory GetLoadBalancerFactory(BalancingOption option = BalancingOption.MinizeObjectCreation)
+        public ILoadBalancerFactory GetLoadBalancerFactory(BalancingOption option = BalancingOption.MinizeObjectCreation, Priority priority = Priority.Normal)
         {
-            return new LoadBalancerFactory(option);
+            return new LoadBalancerFactory(option, priority);
         }
     }
 }
