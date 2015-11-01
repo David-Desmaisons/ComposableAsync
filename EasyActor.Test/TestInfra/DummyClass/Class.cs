@@ -29,20 +29,29 @@ namespace EasyActor.Test
     }
     public class Class : Interface
     {
+        private static List<Class> _Objects = new List<Class>();
+
         public Class()
         {
             CallingConstructorThread = Thread.CurrentThread;
-            Count++;
+            _Objects.Add(this);
+        }
+
+        public static IEnumerable<Class> GetObjects()
+        {
+            return _Objects;
         }
 
         public static void ResetCount()
         {
-            Count=0;
+            _Objects.Clear();
         }
 
-        public static int Count { get; private set; }
+        public static int Count { get { return _Objects.Count; } }
 
         public int DoAsyncCount { get; private set; }
+
+        public int SlowDoAsyncCount { get; private set; }
 
         public Thread CallingThread { get; private set; }
 
@@ -83,6 +92,7 @@ namespace EasyActor.Test
 
         public Task SlowDoAsync()
         {
+            SlowDoAsyncCount++;
             CallingThread = Thread.CurrentThread;
             Thread.Sleep(1000);
             Console.WriteLine(Thread.CurrentThread.ManagedThreadId);

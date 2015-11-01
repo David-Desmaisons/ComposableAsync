@@ -8,6 +8,7 @@ namespace EasyActor
     public enum BalancingOption
     {
         PreferParralelism,
+
         MinizeObjectCreation
     }
 }

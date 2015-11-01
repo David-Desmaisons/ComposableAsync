@@ -201,6 +201,15 @@ namespace EasyActor.Test
             treads.ForEach(t => t.Join());
 
             Class.Count.Should().Be(5);
+
+            int j = 0;
+            foreach(var ob in Class.GetObjects())
+            {
+                Console.WriteLine("actor {0}: {1}",j++,ob.SlowDoAsyncCount);
+            }
+
+            Class.GetObjects().Select(o => o.SlowDoAsyncCount).Max().Should().BeLessOrEqualTo(21);
+            Class.GetObjects().Select(o => o.SlowDoAsyncCount).Max().Should().BeGreaterOrEqualTo(19);
         }
 
         private void Start(Interface dummy)

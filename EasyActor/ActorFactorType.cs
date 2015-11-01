@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace EasyActor
 {
     /// <summary>
-    ///  Returns the type of the factory.
+    ///  Type of actor factory.
     /// </summary>
     public enum ActorFactorType
     {
@@ -17,7 +17,7 @@ namespace EasyActor
         Standard,
 
         /// <summary>
-        /// Shared factory, all created actors sahre teh same thread.
+        /// Shared factory, all created actors share the same thread.
         /// </summary>
         Shared,
 
