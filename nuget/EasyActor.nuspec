@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>EasyActor</id>
+        <version></version>
+        <authors>David Desmaisons</authors>
+        <owners>DavidDesmaisons</owners>
+        <licenseUrl>https://github.com/David-Desmaisons/EasyActor/blob/master/LICENSE</licenseUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>EasyActor provide a factory allowing the transformation of POCO in actor that are then seen trougth an interface. Actor guarantees that all calls to the actor interface will occur in a separated thread, sequencially.
+
+In order to work, The target interface should only expose methods returning Task or Task. If this not the case, an exception will be raised at runtime when calling a none compliant method. Make also sure that all method parameters and return values are immutable to avoid concurrency problems.</description>
+        <summary>EasyActor is a lightweight, fast, easy to use framework to transform POCO in actors.</summary>
+        <tags>Actor Model, Actor, Task, Threading, TPL</tags>
+        <dependencies>
+            <dependency id="Castle.Core" version="3.3.3" />
+        </dependencies>
+    </metadata>
+</package>
