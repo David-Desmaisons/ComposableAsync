@@ -48,13 +48,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EasyActor.Examples\EasyActor.Examples.csproj">
-      <Project>{7cac3d8a-e284-4ebd-8386-f1bc17e3c9f0}</Project>
-      <Name>EasyActor.Examples</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EasyActor\EasyActor.csproj">
+    <ProjectReference Include="..\..\EasyActor\EasyActor.csproj">
       <Project>{487faea3-4503-4e5b-b10b-48b689dbf174}</Project>
       <Name>EasyActor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Examples\EasyActor.Examples.csproj">
+      <Project>{7cac3d8a-e284-4ebd-8386-f1bc17e3c9f0}</Project>
+      <Name>EasyActor.Examples</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

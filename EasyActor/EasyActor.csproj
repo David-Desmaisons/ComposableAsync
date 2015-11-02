@@ -43,20 +43,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorContext.cs" />
-    <Compile Include="ActorFactorType.cs" />
+    <Compile Include="Options\ActorFactorType.cs" />
     <Compile Include="ActorFactoryBuilder.cs" />
-    <Compile Include="BalancingOption.cs" />
+    <Compile Include="Options\BalancingOption.cs" />
     <Compile Include="Collections\Collection.cs" />
     <Compile Include="Factories\ActorFactoryBase.cs" />
     <Compile Include="IActorContext.cs" />
     <Compile Include="IActorFactoryBuilder.cs" />
     <Compile Include="ILoaderBalancerFactory.cs" />
-    <Compile Include="LoaderBalancerFactory.cs" />
+    <Compile Include="Factories\LoaderBalancerFactory.cs" />
     <Compile Include="Proxy\LoadBalanderInterceptor.cs" />
     <Compile Include="Queue\ITaskQueue.cs" />
     <Compile Include="Queue\SynchronizationContextQueue.cs" />
-    <Compile Include="SharedThreadActorFactory.cs" />
-    <Compile Include="ActorFactory.cs" />
+    <Compile Include="Factories\SharedThreadActorFactory.cs" />
+    <Compile Include="Factories\ActorFactory.cs" />
     <Compile Include="IActorFactory.cs" />
     <Compile Include="IActorLifeCycle.cs" />
     <Compile Include="IAsyncDisposable.cs" />
@@ -64,13 +64,13 @@
     <Compile Include="Proxy\IInvocationExtension.cs" />
     <Compile Include="Proxy\QueueDispatcherInterceptor.cs" />
     <Compile Include="Queue\MonoThreadedQueue.cs" />
-    <Compile Include="Priority.cs" />
+    <Compile Include="Options\Priority.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queue\IWorkItem.cs" />
     <Compile Include="Queue\MonoThreadSynchronizationContext.cs" />
     <Compile Include="Queue\AsyncWorkItem.cs" />
     <Compile Include="Queue\WorkItem.cs" />
-    <Compile Include="SynchronizationContextFactory.cs" />
+    <Compile Include="Factories\SynchronizationContextFactory.cs" />
     <Compile Include="TaskHelper\SynchronizationContextTaskScheduler.cs" />
     <Compile Include="TaskHelper\TaskDescription.cs" />
     <Compile Include="TaskHelper\TaskBuilder.cs" />
