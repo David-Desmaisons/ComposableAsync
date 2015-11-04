@@ -73,7 +73,7 @@ namespace EasyActor.Queue
             }
             catch(Exception)
             {
-                return TaskBuilder.GetCancelled<T>();
+                return TaskBuilder<T>.Cancelled;
             }
         }
 
@@ -87,7 +87,7 @@ namespace EasyActor.Queue
             }
             catch (Exception)
             {
-                return TaskBuilder.GetCancelled<T>();
+                return TaskBuilder<T>.Cancelled;
             } 
         }
 

@@ -26,7 +26,7 @@ namespace EasyActor.Test.TaskHelper
         [Test]
         public void Cancelled_T_Should_Be_Cancelled()
         {
-            var target = TaskBuilder.GetCancelled<int>();
+            var target = TaskBuilder<int>.Cancelled;
 
             target.IsCanceled.Should().BeTrue();
         }
