@@ -84,11 +84,36 @@ namespace EasyActor.PipelineTest
         {
             Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
             var finaliser1 = PipeLine.Create<int>(i => Console.WriteLine("{0} {1}", Thread.CurrentThread.ManagedThreadId, i));
-   
-            var pip1 = PipeLine.Create<int, int>(i => i * 3).Next(finaliser1);
-            var pip2 = PipeLine.Create<int, int>(i => i * 5).Next(finaliser1);
+
+            Func<int, int> M3 = i => { Console.WriteLine("M3 {0}",Thread.CurrentThread.ManagedThreadId); return i * 3; };
+            Func<int, int> M5 = i => { Console.WriteLine("M5 {0}",Thread.CurrentThread.ManagedThreadId); return i * 5; };
+
+            var pip1 = PipeLine.Create<int, int>(M3).Next(finaliser1);
+            var pip2 = PipeLine.Create<int, int>(M5).Next(finaliser1);
 
             await PipeLine.Create<int, int>(a => a * 2).Next(pip1, pip2).Consume(1);
+            await PipeLine.Create<int, int>(a => a * 2).Next(pip1, pip2).Consume(10);
+        }
+
+        //                     ___ i => i * 3_(5)__ 
+        //                    /                    \
+        //      a => a * 2 ---                      ------>Console.WriteLine("{0} {1}")
+        //                    \___ i => i * 5 _____/
+        [Test]
+        public async Task Composition8()
+        {
+            Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+            var finaliser1 = PipeLine.Create<int>(i => Console.WriteLine("{0} {1}", Thread.CurrentThread.ManagedThreadId, i));
+
+            Func<int, int> M3 = i => { Thread.Sleep(500); Console.WriteLine("M3 {0}", Thread.CurrentThread.ManagedThreadId); return i * 3; };
+            Func<int, int> M5 = i => { Console.WriteLine("M5 {0}", Thread.CurrentThread.ManagedThreadId); return i * 5; };
+
+            var pip1 = PipeLine.Create<int, int>(M3,5).Next(finaliser1);
+            var pip2 = PipeLine.Create<int, int>(M5).Next(finaliser1);
+
+            var pipe = PipeLine.Create<int, int>(a => a * 2).Next(pip1, pip2);
+
+            await Task.WhenAll( Enumerable.Range(0,100).Select(i => pipe.Consume(i)) );
         }
     }
 }

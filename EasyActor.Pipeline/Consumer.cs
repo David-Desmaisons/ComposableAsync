@@ -10,7 +10,12 @@ namespace EasyActor.Pipeline
     {
         public static IConsumer<T> Create<T>(Action<T> consum)
         {
-            return ActorBuilder.Factory.Build<IConsumer<T>>(new Consumer<T>(consum));
+            return ActorBuilder.ActorFactory.Build<IConsumer<T>>(new Consumer<T>(consum));
+        }
+
+        public static IConsumer<T> Create<T>(Action<T> consum, int MaxParallelism)
+        {
+            return ActorBuilder.LoadBalancer.Build<IConsumer<T>>(() => new Consumer<T>(consum), MaxParallelism);
         }
     }
 }

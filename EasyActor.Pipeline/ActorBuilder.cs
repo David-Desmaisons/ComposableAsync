@@ -9,12 +9,18 @@ namespace EasyActor.Pipeline
 {
     public static class ActorBuilder
     {
-        private static Lazy<IActorFactory> _ActorFactory = new Lazy<IActorFactory>(() => new ActorFactory(), true);
+        private static Lazy<IActorFactoryBuilder> _ActorFactoryBuilder = new Lazy<IActorFactoryBuilder>(() => new ActorFactoryBuilder(), true);
+        private static Lazy<IActorFactory> _ActorFactory = new Lazy<IActorFactory>(() => _ActorFactoryBuilder.Value.GetFactory(), true);
+        private static Lazy<ILoadBalancerFactory> _LoadBalancer = new Lazy<ILoadBalancerFactory>(() => _ActorFactoryBuilder.Value.GetLoadBalancerFactory(), true);
 
-
-        public static  IActorFactory Factory
+        public static  IActorFactory ActorFactory
         {
-            get { return _ActorFactory.Value; }
+            get { return _ActorFactory.Value; ; }
+        }
+
+        public static ILoadBalancerFactory LoadBalancer
+        {
+            get { return _LoadBalancer.Value; }
         }
     }
 }
