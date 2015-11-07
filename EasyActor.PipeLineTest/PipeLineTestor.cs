@@ -6,12 +6,40 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using EasyActor.Pipeline;
 using System.Threading;
+using EasyActor.PipeLineTest.Infra;
+using FluentAssertions;
 
 namespace EasyActor.PipelineTest
 {
     [TestFixture]
     public class PipeLineTestor
     {
+        private TestFunction<int, int>  _Func;
+        private TestAction<int> _Act;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _Func = new TestFunction<int, int>(a => a * 5);
+            _Act = new TestAction<int>();
+        }
+
+        [Test]
+        [TestCase(0, 0)]
+        [TestCase(2,10)]
+        [TestCase(1, 5)]
+        public async Task Should_Compute_Result_OK(int iin, int iout)
+        {
+            var current = Thread.CurrentThread;
+            var pip = PipeLine.Create<int, int>(_Func.Function).Next(_Act.Action);
+            await pip.Consume(iin);
+
+            _Func.LastOut.Should().Be(iout);
+            _Func.CallingThread.Should().NotBe(current);
+        }
+
+
+
         [Test]
         public async Task Composition()
         {
