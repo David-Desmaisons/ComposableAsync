@@ -8,6 +8,7 @@ using EasyActor.Pipeline;
 using System.Threading;
 using EasyActor.PipeLineTest.Infra;
 using FluentAssertions;
+using System.Reactive.Linq;
 
 namespace EasyActor.PipeLineTest
 {
@@ -17,8 +18,10 @@ namespace EasyActor.PipeLineTest
         private TestFunction<int, int>  _Func;
         private TestFunction<int, int> _Func2;
         private TestFunction<int, int> _Func3;
+        private TestFunction<int, int> _Func4;
         private TestAction<int> _Act;
         private TestAction<int> _Act2;
+        private TestAction<int> _Act3;
 
         [SetUp]
         public void SetUp()
@@ -26,8 +29,10 @@ namespace EasyActor.PipeLineTest
             _Func = new TestFunction<int, int>(a => a * 5);
             _Func2 = new TestFunction<int, int>(a => a - 2);
             _Func3 = new TestFunction<int, int>(a => a + 2);
+            _Func4 = new TestFunction<int, int>(a => { Thread.Sleep(300); return a * 3; });
             _Act = new TestAction<int>();
             _Act2 = new TestAction<int>();
+            _Act3 = new TestAction<int>(a => { Thread.Sleep(300); });
         }
 
         [Test]
@@ -149,6 +154,90 @@ namespace EasyActor.PipeLineTest
             _Act.CallingThread.Should().NotBe(current);
             _Act.CallingThread.Should().NotBe(_Func.CallingThread);
             _Act.CallingThread.Should().NotBe(_Func2.CallingThread);
+        }
+
+        [Test]
+        public async Task Create_With_Paralelism_Parameter_Should_Compute_Result_OK()
+        {
+            var current = Thread.CurrentThread;
+
+            var pipe = PipeLine.Create<int, int>(_Func4.Function, 5).Next(_Act.Action);
+
+            await Task.WhenAll(Enumerable.Range(0, 100).Select(i => pipe.Consume(i)));
+
+            _Act.Threads.Count.Should().Be(1);
+            _Act.CallingThread.Should().NotBe(current);
+  
+            _Func4.Threads.Count.Should().Be(5);
+            _Func4.Threads.Should().NotContain(_Act.CallingThread);
+            _Func4.Threads.Should().NotContain(current);
+        }
+
+        [Test]
+        public async Task Next_With_Paralelism_Parameter_Should_Compute_Result_OK()
+        {
+            var current = Thread.CurrentThread;
+
+            var pipe = PipeLine.Create<int, int>(i=>i).Next(_Func4.Function, 5).Next(_Act.Action);
+
+            await Task.WhenAll(Enumerable.Range(0, 100).Select(i => pipe.Consume(i)));
+
+            _Act.Threads.Count.Should().Be(1);
+            _Act.CallingThread.Should().NotBe(current);
+
+            _Func4.Threads.Count.Should().Be(5);
+            _Func4.Threads.Should().NotContain(_Act.CallingThread);
+            _Func4.Threads.Should().NotContain(current);
+        }
+
+        [Test]
+        public async Task Next_Action_With_Paralelism_Parameter_Should_Compute_Result_OK()
+        {
+            var current = Thread.CurrentThread;
+
+            var pipe = PipeLine.Create<int, int>(_Func3.Function).Next(_Act3.Action, 5);
+
+            await Task.WhenAll(Enumerable.Range(0, 100).Select(i => pipe.Consume(i)));
+
+
+            _Func3.Threads.Count.Should().Be(1);
+            _Func3.CallingThread.Should().NotBe(current);
+
+            _Act3.Threads.Count.Should().Be(5);
+            _Act3.Threads.Should().NotContain(_Func4.CallingThread);
+            _Act3.Threads.Should().NotContain(current);
+        }
+
+        [Test]
+        public async Task Create_Action_With_Paralelism_Parameter_Should_Compute_Result_OK()
+        {
+            var current = Thread.CurrentThread;
+
+            var pipe = PipeLine.Create<int>(_Act3.Action, 5);
+
+            await Task.WhenAll(Enumerable.Range(0, 100).Select(i => pipe.Consume(i)));
+
+            _Act3.Threads.Count.Should().Be(5);
+            _Act3.Threads.Should().NotContain(_Func4.CallingThread);
+            _Act3.Threads.Should().NotContain(current);
+        }
+
+        [Test]
+        public void Connect_Should_Compute_Result_OK()
+        {
+            var current = Thread.CurrentThread;
+
+            var pipe = PipeLine.Create<int,int>(_Func.Function).Next(_Act.Action);
+
+            var obs = Observable.Range(0, 100);
+            var res = Enumerable.Range(0,100).Select(_Func.Function);
+
+            var disp = pipe.Connect(obs);
+
+            _Act.Threads.Count.Should().Be(1);
+            _Act.Results.Should().BeEquivalentTo(res);
+
+            disp.Dispose();
         }
       
     }

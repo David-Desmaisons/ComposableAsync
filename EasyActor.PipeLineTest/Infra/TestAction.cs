@@ -10,6 +10,7 @@ namespace EasyActor.PipeLineTest.Infra
     internal class TestAction<T>
     {
         private Action<T> _Trans;
+        private List<T> _Result = new List<T>();
         internal TestAction(Action<T> trans=null)
         {
             _Trans = trans;
@@ -22,6 +23,8 @@ namespace EasyActor.PipeLineTest.Infra
 
         internal T LastIn { get; private set; }
 
+        internal IEnumerable<T> Results { get { return _Result; } }
+
         internal Action<T> Action
         {
             get
@@ -29,6 +32,7 @@ namespace EasyActor.PipeLineTest.Infra
                 return t =>
                     {
                         LastIn = t;
+                        _Result.Add(t);
                         CallingThread = Thread.CurrentThread;
                         Threads.Add(CallingThread);
                         if (_Trans!=null) _Trans(t);
