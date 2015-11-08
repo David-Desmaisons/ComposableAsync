@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Examples.cs" />
     <Compile Include="Infra\TestFunction.cs" />
     <Compile Include="Infra\TestAction.cs" />
     <Compile Include="PipeLineTestor.cs" />

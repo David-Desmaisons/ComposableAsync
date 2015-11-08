@@ -13,7 +13,10 @@ namespace EasyActor.PipeLineTest.Infra
         internal TestFunction(Func<Tin, Tout> trans)
         {
             _Trans = trans;
+            Threads = new HashSet<Thread>();
         }
+
+        internal HashSet<Thread> Threads { get; private set; }
 
         internal Thread CallingThread { get; private set; }
 
@@ -29,6 +32,7 @@ namespace EasyActor.PipeLineTest.Infra
                     {
                         LastIn = t;
                         CallingThread = Thread.CurrentThread;
+                        Threads.Add(CallingThread);
                         return LastOut = _Trans(t);
                     };
             }
