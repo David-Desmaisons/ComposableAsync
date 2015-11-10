@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EasyActor
@@ -14,9 +15,9 @@ namespace EasyActor
         private ActorFactory _ActorFactory;
         private BalancingOption _BalancingOption;
 
-        public LoadBalancerFactory(BalancingOption option = BalancingOption.MinizeObjectCreation, Priority priority = Priority.Normal)
+        public LoadBalancerFactory(BalancingOption option = BalancingOption.MinizeObjectCreation, Action<Thread> onCreate = null)
         {
-            _ActorFactory = new ActorFactory(priority);
+            _ActorFactory = new ActorFactory(onCreate);
             _BalancingOption = option;
         }
 

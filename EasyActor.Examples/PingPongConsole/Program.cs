@@ -19,7 +19,7 @@ namespace PingPongConsole
 
         static async Task MainAsync(string[] args)
         {
-            await new PingPong(Priority.Normal).Test(); 
+            await new PingPong(ThreadPriority.Normal).Test(); 
          
             Console.ReadLine();
         }

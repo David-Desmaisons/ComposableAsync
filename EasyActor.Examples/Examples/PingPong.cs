@@ -18,13 +18,14 @@ namespace EasyActor.Examples
     [TestFixture]
     public class PingPong
     {
-        public PingPong():this(Priority.Highest)
+        public PingPong()
+            : this(ThreadPriority.Highest)
         {
 
         }
 
-        private Priority _Priority;
-        public PingPong(Priority priority)
+        private ThreadPriority _Priority;
+        public PingPong(ThreadPriority priority)
         {
             _Priority = priority;
         }
@@ -32,7 +33,7 @@ namespace EasyActor.Examples
         [Test]
         public async Task Test()
         {
-            var fact = new ActorFactory(_Priority);
+            var fact = new ActorFactory(t=>t.Priority=_Priority);
 
             var One = new PingPonger("Bjorg");
             IPingPonger Actor1 = fact.Build<IPingPonger>(One);

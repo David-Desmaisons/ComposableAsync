@@ -262,7 +262,7 @@ namespace EasyActor.Test
             Task newTask = null;
 
             //arrange
-            using (var target = new MonoThreadedQueue(Priority.Highest))
+            using (var target = new MonoThreadedQueue(t => t.Priority=ThreadPriority.Highest))
             {
                 newTask =  target.Enqueue(() => TaskFactory(3));
 
@@ -286,7 +286,7 @@ namespace EasyActor.Test
             Task newTask = null, notstarted = null;
 
             //arrange
-            using (var target = new MonoThreadedQueue(Priority.Highest))
+            using (var target = new MonoThreadedQueue(t => t.Priority = ThreadPriority.Highest))
             {
                 newTask = target.Enqueue(() => TaskFactory(3));
 
@@ -326,7 +326,7 @@ namespace EasyActor.Test
             bool Done = false;
 
             //arrange
-            using (var target = new MonoThreadedQueue(Priority.Highest))
+            using (var target = new MonoThreadedQueue(t=>t.Priority=ThreadPriority.Highest))
             {
                 newTask = target.Enqueue(() => TaskFactory(3));
 

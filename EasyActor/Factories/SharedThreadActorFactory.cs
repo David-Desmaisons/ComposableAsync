@@ -9,20 +9,19 @@ using Castle.DynamicProxy;
 
 using EasyActor.Factories;
 using EasyActor.Queue;
+using System.Threading;
 
 
 namespace EasyActor
 {
     public class SharedThreadActorFactory : ActorFactoryBase, IActorFactory, IActorLifeCycle
     {
-        private Priority _Priority;
         private MonoThreadedQueue _Queue;
         private ConcurrentQueue<IAsyncDisposable> _Disposable;
 
-        public SharedThreadActorFactory(Priority priority = Priority.Normal)
+        public SharedThreadActorFactory(Action<Thread> onCreated = null)
         {
-            _Queue = new MonoThreadedQueue(priority);
-            _Priority = priority;
+            _Queue = new MonoThreadedQueue(onCreated);
             _Disposable = new ConcurrentQueue<IAsyncDisposable>();
         }
 

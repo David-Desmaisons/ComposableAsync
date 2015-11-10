@@ -18,7 +18,7 @@ namespace EasyActor.Test
         [SetUp]
         public void SetUp()
         {
-            _Queue = new MonoThreadedQueue(Priority.Highest);
+            _Queue = new MonoThreadedQueue(t => t.Priority = ThreadPriority.Highest);
             _Dispatcher = new  MonoThreadedQueueSynchronizationContext(_Queue);
         }
 

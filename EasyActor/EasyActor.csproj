@@ -64,7 +64,6 @@
     <Compile Include="Proxy\IInvocationExtension.cs" />
     <Compile Include="Proxy\QueueDispatcherInterceptor.cs" />
     <Compile Include="Queue\MonoThreadedQueue.cs" />
-    <Compile Include="Options\Priority.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queue\IWorkItem.cs" />
     <Compile Include="Queue\MonoThreadSynchronizationContext.cs" />

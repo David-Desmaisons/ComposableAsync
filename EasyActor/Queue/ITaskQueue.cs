@@ -6,7 +6,6 @@ namespace EasyActor
 {
     public interface ITaskQueue
     {
-
         Task<T> Enqueue<T>(Func<T> action);
 
         Task Enqueue(Func<Task> action);

@@ -8,16 +8,17 @@ using Castle.DynamicProxy;
 
 using EasyActor.Queue;
 using EasyActor.Factories;
+using System.Threading;
 
 namespace EasyActor
 {
     public class ActorFactory : ActorFactoryBase, IActorFactory
     {
-        private Priority _Priority;
+        private Action<Thread> _OnCreate;
 
-        public ActorFactory(Priority priority = Priority.Normal)
+        public ActorFactory(Action<Thread> onCreate = null )
         {
-            _Priority = priority;
+            _OnCreate = onCreate;
         }
 
         public ActorFactorType Type
@@ -32,18 +33,18 @@ namespace EasyActor
 
         public T Build<T>(T concrete) where T : class
         {
-            return Build<T>(concrete, new MonoThreadedQueue(_Priority));
+            return Build<T>(concrete, new MonoThreadedQueue(_OnCreate));
         }
 
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
         {
-            var queue = new MonoThreadedQueue(_Priority);
+            var queue = new MonoThreadedQueue(_OnCreate);
             return queue.Enqueue( ()=> Build<T>(concrete(),queue) );
         }
 
         internal async Task<Tuple<T, MonoThreadedQueue>> InternalBuildAsync<T>(Func<T> concrete) where T : class
         {
-            var queue = new MonoThreadedQueue(_Priority);
+            var queue = new MonoThreadedQueue(_OnCreate);
             var actor = await queue.Enqueue(() => Build<T>(concrete(), queue));
             return new Tuple<T, MonoThreadedQueue>(actor, queue);
         }

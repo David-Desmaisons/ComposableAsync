@@ -22,16 +22,19 @@ namespace EasyActor.Queue
         private AsyncActionWorkItem _Clean;
         private bool _Running = false;
 
-        public MonoThreadedQueue(Priority iPriority = Priority.Normal)
+        public MonoThreadedQueue(Action<Thread> onCreate=null)
         {
             _CTS = new CancellationTokenSource();
 
             _Current = new Thread(Consume)
             {
                 IsBackground = true,
-                Priority = (ThreadPriority)iPriority,
                 Name = string.Format("MonoThreadedQueue-{0}", _Count++)
             };
+
+            if (onCreate != null)
+                onCreate(_Current);
+
             _Current.Start();
         }
 
