@@ -11,7 +11,7 @@ namespace EasyActor.Factories
     public class ActorFactoryBase
     {      
         private static readonly ProxyGenerator _Generator;
-        private static readonly Dictionary<object, SynchronizationContext> _SynchronizationContext = new Dictionary<object, SynchronizationContext>();
+        private static readonly Dictionary<object, TaskScheduler> _SynchronizationContext = new Dictionary<object, TaskScheduler>();
 
         internal static ProxyGenerator Generator {get {return _Generator;}}
         internal static Type IActorLifeCycleType = typeof(IActorLifeCycle);
@@ -21,16 +21,16 @@ namespace EasyActor.Factories
             _Generator = new ProxyGenerator();
         }
 
-        public static SynchronizationContext GetContextFromProxy(object Proxy)
+        public static TaskScheduler GetContextFromProxy(object Proxy)
         {
-            SynchronizationContext res = null;
+            TaskScheduler res = null;
             _SynchronizationContext.TryGetValue(Proxy, out res);
             return res;
         }
 
         private void Register<T>(T registered, ITaskQueue queue)
         {
-            _SynchronizationContext.Add(registered, queue.SynchronizationContext);
+            _SynchronizationContext.Add(registered, queue.TaskScheduler);
         }
 
         protected  T Create<T>(T concrete, ITaskQueue queue) where T : class

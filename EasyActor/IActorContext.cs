@@ -25,14 +25,14 @@ namespace EasyActor
 
 
         /// <summary>
-        /// Returns SynchronizationContext associated with corresponding proxified object. 
+        /// Returns TaskScheduler associated with corresponding proxified object. 
         /// </summary>        
         /// <param name="proxy">
         /// Proxy context.
         /// </param>        
         /// <returns>
-        /// The SynchronizationContext corresponding to proxy.
+        /// The TaskScheduler corresponding to proxy.
         /// </returns>
-        SynchronizationContext GetSynchronizationContext(object proxy);
+        TaskScheduler GetTaskScheduler(object proxy);
     }
 }

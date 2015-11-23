@@ -55,6 +55,7 @@
     <Compile Include="Proxy\LoadBalanderInterceptor.cs" />
     <Compile Include="Queue\ITaskQueue.cs" />
     <Compile Include="Queue\SynchronizationContextQueue.cs" />
+    <Compile Include="Queue\TaskSchedulerQueue.cs" />
     <Compile Include="Factories\SharedThreadActorFactory.cs" />
     <Compile Include="Factories\ActorFactory.cs" />
     <Compile Include="IActorFactory.cs" />

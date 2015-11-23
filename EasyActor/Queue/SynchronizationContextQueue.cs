@@ -1,4 +1,5 @@
 ﻿using EasyActor.Queue;
+using EasyActor.TaskHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,11 @@ namespace EasyActor
         public SynchronizationContext SynchronizationContext
         {
             get { return _Context; }
+        }
+
+        public TaskScheduler TaskScheduler
+        {
+            get { return new SynchronizationContextTaskScheduler(_Context); }
         }
     }
 }

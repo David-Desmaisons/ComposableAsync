@@ -15,7 +15,6 @@ namespace EasyActor.TaskHelper
     internal class SynchronizationContextTaskScheduler :  TaskScheduler
     {
         private SynchronizationContext m_synchronizationContext;
- 
      
         public SynchronizationContextTaskScheduler(SynchronizationContext synContext)
         {
@@ -26,6 +25,8 @@ namespace EasyActor.TaskHelper
  
             m_synchronizationContext = synContext;
         }
+
+        internal SynchronizationContext SynchronizationContext { get { return m_synchronizationContext; } }
  
         [SecurityCritical]
         protected override void QueueTask(Task task)

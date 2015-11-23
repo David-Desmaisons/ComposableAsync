@@ -174,5 +174,11 @@ namespace EasyActor.Queue
                 return _SynchronizationContext;
             }
         }
+
+
+        public TaskScheduler TaskScheduler
+        {
+            get { return new SynchronizationContextTaskScheduler(SynchronizationContext); }
+        }
     }
 }

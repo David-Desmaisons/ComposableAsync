@@ -99,33 +99,37 @@ namespace EasyActor.Test
 
 
         [Test]
-        public void GetSynchronizationContext_Should_Return_Null_With_A_None_Proxied_Object()
+        public void GetTaskScheduler_Should_Return_TaskScheduler_Default_With_A_None_Proxied_Object()
         {
             //arrange
             object random = new object();
 
             //act
-            var res = _ActorContext.GetSynchronizationContext(random);
+            var res = _ActorContext.GetTaskScheduler(random);
 
             //assert
-            res.Should().BeNull();
+            res.Should().NotBeNull();
+            res.Should().Be(TaskScheduler.Default);
         }
 
         [Test]
-        public async Task GetSynchronizationContext_Should_Return_SynchronizationContext_Compatible_With_Proxy_Thread_ActorFactory_Context()
+        public async Task GetTaskScheduler_Should_Return_SynchronizationContext_Compatible_With_Proxy_Thread_ActorFactory_Context()
         {
             //arrange
             await _Interface.DoAsync();
 
             //act
-            var res = _ActorContext.GetSynchronizationContext(_Proxified);
+            var res = _ActorContext.GetTaskScheduler(_Proxified);
 
             //assert
-            res.Should().BeAssignableTo<MonoThreadedQueueSynchronizationContext>();
+            res.Should().NotBeNull();
+            res.Should().BeOfType<SynchronizationContextTaskScheduler>();
+            var ressync = res as SynchronizationContextTaskScheduler;
+            ressync.SynchronizationContext.Should().BeAssignableTo<MonoThreadedQueueSynchronizationContext>();
         }
 
         [Test]
-        public void GetSynchronizationContext_Should_Return_SynchronizationContext_Compatible_With_Proxy_Thread_SynchronizationContextFactory_Context()
+        public void GetTaskScheduler_Should_Return_SynchronizationContext_Compatible_With_Proxy_Thread_SynchronizationContextFactory_Context()
         {
             //arrange
             var UIMessageLoop = new WPFThreadingHelper();
@@ -137,13 +141,15 @@ namespace EasyActor.Test
             _Interface = scf.Build<Interface>(_Proxified);
 
             //act
-            var res = _ActorContext.GetSynchronizationContext(_Proxified);
+            var res = _ActorContext.GetTaskScheduler(_Proxified);
             var uisc = UIMessageLoop.Dispatcher.Invoke(()=>  SynchronizationContext.Current);
          
 
             //assert
             res.Should().NotBeNull();
-            res.Should().BeOfType(uisc.GetType());
+            res.Should().BeOfType<SynchronizationContextTaskScheduler>();
+            var ressync = res as SynchronizationContextTaskScheduler;
+            ressync.SynchronizationContext.Should().BeOfType(uisc.GetType());
 
             UIMessageLoop.Stop();
         }
