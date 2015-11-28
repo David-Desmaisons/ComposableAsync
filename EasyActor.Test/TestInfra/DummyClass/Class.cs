@@ -76,7 +76,7 @@ namespace EasyActor.Test
             await Task.Run(() => { Thread.Sleep(1000); });
 
             Done = true;
-            return new Tuple<Thread, Thread>(one, Thread.CurrentThread);
+            return new Tuple<Thread, Thread>(one, CallingThread);
         }
 
 

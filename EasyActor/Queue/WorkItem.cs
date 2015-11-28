@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace EasyActor.Queue
 {
-
-
     internal class WorkItem<T> : IWorkItem
     {
         private TaskCompletionSource<T> _Source;
@@ -19,7 +17,6 @@ namespace EasyActor.Queue
             _Do = iDo;
             _Source = new TaskCompletionSource<T>();
         }
-
 
         public Task<T> Task
         {

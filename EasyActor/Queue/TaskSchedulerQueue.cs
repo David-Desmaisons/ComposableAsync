@@ -23,7 +23,6 @@ namespace EasyActor
             return _TaskFactory.StartNew(action);
         }
 
-
         public Task Enqueue(Func<Task> action)
         {
             var workItem = new AsyncActionWorkItem(action);
@@ -37,13 +36,6 @@ namespace EasyActor
             _TaskFactory.StartNew(() => workItem.Do());
             return workItem.Task;
         }
-
-
-        public SynchronizationContext SynchronizationContext
-        {
-            get { return null; }
-        }
-
 
         public TaskScheduler TaskScheduler
         {

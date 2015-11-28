@@ -44,12 +44,5 @@ namespace EasyActor
             var queue = GetQueue();
             return queue.Enqueue( ()=> Build<T>(concrete(),queue) );
         }
-
-        internal async Task<Tuple<T, ITaskQueue>> InternalBuildAsync<T>(Func<T> concrete) where T : class
-        {
-            var queue = GetQueue();
-            var actor = await queue.Enqueue(() => Build<T>(concrete(), queue));
-            return new Tuple<T, ITaskQueue>(actor, queue);
-        }
     }
 }

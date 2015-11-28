@@ -164,7 +164,7 @@ namespace EasyActor.Queue
 
 
         private SynchronizationContext _SynchronizationContext;
-        public SynchronizationContext SynchronizationContext
+        private SynchronizationContext SynchronizationContext
         {
             get 
             {

@@ -24,7 +24,6 @@ namespace EasyActor
             return workitem.Task;
         }
 
-
         public Task Enqueue(Func<Task> action)
         {
             var workitem = new AsyncActionWorkItem(action);
@@ -37,12 +36,6 @@ namespace EasyActor
             var workitem = new AsyncWorkItem<T>(action);
             _Context.Post(_ => workitem.Do(),null);
             return workitem.Task;
-        }
-
-
-        public SynchronizationContext SynchronizationContext
-        {
-            get { return _Context; }
         }
 
         public TaskScheduler TaskScheduler

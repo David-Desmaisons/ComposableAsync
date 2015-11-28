@@ -27,9 +27,6 @@ namespace EasyActor.Test
             _Factory.Type.Should().Be(ActorFactorType.Standard);
         }
 
-        
-
-
         [Test]
         public async Task Method_Should_Run_On_Separated_Thread()
         {
@@ -135,8 +132,6 @@ namespace EasyActor.Test
              target.CallingConstructorThread.Should().Be(target.CallingThread);
          }
 
-
-
          [Test]
          public void Actor_Should_Be_Implement_IActorLifeCycle_Even_If_Wrapped_Mot()
          {
@@ -153,12 +148,9 @@ namespace EasyActor.Test
              intface.Should().NotBeNull();
          }
 
-
-
          [Test]
          public async Task Actor_IActorLifeCycle_Stop_Should_Cancel_Actor_Thread()
-         {
-             
+         {          
              //arrange
              var clas = new Class();
              var intface = _Factory.Build<Interface>(clas);

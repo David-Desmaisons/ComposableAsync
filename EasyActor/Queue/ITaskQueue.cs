@@ -12,8 +12,6 @@ namespace EasyActor
 
         Task<T> Enqueue<T>(Func<Task<T>> action);
 
-        SynchronizationContext SynchronizationContext { get; }
-
         TaskScheduler TaskScheduler { get; }
     }
 }
