@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorContext.cs" />
+    <Compile Include="Factories\TaskPoolActorFactory.cs" />
     <Compile Include="Options\ActorFactorType.cs" />
     <Compile Include="ActorFactoryBuilder.cs" />
     <Compile Include="Options\BalancingOption.cs" />

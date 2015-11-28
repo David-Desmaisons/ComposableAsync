@@ -26,7 +26,6 @@ namespace EasyActor
 
         public void Intercept(IInvocation invocation)
         {
-
             var method =  invocation.Method;
 
             var td = method.ReturnType.GetTaskType();

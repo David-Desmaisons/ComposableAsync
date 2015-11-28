@@ -28,16 +28,9 @@ namespace EasyActor.Test
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetFactory_InvalidEnum_Throw_Exception()
-        {
-            var res = _ActorFactoryBuilder.GetFactory((ActorFactorType)10);
-        }
-
-        [Test]
         public void GetFactory_Shared_Return_SharedThreadActorFactory()
         {
-            var res = _ActorFactoryBuilder.GetFactory(ActorFactorType.Shared);
+            var res = _ActorFactoryBuilder.GetFactory(true);
 
             res.Should().BeAssignableTo<SharedThreadActorFactory>();
         }
@@ -45,16 +38,24 @@ namespace EasyActor.Test
         [Test]
         public void GetFactory_Standard_Return_ActorFactory()
         {
-            var res = _ActorFactoryBuilder.GetFactory(ActorFactorType.Standard);
+            var res = _ActorFactoryBuilder.GetFactory(false);
 
             res.Should().BeAssignableTo<ActorFactory>();
+        }
+
+        [Test]
+        public void GetTaskBasedFactory_Return_TaskPoolActorFactory()
+        {
+            var res = _ActorFactoryBuilder.GetTaskBasedFactory();
+
+            res.Should().BeAssignableTo<TaskPoolActorFactory>();
         }
 
         [Test]
         public void GetFactory_InCurrentContext_Return_SynchronizationContextFactory()
         {
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
-            var res = _ActorFactoryBuilder.GetFactory(ActorFactorType.InCurrentContext);
+            var res = _ActorFactoryBuilder.GetInContextFactory();
 
             res.Should().BeAssignableTo<SynchronizationContextFactory>();
         }

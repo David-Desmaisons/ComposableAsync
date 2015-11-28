@@ -7,48 +7,21 @@ using NUnit.Framework;
 using FluentAssertions;
 using System.Threading;
 using EasyActor.TaskHelper;
+using System.Collections;
 
 namespace EasyActor.Examples
 {
-
-    public interface IDoStuff
-    {
-        Task DoStuff();
-
-        Task<int> GetCount();
-    }
-
-    public class Stuffer : IDoStuff
-    {
-        private int _Count = 0;
-
-        //Thread unsafe code
-        public Task DoStuff()
-        {
-            var c = _Count;
-            Thread.Sleep(5);
-            _Count  = c + 1;
-            return TaskBuilder.Completed;
-        }
-
-        public Task<int> GetCount()
-        {
-            return  Task.FromResult<int>(_Count);
-        }
-    }
-
-
     [TestFixture]
     public class ConcurencyTest
     {
         private List<Thread> _Threads;
+        private int _ThreadCount = 1000;
         private IDoStuff _IActor;
-        private int _ThreadCount = 500;
 
         [SetUp]
         public void SetUp()
         {
-            _Threads = Enumerable.Range(0, _ThreadCount).Select(_ => new Thread(() => {TestActor().Wait();})).ToList();
+            _Threads = Enumerable.Range(0, _ThreadCount).Select(_ => new Thread(() => { Thread.Sleep(5); TestActor().Wait(); })).ToList();
         }
 
         [TearDown]
@@ -57,45 +30,71 @@ namespace EasyActor.Examples
             _Threads.ForEach(t => t.Abort());
         }
 
-
         private async Task TestActor()
         {
             await _IActor.DoStuff();
         }
 
-
-      
-        [Test]
-        public async Task NoActor_Should_Generate_Random_Output()
+        private class DataTestFactory
         {
-            //arrange
-            _IActor = new Stuffer();
 
-            //act
-            _Threads.ForEach(t => t.Start());
-            _Threads.ForEach(t => t.Join());
+            private static TestCaseData BuildTestData(IActorFactory factory, IDoStuff stuffer)
+            {
+                return new TestCaseData(factory.Build(stuffer), true).SetName(string.Format("{0} {1} Should Be Ok", factory, stuffer));
+            }
 
-            //assert
-            var res = await _IActor.GetCount();
-            res.Should().NotBe(_ThreadCount);
-           
+            private static IEnumerable<TestCaseData> GetOKTestData(IEnumerable<IActorFactory> factories, IEnumerable<Func<IDoStuff>> stuffers)
+            {
+                return factories.SelectMany(f => stuffers, (f, s) => BuildTestData(f,s()));
+            }
+
+            private static IEnumerable<IActorFactory> Factories 
+            {
+                get
+                {
+                    yield return new ActorFactory();
+                    yield return new TaskPoolActorFactory();
+                }
+            }
+
+            private static IEnumerable<Func<IDoStuff>> Stuffers
+            {
+                get
+                {
+                    yield return () => new StufferSleep();
+                    yield return () => new StufferAwait();
+                }
+            }
+
+            public static IEnumerable TestCases
+            {
+                get
+                {
+                    yield return new TestCaseData(new StufferSleep(), false).SetName("No actor Sleep Should be KO");
+                    yield return new TestCaseData(new StufferAwait(), false).SetName("No actor Await Should be KO");
+
+                    foreach (var td in GetOKTestData(Factories, Stuffers))
+                    {
+                        yield return td;
+                    }
+                }
+            }  
         }
 
-        [Test]
-        public async Task Actor_Should_Generate_Correct_Output()
+        [Test, TestCaseSource(typeof(DataTestFactory), "TestCases")]
+        public async Task NoActor_Should_Generate_Random_Output(IDoStuff stuffer, bool safe)
         {
-            //arrange
-            var fact = new ActorFactory();
-            _IActor = fact.Build<IDoStuff>( new Stuffer());
-
+            _IActor = stuffer;
             //act
             _Threads.ForEach(t => t.Start());
             _Threads.ForEach(t => t.Join());
 
             //assert
-            var res = await _IActor.GetCount();
-            res.Should().Be(_ThreadCount);
-
+            var res = await stuffer.GetCount();
+            if (safe)
+                res.Should().Be(_ThreadCount); 
+            else
+                res.Should().NotBe(_ThreadCount); 
         }
     }
 }

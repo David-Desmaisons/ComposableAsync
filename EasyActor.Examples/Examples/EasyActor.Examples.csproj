@@ -58,10 +58,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ConcurencyTest.cs" />
+    <Compile Include="IDoStuff.cs" />
     <Compile Include="IPingPonger.cs" />
     <Compile Include="PingPong.cs" />
     <Compile Include="PingPonger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StufferAwait.cs" />
+    <Compile Include="StufferSleep.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\EasyActor\EasyActor.csproj">

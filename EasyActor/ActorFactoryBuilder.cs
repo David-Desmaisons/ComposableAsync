@@ -9,23 +9,23 @@ namespace EasyActor
 {
     public class ActorFactoryBuilder : IActorFactoryBuilder
     {
-        public IActorFactory GetFactory(ActorFactorType type, Action<Thread> onCreate = null)
+        public IActorFactory GetFactory(bool Shared = false, Action<Thread> onCreate = null)
         {
-            switch (type)
-            {
-                case ActorFactorType.Shared:
-                    return new SharedThreadActorFactory(onCreate);
+            if (Shared)
+                return new SharedThreadActorFactory(onCreate);
 
-                case ActorFactorType.Standard:
-                    return new ActorFactory(onCreate);
-
-                case ActorFactorType.InCurrentContext:
-                    return new SynchronizationContextFactory();
-            }
-
-            throw new ArgumentException("type not supported!");
+            return new ActorFactory(onCreate);
         }
 
+        public IActorFactory GetInContextFactory()
+        {
+            return new SynchronizationContextFactory();
+        }
+
+        public IActorFactory GetTaskBasedFactory()
+        {
+            return new TaskPoolActorFactory();
+        }
 
         public ILoadBalancerFactory GetLoadBalancerFactory(BalancingOption option = BalancingOption.MinizeObjectCreation, Action<Thread> onCreate = null)
         {

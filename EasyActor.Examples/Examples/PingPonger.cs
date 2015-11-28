@@ -22,8 +22,7 @@ namespace EasyActor.Examples
 
         public Task Ping()
         {
-            //Console.WriteLine("{0} Ping from thread {1}",Name, Thread.CurrentThread.ManagedThreadId);
-            Count++;
+             Count++;
             if (Ponger != null)
                 Ponger.Ping();
             return TaskBuilder.Completed;

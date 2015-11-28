@@ -13,12 +13,25 @@ namespace EasyActor
     public interface IActorFactoryBuilder
     {
         /// <summary>
-        /// Returns an actor factory corresponding to the given ActorFactorType
+        /// Returns an actor factory 
+        /// <param name="Shared">
+        /// if true all the actors created by this factory will use the same thread. 
+        /// </param>
         /// <param name="onCreate">
         /// Delegate called on every new created thread. 
         /// </param>
         /// </summary>
-        IActorFactory GetFactory(ActorFactorType type = ActorFactorType.Standard, Action<Thread> onCreate = null);
+        IActorFactory GetFactory(bool Shared=false, Action<Thread> onCreate = null);
+
+        /// <summary>
+        /// Returns an actor factory corresponding to the given ActorFactorType
+        /// </summary>
+        IActorFactory GetTaskBasedFactory();       
+        
+        /// <summary>
+        /// Returns an actor factory corresponding to the current threading context
+        /// </summary>
+        IActorFactory GetInContextFactory();
 
         /// <summary>
         ///  Returns an load balancer factory corresponding to the given BalancingOption

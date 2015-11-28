@@ -16,6 +16,12 @@ namespace EasyActor
         /// </summary>
         Standard,
 
+
+        /// <summary>
+        /// Task Pool factory, actors will be executed sequencially on thread pool.
+        /// </summary>
+        TaskPool,
+
         /// <summary>
         /// Shared factory, all created actors share the same thread.
         /// </summary>
