@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace EasyActor.Queue
 {
-    public class MonoThreadedQueue : IDisposable, ITaskQueue
+    public class MonoThreadedQueue : IDisposable, IAbortableTaskQueue
     {
         private static int _Count = 0;
 

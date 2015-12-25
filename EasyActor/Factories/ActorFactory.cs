@@ -26,7 +26,9 @@ namespace EasyActor
 
         private T Build<T>(T concrete, MonoThreadedQueue queue) where T : class
         {
-            return CreateIActorLifeCycle(concrete, queue, new ActorLifeCycleInterceptor(queue, concrete as IAsyncDisposable));
+            var asyncDisposable =  concrete as IAsyncDisposable;
+            return CreateIActorLifeCycle(concrete, queue, new ActorCompleteLifeCycleInterceptor(queue,asyncDisposable),
+                                                            new ActorLifeCycleInterceptor(queue, asyncDisposable));
         }
 
         public T Build<T>(T concrete) where T : class

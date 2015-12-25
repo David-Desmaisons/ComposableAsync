@@ -1,5 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using EasyActor.Factories;
+using EasyActor.Helper;
 using EasyActor.Proxy;
 using System;
 using System.Collections.Generic;
@@ -27,8 +28,10 @@ namespace EasyActor
             if (ParrallelLimitation <= 0)
                 throw new ArgumentOutOfRangeException("ParrallelLimitation should be positive");
 
-            var interceptors = new IInterceptor[] { new LoadBalanderInterceptor<T>(concrete, _BalancingOption, _ActorFactory, ParrallelLimitation) };
-            return (T)ActorFactoryBase.Generator.CreateInterfaceProxyWithoutTarget(typeof(T), new Type[] { ActorFactoryBase.IActorLifeCycleType }, interceptors);
+            var interceptors = new IInterceptor[] { new LoadBalanderInterceptor<T>(concrete, _BalancingOption, 
+                                                        _ActorFactory, ParrallelLimitation) };
+            return (T)ActorFactoryBase.Generator.CreateInterfaceProxyWithoutTarget(typeof(T), 
+                            new Type[] { TypeHelper.IActorCompleteLifeCycleType }, interceptors);
         }
     }
 }

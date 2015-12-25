@@ -51,9 +51,9 @@ namespace EasyActor.Examples
             await Actor1.Ping();
             Thread.Sleep(10000);
 
-            var lifeCyle = Actor2 as IActorLifeCycle;
+            var lifeCyle = Actor2 as IActorCompleteLifeCycle;
             Task Task2 = (lifeCyle == null) ? TaskBuilder.Completed : lifeCyle.Abort();
-            await Task.WhenAll(((IActorLifeCycle)(Actor1)).Abort(), Task2);
+            await Task.WhenAll(((IActorCompleteLifeCycle)(Actor1)).Abort(), Task2);
 
             watch.Stop();
 

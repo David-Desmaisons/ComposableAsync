@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="ActorContext.cs" />
     <Compile Include="Factories\TaskPoolActorFactory.cs" />
+    <Compile Include="Helper\TypeHelper.cs" />
+    <Compile Include="IActorLifeCycle.cs" />
     <Compile Include="Options\ActorFactorType.cs" />
     <Compile Include="ActorFactoryBuilder.cs" />
     <Compile Include="Options\BalancingOption.cs" />
@@ -53,14 +55,18 @@
     <Compile Include="IFactoryBuilder.cs" />
     <Compile Include="ILoaderBalancerFactory.cs" />
     <Compile Include="Factories\LoaderBalancerFactory.cs" />
+    <Compile Include="Proxy\ActorCompleteLifeCycleInterceptor.cs" />
+    <Compile Include="Proxy\InterfaceInterceptor.cs" />
     <Compile Include="Proxy\LoadBalanderInterceptor.cs" />
+    <Compile Include="Queue\IAbortableTaskQueue.cs" />
+    <Compile Include="Queue\IStopableTaskQueue.cs" />
     <Compile Include="Queue\ITaskQueue.cs" />
     <Compile Include="Queue\SynchronizationContextQueue.cs" />
     <Compile Include="Queue\TaskSchedulerQueue.cs" />
     <Compile Include="Factories\SharedThreadActorFactory.cs" />
     <Compile Include="Factories\ActorFactory.cs" />
     <Compile Include="IActorFactory.cs" />
-    <Compile Include="IActorLifeCycle.cs" />
+    <Compile Include="IActorCompleteLifeCycle.cs" />
     <Compile Include="IAsyncDisposable.cs" />
     <Compile Include="Proxy\ActorLifeCycleInterceptor.cs" />
     <Compile Include="Proxy\IInvocationExtension.cs" />

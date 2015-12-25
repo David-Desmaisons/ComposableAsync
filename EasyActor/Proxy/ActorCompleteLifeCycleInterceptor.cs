@@ -12,28 +12,29 @@ using EasyActor.Proxy;
 
 namespace EasyActor
 {
-    internal class ActorLifeCycleInterceptor : InterfaceInterceptor<IActorLifeCycle>, IInterceptor
+    internal class ActorCompleteLifeCycleInterceptor:  InterfaceInterceptor<IActorCompleteLifeCycle>, IInterceptor
     {
-        private static MethodInfo _Stop = _Type.GetMethod("Stop", BindingFlags.Instance | BindingFlags.Public);
+         private static MethodInfo _Abort = _Type.GetMethod("Abort", BindingFlags.Instance | BindingFlags.Public);
 
-        private IStopableTaskQueue _Queue;
+        private IAbortableTaskQueue _Queue;
         private IAsyncDisposable _IAsyncDisposable;
 
-        public ActorLifeCycleInterceptor(IStopableTaskQueue iqueue, IAsyncDisposable iAsyncDisposable)
+        public ActorCompleteLifeCycleInterceptor(IAbortableTaskQueue iqueue, IAsyncDisposable iAsyncDisposable)
         {
             _Queue = iqueue;
             _IAsyncDisposable = iAsyncDisposable;
         }
 
+        [DebuggerNonUserCode]
         protected override object InterceptClassMethod(IInvocation invocation)
         {
-            if (invocation.Method != _Stop)
+            if (invocation.Method != _Abort)
             {
                 throw new IndexOutOfRangeException();
             }
-
-            _Queue.Stop();
-            return _Queue.SetCleanUp(() => (_IAsyncDisposable != null) ?
+           
+            _Queue.Dispose();
+            return _Queue.SetCleanUp(() => (_IAsyncDisposable != null) ? 
                             _IAsyncDisposable.DisposeAsync() : TaskBuilder.Completed);
         }
     }

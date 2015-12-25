@@ -145,14 +145,13 @@ namespace EasyActor.Test
         }
 
         [Test]
-        public async Task Enqueue_Func_T_Should_With_Result()
+        public async Task Enqueue_Func_T_Should_Work_AsExpected_With_Result()
         {
 
             Thread current = Thread.CurrentThread;
             //arrange
             using (var target = new MonoThreadedQueue())
             {
-
                 Func<int> func = () => { _RunningThread = Thread.CurrentThread; return 25; };
 
                 //act
@@ -297,9 +296,7 @@ namespace EasyActor.Test
 
                 //act
                 notstarted = target.Enqueue(() => TaskFactory(3));
-
             }
-
             
             await newTask;
 
@@ -336,7 +333,6 @@ namespace EasyActor.Test
                 }
 
                 notstarted = target.Enqueue(() => { Done = true; });
-
             }
 
             await newTask;
@@ -355,9 +351,6 @@ namespace EasyActor.Test
             error.Should().NotBeNull();
             Done.Should().BeFalse();
         }
-
-
-       
 
         [Test]
         public async Task Enqueue_Task_Should_Cancel_Task_When_Added_On_Disposed_Queue()
@@ -384,8 +377,6 @@ namespace EasyActor.Test
             newesttask.IsCanceled.Should().BeTrue();
             error.Should().NotBeNull();
         }
-
-
 
         [Test]
         public async Task Enqueue_Action_Should_Cancel_Task_When_On_Disposed_Queue()
@@ -414,7 +405,6 @@ namespace EasyActor.Test
             error.Should().NotBeNull();
             Done.Should().BeFalse();
         }
-
 
         [Test]
         public async Task Enqueue_Func_T_Should_Cancel_Task_When_On_Disposed_Queue()
@@ -466,7 +456,6 @@ namespace EasyActor.Test
         [Test]
         public async Task Stop_Enqueued_Task_Should_Continue_After_Stoping_Queue()
         {
-
             //arrange  
             MonoThreadedQueue queue = new MonoThreadedQueue();
             Task task = queue.Enqueue(() => TaskFactory(3)) ,enqueuedtask = null;
@@ -488,8 +477,7 @@ namespace EasyActor.Test
 
         [Test]
         public async Task Stop_Enqueue_Items_Should_Return_Canceled_Task_After_Stoping_Queue()
-        {
-          
+        {       
             //arrange  
             MonoThreadedQueue queue = new MonoThreadedQueue();
             queue.Stop();
@@ -509,6 +497,5 @@ namespace EasyActor.Test
             error.Should().NotBeNull();
             Done.Should().BeFalse();
         }
-
     }
 }

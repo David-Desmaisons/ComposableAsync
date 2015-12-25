@@ -135,7 +135,7 @@ namespace EasyActor.Test
          [Test]
          public void Actor_Should_Be_Implement_IActorLifeCycle_Even_If_Wrapped_Mot()
          {
-             var intface = _Factory.Build<Interface>(new Class()) as IActorLifeCycle;
+             var intface = _Factory.Build<Interface>(new Class()) as IActorCompleteLifeCycle;
 
              intface.Should().NotBeNull();
          }
@@ -143,7 +143,7 @@ namespace EasyActor.Test
          [Test]
          public void Actor_Should_Be_Implement_IActorLifeCycle()
          {
-             var intface = _Factory.Build<Interface1>(new DisposableClass()) as IActorLifeCycle;
+             var intface = _Factory.Build<Interface1>(new DisposableClass()) as IActorCompleteLifeCycle;
 
              intface.Should().NotBeNull();
          }
@@ -157,7 +157,7 @@ namespace EasyActor.Test
 
              await intface.DoAsync();
              //act
-             IActorLifeCycle disp = intface as IActorLifeCycle;
+             IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
 
              await disp.Stop();
 
@@ -173,7 +173,7 @@ namespace EasyActor.Test
              var intface = _Factory.Build<Interface1>(dispclass);
 
              //act
-             IActorLifeCycle disp = intface as IActorLifeCycle;
+             IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
 
              await disp.Stop();
 
@@ -191,7 +191,7 @@ namespace EasyActor.Test
              //act
              var task = intface.DoAsync();
 
-             var disp = intface as IActorLifeCycle;
+             var disp = intface as IActorCompleteLifeCycle;
 
              await disp.Stop();
 
@@ -223,7 +223,7 @@ namespace EasyActor.Test
              Task Taskrunning = intface.DoAsync(), Takenqueued = intface.DoAsync();
              Thread.Sleep(100);
              //act
-             IActorLifeCycle disp = intface as IActorLifeCycle;
+             IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
 
              await disp.Stop(); 
              await Takenqueued;
@@ -243,7 +243,7 @@ namespace EasyActor.Test
 
              await intface.DoAsync();
              //act
-             IActorLifeCycle disp = intface as IActorLifeCycle;
+             IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
 
              await disp.Abort();
 
@@ -261,7 +261,7 @@ namespace EasyActor.Test
              var intface = _Factory.Build<Interface1>(dispclass);
 
              //act
-             IActorLifeCycle disp = intface as IActorLifeCycle;
+             IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
 
              await disp.Abort();
 
@@ -275,7 +275,7 @@ namespace EasyActor.Test
              //arrange
              var dispclass = new DisposableClass();
              var intface = _Factory.Build<Interface1>(dispclass);
-             IActorLifeCycle disp = intface as IActorLifeCycle;
+             IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
 
              //act
              var Taskrunning = intface.DoAsync();
@@ -297,7 +297,7 @@ namespace EasyActor.Test
              Task Taskrunning = intface.DoAsync(), Takenqueued = intface.DoAsync();
              Thread.Sleep(100);
              //act
-             IActorLifeCycle disp = intface as IActorLifeCycle;
+             IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
 
              await disp.Abort();
 
@@ -327,7 +327,7 @@ namespace EasyActor.Test
              //act
              var task = intface.DoAsync();
 
-             var disp = intface as IActorLifeCycle;
+             var disp = intface as IActorCompleteLifeCycle;
 
              await disp.Abort();
 

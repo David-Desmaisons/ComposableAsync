@@ -115,13 +115,13 @@ namespace EasyActor.Test
         public void LoadBalancer_Should_Implement_IActorLifeCycle()
         {
             var target = _Factory.Build<Interface>(_Fact, 2);
-            target.Should().BeAssignableTo<IActorLifeCycle>();
+            target.Should().BeAssignableTo<IActorCompleteLifeCycle>();
         }
 
         [Test]
         public async Task LoadBalancer_IActorLifeCycle_Abort_Should_NotThrowException()
         {
-            var target = _Factory.Build<Interface>(_Fact, 2) as IActorLifeCycle;
+            var target = _Factory.Build<Interface>(_Fact, 2) as IActorCompleteLifeCycle;
             await target.Abort();
         }
 
@@ -130,7 +130,7 @@ namespace EasyActor.Test
         public async Task LoadBalancer_IActorLifeCycle_Abort_Should_CancelTask()
         {
             var target = _Factory.Build<Interface>(_Fact, 2);
-            var lf = target as IActorLifeCycle;
+            var lf = target as IActorCompleteLifeCycle;
             await lf.Abort();
 
             await target.SlowDoAsync();
@@ -146,7 +146,7 @@ namespace EasyActor.Test
             var t3 = target.SlowDoAsync();
             var t4 = target.SlowDoAsync();
 
-            var lf = target as IActorLifeCycle;
+            var lf = target as IActorCompleteLifeCycle;
             await lf.Abort();
 
             try
@@ -167,7 +167,7 @@ namespace EasyActor.Test
         [Test]
         public async Task LoadBalancer_IActorLifeCycle_Stop_Should_NotThrowException()
         {
-            var target = _Factory.Build<Interface>(_Fact, 2) as IActorLifeCycle;
+            var target = _Factory.Build<Interface>(_Fact, 2) as IActorCompleteLifeCycle;
             await target.Stop();
         }
 
@@ -176,7 +176,7 @@ namespace EasyActor.Test
         public async Task LoadBalancer_IActorLifeCycle_Stop_Should_CancelTask()
         {
             var target = _Factory.Build<Interface>(_Fact, 2);
-            var lf = target as IActorLifeCycle;
+            var lf = target as IActorCompleteLifeCycle;
             await lf.Stop();
 
             await target.SlowDoAsync();

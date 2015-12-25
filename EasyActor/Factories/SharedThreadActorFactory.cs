@@ -14,7 +14,7 @@ using System.Threading;
 
 namespace EasyActor
 {
-    public class SharedThreadActorFactory : ActorFactoryBase, IActorFactory, IActorLifeCycle
+    public class SharedThreadActorFactory : ActorFactoryBase, IActorFactory, IActorCompleteLifeCycle
     {
         private MonoThreadedQueue _Queue;
         private ConcurrentQueue<IAsyncDisposable> _Disposable;
@@ -40,7 +40,6 @@ namespace EasyActor
 
             return res;
         }
-
 
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
         {
@@ -72,6 +71,5 @@ namespace EasyActor
             _Queue.Stop();
             return res;
         }
-
     }
 }

@@ -40,7 +40,7 @@ namespace EasyActor.Test
         {
             var res = _ActorFactoryBuilder.GetFactory(false);
 
-            res.Should().BeAssignableTo<ActorFactory>();
+            res.Should().BeOfType<ActorFactory>();
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace EasyActor.Test
         {
             var res = _ActorFactoryBuilder.GetTaskBasedFactory();
 
-            res.Should().BeAssignableTo<TaskPoolActorFactory>();
+            res.Should().BeOfType<TaskPoolActorFactory>();
         }
 
         [Test]

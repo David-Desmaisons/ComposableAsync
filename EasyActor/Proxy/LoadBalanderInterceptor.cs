@@ -11,6 +11,7 @@ using Castle.DynamicProxy;
 using EasyActor.Queue;
 using EasyActor.TaskHelper;
 using EasyActor.Collections;
+using EasyActor.Helper;
 
 namespace EasyActor.Proxy
 {
@@ -25,8 +26,6 @@ namespace EasyActor.Proxy
         private readonly ConcurrentBag<Tuple<T, MonoThreadedQueue>> _actors = new ConcurrentBag<Tuple<T, MonoThreadedQueue>>();
         private readonly ActorFactory _ActorFactory;
         private readonly object _syncobject = new object();
-
-        private static Type _IActorLifeCycleType = typeof(IActorLifeCycle);
 
         internal LoadBalanderInterceptor(Func<T> builder, BalancingOption balancingOption, ActorFactory actorFactory, int parrallelLimitation)
         {
@@ -84,7 +83,7 @@ namespace EasyActor.Proxy
             lock (_syncobject)
             {
                 _isCancelled = true;
-                var tasks = _actors.Select(a => (Task)invocation.CallOn(a.Item1 as IActorLifeCycle)).ToArray();
+                var tasks = _actors.Select(a => (Task)invocation.CallOn(a.Item1 as IActorCompleteLifeCycle)).ToArray();
                 _actors.Clear();
                 invocation.ReturnValue = Task.WhenAll(tasks);
             }
@@ -93,7 +92,7 @@ namespace EasyActor.Proxy
         [DebuggerNonUserCode]
         public void Intercept(IInvocation invocation)
         {
-            if (invocation.Method.DeclaringType == _IActorLifeCycleType)
+            if (TypeHelper.IsActorCompleteLifeCycleTypeOrBase(invocation.Method.DeclaringType))
             {
                 Cancel(invocation);
                 return;
