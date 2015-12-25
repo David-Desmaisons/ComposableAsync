@@ -23,12 +23,9 @@ namespace EasyActor.Test
             _Factory.Type.Should().Be(ActorFactorType.Shared);
         }
 
-
         [Test]
         public async Task All_Actors_Should_Run_On_Same_Thread()
         {
-
-           
             //arrange
             var target1 = new Class();
             var target2 = new Class();
@@ -79,7 +76,6 @@ namespace EasyActor.Test
             var target1 = new Class();
             var intface1 = _Factory.Build<Interface>(target1);
 
-
             //act
             await intface1.DoAsync();
 
@@ -94,7 +90,6 @@ namespace EasyActor.Test
             //arrange
             var target1 = new DisposableClass();
             var intface1 = _Factory.Build<Interface1>(target1);
-
 
             //act
             await intface1.DoAsync();

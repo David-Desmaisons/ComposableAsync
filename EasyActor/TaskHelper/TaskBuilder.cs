@@ -39,7 +39,6 @@ namespace EasyActor.TaskHelper
 
         private static MethodInfo _GetCancelled = typeof(TaskBuilder).GetMethod("PrivateGetCancelled", BindingFlags.Static | BindingFlags.NonPublic);
 
-
         internal static Task GetCancelled(this Type @this)
         {
             TaskDescription task = @this.GetTaskType();
@@ -54,7 +53,6 @@ namespace EasyActor.TaskHelper
             
             return null;
         }
-
     }
 
     public static class TaskBuilder<T>

@@ -10,7 +10,7 @@ namespace EasyActor
     /// <summary>
     /// IActorFactory and ILoadBalancerFactory factory
     /// </summary>
-    public interface IActorFactoryBuilder
+    public interface IFactoryBuilder
     {
         /// <summary>
         /// Returns an actor factory 

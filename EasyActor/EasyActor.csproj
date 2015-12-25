@@ -50,7 +50,7 @@
     <Compile Include="Collections\Collection.cs" />
     <Compile Include="Factories\ActorFactoryBase.cs" />
     <Compile Include="IActorContext.cs" />
-    <Compile Include="IActorFactoryBuilder.cs" />
+    <Compile Include="IFactoryBuilder.cs" />
     <Compile Include="ILoaderBalancerFactory.cs" />
     <Compile Include="Factories\LoaderBalancerFactory.cs" />
     <Compile Include="Proxy\LoadBalanderInterceptor.cs" />

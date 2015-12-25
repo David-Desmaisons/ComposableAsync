@@ -38,7 +38,6 @@ namespace EasyActor.PipeLineTest.Infra
                         if (_Trans!=null) _Trans(t);
                     };
             }
-
         }
     }
 }

@@ -33,7 +33,6 @@ namespace EasyActor.TaskHelper
         {
             m_synchronizationContext.Post(PostCallback, task);
         }
- 
       
         [SecurityCritical]
         protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)

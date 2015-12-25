@@ -39,7 +39,6 @@ namespace EasyActor.PipeLineTest
         }
 
 
-
         [Test]
         public async Task Composition4()
         {

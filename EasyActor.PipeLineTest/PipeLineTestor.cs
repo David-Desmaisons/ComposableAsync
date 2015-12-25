@@ -75,7 +75,6 @@ namespace EasyActor.PipeLineTest
             _Act.Threads.Count.Should().Be(1);
         }
 
-
         [Test]
         [TestCase(0, -2)]
         [TestCase(2, 8)]
@@ -97,8 +96,6 @@ namespace EasyActor.PipeLineTest
             _Act.CallingThread.Should().NotBe(_Func.CallingThread);
         }
 
-
-
         //                     ___ i => i * 3 -----> Console.WriteLine("1 - {0} {1}")
         //                    /
         //      a => a * 2 ---
@@ -110,7 +107,6 @@ namespace EasyActor.PipeLineTest
         [Test]
         public async Task Compose_Parralel_Should_Compute_Result_OK(int entry, int s1, int s2)
         {
-
             var current = Thread.CurrentThread;
             var finaliser1 = PipeLine.Create<int, int>(_Func.Function).Next(_Act.Action);
             var finaliser2 = PipeLine.Create<int, int>(_Func3.Function).Next(_Act2.Action);
@@ -130,7 +126,6 @@ namespace EasyActor.PipeLineTest
             _Func.CallingThread.Should().NotBe(current);
             _Func.CallingThread.Should().NotBe(_Func3.CallingThread);
         }
-
 
         //                     ___ i => i * 3____ 
         //                    /                  \
@@ -238,7 +233,6 @@ namespace EasyActor.PipeLineTest
             _Act.Results.Should().BeEquivalentTo(res);
 
             disp.Dispose();
-        }
-      
+        }  
     }
 }

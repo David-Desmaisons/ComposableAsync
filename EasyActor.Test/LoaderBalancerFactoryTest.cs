@@ -16,7 +16,6 @@ namespace EasyActor.Test
         private LoadBalancerFactory _Factory;
         private Func<Class> _Fact = () => new Class();
 
-
         [SetUp]
         public void TestUp()
         {
@@ -30,16 +29,15 @@ namespace EasyActor.Test
             var target = _Factory.Build<Interface>(_Fact,2);
 
             target.Should().NotBeNull();
-
         }
 
-        [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void ShouldNotWorkWithNegativeOrNullParalelism()
+        [TestCase(0)]
+        [TestCase(-1)]
+        public void ShouldNotWorkWithNegativeOrNullParalelism(int parrallelism)
         {
-            var target = _Factory.Build<Interface>(_Fact, 0);
+            _Factory.Build<Interface>(_Fact, parrallelism);
         }
-
      
         [Test]
         public async Task ShouldDelegateToPoco()
@@ -50,7 +48,6 @@ namespace EasyActor.Test
             res.Should().Be(23);
             Class.Count.Should().Be(1);
         }
-
 
         [Test]
         public async Task MinizeObjectCreation_Should_Create_Poco_IfNeeded_Simultaneous()
@@ -90,8 +87,6 @@ namespace EasyActor.Test
 
             Class.Count.Should().Be(2);
         }
-
-
 
         [Test]
         public async Task MinizeObjectCreation_ShouldNotInstanciateVariousPocoIfActorIsWithoutActivity()
@@ -169,7 +164,6 @@ namespace EasyActor.Test
             t4.IsCanceled.Should().BeTrue();
         }
 
-
         [Test]
         public async Task LoadBalancer_IActorLifeCycle_Stop_Should_NotThrowException()
         {
@@ -191,7 +185,6 @@ namespace EasyActor.Test
         [Test]
         public void Stress_Paralellism()
         {
-
             var target = _Factory.Build<Interface>(_Fact, 5);
 
             ThreadStart ts = () => Start(target);
@@ -216,8 +209,6 @@ namespace EasyActor.Test
         {
             Thread.Sleep(400);
             dummy.SlowDoAsync().Wait();
-
         }
-
     }
 }

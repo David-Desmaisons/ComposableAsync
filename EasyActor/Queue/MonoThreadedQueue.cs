@@ -11,7 +11,6 @@ using System.Diagnostics;
 
 namespace EasyActor.Queue
 {
-
     public class MonoThreadedQueue : IDisposable, ITaskQueue
     {
         private static int _Count = 0;
@@ -162,7 +161,6 @@ namespace EasyActor.Queue
                 _Clean.Do();
         }
 
-
         private SynchronizationContext _SynchronizationContext;
         private SynchronizationContext SynchronizationContext
         {
@@ -174,7 +172,6 @@ namespace EasyActor.Queue
                 return _SynchronizationContext;
             }
         }
-
 
         public TaskScheduler TaskScheduler
         {

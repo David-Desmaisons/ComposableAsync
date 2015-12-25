@@ -36,7 +36,6 @@ namespace EasyActor.PipeLineTest.Infra
                         return LastOut = _Trans(t);
                     };
             }
-
         }
     }
 }

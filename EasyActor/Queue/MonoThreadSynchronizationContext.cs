@@ -7,12 +7,9 @@ using System.Threading.Tasks;
 
 namespace EasyActor.Queue
 {
-   
-
     public sealed class MonoThreadedQueueSynchronizationContext : SynchronizationContext
     {
         private readonly MonoThreadedQueue _dispatcher;
-
 
         public MonoThreadedQueueSynchronizationContext(MonoThreadedQueue dispatcher)
         {

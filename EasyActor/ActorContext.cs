@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
 using EasyActor.Factories;
 using EasyActor.TaskHelper;
 
@@ -15,7 +14,6 @@ namespace EasyActor
         public ActorContext()
         {
         }
-
 
         public TaskFactory GetTaskFactory(object proxy)
         {

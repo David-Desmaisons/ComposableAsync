@@ -29,7 +29,6 @@ namespace EasyActor.Test
             _Interface = factory.Build<Interface>(_Proxified);
         }
 
-
         [Test]
         public void TaskFactory_Should_Return_A_Valid_TaskFactory_With_A_None_Proxied_Object()
         {
@@ -43,9 +42,6 @@ namespace EasyActor.Test
             res.Should().NotBeNull();
         }
 
-     
-
-
         [Test]
         public void TaskFactory_Should_Return_A_Valid_TaskFactory_With_A_Proxied_Object()
         {
@@ -55,9 +51,6 @@ namespace EasyActor.Test
             //assert
             res.Should().NotBeNull();
         }
-
-      
-
 
         [Test]
         public async Task TaskFactory_Should_Return_TaskFactory_Compatible_With_Proxy_Thread_ActorFactory_Context()
@@ -153,7 +146,5 @@ namespace EasyActor.Test
 
             UIMessageLoop.Stop();
         }
-
-
     }
 }

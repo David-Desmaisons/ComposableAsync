@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace EasyActor.Queue
 {
-
     internal class AsyncWorkItem<T> : IWorkItem
     {
         private TaskCompletionSource<T> _Source;

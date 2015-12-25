@@ -115,6 +115,5 @@ namespace EasyActor.Test
               target.CallingConstructorThread.Should().NotBe(current);
               target.CallingConstructorThread.Should().Be(target.CallingThread);
           }
-
     }
 }
