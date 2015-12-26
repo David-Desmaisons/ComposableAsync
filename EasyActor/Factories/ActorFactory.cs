@@ -7,6 +7,7 @@ using Castle.DynamicProxy;
 using EasyActor.Queue;
 using EasyActor.Factories;
 using System.Threading;
+using EasyActor.Helper;
 
 namespace EasyActor
 {
@@ -27,8 +28,9 @@ namespace EasyActor
         private T Build<T>(T concrete, MonoThreadedQueue queue) where T : class
         {
             var asyncDisposable =  concrete as IAsyncDisposable;
-            return CreateIActorLifeCycle(concrete, queue, new ActorCompleteLifeCycleInterceptor(queue,asyncDisposable),
-                                                            new ActorLifeCycleInterceptor(queue, asyncDisposable));
+            return CreateIActorLifeCycle(concrete, queue, TypeHelper.IActorCompleteLifeCycleType,
+                        new ActorCompleteLifeCycleInterceptor(queue,asyncDisposable),  
+                        new ActorLifeCycleInterceptor(queue, asyncDisposable));
         }
 
         public T Build<T>(T concrete) where T : class

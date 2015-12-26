@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 
 namespace EasyActor
 {
-    public interface IAbortableTaskQueue : IStopableTaskQueue, IDisposable
+    public interface IAbortableTaskQueue : IStopableTaskQueue
     {
+        Task Abort(Func<Task> cleanup);
     }
 }

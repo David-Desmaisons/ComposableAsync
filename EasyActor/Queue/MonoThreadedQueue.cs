@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace EasyActor.Queue
 {
-    public class MonoThreadedQueue : IDisposable, IAbortableTaskQueue
+    public class MonoThreadedQueue : IAbortableTaskQueue, IDisposable
     {
         private static int _Count = 0;
 
@@ -103,13 +103,12 @@ namespace EasyActor.Queue
             return Enqueue(new AsyncActionWorkItem(action));
         }
 
-
         public Task<T> Enqueue<T>( Func<Task<T>> action)
         {
             return Enqueue(new AsyncWorkItem<T>(action));
         }
      
-        public void Dispose() 
+        private void StopQueueing() 
         {
             try
             {
@@ -121,14 +120,17 @@ namespace EasyActor.Queue
             }
         }
 
-        public void Stop()
-        {
+        public Task Stop(Func<Task> cleanup)
+        {  
+            _Clean = new AsyncActionWorkItem(cleanup);
             _TaskQueue.CompleteAdding();
+            return _Clean.Task;
         }
 
-        public Task SetCleanUp(Func<Task> cleanup)
+        public Task Abort(Func<Task> cleanup)
         {
             _Clean = new AsyncActionWorkItem(cleanup);
+            StopQueueing();
             return _Clean.Task;
         }
 
@@ -176,6 +178,11 @@ namespace EasyActor.Queue
         public TaskScheduler TaskScheduler
         {
             get { return new SynchronizationContextTaskScheduler(SynchronizationContext); }
+        }
+
+        public void Dispose()
+        {
+            StopQueueing();
         }
     }
 }

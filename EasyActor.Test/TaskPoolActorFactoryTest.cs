@@ -82,8 +82,81 @@ namespace EasyActor.Test
 
             target.Done.Should().BeTrue();
             target.CallingConstructorThread.Should().NotBe(current);
-            target.CallingConstructorThread.Should().Be(target.CallingThread);
             target.CallingConstructorThread.IsThreadPoolThread.Should().BeTrue();
+        }
+
+        [Test]
+        public void Actor_Should_Implement_IActorLifeCycle()
+        {
+            var intface = _TaskPoolActorFactory.Build<Interface>(new Class());
+            intface.Should().BeAssignableTo<IActorLifeCycle>();
+        }
+
+        [Test]
+        public async Task Actor_IActorLifeCycle_Stop_Should_Call_Proxified_Class_On_IAsyncDisposable()
+        {
+            //arrange
+            var dispclass = new DisposableClass();
+            var intface = _TaskPoolActorFactory.Build<Interface1>(dispclass);
+
+            //act
+            var disp = intface as IActorLifeCycle;
+
+            await disp.Stop();
+
+            //assert
+            dispclass.IsDisposed.Should().BeTrue();
+        }
+
+        [Test]
+        public async Task Actor_Should_Return_Cancelled_Task_On_Any_Method_AfterCalling_IActorLifeCycle_Stop()
+        {
+            //arrange
+            var dispclass = new DisposableClass();
+            var intface = _TaskPoolActorFactory.Build<Interface1>(dispclass);
+
+            //act
+            var task = intface.DoAsync();
+
+            var disp = intface as IActorLifeCycle;
+
+            await disp.Stop();
+
+            TaskCanceledException error = null;
+            Task canc = null;
+            try
+            {
+                canc = intface.DoAsync();
+                await canc;
+            }
+            catch (TaskCanceledException e)
+            {
+                error = e;
+            }
+
+            //assert
+            error.Should().NotBeNull();
+            task.IsCompleted.Should().BeTrue();
+            canc.IsCanceled.Should().BeTrue();
+        }
+
+        [Test]
+        public async Task Actor_IActorLifeCycle_Stop_Should_Not_Cancel_Enqueued_Task()
+        {
+            //arrange
+            var dispclass = new DisposableClass();
+            var intface = _TaskPoolActorFactory.Build<Interface1>(dispclass);
+
+            Task Taskrunning = intface.DoAsync(), Takenqueued = intface.DoAsync();
+            Thread.Sleep(100);
+            //act
+            var disp = intface as IActorLifeCycle;
+
+            await disp.Stop();
+            await Takenqueued;
+
+            //assert
+            Takenqueued.IsCompleted.Should().BeTrue();
         }
     }
 }

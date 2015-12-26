@@ -435,7 +435,7 @@ namespace EasyActor.Test
         }
 
         [Test]
-        public async Task Stop_Running_Task_Should_Continue_After_Stoping_Queue()
+        public async Task Dispose_Running_Task_Should_Continue_After_Stoping_Queue()
         {
             //arrange  
             MonoThreadedQueue queue = new MonoThreadedQueue();
@@ -446,7 +446,7 @@ namespace EasyActor.Test
             }
 
             //act
-            queue.Stop();
+            queue.Dispose();
             await task;
 
             //assert
@@ -454,7 +454,7 @@ namespace EasyActor.Test
         }
 
         [Test]
-        public async Task Stop_Enqueued_Task_Should_Continue_After_Stoping_Queue()
+        public async Task Dispose_Enqueued_Task_Should_Continue_After_Stoping_Queue()
         {
             //arrange  
             MonoThreadedQueue queue = new MonoThreadedQueue();
@@ -466,7 +466,7 @@ namespace EasyActor.Test
             enqueuedtask = queue.Enqueue(() => TaskFactory(3));
 
             //act
-            queue.Stop();
+            await queue.Stop(()=> TaskBuilder.Completed);
             await enqueuedtask;
 
             //assert
@@ -476,11 +476,11 @@ namespace EasyActor.Test
 
 
         [Test]
-        public async Task Stop_Enqueue_Items_Should_Return_Canceled_Task_After_Stoping_Queue()
+        public async Task Dispose_Enqueue_Items_Should_Return_Canceled_Task_After_Stoping_Queue()
         {       
             //arrange  
             MonoThreadedQueue queue = new MonoThreadedQueue();
-            queue.Stop();
+            queue.Dispose();
 
             bool Done = false;
 

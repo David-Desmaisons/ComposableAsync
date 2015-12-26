@@ -9,6 +9,7 @@ using Castle.DynamicProxy;
 using EasyActor.Queue;
 using EasyActor.Factories;
 using System.Threading;
+using EasyActor.Helper;
 
 namespace EasyActor
 {
@@ -23,9 +24,11 @@ namespace EasyActor
             get { return ActorFactorType.TaskPool; }
         }
 
-        private T Build<T>(T concrete, ITaskQueue queue) where T : class
+        private T Build<T>(T concrete, IStopableTaskQueue queue) where T : class
         {
-            return Create(concrete, queue);
+            var asyncDisposable =  concrete as IAsyncDisposable;
+            return CreateIActorLifeCycle(concrete, queue, TypeHelper.IActorLifeCycleType,
+                        new ActorLifeCycleInterceptor(queue, asyncDisposable));
         }
 
         public T Build<T>(T concrete) where T : class
@@ -33,10 +36,9 @@ namespace EasyActor
             return Build<T>(concrete, GetQueue());
         }
 
-        private ITaskQueue GetQueue()
+        private IStopableTaskQueue GetQueue()
         {
-            var scheduler = new ConcurrentExclusiveSchedulerPair().ExclusiveScheduler;
-            return new TaskSchedulerQueue(scheduler);
+            return new TaskSchedulerQueue();
         }
 
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class

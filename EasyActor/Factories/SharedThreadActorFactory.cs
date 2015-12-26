@@ -16,7 +16,7 @@ namespace EasyActor
 {
     public class SharedThreadActorFactory : ActorFactoryBase, IActorFactory, IActorCompleteLifeCycle
     {
-        private MonoThreadedQueue _Queue;
+        private IAbortableTaskQueue _Queue;
         private ConcurrentQueue<IAsyncDisposable> _Disposable;
 
         public SharedThreadActorFactory(Action<Thread> onCreated = null)
@@ -30,7 +30,7 @@ namespace EasyActor
             get { return ActorFactorType.Shared; }
         }
 
-        public T Build<T>(T concrete) where T:class
+        public T Build<T>(T concrete) where T : class
         {
             var res = Create(concrete, _Queue);
 
@@ -46,30 +46,23 @@ namespace EasyActor
             return _Queue.Enqueue(() => Build<T>(concrete()));
         }
 
-        private Task GetEndTask()
+        private async Task GetEndTask()
         {
-            return  _Queue.SetCleanUp(async () =>
-                {
-                    IAsyncDisposable actordisp = null;
-                    while (_Disposable.TryDequeue(out actordisp))
-                    {
-                        await actordisp.DisposeAsync();
-                    }
-                });
+            IAsyncDisposable actordisp = null;
+            while (_Disposable.TryDequeue(out actordisp))
+            {
+                await actordisp.DisposeAsync();
+            }
         }
 
         public Task Abort()
         {
-            var res = GetEndTask();
-            _Queue.Dispose();
-            return res;
+            return _Queue.Abort(GetEndTask);
         }
 
         public Task Stop()
         {
-            var res = GetEndTask();
-            _Queue.Stop();
-            return res;
+            return _Queue.Stop(GetEndTask);
         }
     }
 }

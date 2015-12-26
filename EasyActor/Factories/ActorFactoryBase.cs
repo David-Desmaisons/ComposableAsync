@@ -1,5 +1,4 @@
 ﻿using Castle.DynamicProxy;
-using EasyActor.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,12 +39,12 @@ namespace EasyActor.Factories
             return _Generator.CreateInterfaceProxyWithTargetInterface<T>(concrete, interceptors);
         }
 
-        protected  T CreateIActorLifeCycle<T>(T concrete, ITaskQueue queue, params IInterceptor[] interceptor) where T : class
+        protected  T CreateIActorLifeCycle<T>(T concrete, ITaskQueue queue, Type addicionalType,  params IInterceptor[] interceptor) where T : class
         {
             var interceptors = new List<IInterceptor>(interceptor);
             interceptors.Add(new QueueDispatcherInterceptor(queue)); 
             Register(concrete, queue);
-            return (T)_Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new Type[] { TypeHelper.IActorCompleteLifeCycleType }, concrete, interceptors.ToArray());
+            return (T)_Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new Type[] {addicionalType }, concrete, interceptors.ToArray());
         }
     }
 }

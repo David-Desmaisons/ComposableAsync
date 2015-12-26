@@ -32,8 +32,7 @@ namespace EasyActor
                 throw new IndexOutOfRangeException();
             }
 
-            _Queue.Stop();
-            return _Queue.SetCleanUp(() => (_IAsyncDisposable != null) ?
+            return _Queue.Stop(() => (_IAsyncDisposable != null) ?
                             _IAsyncDisposable.DisposeAsync() : TaskBuilder.Completed);
         }
     }

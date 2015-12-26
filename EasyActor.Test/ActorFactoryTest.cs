@@ -133,19 +133,17 @@ namespace EasyActor.Test
          }
 
          [Test]
-         public void Actor_Should_Be_Implement_IActorLifeCycle_Even_If_Wrapped_Mot()
+         public void Actor_Should_Implement_IActorLifeCycle_Even_If_Wrapped_Not_IDisposableAsync()
          {
-             var intface = _Factory.Build<Interface>(new Class()) as IActorCompleteLifeCycle;
-
-             intface.Should().NotBeNull();
+             var intface = _Factory.Build<Interface>(new Class());
+             intface.Should().BeAssignableTo<IActorCompleteLifeCycle>();
          }
 
          [Test]
-         public void Actor_Should_Be_Implement_IActorLifeCycle()
+         public void Actor_Should_Implement_IActorLifeCycle()
          {
-             var intface = _Factory.Build<Interface1>(new DisposableClass()) as IActorCompleteLifeCycle;
-
-             intface.Should().NotBeNull();
+             var intface = _Factory.Build<Interface1>(new DisposableClass());
+             intface.Should().BeAssignableTo<IActorCompleteLifeCycle>();
          }
 
          [Test]
