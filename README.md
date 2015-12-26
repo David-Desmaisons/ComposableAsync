@@ -68,7 +68,7 @@ To create an actor:
 		
 ### Actor factories
 
-EasyActor provide currently two Actor factories. An actory factory implements the IActorFactory
+EasyActor provide currently two Actor factories. An actor factory implements the IActorFactory
 
 	//Factory to create actor from POCO
 	public interface IActorFactory
@@ -85,38 +85,48 @@ EasyActor provide currently two Actor factories. An actory factory implements th
             ///  T should an interface througth which the actor will be seen
             Task<T> BuildAsync<T>(Func<T> concrete) where T : class;
 	}
+	
+FactoryBuilder that implements IFactoryBuilder give access to all the different kind of factories.
 
 #### ActorFactory 
 
 ActorFactory is the standard factory for EasyFactor. Each actor created by this factory lives each in its own separated thread:
 
-	var factory = new ActorFactory(priority:Priority.AboveNormal);
+	var factory = new ActorFactory();
 
-Priority argument (default to Normal) define the priority of the threads where Actor methods will run. This value maps directly with Thread priority.
+ActorFactory constructor accepts an optional argument of type Action<Thread> that can be used to initialize Threads created by the factory (for example setting its priority or STA property).
 
-	public enum Priority
-	{
-	    Lowest,
-	    BelowNormal,
-	    Normal,
-	    AboveNormal,
-	    Highest
-	}
+	var factory = new ActorFactory(t => t.Priority= Priority.AboveNormal);
+or
+	var factory = FactoryBuilder.GetFactory(false, t => t.Priority= Priority.AboveNormal);
 	
 ####  SharedThreadActorFactory 
 
 This factory creates actors that will share the same thread:
 
-	var factory = new SharedThreadActorFactory(priority:Priority.AboveNormal);
+	var factory = new SharedThreadActorFactory(t => t.Priority= Priority.Normal);
+or
+	var factory = FactoryBuilder.GetFactory(true, t => t.Priority= Priority.Normal);
 
+This option may be helpfull if you have to create a lot of actors which have to perform short lived methods and you do not want to create a thread for each one. Same as ActorFactory, an Action<Thread> can be furnished to initialize the thread.
 
-This option may be helpfull if you have to create a lot of actors which have to perform short lived methods and you do not want to create a thread for each one. Same as ActorFactory priority argument (default to Normal) define the priority of the thread where Actor methods will run.
+####  TaskPoolActorFactory 
+
+This factory creates actors that will be called on thread pool tasks using [ConcurrentExclusiveSchedulerPair](https://msdn.microsoft.com/en-us/library/system.threading.tasks.concurrentexclusiveschedulerpair(v=vs.110).aspx). Note that in this case, whereas none concurency of method calls is garanteed, actor methods may run on different threads other time. Usage:
+
+	var factory = new TaskPoolActorFactory();
+or
+	var factory = FactoryBuilder.GetTaskBasedFactory(); 
+
+This option may be helpfull if you want no concurrency for given actors but don't want to allocate a dedicated thread for them.
 
 ####  SynchronizationContextFactory 
 
 SynchronizationContextFactory factory instanciate actors that will use the current synchronization context as the threading context. This means that if you instanciate a SynchronizationContextFactory in an UI thread (WPF or Windows Form), all the calls of the corresponding actors will happens in the same UI thread.
 
 	var factory = new SynchronizationContextFactory();
+or 
+	var factory = FactoryBuilder.GetInContextFactory(); 	
 
 Please note that if there is no SynchronizationContext associated with the thread calling SynchronizationContextFactory an exception will be raised.
 
@@ -137,15 +147,22 @@ EasyActor also guarantees that code running after awaited task will also run on 
 
 ### Life Cycle
 
-Actor created by ActorFactory have a life cycle that can be controlled independently one from each other using the IActorLifeCycle interface that they implement.
-Actor created by SharedThreadActorFactory have the same life cycle that can be controlled using the IActorLifeCycle implemented on SharedThreadActorFactory.
+Actor created by ActorFactory have a life cycle that can be controlled independently one from each other using the IActorCompleteLifeCycle interface that they implement.
+Actor created by TaskPoolActorFactory have a life cycle that can be controlled independently one from each other using the IActorLifeCycle interface that they implement.
+Actor created by SharedThreadActorFactory have the same life cycle that can be controlled using the IActorCompleteLifeCycle implemented on SharedThreadActorFactory.
+Note that it is not possible to control life cycle of actors created by SynchronizationContextFactory.
+
+IActorCompleteLifeCycle is defined as below:
+
+	public interface IActorCompleteLifeCycle : IActorLifeCycle
+	{
+	      Task Abort();
+	}
 
 IActorLifeCycle has two methods:
 
 	public interface IActorLifeCycle
 	{
-	      Task Abort();
-
 	      Task Stop();
 	}
 	
@@ -183,7 +200,7 @@ Comparaison with other frameworks
 Code coverage
 -------------
 
-100%
+98.94%
 
 How it works
 ------------
