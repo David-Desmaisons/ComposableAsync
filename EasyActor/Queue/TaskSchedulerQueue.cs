@@ -14,7 +14,6 @@ namespace EasyActor
         private readonly TaskScheduler _Scheduler;
         private readonly TaskFactory _TaskFactory;
         private readonly ConcurrentExclusiveSchedulerPair _ConcurrentExclusiveSchedulerPair;
-        private Func<Task> _SetCleanUp; 
         public TaskSchedulerQueue()
         {
             _ConcurrentExclusiveSchedulerPair = new ConcurrentExclusiveSchedulerPair();
