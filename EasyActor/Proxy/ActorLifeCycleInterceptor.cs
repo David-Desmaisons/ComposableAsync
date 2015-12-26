@@ -29,7 +29,7 @@ namespace EasyActor
         {
             if (invocation.Method != _Stop)
             {
-                throw new IndexOutOfRangeException();
+                throw new ArgumentOutOfRangeException();
             }
 
             return _Queue.Stop(() => (_IAsyncDisposable != null) ?

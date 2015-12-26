@@ -47,7 +47,7 @@
     <Compile Include="Helper\TypeHelper.cs" />
     <Compile Include="IActorLifeCycle.cs" />
     <Compile Include="Options\ActorFactorType.cs" />
-    <Compile Include="ActorFactoryBuilder.cs" />
+    <Compile Include="FactoryBuilder.cs" />
     <Compile Include="Options\BalancingOption.cs" />
     <Compile Include="Collections\Collection.cs" />
     <Compile Include="Factories\ActorFactoryBase.cs" />

@@ -13,12 +13,12 @@ namespace EasyActor.Test
     [TestFixture]
     public class ActorFactoryBuilderTest
     {
-         private ActorFactoryBuilder _ActorFactoryBuilder;
+         private FactoryBuilder _ActorFactoryBuilder;
 
         [SetUp]
         public void TestUp()
         {
-            _ActorFactoryBuilder = new ActorFactoryBuilder();
+            _ActorFactoryBuilder = new FactoryBuilder();
         }
 
         [TearDown]
