@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using FluentAssertions;
@@ -18,10 +15,12 @@ namespace EasyActor.Test.TaskHelper
     public class SynchronizationContextTaskSchedulerTest
     {
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_Should_Throw_Exception_On_Null_Context()
         {
-            var target = new SynchronizationContextTaskScheduler(null);
+            SynchronizationContextTaskScheduler res = null;
+            Action Do = () => res = new SynchronizationContextTaskScheduler(null);
+
+            Do.ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
@@ -36,7 +35,7 @@ namespace EasyActor.Test.TaskHelper
         }
 
 
-         [Test]
+        [Test]
         public void GetScheduledTasksEnumerable_Should_Be_Null()
         {
             //Arrange
@@ -52,7 +51,7 @@ namespace EasyActor.Test.TaskHelper
         {
             var synContext = Substitute.For<SynchronizationContext>();
             synContext.When(sc => sc.Post(Arg.Any<SendOrPostCallback>(), Arg.Any<object>()))
-                .Do(ci => Task.Run(()=> ci.ArgAt<SendOrPostCallback>(0)(ci[1])));
+                .Do(ci => Task.Run(() => ci.ArgAt<SendOrPostCallback>(0)(ci[1])));
 
             return synContext;
         }
@@ -69,11 +68,11 @@ namespace EasyActor.Test.TaskHelper
             await factory.StartNew(() => done = true);
 
             //Assert
-            synContext.Received().Post(Arg.Any<SendOrPostCallback>(),Arg.Any<object>());
+            synContext.Received().Post(Arg.Any<SendOrPostCallback>(), Arg.Any<object>());
             done.Should().BeTrue();
         }
 
-  
+
         [Test]
         public void Task_Created_By_Corresponding_Factory_Should_Call_SynchronizationContext_Post_On_Task_Inlining()
         {
@@ -81,9 +80,7 @@ namespace EasyActor.Test.TaskHelper
             var synContext = BuildSynchronizationContext();
             var target = new SynchronizationContextTaskScheduler(synContext);
 
-
-
-            bool done = false;
+            var done = false;
             var factory = new TaskFactory(target);
 
             factory.StartNew(

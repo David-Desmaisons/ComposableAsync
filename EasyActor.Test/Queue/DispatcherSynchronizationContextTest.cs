@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using FluentAssertions;
 using EasyActor.Queue;
@@ -23,10 +19,11 @@ namespace EasyActor.Test
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Constructor_Throw_Exception_On_Null_Queue()
-        {
-            new MonoThreadedQueueSynchronizationContext(null);
+        public void Constructor_Throw_Exception_On_Null_Queue() {
+            MonoThreadedQueueSynchronizationContext res = null;
+            Action Do =  () => res = new MonoThreadedQueueSynchronizationContext(null);
+
+            Do.ShouldThrow<ArgumentNullException>();
         }
 
         [Test]
@@ -82,7 +79,6 @@ namespace EasyActor.Test
         public void CreateCopy_Should_Return_A_DispatcherSynchronizationContext()
         {
             //arrange
-
             var cloned = _Dispatcher.CreateCopy();
 
             //assert
@@ -93,7 +89,6 @@ namespace EasyActor.Test
         public void CreateCopy_Should_Return_A_DispatcherSynchronizationContext_Conected_ToSameQueue()
         {
             //arrange
-
             var cloned = (MonoThreadedQueueSynchronizationContext)_Dispatcher.CreateCopy();
 
             //assert

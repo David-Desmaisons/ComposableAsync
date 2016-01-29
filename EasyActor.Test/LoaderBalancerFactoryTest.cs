@@ -32,12 +32,12 @@ namespace EasyActor.Test
             target.Should().NotBeNull();
         }
 
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         [TestCase(0)]
         [TestCase(-1)]
         public void ShouldNotWorkWithNegativeOrNullParalelism(int parrallelism)
         {
-            _Factory.Build<IDummyInterface2>(_Fact, parrallelism);
+            Action Do = () => _Factory.Build<IDummyInterface2>(_Fact, parrallelism);
+            Do.ShouldThrow<ArgumentOutOfRangeException>();
         }
      
         [Test]
@@ -127,14 +127,15 @@ namespace EasyActor.Test
         }
 
         [Test]
-        [ExpectedException(typeof(TaskCanceledException))]
         public async Task LoadBalancer_IActorLifeCycle_Abort_Should_CancelTask()
         {
             var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
             var lf = target as IActorCompleteLifeCycle;
             await lf.Abort();
 
-            await target.SlowDoAsync();
+            Action Do = () => target.SlowDoAsync().Wait();
+
+            Do.ShouldThrow<TaskCanceledException>();
         }
 
         [Test]
@@ -173,14 +174,15 @@ namespace EasyActor.Test
         }
 
         [Test]
-        [ExpectedException(typeof(TaskCanceledException))]
         public async Task LoadBalancer_IActorLifeCycle_Stop_Should_CancelTask()
         {
             var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
             var lf = target as IActorCompleteLifeCycle;
             await lf.Stop();
 
-            await target.SlowDoAsync();
+            Action Do = () => target.SlowDoAsync().Wait();
+
+            Do.ShouldThrow<TaskCanceledException>();
         }
 
         [Test]

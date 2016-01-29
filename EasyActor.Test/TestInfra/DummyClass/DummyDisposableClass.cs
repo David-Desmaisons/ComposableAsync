@@ -23,6 +23,14 @@ namespace EasyActor.Test.TestInfra.DummyClass
             return Task.FromResult<object>(null);
         }
 
+        public Task DoAsync(IProgress<int> Progress)
+        {
+            Progress.Report(1);
+            Thread.Sleep(800);
+            Progress.Report(95);
+            return Task.FromResult<object>(null);
+        }
+
         public Task DisposeAsync()
         {
             Dispose();

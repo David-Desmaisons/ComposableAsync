@@ -4,8 +4,6 @@ using System.Threading;
 
 using FluentAssertions;
 using NUnit.Framework;
-
-using EasyActor.TaskHelper;
 using EasyActor.Test.TestInfra.DummyClass;
 
 namespace EasyActor.Test
@@ -272,12 +270,15 @@ namespace EasyActor.Test
          public async Task Actor_IActorLifeCycle_Abort_Should_Not_Cancel_RunningTask()
          {
              //arrange
+             var taskCompletionSource = new TaskCompletionSource<object>();
+             var progress = new Progress<int>( i => taskCompletionSource.TrySetResult(null));
              var dispclass = new DisposableClass();
              var intface = _Factory.Build<IDummyInterface1>(dispclass);
              IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
 
              //act
-             var Taskrunning = intface.DoAsync();
+             var Taskrunning = intface.DoAsync(progress);
+             await taskCompletionSource.Task;
              await disp.Abort();
              await Taskrunning;
              Thread.Sleep(100);

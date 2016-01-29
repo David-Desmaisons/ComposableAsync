@@ -1,17 +1,11 @@
 ﻿using EasyActor.TaskHelper;
-using EasyActor.Test;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace EasyActor.Test.TestInfra.DummyClass
 {
-   
-
-    
     public class DummyClass : IDummyInterface2
     {
         private static List<DummyClass> _Objects = new List<DummyClass>();
@@ -52,6 +46,15 @@ namespace EasyActor.Test.TestInfra.DummyClass
             return TaskBuilder.Completed;
         }
 
+        public Task DoAsync(IProgress<int> Progress) {
+            DoAsyncCount++;
+            CallingThread = Thread.CurrentThread;
+            Done = true;
+            Progress.Report(10);
+            Thread.Sleep(200);
+            Progress.Report(95);
+            return TaskBuilder.Completed;
+        }
 
         public async Task<Tuple<Thread, Thread>> DoAnRedoAsync()
         {
@@ -64,11 +67,9 @@ namespace EasyActor.Test.TestInfra.DummyClass
             return new Tuple<Thread, Thread>(one, CallingThread);
         }
 
-
         public void Do()
         {
         }
-
 
         public Task Throw()
         {
@@ -84,7 +85,6 @@ namespace EasyActor.Test.TestInfra.DummyClass
             Done = true;
             return TaskBuilder.Completed;
         }
-
 
         public Task<int> ComputeAsync(int value)
         {
