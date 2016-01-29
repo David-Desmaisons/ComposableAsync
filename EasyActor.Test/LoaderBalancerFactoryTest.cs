@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using System.Threading;
+using EasyActor.Test.TestInfra.DummyClass;
 
 namespace EasyActor.Test
 {
@@ -14,19 +15,19 @@ namespace EasyActor.Test
     public class LoadBalancerFactoryTest
     {
         private LoadBalancerFactory _Factory;
-        private Func<Class> _Fact = () => new Class();
+        private Func<DummyClass> _Fact = () => new DummyClass();
 
         [SetUp]
         public void TestUp()
         {
             _Factory = new LoadBalancerFactory(BalancingOption.MinizeObjectCreation);
-            Class.ResetCount();
+            DummyClass.ResetCount();
         }
 
         [Test]
         public void ShouldCreateBasicLB()
         {
-            var target = _Factory.Build<Interface>(_Fact,2);
+            var target = _Factory.Build<IDummyInterface2>(_Fact,2);
 
             target.Should().NotBeNull();
         }
@@ -36,44 +37,44 @@ namespace EasyActor.Test
         [TestCase(-1)]
         public void ShouldNotWorkWithNegativeOrNullParalelism(int parrallelism)
         {
-            _Factory.Build<Interface>(_Fact, parrallelism);
+            _Factory.Build<IDummyInterface2>(_Fact, parrallelism);
         }
      
         [Test]
         public async Task ShouldDelegateToPoco()
         {
-            var target = _Factory.Build<Interface>(_Fact, 2);
+            var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
             var res = await target.ComputeAsync(23);
 
             res.Should().Be(23);
-            Class.Count.Should().Be(1);
+            DummyClass.Count.Should().Be(1);
         }
 
         [Test]
         public async Task MinizeObjectCreation_Should_Create_Poco_IfNeeded_Simultaneous()
         {
-            var target = _Factory.Build<Interface>(_Fact, 2);
+            var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
             await Task.WhenAll(target.SlowDoAsync(), target.SlowDoAsync());
 
-            Class.Count.Should().Be(2);
+            DummyClass.Count.Should().Be(2);
         }
 
         [Test]
         public async Task MinizeObjectCreation_Should_Create_Poco_IfNeeded()
         {
-            var target = _Factory.Build<Interface>(_Fact, 2);
+            var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
             var t1= target.SlowDoAsync();
             Thread.Sleep(200);
             var t2 = target.SlowDoAsync();
             await Task.WhenAll(t1, t2);
 
-            Class.Count.Should().Be(2);
+            DummyClass.Count.Should().Be(2);
         }
 
         [Test]
         public async Task MinizeObjectCreation_Should_Not_Create_More_Poco_Than_LimitedParallelism()
         {
-            var target = _Factory.Build<Interface>(_Fact, 2);
+            var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
             var t1 = target.SlowDoAsync();
             Thread.Sleep(200);
             var t2 = target.SlowDoAsync();
@@ -85,43 +86,43 @@ namespace EasyActor.Test
             var t5 = target.SlowDoAsync();
             await Task.WhenAll(t1, t2,t3,t4,t5);
 
-            Class.Count.Should().Be(2);
+            DummyClass.Count.Should().Be(2);
         }
 
         [Test]
         public async Task MinizeObjectCreation_ShouldNotInstanciateVariousPocoIfActorIsWithoutActivity()
         {
-            var target = _Factory.Build<Interface>(_Fact, 2);
+            var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
             await target.SlowDoAsync();
             Thread.Sleep(10);
             await target.SlowDoAsync();
 
-            Class.Count.Should().Be(1);
+            DummyClass.Count.Should().Be(1);
         }
 
         [Test]
         public async Task PreferParralelism_ShouldInstanciateVariousPocoEvenIfActorIsWithoutActivity()
         {
             _Factory = new LoadBalancerFactory(BalancingOption.PreferParralelism);
-            var target = _Factory.Build<Interface>(_Fact, 2);
+            var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
             await target.SlowDoAsync();
             Thread.Sleep(10);
             await target.SlowDoAsync();
 
-            Class.Count.Should().Be(2);
+            DummyClass.Count.Should().Be(2);
         }
 
         [Test]
         public void LoadBalancer_Should_Implement_IActorLifeCycle()
         {
-            var target = _Factory.Build<Interface>(_Fact, 2);
+            var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
             target.Should().BeAssignableTo<IActorCompleteLifeCycle>();
         }
 
         [Test]
         public async Task LoadBalancer_IActorLifeCycle_Abort_Should_NotThrowException()
         {
-            var target = _Factory.Build<Interface>(_Fact, 2) as IActorCompleteLifeCycle;
+            var target = _Factory.Build<IDummyInterface2>(_Fact, 2) as IActorCompleteLifeCycle;
             await target.Abort();
         }
 
@@ -129,7 +130,7 @@ namespace EasyActor.Test
         [ExpectedException(typeof(TaskCanceledException))]
         public async Task LoadBalancer_IActorLifeCycle_Abort_Should_CancelTask()
         {
-            var target = _Factory.Build<Interface>(_Fact, 2);
+            var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
             var lf = target as IActorCompleteLifeCycle;
             await lf.Abort();
 
@@ -139,7 +140,7 @@ namespace EasyActor.Test
         [Test]
         public async Task LoadBalancer_IActorLifeCycle_Abort_Should_CancelTask_Not_Run()
         {
-            var target = _Factory.Build<Interface>(_Fact, 2);
+            var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
 
             var t1 = target.SlowDoAsync();
             var t2 = target.SlowDoAsync();
@@ -167,7 +168,7 @@ namespace EasyActor.Test
         [Test]
         public async Task LoadBalancer_IActorLifeCycle_Stop_Should_NotThrowException()
         {
-            var target = _Factory.Build<Interface>(_Fact, 2) as IActorCompleteLifeCycle;
+            var target = _Factory.Build<IDummyInterface2>(_Fact, 2) as IActorCompleteLifeCycle;
             await target.Stop();
         }
 
@@ -175,7 +176,7 @@ namespace EasyActor.Test
         [ExpectedException(typeof(TaskCanceledException))]
         public async Task LoadBalancer_IActorLifeCycle_Stop_Should_CancelTask()
         {
-            var target = _Factory.Build<Interface>(_Fact, 2);
+            var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
             var lf = target as IActorCompleteLifeCycle;
             await lf.Stop();
 
@@ -185,7 +186,7 @@ namespace EasyActor.Test
         [Test]
         public void Stress_Paralellism()
         {
-            var target = _Factory.Build<Interface>(_Fact, 5);
+            var target = _Factory.Build<IDummyInterface2>(_Fact, 5);
 
             ThreadStart ts = () => Start(target);
 
@@ -193,19 +194,19 @@ namespace EasyActor.Test
             treads.ForEach(t => t.Start());
             treads.ForEach(t => t.Join());
 
-            Class.Count.Should().Be(5);
+            DummyClass.Count.Should().Be(5);
 
             int j = 0;
-            foreach(var ob in Class.GetObjects())
+            foreach(var ob in DummyClass.GetObjects())
             {
                 Console.WriteLine("actor {0}: {1}",j++,ob.SlowDoAsyncCount);
             }
 
-            Class.GetObjects().Select(o => o.SlowDoAsyncCount).Max().Should().BeLessOrEqualTo(21);
-            Class.GetObjects().Select(o => o.SlowDoAsyncCount).Max().Should().BeGreaterOrEqualTo(19);
+            DummyClass.GetObjects().Select(o => o.SlowDoAsyncCount).Max().Should().BeLessOrEqualTo(21);
+            DummyClass.GetObjects().Select(o => o.SlowDoAsyncCount).Max().Should().BeGreaterOrEqualTo(19);
         }
 
-        private void Start(Interface dummy)
+        private void Start(IDummyInterface2 dummy)
         {
             Thread.Sleep(400);
             dummy.SlowDoAsync().Wait();

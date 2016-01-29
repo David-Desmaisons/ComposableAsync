@@ -4,6 +4,7 @@ using FluentAssertions;
 using System.Threading;
 using NUnit.Framework;
 using EasyActor.TaskHelper;
+using EasyActor.Test.TestInfra.DummyClass;
 
 namespace EasyActor.Test
 {
@@ -27,10 +28,10 @@ namespace EasyActor.Test
         public async Task All_Actors_Should_Run_On_Same_Thread()
         {
             //arrange
-            var target1 = new Class();
-            var target2 = new Class();
-            var intface1 = _Factory.Build<Interface>(target1);
-            var intface2 = _Factory.Build<Interface>(target2);
+            var target1 = new DummyClass();
+            var target2 = new DummyClass();
+            var intface1 = _Factory.Build<IDummyInterface2>(target1);
+            var intface2 = _Factory.Build<IDummyInterface2>(target2);
 
             //act
             await intface1.DoAsync();
@@ -44,8 +45,8 @@ namespace EasyActor.Test
         public async Task BuildAsync_Should_Call_Constructor_On_Actor_Thread()
         {
             var current = Thread.CurrentThread;
-            Class target = null;
-            Interface intface = await _Factory.BuildAsync<Interface>(() => { target = new Class(); return target; });
+            DummyClass target = null;
+            IDummyInterface2 intface = await _Factory.BuildAsync<IDummyInterface2>(() => { target = new DummyClass(); return target; });
             await intface.DoAsync();
 
             target.Done.Should().BeTrue();
@@ -57,8 +58,8 @@ namespace EasyActor.Test
         public async Task Stop_Should_Kill_Thread()
         {
             //arrange
-            var target1 = new Class();
-            var intface1 = _Factory.Build<Interface>(target1);
+            var target1 = new DummyClass();
+            var intface1 = _Factory.Build<IDummyInterface2>(target1);
           
 
             //act
@@ -73,8 +74,8 @@ namespace EasyActor.Test
         public async Task Abort_Should_Kill_Thread()
         {
             //arrange
-            var target1 = new Class();
-            var intface1 = _Factory.Build<Interface>(target1);
+            var target1 = new DummyClass();
+            var intface1 = _Factory.Build<IDummyInterface2>(target1);
 
             //act
             await intface1.DoAsync();
@@ -89,7 +90,7 @@ namespace EasyActor.Test
         {
             //arrange
             var target1 = new DisposableClass();
-            var intface1 = _Factory.Build<Interface1>(target1);
+            var intface1 = _Factory.Build<IDummyInterface1>(target1);
 
             //act
             await intface1.DoAsync();
@@ -104,7 +105,7 @@ namespace EasyActor.Test
         {
             //arrange
             var target1 = new DisposableClass();
-            var intface1 = _Factory.Build<Interface1>(target1);
+            var intface1 = _Factory.Build<IDummyInterface1>(target1);
 
 
             //act

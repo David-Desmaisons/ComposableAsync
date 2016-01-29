@@ -10,14 +10,15 @@ using FluentAssertions;
 using System.Threading;
 using EasyActor.Test.WPFThreading;
 using EasyActor.Queue;
+using EasyActor.Test.TestInfra.DummyClass;
 
 namespace EasyActor.Test
 {
     [TestFixture]
     public class ActorContextTest
     {
-        private Interface _Interface;
-        private Class _Proxified;
+        private IDummyInterface2 _Interface;
+        private DummyClass _Proxified;
         private ActorContext _ActorContext;
 
         [SetUp]
@@ -25,8 +26,8 @@ namespace EasyActor.Test
         {
             _ActorContext = new ActorContext();
             var factory = new ActorFactory();
-            _Proxified = new Class();
-            _Interface = factory.Build<Interface>(_Proxified);
+            _Proxified = new DummyClass();
+            _Interface = factory.Build<IDummyInterface2>(_Proxified);
         }
 
         [Test]
@@ -77,8 +78,8 @@ namespace EasyActor.Test
 
             var scf = UIMessageLoop.Dispatcher.Invoke(() => new SynchronizationContextFactory());
 
-            _Proxified = new Class();
-            _Interface = scf.Build<Interface>(_Proxified);
+            _Proxified = new DummyClass();
+            _Interface = scf.Build<IDummyInterface2>(_Proxified);
 
             //act
             var res = _ActorContext.GetTaskFactory(_Proxified);
@@ -130,8 +131,8 @@ namespace EasyActor.Test
 
             var scf = UIMessageLoop.Dispatcher.Invoke(() => new SynchronizationContextFactory());
 
-            _Proxified = new Class();
-            _Interface = scf.Build<Interface>(_Proxified);
+            _Proxified = new DummyClass();
+            _Interface = scf.Build<IDummyInterface2>(_Proxified);
 
             //act
             var res = _ActorContext.GetTaskScheduler(_Proxified);

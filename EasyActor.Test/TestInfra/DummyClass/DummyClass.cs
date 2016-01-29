@@ -1,4 +1,5 @@
 ﻿using EasyActor.TaskHelper;
+using EasyActor.Test;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,38 +7,22 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EasyActor.Test
+namespace EasyActor.Test.TestInfra.DummyClass
 {
-    public interface Interface1
+   
+
+    
+    public class DummyClass : IDummyInterface2
     {
-        Task DoAsync();
-    }
+        private static List<DummyClass> _Objects = new List<DummyClass>();
 
-    public interface Interface : Interface1
-    {
-        Task SlowDoAsync();
-
-        Task<int> ComputeAsync(int value);
-
-        Task<decimal> ComputeAndWaitAsync(decimal value);
-
-        Task<Tuple<Thread, Thread>> DoAnRedoAsync();
-
-        void Do();
-
-        Task Throw();
-    }
-    public class Class : Interface
-    {
-        private static List<Class> _Objects = new List<Class>();
-
-        public Class()
+        public DummyClass()
         {
             CallingConstructorThread = Thread.CurrentThread;
             _Objects.Add(this);
         }
 
-        public static IEnumerable<Class> GetObjects()
+        public static IEnumerable<DummyClass> GetObjects()
         {
             return _Objects;
         }
@@ -117,32 +102,4 @@ namespace EasyActor.Test
             return Task.FromResult<decimal>(value);
         }
     }
-
-    public class DisposableClass : Interface1, IAsyncDisposable
-    {
-        public DisposableClass()
-        {
-            IsDisposed = false;
-        }
-
-        public bool IsDisposed { get; private set; }
-
-        public Task DoAsync()
-        {
-            Thread.Sleep(800);
-            return Task.FromResult<object>(null);
-        }
-
-        public Task DisposeAsync()
-        {
-            Dispose();
-            return TaskBuilder.Completed;
-        }
-
-        public void Dispose()
-        {
-            IsDisposed = true;
-        }
-    }
-
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using System.Threading;
+using EasyActor.Test.TestInfra.DummyClass;
 
 namespace EasyActor.Test
 {
@@ -31,8 +32,8 @@ namespace EasyActor.Test
         public async Task Method_Should_Run_On_Separated_Pooled_Thread()
         {
             var current = Thread.CurrentThread;
-            var target = new Class();
-            var intface = _TaskPoolActorFactory.Build<Interface>(target);
+            var target = new DummyClass();
+            var intface = _TaskPoolActorFactory.Build<IDummyInterface2>(target);
             await intface.DoAsync();
 
             target.Done.Should().BeTrue();
@@ -45,8 +46,8 @@ namespace EasyActor.Test
         public async Task Method_Should_Not_Always_OnPoolThread()
         {
             var current = Thread.CurrentThread;
-            var target = new Class();
-            var intface = _TaskPoolActorFactory.Build<Interface>(target);
+            var target = new DummyClass();
+            var intface = _TaskPoolActorFactory.Build<IDummyInterface2>(target);
             await intface.DoAsync();
 
             var thread = target.CallingThread;
@@ -60,10 +61,10 @@ namespace EasyActor.Test
         public async Task Each_Actor_Should_Run_On_Separated_Thread()
         {
             //arrange
-            var target1 = new Class();
-            var target2 = new Class();
-            var intface1 = _TaskPoolActorFactory.Build<Interface>(target1);
-            var intface2 = _TaskPoolActorFactory.Build<Interface>(target2);
+            var target1 = new DummyClass();
+            var target2 = new DummyClass();
+            var intface1 = _TaskPoolActorFactory.Build<IDummyInterface2>(target1);
+            var intface2 = _TaskPoolActorFactory.Build<IDummyInterface2>(target2);
 
             //act
             await Task.WhenAll(intface1.SlowDoAsync(), intface2.SlowDoAsync());
@@ -76,8 +77,8 @@ namespace EasyActor.Test
         public async Task BuildAsync_Should_Call_Constructor_On_ThreadPoolThread()
         {
             var current = Thread.CurrentThread;
-            Class target = null;
-            Interface intface = await _TaskPoolActorFactory.BuildAsync<Interface>(() => { target = new Class(); return target; });
+            DummyClass target = null;
+            IDummyInterface2 intface = await _TaskPoolActorFactory.BuildAsync<IDummyInterface2>(() => { target = new DummyClass(); return target; });
             await intface.DoAsync();
 
             target.Done.Should().BeTrue();
@@ -88,7 +89,7 @@ namespace EasyActor.Test
         [Test]
         public void Actor_Should_Implement_IActorLifeCycle()
         {
-            var intface = _TaskPoolActorFactory.Build<Interface>(new Class());
+            var intface = _TaskPoolActorFactory.Build<IDummyInterface2>(new DummyClass());
             intface.Should().BeAssignableTo<IActorLifeCycle>();
         }
 
@@ -97,7 +98,7 @@ namespace EasyActor.Test
         {
             //arrange
             var dispclass = new DisposableClass();
-            var intface = _TaskPoolActorFactory.Build<Interface1>(dispclass);
+            var intface = _TaskPoolActorFactory.Build<IDummyInterface1>(dispclass);
 
             //act
             var disp = intface as IActorLifeCycle;
@@ -113,7 +114,7 @@ namespace EasyActor.Test
         {
             //arrange
             var dispclass = new DisposableClass();
-            var intface = _TaskPoolActorFactory.Build<Interface1>(dispclass);
+            var intface = _TaskPoolActorFactory.Build<IDummyInterface1>(dispclass);
 
             //act
             var task = intface.DoAsync();
@@ -145,7 +146,7 @@ namespace EasyActor.Test
         {
             //arrange
             var dispclass = new DisposableClass();
-            var intface = _TaskPoolActorFactory.Build<Interface1>(dispclass);
+            var intface = _TaskPoolActorFactory.Build<IDummyInterface1>(dispclass);
 
             Task Taskrunning = intface.DoAsync(), Takenqueued = intface.DoAsync();
             Thread.Sleep(100);

@@ -9,6 +9,7 @@ using NUnit.Framework;
 using System.Windows.Threading;
 using System.Windows;
 using EasyActor.Test.WPFThreading;
+using EasyActor.Test.TestInfra.DummyClass;
 
 namespace EasyActor.Test
 {
@@ -50,8 +51,8 @@ namespace EasyActor.Test
           public async Task Proxy_Method_WithoutResult_Should_Be_Called()
           {
               //arrange
-              var obj = new Class();
-              var actor = _Factory.Build<Interface>(obj);
+              var obj = new DummyClass();
+              var actor = _Factory.Build<IDummyInterface2>(obj);
 
               //act
               await actor.DoAsync();
@@ -64,8 +65,8 @@ namespace EasyActor.Test
           public async Task Proxy_Method_WithResult_Should_Called()
           {
               //arrange
-              var obj = new Class();
-              var actor = _Factory.Build<Interface>(obj);
+              var obj = new DummyClass();
+              var actor = _Factory.Build<IDummyInterface2>(obj);
 
               //act
               var res = await actor.ComputeAsync(5);
@@ -79,8 +80,8 @@ namespace EasyActor.Test
           public async Task Proxy_Method_WithoutResult_Should_Dispatch_On_Captured_UI_Thread()
           {
               //arrange
-              var obj = new Class();
-              var actor = _Factory.Build<Interface>(obj);
+              var obj = new DummyClass();
+              var actor = _Factory.Build<IDummyInterface2>(obj);
 
               //act
               await actor.DoAsync();
@@ -93,8 +94,8 @@ namespace EasyActor.Test
           public async Task Proxy_Method_WithResult_Should_Dispatch_On_Captured_UI_Thread()
           {
               //arrange
-              var obj = new Class();
-              var actor = _Factory.Build<Interface>(obj);
+              var obj = new DummyClass();
+              var actor = _Factory.Build<IDummyInterface2>(obj);
 
               //act
               await actor.ComputeAsync(5);
@@ -107,8 +108,8 @@ namespace EasyActor.Test
           public async Task BuildAsync_Should_Call_Constructor_On_Actor_Thread()
           {
               var current = Thread.CurrentThread;
-              Class target = null;
-              Interface intface = await _Factory.BuildAsync<Interface>(() => { target = new Class(); return target; });
+              DummyClass target = null;
+              IDummyInterface2 intface = await _Factory.BuildAsync<IDummyInterface2>(() => { target = new DummyClass(); return target; });
               await intface.DoAsync();
 
               target.Done.Should().BeTrue();
