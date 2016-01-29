@@ -106,8 +106,8 @@ namespace EasyActor.PipeLineTest
             Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
             var finaliser1 = PipeLine.Create<int>(i => Console.WriteLine("{0} {1}", Thread.CurrentThread.ManagedThreadId, i));
 
-            Func<int, int> M3 = i => { Thread.Sleep(500); Console.WriteLine("M3 {0}", Thread.CurrentThread.ManagedThreadId); return i * 3; };
-            Func<int, int> M5 = i => { Console.WriteLine("M5 {0}", Thread.CurrentThread.ManagedThreadId); return i * 5; };
+            Func<int, int> M3 = i => { Thread.Sleep(500); Console.WriteLine("M3 Thread:{0} (5 threads)", Thread.CurrentThread.ManagedThreadId); return i * 3; };
+            Func<int, int> M5 = i => { Console.WriteLine("M5 Thread:{0} (monothreaded)", Thread.CurrentThread.ManagedThreadId); return i * 5; };
 
             var pip1 = PipeLine.Create<int, int>(M3, 5).Next(finaliser1);
             var pip2 = PipeLine.Create<int, int>(M5).Next(finaliser1);
