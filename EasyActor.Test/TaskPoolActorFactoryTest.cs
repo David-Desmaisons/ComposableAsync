@@ -43,6 +43,20 @@ namespace EasyActor.Test
         }
 
         [Test]
+        public async Task Method_WithAReturn_Should_Run_On_Separated_Pooled_Thread()
+        {
+            var current = Thread.CurrentThread;
+            var target = new DummyClass();
+            var intface = _TaskPoolActorFactory.Build<IDummyInterface2>(target);
+            var res = await intface.ComputeAsync(2);
+
+            res.Should().Be(2);
+            target.CallingThread.Should().NotBeNull();
+            target.CallingThread.IsThreadPoolThread.Should().BeTrue();
+            target.CallingThread.Should().NotBe(current);
+        }
+
+        [Test]
         public async Task Method_Should_Not_Always_OnPoolThread()
         {
             var current = Thread.CurrentThread;

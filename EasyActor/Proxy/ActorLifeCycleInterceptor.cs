@@ -28,9 +28,7 @@ namespace EasyActor
         protected override object InterceptClassMethod(IInvocation invocation)
         {
             if (invocation.Method != _Stop)
-            {
                 throw new ArgumentOutOfRangeException();
-            }
 
             return _Queue.Stop(() => (_IAsyncDisposable != null) ?
                             _IAsyncDisposable.DisposeAsync() : TaskBuilder.Completed);

@@ -25,7 +25,7 @@ namespace EasyActor
             _Disposable = new ConcurrentQueue<IAsyncDisposable>();
         }
 
-        public ActorFactorType Type
+        public override ActorFactorType Type
         {
             get { return ActorFactorType.Shared; }
         }

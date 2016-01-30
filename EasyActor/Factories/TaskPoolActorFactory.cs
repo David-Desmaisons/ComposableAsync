@@ -19,7 +19,7 @@ namespace EasyActor
         {
         }
 
-        public ActorFactorType Type
+        public override ActorFactorType Type
         {
             get { return ActorFactorType.TaskPool; }
         }
@@ -36,15 +36,15 @@ namespace EasyActor
             return Build<T>(concrete, GetQueue());
         }
 
-        private IStopableTaskQueue GetQueue()
-        {
-            return new TaskSchedulerQueue();
-        }
-
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
         {
             var queue = GetQueue();
             return queue.Enqueue( ()=> Build<T>(concrete(),queue) );
+        }        
+        
+        private IStopableTaskQueue GetQueue()
+        {
+            return new TaskSchedulerQueue();
         }
     }
 }

@@ -36,8 +36,6 @@ namespace EasyActor
                     throw new NotSupportedException("Actor method should only return Task or Task<T>");
 
                 case TaskType.Task:
-                    var tcs = new TaskCompletionSource<object>();
-
                     invocation.ReturnValue = _Queue.Enqueue(() =>
                         {
                             return invocation.Call<Task>();
@@ -50,8 +48,7 @@ namespace EasyActor
                      mi.Invoke(this, new[] { invocation });
                     break;
             }
-        }
-  
+        } 
 
         private void Proceed<T>(IInvocation invocation)
         {

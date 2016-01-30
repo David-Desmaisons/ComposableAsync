@@ -26,9 +26,9 @@ namespace EasyActor
             _Context = new SynchronizationContextQueue(synchronizationContext);
         }
 
-      
 
-        public ActorFactorType Type
+
+        public override ActorFactorType Type
         {
             get { return ActorFactorType.InCurrentContext; }
         }

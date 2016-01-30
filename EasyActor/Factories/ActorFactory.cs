@@ -20,7 +20,7 @@ namespace EasyActor
             _OnCreate = onCreate;
         }
 
-        public ActorFactorType Type
+        public override ActorFactorType Type
         {
             get { return ActorFactorType.Standard; }
         }

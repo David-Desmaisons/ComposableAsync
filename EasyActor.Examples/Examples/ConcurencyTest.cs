@@ -81,7 +81,8 @@ namespace EasyActor.Examples
             }  
         }
 
-        [Test, TestCaseSource(typeof(DataTestFactory), "TestCases")]
+        [Test]
+        [TestCaseSource(typeof(DataTestFactory), "TestCases")]
         public async Task NoActor_Should_Generate_Random_Output(IDoStuff stuffer, bool safe)
         {
             _IActor = stuffer;
