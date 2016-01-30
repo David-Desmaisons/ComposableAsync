@@ -9,6 +9,7 @@ using System.Reflection;
 using EasyActor.Queue;
 using System.Diagnostics;
 using EasyActor.Proxy;
+using EasyActor.Factories;
 
 namespace EasyActor
 {
@@ -30,8 +31,11 @@ namespace EasyActor
             if (invocation.Method != _Stop)
                 throw new ArgumentOutOfRangeException();
 
-            return _Queue.Stop(() => (_IAsyncDisposable != null) ?
-                            _IAsyncDisposable.DisposeAsync() : TaskBuilder.Completed);
+            return _Queue.Stop(() =>
+            {
+                ActorFactoryBase.Clean(invocation.Proxy);
+                return (_IAsyncDisposable != null) ? _IAsyncDisposable.DisposeAsync() : TaskBuilder.Completed;
+            });
         }
     }
 }

@@ -33,6 +33,11 @@ namespace EasyActor.Factories
             return (res==null) ? null : res.TaskScheduler;
         }
 
+        public static void Clean(object raw)
+        {
+            _SynchronizationContext.Remove(raw);
+        }
+
         private void Register<T>(T registered, T proxyfied, ITaskQueue queue)
         {
             var actor = new Actor(proxyfied, queue.TaskScheduler, Type);

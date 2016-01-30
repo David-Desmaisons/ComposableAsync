@@ -107,6 +107,29 @@ namespace EasyActor.Test
         }
 
         [Test]
+        public void Build_Should_CreateSameInterface_ForSamePOCO()
+        {
+            var target = new DummyClass();
+            var intface = _Factory.Build<IDummyInterface2>(target);
+            var intface2 = _Factory.Build<IDummyInterface2>(target);
+
+            intface.Should().BeSameAs(intface2);
+        }
+
+        [Test]
+        public void Build_Should_Throw_Exception_IsSamePOCO_HasBeenUsedWithOtherFactory()
+        {
+            var target = new DummyClass();
+            var Factory = new ActorFactory();
+            var intface = Factory.Build<IDummyInterface2>(target);
+
+
+            Action Do = () => _Factory.Build<IDummyInterface2>(target);
+
+            Do.ShouldThrow<ArgumentException>().And.Message.Should().Contain("Standard");
+        }
+
+        [Test]
         public async Task BuildAsync_Should_Call_Constructor_On_Actor_Thread()
         {
             var current = Thread.CurrentThread;
