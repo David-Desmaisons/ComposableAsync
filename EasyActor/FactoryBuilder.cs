@@ -22,6 +22,11 @@ namespace EasyActor
             return new SynchronizationContextFactory();
         }
 
+        public IActorFactory GetInContextFactory(SynchronizationContext synchronizationContext)
+        {
+            return new SynchronizationContextFactory(synchronizationContext);
+        }
+
         public IActorFactory GetTaskBasedFactory()
         {
             return new TaskPoolActorFactory();

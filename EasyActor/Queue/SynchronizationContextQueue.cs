@@ -11,7 +11,7 @@ namespace EasyActor
 {
     internal class SynchronizationContextQueue : ITaskQueue
     {
-        private SynchronizationContext _Context;
+        private readonly SynchronizationContext _Context;
         public SynchronizationContextQueue(SynchronizationContext synchronizationContext)
         {
             _Context = synchronizationContext;

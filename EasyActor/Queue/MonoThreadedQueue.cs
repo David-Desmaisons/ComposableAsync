@@ -15,9 +15,9 @@ namespace EasyActor.Queue
     {
         private static int _Count = 0;
 
-        private BlockingCollection<IWorkItem> _TaskQueue = new BlockingCollection<IWorkItem>();
-        private Thread _Current;
-        private CancellationTokenSource _CTS;
+        private readonly BlockingCollection<IWorkItem> _TaskQueue = new BlockingCollection<IWorkItem>();
+        private readonly Thread _Current;
+        private readonly CancellationTokenSource _CTS;
         private AsyncActionWorkItem _Clean;
         private bool _Running = false;
 

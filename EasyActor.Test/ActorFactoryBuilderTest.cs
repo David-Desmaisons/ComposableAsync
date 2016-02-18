@@ -60,6 +60,14 @@ namespace EasyActor.Test
             res.Should().BeAssignableTo<SynchronizationContextFactory>();
         }
 
+        [Test]
+        public void GetFactory_InCurrentContext_With_Argument_Return_SynchronizationContextFactory()
+        {
+            var res = _ActorFactoryBuilder.GetInContextFactory(new SynchronizationContext());
+
+            res.Should().BeAssignableTo<SynchronizationContextFactory>();
+        }
+
 
         [Test]
         public void GetFactory_LoadBalancerFactory_Return_LoadBalancerFactory()

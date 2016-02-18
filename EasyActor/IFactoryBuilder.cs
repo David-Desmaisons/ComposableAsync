@@ -34,6 +34,11 @@ namespace EasyActor
         IActorFactory GetInContextFactory();
 
         /// <summary>
+        /// Returns an actor factory using the provided synchronizationContext 
+        /// </summary>
+        IActorFactory GetInContextFactory(SynchronizationContext synchronizationContext);
+
+        /// <summary>
         ///  Returns an load balancer factory corresponding to the given BalancingOption
         /// </summary>
         ILoadBalancerFactory GetLoadBalancerFactory(BalancingOption option = BalancingOption.MinizeObjectCreation, Action<Thread> onCreate = null);

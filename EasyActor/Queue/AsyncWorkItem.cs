@@ -9,8 +9,8 @@ namespace EasyActor.Queue
 {
     internal class AsyncWorkItem<T> : IWorkItem
     {
-        private TaskCompletionSource<T> _Source;
-        private Func<Task<T>> _Do;
+        private readonly TaskCompletionSource<T> _Source;
+        private readonly Func<Task<T>> _Do;
 
         public AsyncWorkItem(Func<Task<T>> iDo)
         {

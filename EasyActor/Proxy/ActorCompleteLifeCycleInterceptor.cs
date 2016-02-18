@@ -15,10 +15,10 @@ namespace EasyActor
 {
     internal class ActorCompleteLifeCycleInterceptor:  InterfaceInterceptor<IActorCompleteLifeCycle>, IInterceptor
     {
-         private static MethodInfo _Abort = _Type.GetMethod("Abort", BindingFlags.Instance | BindingFlags.Public);
+        private static MethodInfo _Abort = _Type.GetMethod("Abort", BindingFlags.Instance | BindingFlags.Public);
 
-        private IAbortableTaskQueue _Queue;
-        private IAsyncDisposable _IAsyncDisposable;
+        private readonly IAbortableTaskQueue _Queue;
+        private readonly IAsyncDisposable _IAsyncDisposable;
 
         public ActorCompleteLifeCycleInterceptor(IAbortableTaskQueue iqueue, IAsyncDisposable iAsyncDisposable)
         {
