@@ -5,10 +5,6 @@ namespace EasyActor
 {
     public class ActorContext : IActorContext
     {
-        public ActorContext()
-        {
-        }
-
         public TaskFactory GetTaskFactory(object proxy)
         {
             var synCon = GetTaskScheduler(proxy);

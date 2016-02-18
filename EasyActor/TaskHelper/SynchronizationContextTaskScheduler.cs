@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
 
 namespace EasyActor.TaskHelper
 {   
@@ -19,9 +16,7 @@ namespace EasyActor.TaskHelper
         public SynchronizationContextTaskScheduler(SynchronizationContext synContext)
         {
             if (synContext == null)
-            {
                 throw new ArgumentNullException("synContext can not be null");
-            }
  
             m_synchronizationContext = synContext;
         }
@@ -37,7 +32,7 @@ namespace EasyActor.TaskHelper
         [SecurityCritical]
         protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
         {
-            return (SynchronizationContext.Current == m_synchronizationContext) ?  TryExecuteTask(task) : false;
+            return (SynchronizationContext.Current == m_synchronizationContext) && TryExecuteTask(task);
         }
  
         [SecurityCritical]
