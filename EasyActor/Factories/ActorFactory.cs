@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Castle.DynamicProxy;
 using EasyActor.Queue;
 using EasyActor.Factories;
 using System.Threading;
@@ -13,7 +9,7 @@ namespace EasyActor
 {
     public class ActorFactory : ActorFactoryBase, IActorFactory
     {
-        private Action<Thread> _OnCreate;
+        private readonly Action<Thread> _OnCreate;
 
         public ActorFactory(Action<Thread> onCreate = null )
         {

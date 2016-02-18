@@ -1,13 +1,7 @@
 ﻿using Castle.DynamicProxy;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using EasyActor.TaskHelper;
 using System.Reflection;
-using EasyActor.Queue;
-using System.Diagnostics;
 using EasyActor.Proxy;
 using EasyActor.Factories;
 
@@ -15,10 +9,10 @@ namespace EasyActor
 {
     internal class ActorLifeCycleInterceptor : InterfaceInterceptor<IActorLifeCycle>, IInterceptor
     {
-        private static MethodInfo _Stop = _Type.GetMethod("Stop", BindingFlags.Instance | BindingFlags.Public);
+        private static readonly MethodInfo _Stop = _Type.GetMethod("Stop", BindingFlags.Instance | BindingFlags.Public);
 
-        private IStopableTaskQueue _Queue;
-        private IAsyncDisposable _IAsyncDisposable;
+        private readonly IStopableTaskQueue _Queue;
+        private readonly IAsyncDisposable _IAsyncDisposable;
 
         public ActorLifeCycleInterceptor(IStopableTaskQueue iqueue, IAsyncDisposable iAsyncDisposable)
         {

@@ -1,23 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-using System.Diagnostics;
-
 using Castle.DynamicProxy;
 
 using EasyActor.TaskHelper;
-using EasyActor.Queue;
 
 namespace EasyActor
 {
     internal class QueueDispatcherInterceptor : IInterceptor
     {
-        private static MethodInfo _Proceed = typeof(QueueDispatcherInterceptor).GetMethod("Proceed", BindingFlags.Instance | BindingFlags.NonPublic);
+        private static readonly MethodInfo _Proceed = typeof(QueueDispatcherInterceptor).GetMethod("Proceed", BindingFlags.Instance | BindingFlags.NonPublic);
 
-        private ITaskQueue _Queue;
+        private readonly ITaskQueue _Queue;
 
         public QueueDispatcherInterceptor(ITaskQueue iqueue)
         {

@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EasyActor.TaskHelper
 {
     public static class TaskBuilder
     {
-        private static Task _Completed;
-        private static Task _Cancelled;
+        private static readonly Task _Completed;
+        private static readonly Task _Cancelled;
         static TaskBuilder()
         {
             _Completed = Task.FromResult<object>(null);
@@ -37,11 +34,11 @@ namespace EasyActor.TaskHelper
             return tcs.Task;
         }
 
-        private static MethodInfo _GetCancelled = typeof(TaskBuilder).GetMethod("PrivateGetCancelled", BindingFlags.Static | BindingFlags.NonPublic);
+        private static readonly MethodInfo _GetCancelled = typeof(TaskBuilder).GetMethod("PrivateGetCancelled", BindingFlags.Static | BindingFlags.NonPublic);
 
         internal static Task GetCancelled(this Type @this)
         {
-            TaskDescription task = @this.GetTaskType();
+            var task = @this.GetTaskType();
             switch (task.MethodType)
             {                
                 case TaskType.Task:
@@ -57,7 +54,7 @@ namespace EasyActor.TaskHelper
 
     public static class TaskBuilder<T>
     {
-        private static Task<T> _Cancelled;
+        private static readonly Task<T> _Cancelled;
         static TaskBuilder()
         {
             var tcs = new TaskCompletionSource<T>();
@@ -67,7 +64,7 @@ namespace EasyActor.TaskHelper
 
         public static Task<T> Cancelled
         {
-            get {return _Cancelled;}
+            get { return _Cancelled;}
         }
     }
 }

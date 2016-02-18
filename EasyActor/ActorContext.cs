@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using EasyActor.Factories;
-using EasyActor.TaskHelper;
 
 namespace EasyActor
 {
@@ -20,7 +14,6 @@ namespace EasyActor
             var synCon = GetTaskScheduler(proxy);
             return (synCon == null) ?  new TaskFactory() : new TaskFactory(synCon);
         }
-
 
         public TaskScheduler GetTaskScheduler(object proxy)
         {

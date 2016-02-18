@@ -1,10 +1,5 @@
-﻿using Castle.DynamicProxy;
-using EasyActor.Factories;
-using EasyActor.TaskHelper;
+﻿using EasyActor.Factories;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,7 +7,7 @@ namespace EasyActor
 {
     public class SynchronizationContextFactory : ActorFactoryBase, IActorFactory
     {
-        private SynchronizationContextQueue _Context;
+        private readonly SynchronizationContextQueue _Context;
 
         public SynchronizationContextFactory(): this(SynchronizationContext.Current)
         {

@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
-using Castle.DynamicProxy;
-
-using EasyActor.Queue;
 using EasyActor.Factories;
-using System.Threading;
 using EasyActor.Helper;
 
 namespace EasyActor

@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
-
-using Castle.DynamicProxy;
-
 using EasyActor.Factories;
 using EasyActor.Queue;
 using System.Threading;
@@ -16,8 +10,8 @@ namespace EasyActor
 {
     public class SharedThreadActorFactory : ActorFactoryBase, IActorFactory, IActorCompleteLifeCycle
     {
-        private IAbortableTaskQueue _Queue;
-        private ConcurrentQueue<IAsyncDisposable> _Disposable;
+        private readonly IAbortableTaskQueue _Queue;
+        private readonly ConcurrentQueue<IAsyncDisposable> _Disposable;
 
         public SharedThreadActorFactory(Action<Thread> onCreated = null)
         {

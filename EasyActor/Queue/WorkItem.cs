@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EasyActor.Queue
 {
     internal class WorkItem<T> : IWorkItem
     {
-        private TaskCompletionSource<T> _Source;
-        private Func<T> _Do;
+        private readonly TaskCompletionSource<T> _Source;
+        private readonly Func<T> _Do;
 
         public WorkItem(Func<T> iDo)
         {

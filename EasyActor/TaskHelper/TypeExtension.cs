@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EasyActor.TaskHelper
 {
     internal static class TypeExtension
     {
-        private static Type _TaskType = typeof(Task);
-        private static Type _GenericTaskType = typeof(Task<>);
+        private static readonly Type _TaskType = typeof(Task);
+        private static readonly Type _GenericTaskType = typeof(Task<>);
  
         internal static TaskDescription GetTaskType(this Type @this)
         {

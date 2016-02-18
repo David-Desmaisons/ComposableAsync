@@ -3,18 +3,14 @@ using EasyActor.Factories;
 using EasyActor.Helper;
 using EasyActor.Proxy;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace EasyActor
 {
     public class LoadBalancerFactory : ILoadBalancerFactory
     {
-        private ActorFactory _ActorFactory;
-        private BalancingOption _BalancingOption;
+        private readonly ActorFactory _ActorFactory;
+        private readonly BalancingOption _BalancingOption;
 
         public LoadBalancerFactory(BalancingOption option = BalancingOption.MinizeObjectCreation, Action<Thread> onCreate = null)
         {
