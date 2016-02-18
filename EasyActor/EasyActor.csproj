@@ -55,7 +55,7 @@
     <Compile Include="IFactoryBuilder.cs" />
     <Compile Include="ILoaderBalancerFactory.cs" />
     <Compile Include="Factories\LoaderBalancerFactory.cs" />
-    <Compile Include="Factories\Actor.cs" />
+    <Compile Include="Factories\ActorDescription.cs" />
     <Compile Include="Proxy\ActorCompleteLifeCycleInterceptor.cs" />
     <Compile Include="Proxy\InterfaceInterceptor.cs" />
     <Compile Include="Proxy\LoadBalanderInterceptor.cs" />

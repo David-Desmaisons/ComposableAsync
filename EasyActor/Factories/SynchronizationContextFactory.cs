@@ -36,7 +36,6 @@ namespace EasyActor
             return Create(concrete, _Context); 
         }
 
-
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
         {
             return _Context.Enqueue(() => Build<T>(concrete()));

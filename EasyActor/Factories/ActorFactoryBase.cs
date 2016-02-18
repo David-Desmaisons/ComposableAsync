@@ -11,7 +11,7 @@ namespace EasyActor.Factories
     public abstract class ActorFactoryBase
     {      
         private static readonly ProxyGenerator _Generator;
-        private static readonly Dictionary<object, Actor> _SynchronizationContext = new Dictionary<object, Actor>();
+        private static readonly Dictionary<object, ActorDescription> _Actors = new Dictionary<object, ActorDescription>();
 
         internal static ProxyGenerator Generator {get {return _Generator;}}
 
@@ -20,10 +20,10 @@ namespace EasyActor.Factories
             _Generator = new ProxyGenerator();
         }
 
-        private static Actor GetChachedActor(object raw)
+        private static ActorDescription GetChachedActor(object raw)
         {
-            Actor res = null;
-            _SynchronizationContext.TryGetValue(raw, out res);
+            ActorDescription res = null;
+            _Actors.TryGetValue(raw, out res);
             return res;
         }
 
@@ -35,13 +35,13 @@ namespace EasyActor.Factories
 
         public static void Clean(object raw)
         {
-            _SynchronizationContext.Remove(raw);
+            _Actors.Remove(raw);
         }
 
         private void Register<T>(T registered, T proxyfied, ITaskQueue queue)
         {
-            var actor = new Actor(proxyfied, queue.TaskScheduler, Type);
-            _SynchronizationContext.Add(registered, actor);
+            var actor = new ActorDescription(proxyfied, queue.TaskScheduler, Type);
+            _Actors.Add(registered, actor);
         }
 
         private T CheckInCache<T>(T concrete) where T:class
