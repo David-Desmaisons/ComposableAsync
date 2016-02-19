@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
 using NUnit.Framework;
-using System.Windows.Threading;
-using System.Windows;
-using EasyActor.Queue;
 using EasyActor.Test.WPFThreading;
 using EasyActor.Test.TestInfra.DummyClass;
 

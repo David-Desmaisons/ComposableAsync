@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
 using NUnit.Framework;
-using EasyActor.TaskHelper;
 using EasyActor.Test.TestInfra.DummyClass;
 
 namespace EasyActor.Test

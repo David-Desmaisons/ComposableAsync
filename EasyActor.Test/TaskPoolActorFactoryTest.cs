@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using FluentAssertions;
 using NUnit.Framework;
@@ -92,7 +88,7 @@ namespace EasyActor.Test
         {
             var current = Thread.CurrentThread;
             DummyClass target = null;
-            IDummyInterface2 intface = await _TaskPoolActorFactory.BuildAsync<IDummyInterface2>(() => { target = new DummyClass(); return target; });
+            var intface = await _TaskPoolActorFactory.BuildAsync<IDummyInterface2>(() => { target = new DummyClass(); return target; });
             await intface.DoAsync();
 
             target.Done.Should().BeTrue();
@@ -115,7 +111,7 @@ namespace EasyActor.Test
             var intface = _TaskPoolActorFactory.Build<IDummyInterface1>(dispclass);
 
             //act
-            var disp = intface as IActorLifeCycle;
+            var disp = (IActorLifeCycle) intface;
 
             await disp.Stop();
 
@@ -133,7 +129,7 @@ namespace EasyActor.Test
             //act
             var task = intface.DoAsync();
 
-            var disp = intface as IActorLifeCycle;
+            var disp = (IActorLifeCycle) intface;
 
             await disp.Stop();
 
@@ -165,7 +161,7 @@ namespace EasyActor.Test
             Task Taskrunning = intface.DoAsync(), Takenqueued = intface.DoAsync();
             Thread.Sleep(100);
             //act
-            var disp = intface as IActorLifeCycle;
+            var disp = (IActorLifeCycle) intface;
 
             await disp.Stop();
             await Takenqueued;
