@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor", "EasyActor\EasyActor.csproj", "{487FAEA3-4503-4E5B-B10B-48B689DBF174}"
 EndProject
@@ -16,6 +16,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor.Pipeline", "EasyActor.Pipeline\EasyActor.Pipeline.csproj", "{AF0325DA-A330-4C41-B040-7BE57F54F5D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor.PipeLineTest", "EasyActor.PipeLineTest\EasyActor.PipeLineTest.csproj", "{79F3C53D-5A88-4A57-83E0-F991983FEB59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor.Flow", "EasyActor.Flow\EasyActor.Flow.csproj", "{0EA7F2B2-6B70-41AE-9769-096E8A67CC8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor.Flow.Sample", "EasyActor.Flow.Sample\EasyActor.Flow.Sample.csproj", "{006A5983-D4DF-4709-B4CE-3E0A594ED361}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor.FlowTest", "EasyActor.FlowTest\EasyActor.FlowTest.csproj", "{067456C0-086C-46A8-B37F-1405717B7BFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +57,18 @@ Global
 		{79F3C53D-5A88-4A57-83E0-F991983FEB59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79F3C53D-5A88-4A57-83E0-F991983FEB59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79F3C53D-5A88-4A57-83E0-F991983FEB59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EA7F2B2-6B70-41AE-9769-096E8A67CC8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EA7F2B2-6B70-41AE-9769-096E8A67CC8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EA7F2B2-6B70-41AE-9769-096E8A67CC8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EA7F2B2-6B70-41AE-9769-096E8A67CC8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{006A5983-D4DF-4709-B4CE-3E0A594ED361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{006A5983-D4DF-4709-B4CE-3E0A594ED361}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{006A5983-D4DF-4709-B4CE-3E0A594ED361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{006A5983-D4DF-4709-B4CE-3E0A594ED361}.Release|Any CPU.Build.0 = Release|Any CPU
+		{067456C0-086C-46A8-B37F-1405717B7BFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{067456C0-086C-46A8-B37F-1405717B7BFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{067456C0-086C-46A8-B37F-1405717B7BFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{067456C0-086C-46A8-B37F-1405717B7BFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,5 +76,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{15863971-F408-454C-A2B3-B1FBFB1B1BBF} = {154E9656-B9CB-4412-81B3-0F7147E33C7E}
 		{7CAC3D8A-E284-4EBD-8386-F1BC17E3C9F0} = {154E9656-B9CB-4412-81B3-0F7147E33C7E}
+		{006A5983-D4DF-4709-B4CE-3E0A594ED361} = {154E9656-B9CB-4412-81B3-0F7147E33C7E}
 	EndGlobalSection
 EndGlobal

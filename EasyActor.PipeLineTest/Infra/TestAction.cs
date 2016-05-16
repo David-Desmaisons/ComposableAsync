@@ -1,16 +1,14 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace EasyActor.PipeLineTest.Infra
 {
     internal class TestAction<T>
     {
         private Action<T> _Trans;
-        private List<T> _Result = new List<T>();
+        private ConcurrentBag<T> _Result = new ConcurrentBag<T>();
         internal TestAction(Action<T> trans=null)
         {
             _Trans = trans;
