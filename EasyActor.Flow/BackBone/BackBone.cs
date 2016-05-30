@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EasyActor.Flow.BackBone
 {
-    public class BackBone<TRes, TProgress> : IBackbone<TRes, TProgress>
+    internal class BackBone<TRes, TProgress> : IBackbone<TRes, TProgress>
     {
         private readonly IDictionary<Type, object> _Processors;
         private Lazy<CompositeDisposable> _Disposable = new Lazy<CompositeDisposable>();
@@ -39,6 +39,9 @@ namespace EasyActor.Flow.BackBone
 
         public async Task<TRes> Process<TMessage>(TMessage message, IProgress<TProgress> progress, CancellationToken cancellationToken)
         {
+            _CancellationTokenSource.Token.ThrowIfCancellationRequested();
+            cancellationToken.ThrowIfCancellationRequested();
+
             var messageType = typeof(TMessage);
             progress = progress ?? new NullProgess<TProgress>();
             try

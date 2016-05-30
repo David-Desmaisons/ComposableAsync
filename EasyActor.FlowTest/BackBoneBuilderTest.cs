@@ -95,7 +95,7 @@ namespace EasyActor.FlowTest
         {
             _Builder.Register(_IProcessorFinalizer);
             _Builder.GetBackBone();
-            return _Processors[typeof(bool)] as ProcessorFinalizerAdapter<bool, int, int>;
+            return _Processors[typeof(int)] as ProcessorFinalizerAdapter<bool, int, int>;
         }
     }
 }

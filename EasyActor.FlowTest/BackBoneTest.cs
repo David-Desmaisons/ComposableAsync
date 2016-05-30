@@ -10,6 +10,7 @@ using NSubstitute;
 using EasyActor.Flow;
 using System.Reactive.Linq;
 using System.Reactive.Disposables;
+using NSubstitute.ExceptionExtensions;
 
 namespace EasyActor.FlowTest
 {
@@ -65,6 +66,22 @@ namespace EasyActor.FlowTest
         {
             await _BackBone.Process("test", null, _CancellationToken);
             await _Processor.Received(1).Process("test", _BackBone, Arg.Any<NullProgess<int>>(), _CancellationToken);
+        }
+
+        [Test]
+        public void Process_OnCancelledBackBone_ThrowsException() 
+        {
+            _BackBone.Dispose();
+            Func<Task> act = async() => await _BackBone.Process("test", _Progess, _CancellationToken);
+            act.ShouldThrow<TaskCanceledException>();
+        }
+
+        [Test]
+        public void Process_CalledWithCancelledToken_ThrowsException() 
+        {
+            var cancelledToken = new CancellationToken(true);
+            Func<Task> act = async () => await _BackBone.Process("test", _Progess, cancelledToken);
+            act.ShouldThrow<TaskCanceledException>();
         }
 
         [Test]

@@ -39,7 +39,7 @@ namespace EasyActor.PipeLineTest
         public async Task Create_Should_Compute_Result_OK(int iin, int iout)
         {
             var current = Thread.CurrentThread;
-            var pip = PipeLine.Create<int, int>(_Func.Function).Next(_Act.Action);
+            var pip = PipeLine.Create(_Func.Function).Next(_Act.Action);
             await pip.Consume(iin);
 
             _Func.LastIn.Should().Be(iin);
@@ -56,7 +56,7 @@ namespace EasyActor.PipeLineTest
         public async Task Create_Should_Use_one_Thread(int iin, int iout)
         {
             var current = Thread.CurrentThread;
-            var pip = PipeLine.Create<int, int>(_Func.Function).Next(_Act.Action);
+            var pip = PipeLine.Create(_Func.Function).Next(_Act.Action);
 
             await pip.Consume(iin);
             await pip.Consume(iin);
@@ -79,7 +79,7 @@ namespace EasyActor.PipeLineTest
         public async Task Compose_Should_Compute_Result_OK(int iin, int iout)
         {
             var current = Thread.CurrentThread;
-            var pip = PipeLine.Create<int, int>(_Func.Function).Next(_Func2.Function).Next(_Act.Action);
+            var pip = PipeLine.Create(_Func.Function).Next(_Func2.Function).Next(_Act.Action);
             await pip.Consume(iin);
 
             _Func.LastIn.Should().Be(iin);
@@ -105,8 +105,8 @@ namespace EasyActor.PipeLineTest
         public async Task Compose_Parralel_Should_Compute_Result_OK(int entry, int s1, int s2)
         {
             var current = Thread.CurrentThread;
-            var finaliser1 = PipeLine.Create<int, int>(_Func.Function).Next(_Act.Action);
-            var finaliser2 = PipeLine.Create<int, int>(_Func3.Function).Next(_Act2.Action);
+            var finaliser1 = PipeLine.Create(_Func.Function).Next(_Act.Action);
+            var finaliser2 = PipeLine.Create(_Func3.Function).Next(_Act2.Action);
 
             await PipeLine.Create<int, int>(a => a).Next(finaliser1, finaliser2).Consume(entry);
 
@@ -133,10 +133,10 @@ namespace EasyActor.PipeLineTest
         {
             var current = Thread.CurrentThread;
 
-            var fin = PipeLine.Create<int>(_Act.Action);
+            var fin = PipeLine.Create(_Act.Action);
 
-            var pip1 = PipeLine.Create<int, int>(_Func.Function).Next(fin);
-            var pip2 = PipeLine.Create<int, int>(_Func2.Function).Next(fin);
+            var pip1 = PipeLine.Create(_Func.Function).Next(fin);
+            var pip2 = PipeLine.Create(_Func2.Function).Next(fin);
 
             var pip = PipeLine.Create<int, int>(a => a * 2).Next(pip1, pip2);
 
@@ -153,7 +153,7 @@ namespace EasyActor.PipeLineTest
         {
             var current = Thread.CurrentThread;
 
-            var pipe = PipeLine.Create<int, int>(_Func4.Function, 5).Next(_Act.Action);
+            var pipe = PipeLine.Create(_Func4.Function, 5).Next(_Act.Action);
 
             await Task.WhenAll(Enumerable.Range(0, 100).Select(i => pipe.Consume(i)));
 
@@ -187,7 +187,7 @@ namespace EasyActor.PipeLineTest
         {
             var current = Thread.CurrentThread;
 
-            var pipe = PipeLine.Create<int, int>(_Func3.Function).Next(_Act3.Action, 5);
+            var pipe = PipeLine.Create(_Func3.Function).Next(_Act3.Action, 5);
 
             await Task.WhenAll(Enumerable.Range(0, 100).Select(i => pipe.Consume(i)));
 
@@ -205,7 +205,7 @@ namespace EasyActor.PipeLineTest
         {
             var current = Thread.CurrentThread;
 
-            var pipe = PipeLine.Create<int>(_Act3.Action, 5);
+            var pipe = PipeLine.Create(_Act3.Action, 5);
 
             await Task.WhenAll(Enumerable.Range(0, 100).Select(i => pipe.Consume(i)));
 
@@ -219,7 +219,7 @@ namespace EasyActor.PipeLineTest
         {
             var current = Thread.CurrentThread;
 
-            var pipe = PipeLine.Create<int,int>(_Func.Function).Next(_Act.Action);
+            var pipe = PipeLine.Create(_Func.Function).Next(_Act.Action);
 
             var obs = Observable.Range(0, 100);
             var res = Enumerable.Range(0,100).Select(_Func.Function);

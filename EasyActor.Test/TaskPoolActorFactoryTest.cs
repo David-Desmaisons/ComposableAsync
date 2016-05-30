@@ -158,16 +158,17 @@ namespace EasyActor.Test
             var dispclass = new DisposableClass();
             var intface = _TaskPoolActorFactory.Build<IDummyInterface1>(dispclass);
 
-            Task Taskrunning = intface.DoAsync(), Takenqueued = intface.DoAsync();
+            Task taskrunning = intface.DoAsync();
+            var takenqueued = intface.DoAsync();
             Thread.Sleep(100);
             //act
             var disp = (IActorLifeCycle) intface;
 
             await disp.Stop();
-            await Takenqueued;
+            await takenqueued;
 
             //assert
-            Takenqueued.IsCompleted.Should().BeTrue();
+            takenqueued.IsCompleted.Should().BeTrue();
         }
     }
 }
