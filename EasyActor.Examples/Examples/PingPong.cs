@@ -3,29 +3,29 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-using NUnit.Framework;
+ 
 using EasyActor.TaskHelper;
-
+using Xunit;
 
 namespace EasyActor.Examples
 {
-    [TestFixture]
+     
     public class PingPong
     {
-        public PingPong()
-            : this(ThreadPriority.Normal)
+        public PingPong() : this(ThreadPriority.Normal)
         {
         }
 
         private ThreadPriority _Priority;
-        public PingPong(ThreadPriority priority)
+        internal PingPong(ThreadPriority priority)
         {
             _Priority = priority;
         }
 
-        [TestCase(false, TestName="ActorFactory")]
-        [TestCase(true, TestName = "ActorFactory and TaskPoolActorFactory")]
-        public async Task Test(bool TaskPool = false)
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public async Task Test(bool TaskPool)
         {
             IActorFactory fact = new ActorFactory(t=>t.Priority=_Priority);
 

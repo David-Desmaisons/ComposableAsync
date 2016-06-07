@@ -3,30 +3,30 @@ using System.Threading.Tasks;
 using System.Threading;
 
 using FluentAssertions;
-using NUnit.Framework;
+ 
 using EasyActor.Test.TestInfra.DummyClass;
+using Xunit;
 
 namespace EasyActor.Test
 {
-    [TestFixture]
+     
     public class ActorFactoryTest
     {
 
         private ActorFactory _Factory;
 
-        [SetUp]
-        public void TestUp()
+        public ActorFactoryTest()
         {
             _Factory = new ActorFactory();
         }
 
-        [Test]
+        [Fact]
         public void Type_Should_Be_Standard()
         {
             _Factory.Type.Should().Be(ActorFactorType.Standard);
         }
 
-        [Test]
+        [Fact]
         public async Task Method_Should_Run_On_Separated_Thread()
         {
             var current = Thread.CurrentThread;
@@ -39,7 +39,7 @@ namespace EasyActor.Test
             target.CallingThread.Should().NotBe(current);
         }
 
-        [Test]
+        [Fact]
         public async Task Method_Should_Always_Run_On_Same_Thread()
         {
             var target = new DummyClass();
@@ -53,7 +53,7 @@ namespace EasyActor.Test
             target.CallingThread.Should().Be(thread);
         }
 
-        [Test]
+        [Fact]
         public async Task Each_Actor_Should_Run_On_Separated_Thread_When_Shared_Thread_Is_False()
         {
             //arrange
@@ -70,7 +70,7 @@ namespace EasyActor.Test
             target1.CallingThread.Should().NotBe(target2.CallingThread);
         }
 
-        [Test]
+        [Fact]
         public async Task Method_Should_Run_On_Same_Thread_After_Await()
         {
             var target = new DummyClass();
@@ -82,7 +82,7 @@ namespace EasyActor.Test
             res.Item1.Should().Be(res.Item2);
         }
 
-        [Test]
+        [Fact]
         public void Build_Should_CreateSameInterface_ForSamePOCO()
         {
             var target = new DummyClass();
@@ -92,7 +92,7 @@ namespace EasyActor.Test
             intface.Should().BeSameAs(intface2);
         }
 
-        [Test]
+        [Fact]
         public void Build_Should_Throw_Exception_IsSamePOCO_HasBeenUsedWithOtherFactory()
         {
             var target = new DummyClass();
@@ -105,7 +105,7 @@ namespace EasyActor.Test
             Do.ShouldThrow<ArgumentException>().And.Message.Should().Contain("Shared");
         }
 
-        [Test]
+        [Fact]
         public async Task Task_returned_By_Method_Should_Be_Awaited()
         {
             var target = new DummyClass();
@@ -115,7 +115,7 @@ namespace EasyActor.Test
             target.Done.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public async Task Method_With_Task_T_Should_Run_On_Separated_Tread()
         {
             var current = Thread.CurrentThread;
@@ -130,7 +130,7 @@ namespace EasyActor.Test
         }
 
 
-        [Test]
+        [Fact]
         public void Method_returning_void_Task_Should_Throw_Exception()
         {
             var intface = _Factory.Build<IDummyInterface2>(new DummyClass());
@@ -138,7 +138,7 @@ namespace EasyActor.Test
             Do.ShouldThrow<NotSupportedException>();
         }
 
-        [Test]
+        [Fact]
         public async Task BuildAsync_Should_Call_Constructor_On_Actor_Thread()
         {
             var current = Thread.CurrentThread;
@@ -151,21 +151,21 @@ namespace EasyActor.Test
             target.CallingConstructorThread.Should().Be(target.CallingThread);
         }
 
-        [Test]
+        [Fact]
         public void Actor_Should_Implement_IActorLifeCycle_Even_If_Wrapped_Not_IDisposableAsync()
         {
             var intface = _Factory.Build<IDummyInterface2>(new DummyClass());
             intface.Should().BeAssignableTo<IActorCompleteLifeCycle>();
         }
 
-        [Test]
+        [Fact]
         public void Actor_Should_Implement_IActorLifeCycle()
         {
             var intface = _Factory.Build<IDummyInterface1>(new DisposableClass());
             intface.Should().BeAssignableTo<IActorCompleteLifeCycle>();
         }
 
-        [Test]
+        [Fact]
         public async Task Actor_IActorLifeCycle_Stop_Should_Cancel_Actor_Thread()
         {
             //arrange
@@ -182,7 +182,7 @@ namespace EasyActor.Test
             clas.CallingThread.IsAlive.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public async Task Actor_IActorLifeCycle_Stop_Should_Call_Proxified_Class_On_IAsyncDisposable()
         {
             //arrange
@@ -198,7 +198,7 @@ namespace EasyActor.Test
             dispclass.IsDisposed.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public async Task Actor_Should_Return_Cancelled_Task_On_Any_Method_AfterCalling_IActorLifeCycle_Stop()
         {
             //arrange
@@ -230,7 +230,7 @@ namespace EasyActor.Test
             canc.IsCanceled.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public async Task Actor_IActorLifeCycle_Stop_Should_Not_Cancel_Enqueued_Task()
         {
             //arrange
@@ -250,7 +250,7 @@ namespace EasyActor.Test
         }
 
 
-        [Test]
+        [Fact]
         public async Task Actor_IActorLifeCycle_Abort_Should_Cancel_Actor_Thread()
         {
 
@@ -270,7 +270,7 @@ namespace EasyActor.Test
 
 
 
-        [Test]
+        [Fact]
         public async Task Actor_IActorLifeCycle_Abort_Should_Call_Proxified_Class_On_IAsyncDisposable()
         {
             //arrange
@@ -286,7 +286,7 @@ namespace EasyActor.Test
             dispclass.IsDisposed.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public async Task Actor_IActorLifeCycle_Abort_Should_Not_Cancel_RunningTask()
         {
             //arrange
@@ -307,7 +307,7 @@ namespace EasyActor.Test
             Taskrunning.IsCompleted.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public async Task Actor_IActorLifeCycle_Abort_Should_Cancel_Enqueued_Task()
         {
             //arrange
@@ -337,7 +337,7 @@ namespace EasyActor.Test
             Takenqueued.IsCanceled.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public async Task Actor_Should_Return_Cancelled_Task_On_Any_Method_AfterCalling_IActorLifeCycle_Abort()
         {
             //arrange

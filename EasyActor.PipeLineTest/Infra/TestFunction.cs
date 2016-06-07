@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace EasyActor.PipeLineTest.Infra
 {
@@ -32,7 +29,10 @@ namespace EasyActor.PipeLineTest.Infra
                     {
                         LastIn = t;
                         CallingThread = Thread.CurrentThread;
-                        Threads.Add(CallingThread);
+                        lock (this) 
+                        {
+                            Threads.Add(CallingThread);
+                        } 
                         return LastOut = _Trans(t);
                     };
             }

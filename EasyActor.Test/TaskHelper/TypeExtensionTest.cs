@@ -2,16 +2,17 @@
 using System.Threading.Tasks;
 
 using FluentAssertions;
-using NUnit.Framework;
+ 
 
 using EasyActor.TaskHelper;
+using Xunit;
 
 namespace EasyActor.Test
 {
-    [TestFixture]
+     
     public class TypeExtensionTest
     {
-         [Test]
+         [Fact]
         public void GetDelegateTypeNoTask()
         {
             Type st = typeof(string);
@@ -22,7 +23,7 @@ namespace EasyActor.Test
             target.Type.Should().BeNull();
         }
 
-          [Test]
+          [Fact]
         public void GetDelegateTypeTask()
         {
             Type st = typeof(Task);
@@ -33,7 +34,7 @@ namespace EasyActor.Test
             target.Type.Should().BeNull();
         }
 
-           [Test]
+           [Fact]
         public void GetDelegateTypeGenericTask()
         {
             Type st = typeof(Task<string>);

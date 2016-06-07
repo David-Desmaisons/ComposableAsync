@@ -2,19 +2,19 @@
 using System.Threading.Tasks;
 
 using FluentAssertions;
-using NUnit.Framework;
+ 
 using NSubstitute;
 
 using EasyActor.TaskHelper;
 using System.Threading;
-
+using Xunit;
 
 namespace EasyActor.Test.TaskHelper
 {
-    [TestFixture]
+     
     public class SynchronizationContextTaskSchedulerTest
     {
-        [Test]
+        [Fact]
         public void Constructor_Should_Throw_Exception_On_Null_Context()
         {
             SynchronizationContextTaskScheduler res = null;
@@ -23,7 +23,7 @@ namespace EasyActor.Test.TaskHelper
             Do.ShouldThrow<ArgumentNullException>();
         }
 
-        [Test]
+        [Fact]
         public void MaximumConcurrencyLevel_Should_Be_1()
         {
             //Arrange
@@ -35,7 +35,7 @@ namespace EasyActor.Test.TaskHelper
         }
 
 
-        [Test]
+        [Fact]
         public void GetScheduledTasksEnumerable_Should_Be_Null()
         {
             //Arrange
@@ -56,7 +56,7 @@ namespace EasyActor.Test.TaskHelper
             return synContext;
         }
 
-        [Test]
+        [Fact]
         public async Task Task_Created_By_Corresponding_Factory_Should_Call_SynchronizationContext_Post()
         {
             //Arrange
@@ -73,7 +73,7 @@ namespace EasyActor.Test.TaskHelper
         }
 
 
-        [Test]
+        [Fact]
         public void Task_Created_By_Corresponding_Factory_Should_Call_SynchronizationContext_Post_On_Task_Inlining()
         {
             //Arrange

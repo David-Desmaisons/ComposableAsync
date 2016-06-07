@@ -14,7 +14,7 @@ namespace PingPongConsole
 
         static async Task MainAsync(string[] args)
         {
-            await new PingPong(ThreadPriority.Normal).Test(); 
+            await new PingPong().Test(false); 
          
             Console.ReadLine();
         }

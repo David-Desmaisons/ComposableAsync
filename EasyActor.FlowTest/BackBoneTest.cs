@@ -1,5 +1,5 @@
 ﻿using System;
-using NUnit.Framework;
+ 
 using EasyActor.Flow.BackBone;
 using System.Collections.Generic;
 using System.Threading;
@@ -11,11 +11,12 @@ using EasyActor.Flow;
 using System.Reactive.Linq;
 using System.Reactive.Disposables;
 using NSubstitute.ExceptionExtensions;
+using Xunit;
 
 namespace EasyActor.FlowTest
 {
-    [TestFixture]
-    public class BackBoneTest
+     
+    public class BackBoneTest: IDisposable
     {
         private BackBone<bool, int> _BackBone;
         private IDictionary<Type, object> _Processors = new Dictionary<Type, object>();
@@ -25,9 +26,7 @@ namespace EasyActor.FlowTest
         private IObservable<string> _SingleValue;
         private ObservableHelper _ObservableHelper;
 
-
-        [SetUp]
-        public void SetUp()
+        public BackBoneTest()
         {
             _CancellationToken = new CancellationToken();
             _Processor = Substitute.For<IProcessor<bool, string, int>>();
@@ -41,34 +40,33 @@ namespace EasyActor.FlowTest
             _SingleValue = Observable.Return("Value");
         }
 
-        [TearDown]
-        public void TearDown()
+        public void Dispose()
         {
             _BackBone.Dispose();
         }
 
-        [Test]
+        [Fact]
         public void Process_WithMessageOfUnknowType_ThrowException()
         {
             Func<Task> act = () => _BackBone.Process(new object(), _Progess, CancellationToken.None);
             act.ShouldThrow<ArgumentException>();
         }
 
-        [Test]
+        [Fact]
         public async Task Process_WithMessageTypeKnown_CallProcessor()
         {
             await _BackBone.Process("test", _Progess, _CancellationToken);
             await _Processor.Received(1).Process("test", _BackBone, _Progess, _CancellationToken);
         }
 
-        [Test]
+        [Fact]
         public async Task Process_CalledWithANullReferenceProgess_ProvidesANullProgress()
         {
             await _BackBone.Process("test", null, _CancellationToken);
             await _Processor.Received(1).Process("test", _BackBone, Arg.Any<NullProgess<int>>(), _CancellationToken);
         }
 
-        [Test]
+        [Fact]
         public void Process_OnCancelledBackBone_ThrowsException() 
         {
             _BackBone.Dispose();
@@ -76,7 +74,7 @@ namespace EasyActor.FlowTest
             act.ShouldThrow<TaskCanceledException>();
         }
 
-        [Test]
+        [Fact]
         public void Process_CalledWithCancelledToken_ThrowsException() 
         {
             var cancelledToken = new CancellationToken(true);
@@ -84,7 +82,7 @@ namespace EasyActor.FlowTest
             act.ShouldThrow<TaskCanceledException>();
         }
 
-        [Test]
+        [Fact]
         public async Task Connect_SendObservedEvent_TotheProcessors()
         {
             _BackBone.Connect(_ObservableHelper.GetObservable());
@@ -93,7 +91,7 @@ namespace EasyActor.FlowTest
             await _Processor.Received(1).Process("Banana", _BackBone, Arg.Any<NullProgess<int>>(), Arg.Any<CancellationToken>());
         }
 
-        [Test]
+        [Fact]
         public async Task Connect_AfterConnectResultDispose_DoNotSendObservedEventTotheProcessors()
         {
             using (_BackBone.Connect(_ObservableHelper.GetObservable())) { }
@@ -102,7 +100,7 @@ namespace EasyActor.FlowTest
             await _Processor.DidNotReceive().Process("Banana", _BackBone, Arg.Any<NullProgess<int>>(), Arg.Any<CancellationToken>());
         }
 
-        [Test]
+        [Fact]
         public async Task Connect_AfterBackBoneDispose_DoNotSendObservedEventTotheProcessors()
         {
             _BackBone.Connect(_ObservableHelper.GetObservable());
@@ -112,7 +110,7 @@ namespace EasyActor.FlowTest
             await _Processor.DidNotReceive().Process("Banana", _BackBone, Arg.Any<NullProgess<int>>(), Arg.Any<CancellationToken>());
         }
 
-        [Test]
+        [Fact]
         public async Task Connect_AfterBackBoneDispose_DoNotSendObservedEventTotheProcessors_2()
         {
             _BackBone.Dispose();

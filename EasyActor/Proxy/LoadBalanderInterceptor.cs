@@ -56,7 +56,7 @@ namespace EasyActor.Proxy
                 return candidate.Item2;
             }
 
-            lock(_syncobject)
+            lock (_syncobject) 
             {
                 if (_isCancelled)
                     return null;

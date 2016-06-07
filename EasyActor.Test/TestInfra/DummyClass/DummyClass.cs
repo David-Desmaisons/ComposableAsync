@@ -21,6 +21,11 @@ namespace EasyActor.Test.TestInfra.DummyClass
             return _Objects;
         }
 
+        public static void ResetObjects() 
+        {
+            _Objects = new List<DummyClass>();
+        }
+
         public static void ResetCount()
         {
             _Objects.Clear();

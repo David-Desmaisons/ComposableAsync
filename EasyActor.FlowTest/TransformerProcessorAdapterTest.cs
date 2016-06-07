@@ -1,11 +1,12 @@
 ﻿using EasyActor.Flow.BackBone;
 using EasyActor.Flow.Processor;
 using NSubstitute;
-using NUnit.Framework;
+ 
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Xunit;
 
 namespace EasyActor.FlowTest
 {
@@ -17,8 +18,7 @@ namespace EasyActor.FlowTest
         private IProgress<int> _Progess;
         private CancellationTokenSource _CancellationTokenSource;
 
-        [SetUp]
-        public void SetUp()
+        public TransformerProcessorAdapterTest()
         {
             _Transform = Substitute.For<ITransformProcessor<double, string, int>>();
             _Transform.Transform(Arg.Any<double>(), Arg.Any<IProgress<int>>(), Arg.Any<CancellationToken>())
@@ -29,7 +29,7 @@ namespace EasyActor.FlowTest
             _TransformerProcessorAdapter = new TransformerProcessorAdapter<bool, double, string, int>(_Transform);
         }
 
-        [Test]
+        [Fact]
         public async Task Process_CallITransformProcessorTransform()
         {
             await _TransformerProcessorAdapter.Process(0, _BackBone, _Progess, _CancellationTokenSource.Token);
@@ -37,7 +37,7 @@ namespace EasyActor.FlowTest
             await _Transform.Received(1).Transform(0, _Progess, _CancellationTokenSource.Token);
         }
 
-        [Test]
+        [Fact]
         public async Task Process_CallBackBoneProcess()
         {
             await _TransformerProcessorAdapter.Process(0, _BackBone, _Progess, _CancellationTokenSource.Token);
@@ -45,7 +45,7 @@ namespace EasyActor.FlowTest
             await _BackBone.Received(1).Process("0", _Progess, _CancellationTokenSource.Token);
         }
 
-        [Test]
+        [Fact]
         public async Task Process_WhenCancelled_DoNotCallITransformProcessorTransform()
         {
             _CancellationTokenSource.Cancel();

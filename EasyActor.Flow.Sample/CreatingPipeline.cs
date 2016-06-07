@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using NUnit.Framework;
+ 
 using FluentAssertions;
 using EasyActor.Flow.BackBone;
 using EasyActor.Flow.Processor;
+using Xunit;
 
 namespace EasyActor.Flow.Sample
 {
@@ -44,8 +45,7 @@ namespace EasyActor.Flow.Sample
 
         private IBackbone<bool, int> _BackBone;
 
-        [SetUp]
-        public void BuildExample()
+        public CreatingPipeline()
         {
             var builder = new BackBoneBuilder<bool, int>();
             builder.Register(new transformer());
@@ -55,21 +55,21 @@ namespace EasyActor.Flow.Sample
         }
 
 
-        [Test]
+        [Fact]
         public async Task Sample_Process_Int()
         {
             var res = await _BackBone.Process(20, null, CancellationToken.None);
             res.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public async Task Sample_Process_String_OK()
         {
             var res = await _BackBone.Process("23", null, CancellationToken.None);
             res.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public async Task Sample_Process_String_KO()
         {
             var res = await _BackBone.Process("fffff", null, CancellationToken.None);

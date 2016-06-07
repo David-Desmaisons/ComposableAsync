@@ -32,7 +32,9 @@ namespace EasyActor.PipeLineTest.Infra
                         LastIn = t;
                         _Result.Add(t);
                         CallingThread = Thread.CurrentThread;
-                        Threads.Add(CallingThread);
+                        lock (this) {
+                            Threads.Add(CallingThread);
+                        }
                         if (_Trans!=null) _Trans(t);
                     };
             }

@@ -1,17 +1,18 @@
 ﻿using System.Threading.Tasks;
 
 using FluentAssertions;
-using NUnit.Framework;
+ 
 
 using EasyActor.TaskHelper;
+using Xunit;
 
 namespace EasyActor.Test.TaskHelper
 {
-    [TestFixture]
+     
     public class TaskBuilderTest
     {
 
-        [Test]
+        [Fact]
         public void Cancelled_Should_Be_Cancelled()
         {
             var target = TaskBuilder.Cancelled;
@@ -19,7 +20,7 @@ namespace EasyActor.Test.TaskHelper
             target.IsCanceled.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public void Cancelled_T_Should_Be_Cancelled()
         {
             var target = TaskBuilder<int>.Cancelled;
@@ -28,7 +29,7 @@ namespace EasyActor.Test.TaskHelper
         }
 
 
-        [Test]
+        [Fact]
         public void Cancelled_Type_Task_T_Should_Be_Cancelled()
         {
             var target = TaskBuilder.GetCancelled(typeof(Task<int>));
@@ -37,7 +38,7 @@ namespace EasyActor.Test.TaskHelper
             target.Should().BeOfType<Task<int>>();
         }
 
-        [Test]
+        [Fact]
         public void Cancelled_Type_Task_Should_Be_Cancelled()
         {
             var target = TaskBuilder.GetCancelled(typeof(Task));
@@ -47,7 +48,7 @@ namespace EasyActor.Test.TaskHelper
         }
 
 
-        [Test]
+        [Fact]
         public void Cancelled_Type_Object_Should_Be_Null()
         {
             var target = TaskBuilder.GetCancelled(typeof(object));
@@ -55,7 +56,7 @@ namespace EasyActor.Test.TaskHelper
             target.Should().BeNull();
         }
 
-        [Test]
+        [Fact]
         public void Completed_Should_Be_Completed()
         {
             var target = TaskBuilder.Completed;

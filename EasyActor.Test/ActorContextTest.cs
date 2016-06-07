@@ -1,24 +1,24 @@
 ﻿using System.Threading.Tasks;
 
-using NUnit.Framework;
+ 
 using EasyActor.TaskHelper;
 using FluentAssertions;
 using System.Threading;
 using EasyActor.Test.WPFThreading;
 using EasyActor.Queue;
 using EasyActor.Test.TestInfra.DummyClass;
+using Xunit;
 
 namespace EasyActor.Test
 {
-    [TestFixture]
+     
     public class ActorContextTest
     {
         private IDummyInterface2 _Interface;
         private DummyClass _Proxified;
         private ActorContext _ActorContext;
 
-        [SetUp]
-        public void SetUp()
+        public ActorContextTest()
         {
             _ActorContext = new ActorContext();
             var factory = new ActorFactory();
@@ -26,7 +26,7 @@ namespace EasyActor.Test
             _Interface = factory.Build<IDummyInterface2>(_Proxified);
         }
 
-        [Test]
+        [Fact]
         public void TaskFactory_Should_Return_A_Valid_TaskFactory_With_A_None_Proxied_Object()
         {
             //arrange
@@ -39,7 +39,7 @@ namespace EasyActor.Test
             res.Should().NotBeNull();
         }
 
-        [Test]
+        [Fact]
         public void TaskFactory_Should_Return_A_Valid_TaskFactory_With_A_Proxied_Object()
         {
             //act
@@ -49,7 +49,7 @@ namespace EasyActor.Test
             res.Should().NotBeNull();
         }
 
-        [Test]
+        [Fact]
         public async Task TaskFactory_Should_Return_TaskFactory_Compatible_With_Proxy_Thread_ActorFactory_Context()
         {
             //arrange
@@ -65,7 +65,7 @@ namespace EasyActor.Test
         }
 
       
-        [Test]
+        [Fact]
         public async Task TaskFactory_Should_Return_TaskFactory_Compatible_With_Proxy_Thread_SynchronizationContextFactory_Context()
         {
             //arrange
@@ -88,7 +88,7 @@ namespace EasyActor.Test
         }
 
 
-        [Test]
+        [Fact]
         public void GetTaskScheduler_Should_Return_TaskScheduler_Default_With_A_None_Proxied_Object()
         {
             //arrange
@@ -102,7 +102,7 @@ namespace EasyActor.Test
             res.Should().Be(TaskScheduler.Default);
         }
 
-        [Test]
+        [Fact]
         public async Task GetTaskScheduler_Should_Return_SynchronizationContext_Compatible_With_Proxy_Thread_ActorFactory_Context()
         {
             //arrange
@@ -118,7 +118,7 @@ namespace EasyActor.Test
             ressync.SynchronizationContext.Should().BeAssignableTo<MonoThreadedQueueSynchronizationContext>();
         }
 
-        [Test]
+        [Fact]
         public void GetTaskScheduler_Should_Return_SynchronizationContext_Compatible_With_Proxy_Thread_SynchronizationContextFactory_Context()
         {
             //arrange

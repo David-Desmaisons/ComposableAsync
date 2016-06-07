@@ -1,27 +1,27 @@
-﻿using FluentAssertions;
-using NUnit.Framework;
+﻿using System;
+using FluentAssertions;
+ 
 using System.Threading;
+using Xunit;
 
 namespace EasyActor.Test
 {
-    [TestFixture]
-    public class ActorFactoryBuilderTest
+     
+    public class ActorFactoryBuilderTest : IDisposable
     {
          private FactoryBuilder _ActorFactoryBuilder;
 
-        [SetUp]
-        public void TestUp()
+        public ActorFactoryBuilderTest()
         {
             _ActorFactoryBuilder = new FactoryBuilder();
         }
 
-        [TearDown]
-        public void TearDown()
+        public void Dispose()
         {
             SynchronizationContext.SetSynchronizationContext(null);
         }
 
-        [Test]
+        [Fact]
         public void GetFactory_Shared_Return_SharedThreadActorFactory()
         {
             var res = _ActorFactoryBuilder.GetFactory(true);
@@ -29,7 +29,7 @@ namespace EasyActor.Test
             res.Should().BeAssignableTo<SharedThreadActorFactory>();
         }
 
-        [Test]
+        [Fact]
         public void GetFactory_Standard_Return_ActorFactory()
         {
             var res = _ActorFactoryBuilder.GetFactory(false);
@@ -37,7 +37,7 @@ namespace EasyActor.Test
             res.Should().BeOfType<ActorFactory>();
         }
 
-        [Test]
+        [Fact]
         public void GetTaskBasedFactory_Return_TaskPoolActorFactory()
         {
             var res = _ActorFactoryBuilder.GetTaskBasedFactory();
@@ -45,7 +45,7 @@ namespace EasyActor.Test
             res.Should().BeOfType<TaskPoolActorFactory>();
         }
 
-        [Test]
+        [Fact]
         public void GetFactory_InCurrentContext_Return_SynchronizationContextFactory()
         {
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
@@ -54,7 +54,7 @@ namespace EasyActor.Test
             res.Should().BeAssignableTo<SynchronizationContextFactory>();
         }
 
-        [Test]
+        [Fact]
         public void GetFactory_InCurrentContext_With_Argument_Return_SynchronizationContextFactory()
         {
             var res = _ActorFactoryBuilder.GetInContextFactory(new SynchronizationContext());
@@ -63,7 +63,7 @@ namespace EasyActor.Test
         }
 
 
-        [Test]
+        [Fact]
         public void GetFactory_LoadBalancerFactory_Return_LoadBalancerFactory()
         {
             var res = _ActorFactoryBuilder.GetLoadBalancerFactory();

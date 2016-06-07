@@ -2,13 +2,14 @@
 using System.Threading.Tasks;
 using System.Threading;
 using FluentAssertions;
-using NUnit.Framework;
+ 
 using EasyActor.Queue;
 using EasyActor.TaskHelper;
+using Xunit;
 
 namespace EasyActor.Test
 {
-    [TestFixture]
+     
     public class MonoThreadQueueTest
     {
         private Thread _RunningThread;
@@ -37,14 +38,12 @@ namespace EasyActor.Test
         {
             throw new Exception();
         }
-
-        [SetUp]
-        public void SetUp()
+        public MonoThreadQueueTest()
         {
             _RunningThread = null;
         }
 
-          [Test]
+          [Fact]
         public async Task Enqueue_Should_Run_OnSeparatedThread()
         {
             Thread current = Thread.CurrentThread;
@@ -61,7 +60,7 @@ namespace EasyActor.Test
             }
         }
 
-           [Test]
+           [Fact]
         public async Task Enqueue_Should_Run_OnSameThread()
         {
             Thread current = Thread.CurrentThread;
@@ -79,7 +78,7 @@ namespace EasyActor.Test
             }
         }
 
-         [Test]
+         [Fact]
         public async Task Enqueue_Should_DispatchException()
         {
             Thread current = Thread.CurrentThread;
@@ -104,7 +103,7 @@ namespace EasyActor.Test
 
        
 
-         [Test]
+         [Fact]
         
         public async Task Enqueue_Exception_Should_Not_Kill_MainThead()
         {
@@ -126,7 +125,7 @@ namespace EasyActor.Test
             }
         }
 
-        [Test]
+        [Fact]
         public async Task Enqueue_Should_Work_With_Result()
         {
             Thread current = Thread.CurrentThread;
@@ -144,7 +143,7 @@ namespace EasyActor.Test
             }
         }
 
-        [Test]
+        [Fact]
         public async Task Enqueue_Func_T_Should_Work_AsExpected_With_Result()
         {
 
@@ -165,7 +164,7 @@ namespace EasyActor.Test
         }
 
 
-         [Test]
+         [Fact]
         public async Task Enqueue_Should_DispatchException_With_Result()
         {
             //arrange
@@ -187,7 +186,7 @@ namespace EasyActor.Test
             }
         }
 
-        [Test]
+        [Fact]
         public async Task Enqueue_Exception_Should_Not_Kill_MainThead_With_Result()
         {
             Thread current = Thread.CurrentThread;
@@ -211,7 +210,7 @@ namespace EasyActor.Test
             }
         }
 
-        [Test]
+        [Fact]
         public async Task Enqueue_Should_Work_OnAction()
         {
             Thread current = Thread.CurrentThread;
@@ -230,7 +229,7 @@ namespace EasyActor.Test
         }
 
 
-        [Test]
+        [Fact]
         public async Task Enqueue_Should_ReDispatch_Exception_OnAction()
         {
             Thread current = Thread.CurrentThread;
@@ -255,7 +254,7 @@ namespace EasyActor.Test
         }
 
 
-        [Test]
+        [Fact]
         public async Task Enqueue_Should_Not_Cancel_Already_Runing_Task_OnDispose()
         {
             Task newTask = null;
@@ -279,7 +278,7 @@ namespace EasyActor.Test
         }
 
 
-        [Test]
+        [Fact]
         public async Task Enqueue_Task_Should_Cancel_Not_Started_Task_When_OnDispose()
         {
             Task newTask = null, notstarted = null;
@@ -316,7 +315,7 @@ namespace EasyActor.Test
         }
 
 
-        [Test]
+        [Fact]
         public async Task Enqueue_Action_Should_Cancel_Not_Started_Task_When_OnDispose()
         {
             Task newTask = null, notstarted = null;
@@ -352,7 +351,7 @@ namespace EasyActor.Test
             Done.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public async Task Enqueue_Task_Should_Cancel_Task_When_Added_On_Disposed_Queue()
         {
             MonoThreadedQueue queue = null;
@@ -378,7 +377,7 @@ namespace EasyActor.Test
             error.Should().NotBeNull();
         }
 
-        [Test]
+        [Fact]
         public async Task Enqueue_Action_Should_Cancel_Task_When_On_Disposed_Queue()
         {
             MonoThreadedQueue queue = null;
@@ -406,7 +405,7 @@ namespace EasyActor.Test
             Done.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public async Task Enqueue_Func_T_Should_Cancel_Task_When_On_Disposed_Queue()
         {
             MonoThreadedQueue queue = null;
@@ -434,7 +433,7 @@ namespace EasyActor.Test
             error.Should().NotBeNull();
         }
 
-        [Test]
+        [Fact]
         public async Task Dispose_Running_Task_Should_Continue_After_Stoping_Queue()
         {
             //arrange  
@@ -453,7 +452,7 @@ namespace EasyActor.Test
             task.IsCompleted.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public async Task Dispose_Enqueued_Task_Should_Continue_After_Stoping_Queue()
         {
             //arrange  
@@ -475,7 +474,7 @@ namespace EasyActor.Test
         }
 
 
-        [Test]
+        [Fact]
         public async Task Dispose_Enqueue_Items_Should_Return_Canceled_Task_After_Stoping_Queue()
         {       
             //arrange  

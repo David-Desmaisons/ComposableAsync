@@ -1,28 +1,28 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
-using NUnit.Framework;
+ 
 using EasyActor.Test.TestInfra.DummyClass;
+using Xunit;
 
 namespace EasyActor.Test
 {
-    [TestFixture]
+     
     public class SharedThreadActorFactoryTest
     {
         private SharedThreadActorFactory _Factory;
-        [SetUp]
-        public void setUp()
+        public SharedThreadActorFactoryTest()
         {
             _Factory = new SharedThreadActorFactory();
         }
 
-        [Test]
+        [Fact]
         public void Type_Should_Be_Shared()
         {
             _Factory.Type.Should().Be(ActorFactorType.Shared);
         }
 
-        [Test]
+        [Fact]
         public async Task All_Actors_Should_Run_On_Same_Thread()
         {
             //arrange
@@ -39,7 +39,7 @@ namespace EasyActor.Test
             target1.CallingThread.Should().Be(target2.CallingThread);
         }
 
-        [Test]
+        [Fact]
         public async Task BuildAsync_Should_Call_Constructor_On_Actor_Thread()
         {
             var current = Thread.CurrentThread;
@@ -52,7 +52,7 @@ namespace EasyActor.Test
             target.CallingConstructorThread.Should().Be(target.CallingThread);
         }
 
-        [Test]
+        [Fact]
         public async Task Stop_Should_Kill_Thread()
         {
             //arrange
@@ -68,7 +68,7 @@ namespace EasyActor.Test
             target1.CallingThread.IsAlive.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public async Task Abort_Should_Kill_Thread()
         {
             //arrange
@@ -83,7 +83,7 @@ namespace EasyActor.Test
             target1.CallingThread.IsAlive.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public async Task Stop_Should_Call_Actor_IAsyncDisposable_DisposeAsync_Thread()
         {
             //arrange
@@ -98,7 +98,7 @@ namespace EasyActor.Test
             target1.IsDisposed.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public async Task Abort_Should_Call_Actor_IAsyncDisposable_DisposeAsync_Thread()
         {
             //arrange

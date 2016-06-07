@@ -1,30 +1,30 @@
 ﻿using System.Threading.Tasks;
 
 using FluentAssertions;
-using NUnit.Framework;
+ 
 using System.Threading;
 using EasyActor.Test.TestInfra.DummyClass;
+using Xunit;
 
 namespace EasyActor.Test
 {
-    [TestFixture]
+     
     public class TaskPoolActorFactoryTest
     {
         private TaskPoolActorFactory _TaskPoolActorFactory;
 
-        [SetUp]
-        public void TestUp()
+        public TaskPoolActorFactoryTest()
         {
             _TaskPoolActorFactory = new TaskPoolActorFactory();
         }
 
-        [Test]
+        [Fact]
         public void Type_Should_Be_Standard()
         {
             _TaskPoolActorFactory.Type.Should().Be(ActorFactorType.TaskPool);
         }
 
-        [Test]
+        [Fact]
         public async Task Method_Should_Run_On_Separated_Pooled_Thread()
         {
             var current = Thread.CurrentThread;
@@ -38,7 +38,7 @@ namespace EasyActor.Test
             target.CallingThread.Should().NotBe(current);
         }
 
-        [Test]
+        [Fact]
         public async Task Method_WithAReturn_Should_Run_On_Separated_Pooled_Thread()
         {
             var current = Thread.CurrentThread;
@@ -52,7 +52,7 @@ namespace EasyActor.Test
             target.CallingThread.Should().NotBe(current);
         }
 
-        [Test]
+        [Fact]
         public async Task Method_Should_Not_Always_OnPoolThread()
         {
             var current = Thread.CurrentThread;
@@ -67,7 +67,7 @@ namespace EasyActor.Test
             target.CallingThread.Should().NotBe(current);
         }
 
-        [Test]
+        [Fact]
         public async Task Each_Actor_Should_Run_On_Separated_Thread()
         {
             //arrange
@@ -83,7 +83,7 @@ namespace EasyActor.Test
             target1.CallingThread.Should().NotBe(target2.CallingThread);
         }
 
-        [Test]
+        [Fact]
         public async Task BuildAsync_Should_Call_Constructor_On_ThreadPoolThread()
         {
             var current = Thread.CurrentThread;
@@ -96,14 +96,14 @@ namespace EasyActor.Test
             target.CallingConstructorThread.IsThreadPoolThread.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public void Actor_Should_Implement_IActorLifeCycle()
         {
             var intface = _TaskPoolActorFactory.Build<IDummyInterface2>(new DummyClass());
             intface.Should().BeAssignableTo<IActorLifeCycle>();
         }
 
-        [Test]
+        [Fact]
         public async Task Actor_IActorLifeCycle_Stop_Should_Call_Proxified_Class_On_IAsyncDisposable()
         {
             //arrange
@@ -119,7 +119,7 @@ namespace EasyActor.Test
             dispclass.IsDisposed.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public async Task Actor_Should_Return_Cancelled_Task_On_Any_Method_AfterCalling_IActorLifeCycle_Stop()
         {
             //arrange
@@ -151,7 +151,7 @@ namespace EasyActor.Test
             canc.IsCanceled.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public async Task Actor_IActorLifeCycle_Stop_Should_Not_Cancel_Enqueued_Task()
         {
             //arrange

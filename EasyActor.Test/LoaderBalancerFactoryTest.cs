@@ -3,26 +3,26 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using FluentAssertions;
-using NUnit.Framework;
+ 
 using System.Threading;
 using EasyActor.Test.TestInfra.DummyClass;
+using Xunit;
 
 namespace EasyActor.Test
 {
-    [TestFixture]
+     
     public class LoadBalancerFactoryTest
     {
         private LoadBalancerFactory _Factory;
         private Func<DummyClass> _Fact = () => new DummyClass();
 
-        [SetUp]
-        public void TestUp()
+        public LoadBalancerFactoryTest()
         {
             _Factory = new LoadBalancerFactory(BalancingOption.MinizeObjectCreation);
             DummyClass.ResetCount();
         }
 
-        [Test]
+        [Fact]
         public void ShouldCreateBasicLB()
         {
             var target = _Factory.Build<IDummyInterface2>(_Fact,2);
@@ -30,15 +30,16 @@ namespace EasyActor.Test
             target.Should().NotBeNull();
         }
 
-        [TestCase(0)]
-        [TestCase(-1)]
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
         public void ShouldNotWorkWithNegativeOrNullParalelism(int parrallelism)
         {
             Action Do = () => _Factory.Build<IDummyInterface2>(_Fact, parrallelism);
             Do.ShouldThrow<ArgumentOutOfRangeException>();
         }
      
-        [Test]
+        [Fact]
         public async Task ShouldDelegateToPoco()
         {
             var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
@@ -48,28 +49,33 @@ namespace EasyActor.Test
             DummyClass.Count.Should().Be(1);
         }
 
-        [Test]
-        public async Task MinizeObjectCreation_Should_Create_Poco_IfNeeded_Simultaneous()
+        [Fact]
+        public async Task MinizeObjectCreation_Should_Create_Poco_IfNeeded_Simultaneous() 
         {
+            var count = DummyClass.Count;
             var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
             await Task.WhenAll(target.SlowDoAsync(), target.SlowDoAsync());
 
-            DummyClass.Count.Should().Be(2);
+            var delta = DummyClass.Count -count;
+            delta.Should().Be(2);
         }
 
-        [Test]
-        public async Task MinizeObjectCreation_Should_Create_Poco_IfNeeded()
+        [Fact]
+        public async Task MinizeObjectCreation_Should_Create_Poco_IfNeeded() 
         {
+            var count = DummyClass.Count;
             var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
             var t1= target.SlowDoAsync();
             Thread.Sleep(200);
             var t2 = target.SlowDoAsync();
             await Task.WhenAll(t1, t2);
 
-            DummyClass.Count.Should().Be(2);
+            var delta = DummyClass.Count - count;
+
+            delta.Should().Be(2);
         }
 
-        [Test]
+        [Fact]
         public async Task MinizeObjectCreation_Should_Not_Create_More_Poco_Than_LimitedParallelism()
         {
             var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
@@ -87,18 +93,19 @@ namespace EasyActor.Test
             DummyClass.Count.Should().Be(2);
         }
 
-        [Test]
+        [Fact]
         public async Task MinizeObjectCreation_ShouldNotInstanciateVariousPocoIfActorIsWithoutActivity()
         {
+            var count = DummyClass.Count;
             var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
             await target.SlowDoAsync();
             Thread.Sleep(10);
             await target.SlowDoAsync();
-
-            DummyClass.Count.Should().Be(1);
+            var delta = DummyClass.Count - count;
+            delta.Should().Be(1);
         }
 
-        [Test]
+        [Fact]
         public async Task PreferParralelism_ShouldInstanciateVariousPocoEvenIfActorIsWithoutActivity()
         {
             _Factory = new LoadBalancerFactory(BalancingOption.PreferParralelism);
@@ -110,21 +117,21 @@ namespace EasyActor.Test
             DummyClass.Count.Should().Be(2);
         }
 
-        [Test]
+        [Fact]
         public void LoadBalancer_Should_Implement_IActorLifeCycle()
         {
             var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
             target.Should().BeAssignableTo<IActorCompleteLifeCycle>();
         }
 
-        [Test]
+        [Fact]
         public async Task LoadBalancer_IActorLifeCycle_Abort_Should_NotThrowException()
         {
             var target = _Factory.Build<IDummyInterface2>(_Fact, 2) as IActorCompleteLifeCycle;
             await target.Abort();
         }
 
-        [Test]
+        [Fact]
         public async Task LoadBalancer_IActorLifeCycle_Abort_Should_CancelTask()
         {
             var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
@@ -136,7 +143,7 @@ namespace EasyActor.Test
             Do.ShouldThrow<TaskCanceledException>();
         }
 
-        [Test]
+        [Fact]
         public async Task LoadBalancer_IActorLifeCycle_Abort_Should_CancelTask_Not_Run()
         {
             var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
@@ -164,14 +171,14 @@ namespace EasyActor.Test
             t4.IsCanceled.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public async Task LoadBalancer_IActorLifeCycle_Stop_Should_NotThrowException()
         {
             var target = _Factory.Build<IDummyInterface2>(_Fact, 2) as IActorCompleteLifeCycle;
             await target.Stop();
         }
 
-        [Test]
+        [Fact]
         public async Task LoadBalancer_IActorLifeCycle_Stop_Should_CancelTask()
         {
             var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
@@ -183,9 +190,10 @@ namespace EasyActor.Test
             Do.ShouldThrow<TaskCanceledException>();
         }
 
-        [Test]
+        [Fact]
         public void Stress_Paralellism()
         {
+            DummyClass.ResetObjects();
             var target = _Factory.Build<IDummyInterface2>(_Fact, 5);
 
             ThreadStart ts = () => Start(target);
@@ -202,8 +210,9 @@ namespace EasyActor.Test
                 Console.WriteLine("actor {0}: {1}",j++,ob.SlowDoAsyncCount);
             }
 
-            DummyClass.GetObjects().Select(o => o.SlowDoAsyncCount).Max().Should().BeLessOrEqualTo(21);
-            DummyClass.GetObjects().Select(o => o.SlowDoAsyncCount).Max().Should().BeGreaterOrEqualTo(19);
+            var count = DummyClass.GetObjects().Select(o => o.SlowDoAsyncCount).Max();
+            count.Should().BeLessOrEqualTo(21);
+            count.Should().BeGreaterOrEqualTo(19);
         }
 
         private void Start(IDummyInterface2 dummy)

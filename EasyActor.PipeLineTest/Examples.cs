@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using NUnit.Framework;
+ 
 using EasyActor.Pipeline;
 using System.Threading;
+using Xunit;
 
 namespace EasyActor.PipeLineTest
 {
-    [TestFixture]
+     
     public class Examples
     {
-        [Test]
+        [Fact]
         public async Task Composition()
         {
             var trans = Transformer.Create<int, int>(a => a * 2);
@@ -21,7 +22,7 @@ namespace EasyActor.PipeLineTest
             await final.Consume(25);
         }
 
-        [Test]
+        [Fact]
         public async Task Composition2()
         {
             var pip = PipeLine.Create<int, int>(a => a * 2);
@@ -29,7 +30,7 @@ namespace EasyActor.PipeLineTest
             await final.Consume(25);
         }
 
-        [Test]
+        [Fact]
         public async Task Composition3()
         {
             var pip = PipeLine.Create<int, int>(a => a * 2).Next(Console.WriteLine);
@@ -37,7 +38,7 @@ namespace EasyActor.PipeLineTest
         }
 
 
-        [Test]
+        [Fact]
         public async Task Composition4()
         {
             Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
@@ -47,7 +48,7 @@ namespace EasyActor.PipeLineTest
             await finaliser.Consume(40);
         }
 
-        [Test]
+        [Fact]
         public async Task Composition5()
         {
             Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
@@ -61,7 +62,7 @@ namespace EasyActor.PipeLineTest
         //                    /
         //      a => a * 2 ---
         //                    \___ i => i * 5 -----> Console.WriteLine("1 - {0} {1}")
-        [Test]
+        [Fact]
         public async Task Composition6()
         {
             Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
@@ -76,7 +77,7 @@ namespace EasyActor.PipeLineTest
         //                    /                  \
         //      a => a * 2 ---                    ------>Console.WriteLine("{0} {1}")
         //                    \___ i => i * 5 ___/
-        [Test]
+        [Fact]
         public async Task Composition7()
         {
             Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
@@ -98,7 +99,7 @@ namespace EasyActor.PipeLineTest
         //                    /                    \
         //      a => a * 2 ---                      ------>Console.WriteLine("{0} {1}")
         //                    \___ i => i * 5 _____/
-        [Test]
+        [Fact]
         public async Task Composition8()
         {
             Console.WriteLine(Thread.CurrentThread.ManagedThreadId);

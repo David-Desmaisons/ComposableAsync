@@ -43,7 +43,7 @@ namespace EasyActor
         internal async Task<Tuple<T, MonoThreadedQueue>> InternalBuildAsync<T>(Func<T> concrete) where T : class
         {
             var queue = new MonoThreadedQueue(_OnCreate);
-            var actor = await queue.Enqueue(() => Build<T>(concrete(), queue));
+            var actor = await queue.Enqueue(() => Build<T>(concrete(), queue)).ConfigureAwait(false);
             return new Tuple<T, MonoThreadedQueue>(actor, queue);
         }
     }

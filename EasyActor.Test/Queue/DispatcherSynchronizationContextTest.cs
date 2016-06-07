@@ -1,24 +1,25 @@
 ﻿using System;
-using NUnit.Framework;
+ 
 using FluentAssertions;
 using EasyActor.Queue;
 using System.Threading;
+using Xunit;
 
 namespace EasyActor.Test
 {
-    [TestFixture]
+     
     public class DispatcherSynchronizationContextTest
     {
         private MonoThreadedQueueSynchronizationContext _Dispatcher;
         private MonoThreadedQueue _Queue;
-        [SetUp]
-        public void SetUp()
+
+        public DispatcherSynchronizationContextTest()
         {
             _Queue = new MonoThreadedQueue(t => t.Priority = ThreadPriority.Highest);
             _Dispatcher = new  MonoThreadedQueueSynchronizationContext(_Queue);
         }
 
-        [Test]
+        [Fact]
         public void Constructor_Throw_Exception_On_Null_Queue() {
             MonoThreadedQueueSynchronizationContext res = null;
             Action Do =  () => res = new MonoThreadedQueueSynchronizationContext(null);
@@ -26,7 +27,7 @@ namespace EasyActor.Test
             Do.ShouldThrow<ArgumentNullException>();
         }
 
-        [Test]
+        [Fact]
         public void Post_Should_Run_On_Queue_Thread()
         {
             //arrange
@@ -43,7 +44,7 @@ namespace EasyActor.Test
             postthread.Should().Be(queuethread);
         }
 
-        [Test]
+        [Fact]
         public void Send_Should_Run_On_Queue_Thread()
         {
             //arrange
@@ -59,7 +60,7 @@ namespace EasyActor.Test
             postthread.Should().Be(queuethread);
         }
 
-        [Test]
+        [Fact]
         public void Send_Should_Run_Immediately_On_Queue_Thread()
         {
             //arrange
@@ -75,7 +76,7 @@ namespace EasyActor.Test
             postthread.Should().Be(queuethread);
         }
 
-        [Test]
+        [Fact]
         public void CreateCopy_Should_Return_A_DispatcherSynchronizationContext()
         {
             //arrange
@@ -85,7 +86,7 @@ namespace EasyActor.Test
             cloned.Should().BeAssignableTo<MonoThreadedQueueSynchronizationContext>();
         }
 
-        [Test]
+        [Fact]
         public void CreateCopy_Should_Return_A_DispatcherSynchronizationContext_Conected_ToSameQueue()
         {
             //arrange

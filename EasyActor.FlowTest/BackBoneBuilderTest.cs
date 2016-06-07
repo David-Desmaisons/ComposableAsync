@@ -1,17 +1,18 @@
 ﻿using EasyActor.Flow.BackBone;
 using EasyActor.Flow.Processor;
 using NSubstitute;
-using NUnit.Framework;
+ 
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using FluentAssertions;
 using System.Threading;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace EasyActor.FlowTest
 {
-    [TestFixture]
+     
     public class BackBoneBuilderTest
     {
         private BackBoneBuilder<bool,int> _Builder;
@@ -22,8 +23,7 @@ namespace EasyActor.FlowTest
         private IProcessorFinalizer<bool, int, int> _IProcessorFinalizer;
         private IBackbone<bool, int> _BackBone;
 
-        [SetUp]
-        public void SetUp()
+        public BackBoneBuilderTest()
         {
             _Processors = new Dictionary<Type, object>();
             _Processor = Substitute.For<IProcessor<bool, string, int>>();
@@ -38,7 +38,7 @@ namespace EasyActor.FlowTest
             });
         }
 
-        [Test]
+        [Fact]
         public void Register_IProcessor_AddToDictioanry()
         {
             _Builder.Register(_Processor);
@@ -50,7 +50,7 @@ namespace EasyActor.FlowTest
             });
         }
 
-        [Test]
+        [Fact]
         public void Register_ITransformer_AddToDictioanryTransformerProcessorAdapter()
         {
             var boolTRansformer = SetUpForTransormer();
@@ -58,7 +58,7 @@ namespace EasyActor.FlowTest
             boolTRansformer.Should().NotBeNull();
         }
 
-        [Test]
+        [Fact]
         public async Task Register_ITransformer_AddToDictioanryCorrectTransformerProcessorAdapter()
         {
             var boolTRansformer = SetUpForTransormer();
@@ -74,7 +74,7 @@ namespace EasyActor.FlowTest
             return _Processors[typeof(bool)] as TransformerProcessorAdapter<bool, bool, string, int>;
         }
 
-        [Test]
+        [Fact]
         public void Register_IProcessorFinalizer_AddToDictioanryFinalizerProcessorAdapter()
         {
             var boolTRansformer = SetUpForFinalizer();
@@ -82,7 +82,7 @@ namespace EasyActor.FlowTest
             boolTRansformer.Should().NotBeNull();
         }
 
-        [Test]
+        [Fact]
         public async Task Register_IProcessorFinalizer_AddToDictioanryCorrectFinalizerProcessorAdapter()
         {
             var boolTRansformer = SetUpForFinalizer();

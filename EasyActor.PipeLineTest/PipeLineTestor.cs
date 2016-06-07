@@ -1,15 +1,16 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using NUnit.Framework;
+ 
 using EasyActor.Pipeline;
 using System.Threading;
 using EasyActor.PipeLineTest.Infra;
 using FluentAssertions;
 using System.Reactive.Linq;
+using Xunit;
 
 namespace EasyActor.PipeLineTest
 {
-    [TestFixture]
+     
     public class PipeLineTestor
     {
         private TestFunction<int, int>  _Func;
@@ -20,8 +21,7 @@ namespace EasyActor.PipeLineTest
         private TestAction<int> _Act2;
         private TestAction<int> _Act3;
 
-        [SetUp]
-        public void SetUp()
+        public PipeLineTestor()
         {
             _Func = new TestFunction<int, int>(a => a * 5);
             _Func2 = new TestFunction<int, int>(a => a - 2);
@@ -32,10 +32,10 @@ namespace EasyActor.PipeLineTest
             _Act3 = new TestAction<int>(a => { Thread.Sleep(300); });
         }
 
-        [Test]
-        [TestCase(0, 0)]
-        [TestCase(2,10)]
-        [TestCase(1, 5)]
+        [Theory]
+        [InlineData(0, 0)]
+        [InlineData(2,10)]
+        [InlineData(1, 5)]
         public async Task Create_Should_Compute_Result_OK(int iin, int iout)
         {
             var current = Thread.CurrentThread;
@@ -49,10 +49,10 @@ namespace EasyActor.PipeLineTest
             _Act.CallingThread.Should().NotBe(_Func.CallingThread);
         }
 
-        [Test]
-        [TestCase(0, 0)]
-        [TestCase(2, 10)]
-        [TestCase(1, 5)]
+        [Theory]
+        [InlineData(0, 0)]
+        [InlineData(2, 10)]
+        [InlineData(1, 5)]
         public async Task Create_Should_Use_one_Thread(int iin, int iout)
         {
             var current = Thread.CurrentThread;
@@ -72,10 +72,10 @@ namespace EasyActor.PipeLineTest
             _Act.Threads.Count.Should().Be(1);
         }
 
-        [Test]
-        [TestCase(0, -2)]
-        [TestCase(2, 8)]
-        [TestCase(1, 3)]
+        [Theory]
+        [InlineData(0, -2)]
+        [InlineData(2, 8)]
+        [InlineData(1, 3)]
         public async Task Compose_Should_Compute_Result_OK(int iin, int iout)
         {
             var current = Thread.CurrentThread;
@@ -97,11 +97,11 @@ namespace EasyActor.PipeLineTest
         //                    /
         //      a => a * 2 ---
         //                    \___ i => i * 5 -----> Console.WriteLine("1 - {0} {1}")
-        [TestCase(0, 0, 2)]
-        [TestCase(1, 5, 3)]
-        [TestCase(2, 10, 4)]
-        [TestCase(10, 50, 12)]
-        [Test]
+        [Theory]
+        [InlineData(0, 0, 2)]
+        [InlineData(1, 5, 3)]
+        [InlineData(2, 10, 4)]
+        [InlineData(10, 50, 12)]
         public async Task Compose_Parralel_Should_Compute_Result_OK(int entry, int s1, int s2)
         {
             var current = Thread.CurrentThread;
@@ -128,7 +128,7 @@ namespace EasyActor.PipeLineTest
         //                    /                  \
         //      a => a * 2 ---                    ------>Console.WriteLine("{0} {1}")
         //                    \___ i => i * 5 ___/
-        [Test]
+        [Fact]
         public async Task Compose_Parralel_Should_Compute_Result_OK()
         {
             var current = Thread.CurrentThread;
@@ -148,7 +148,7 @@ namespace EasyActor.PipeLineTest
             _Act.CallingThread.Should().NotBe(_Func2.CallingThread);
         }
 
-        [Test]
+        [Fact]
         public async Task Create_With_Paralelism_Parameter_Should_Compute_Result_OK()
         {
             var current = Thread.CurrentThread;
@@ -165,9 +165,10 @@ namespace EasyActor.PipeLineTest
             _Func4.Threads.Should().NotContain(current);
         }
 
-        [Test]
+        [Fact]
         public async Task Next_With_Paralelism_Parameter_Should_Compute_Result_OK()
         {
+            //SynchronizationContext.SetSynchronizationContext(null);
             var current = Thread.CurrentThread;
 
             var pipe = PipeLine.Create<int, int>(i=>i).Next(_Func4.Function, 5).Next(_Act.Action);
@@ -182,9 +183,10 @@ namespace EasyActor.PipeLineTest
             _Func4.Threads.Should().NotContain(current);
         }
 
-        [Test]
+        [Fact]
         public async Task Next_Action_With_Paralelism_Parameter_Should_Compute_Result_OK()
         {
+            //SynchronizationContext.SetSynchronizationContext(null);
             var current = Thread.CurrentThread;
 
             var pipe = PipeLine.Create(_Func3.Function).Next(_Act3.Action, 5);
@@ -200,7 +202,7 @@ namespace EasyActor.PipeLineTest
             _Act3.Threads.Should().NotContain(current);
         }
 
-        [Test]
+        [Fact]
         public async Task Create_Action_With_Paralelism_Parameter_Should_Compute_Result_OK()
         {
             var current = Thread.CurrentThread;
@@ -214,7 +216,7 @@ namespace EasyActor.PipeLineTest
             _Act3.Threads.Should().NotContain(current);
         }
 
-        [Test]
+        [Fact]
         public void Connect_Should_Compute_Result_OK()
         {
             var current = Thread.CurrentThread;
@@ -225,6 +227,8 @@ namespace EasyActor.PipeLineTest
             var res = Enumerable.Range(0,100).Select(_Func.Function);
 
             var disp = pipe.Connect(obs);
+
+            Thread.Sleep(10);
 
             _Act.Threads.Count.Should().Be(1);
             _Act.Results.Should().BeEquivalentTo(res);
