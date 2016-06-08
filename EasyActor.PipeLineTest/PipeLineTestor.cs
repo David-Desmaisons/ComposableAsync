@@ -168,7 +168,6 @@ namespace EasyActor.PipeLineTest
         [Fact]
         public async Task Next_With_Paralelism_Parameter_Should_Compute_Result_OK()
         {
-            //SynchronizationContext.SetSynchronizationContext(null);
             var current = Thread.CurrentThread;
 
             var pipe = PipeLine.Create<int, int>(i=>i).Next(_Func4.Function, 5).Next(_Act.Action);
@@ -186,7 +185,6 @@ namespace EasyActor.PipeLineTest
         [Fact]
         public async Task Next_Action_With_Paralelism_Parameter_Should_Compute_Result_OK()
         {
-            //SynchronizationContext.SetSynchronizationContext(null);
             var current = Thread.CurrentThread;
 
             var pipe = PipeLine.Create(_Func3.Function).Next(_Act3.Action, 5);
