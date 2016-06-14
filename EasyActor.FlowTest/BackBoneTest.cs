@@ -1,5 +1,5 @@
 ﻿using System;
- 
+
 using EasyActor.Flow.BackBone;
 using System.Collections.Generic;
 using System.Threading;
@@ -10,12 +10,11 @@ using NSubstitute;
 using EasyActor.Flow;
 using System.Reactive.Linq;
 using System.Reactive.Disposables;
-using NSubstitute.ExceptionExtensions;
 using Xunit;
 
 namespace EasyActor.FlowTest
 {
-     
+
     public class BackBoneTest: IDisposable
     {
         private BackBone<bool, int> _BackBone;
