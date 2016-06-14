@@ -39,20 +39,24 @@ namespace EasyActor.Flow.BackBone
 
         public async Task<TRes> Process<TMessage>(TMessage message, IProgress<TProgress> progress, CancellationToken cancellationToken)
         {
-            _CancellationTokenSource.Token.ThrowIfCancellationRequested();
-            cancellationToken.ThrowIfCancellationRequested();
+            using (var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _CancellationTokenSource.Token))
+            {
+                var token = linkedCts.Token;
+                token.ThrowIfCancellationRequested();
 
-            var messageType = typeof(TMessage);
-            progress = progress ?? new NullProgess<TProgress>();
-            try
-            {
-                var processor = _Processors[messageType] as IProcessor<TRes, TMessage, TProgress>;
-                return await processor.Process(message, this, progress, cancellationToken);
+                var messageType = typeof(TMessage);
+                progress = progress ?? new NullProgess<TProgress>();
+
+                try
+                {
+                    var processor = _Processors[messageType] as IProcessor<TRes, TMessage, TProgress>;
+                    return await processor.Process(message, this, progress, token);
+                }
+                catch (KeyNotFoundException)
+                {
+                    throw new ArgumentException(string.Format("No processor found for message {0}. Use register on BackBone builder to register processor.", messageType));
+                }
             }
-            catch (KeyNotFoundException)
-            {
-                throw new ArgumentException(string.Format("No processor found for message {0}. Use register on BackBone builder to register processor.", messageType));
-            }  
         }
     }
 }

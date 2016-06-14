@@ -56,14 +56,14 @@ namespace EasyActor.FlowTest
         public async Task Process_WithMessageTypeKnown_CallProcessor()
         {
             await _BackBone.Process("test", _Progess, _CancellationToken);
-            await _Processor.Received(1).Process("test", _BackBone, _Progess, _CancellationToken);
+            await _Processor.Received(1).Process("test", _BackBone, _Progess, Arg.Any<CancellationToken>());
         }
 
         [Fact]
         public async Task Process_CalledWithANullReferenceProgess_ProvidesANullProgress()
         {
             await _BackBone.Process("test", null, _CancellationToken);
-            await _Processor.Received(1).Process("test", _BackBone, Arg.Any<NullProgess<int>>(), _CancellationToken);
+            await _Processor.Received(1).Process("test", _BackBone, Arg.Any<NullProgess<int>>(), Arg.Any<CancellationToken>());
         }
 
         [Fact]

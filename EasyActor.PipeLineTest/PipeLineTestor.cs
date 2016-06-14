@@ -129,7 +129,7 @@ namespace EasyActor.PipeLineTest
         //      a => a * 2 ---                    ------>Console.WriteLine("{0} {1}")
         //                    \___ i => i * 5 ___/
         [Fact]
-        public async Task Compose_Parralel_Should_Compute_Result_OK()
+        public async Task Compose_Parralel_Should_Compute_Result_OK_NoParameter()
         {
             var current = Thread.CurrentThread;
 
