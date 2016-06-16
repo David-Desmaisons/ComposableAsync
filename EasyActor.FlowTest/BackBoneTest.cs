@@ -1,5 +1,4 @@
 ﻿using System;
-
 using EasyActor.Flow.BackBone;
 using System.Collections.Generic;
 using System.Threading;
@@ -11,13 +10,14 @@ using EasyActor.Flow;
 using System.Reactive.Linq;
 using System.Reactive.Disposables;
 using Xunit;
+using System.Reactive.Linq;
 
 namespace EasyActor.FlowTest
 {
 
     public class BackBoneTest: IDisposable
     {
-        private BackBone<bool, int> _BackBone;
+        private IBackbone<bool, int> _BackBone;
         private IDictionary<Type, object> _Processors = new Dictionary<Type, object>();
         private IProcessor<bool, string, int> _Processor;
         private IProgress<int> _Progess;
@@ -117,6 +117,18 @@ namespace EasyActor.FlowTest
 
             disp.Should().Be(Disposable.Empty);
             await _Processor.DidNotReceive().Process("Value", _BackBone, Arg.Any<NullProgess<int>>(), Arg.Any<CancellationToken>());
+        }
+
+
+        [Fact]
+        public async Task GetObservable_SendMessageAsExpected() {
+            var observed = new List<string>();
+            var obs = _BackBone.GetObservable<string>();
+            obs.Subscribe(s => observed.Add(s));
+
+            await _BackBone.Process("string", null, CancellationToken.None);
+
+            observed.Should().BeEquivalentTo("string");
         }
     }
 }
