@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace EasyActor.Flow.BackBone
         private readonly IDictionary<Type, object> _Processors;
         private Lazy<CompositeDisposable> _Disposable = new Lazy<CompositeDisposable>();
         private CancellationTokenSource _CancellationTokenSource = new CancellationTokenSource();
+        private event EventHandler<object> _OnElement;
 
         internal BackBone(IDictionary<Type, object> processors)
         {
@@ -49,6 +51,7 @@ namespace EasyActor.Flow.BackBone
 
                 try
                 {
+                    FireEvent(message);
                     var processor = _Processors[messageType] as IProcessor<TRes, TMessage, TProgress>;
                     return await processor.Process(message, this, progress, token);
                 }
@@ -57,6 +60,19 @@ namespace EasyActor.Flow.BackBone
                     throw new ArgumentException(string.Format("No processor found for message {0}. Use register on BackBone builder to register processor.", messageType));
                 }
             }
+        }
+
+        private void FireEvent(object element)
+        {
+            var onElement = _OnElement;
+            if (onElement != null)
+                onElement.Invoke(this, element);
+        }
+
+        public IObservable<T> GetObservable<T>() 
+        {
+            return Observable.FromEventPattern<object>(ea => _OnElement += ea, ea => _OnElement -= ea)
+                             .Select(epa => epa.EventArgs).OfType<T>();
         }
     }
 }

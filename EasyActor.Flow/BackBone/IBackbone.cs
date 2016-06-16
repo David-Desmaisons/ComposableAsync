@@ -9,5 +9,7 @@ namespace EasyActor.Flow.BackBone
         IDisposable Connect<TMessage>(IObservable<TMessage> source);
 
         Task<TRes> Process<TMessage>(TMessage message, IProgress<TProgress> progress, CancellationToken cancellationToken);
+
+        IObservable<TMessage> GetObservable<TMessage>();
     }
 }
