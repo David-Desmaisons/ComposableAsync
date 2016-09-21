@@ -141,7 +141,7 @@ namespace EasyActor.FlowTest
         private List<T> SetUpObservable<T>() 
         {
             var observed = new List<T>();
-            var obs = _BackBone.GetObservable<T>();
+            var obs = _BackBone.GetObservableMessage<T>();
             obs.Subscribe(s => observed.Add(s));
             return observed;
         }

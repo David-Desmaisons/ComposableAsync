@@ -69,7 +69,7 @@ namespace EasyActor.Flow.BackBone
                 onElement.Invoke(this, element);
         }
 
-        public IObservable<T> GetObservable<T>() 
+        public IObservable<T> GetObservableMessage<T>() 
         {
             return Observable.FromEventPattern<object>(ea => _OnElement += ea, ea => _OnElement -= ea)
                              .Select(epa => epa.EventArgs).OfType<T>();

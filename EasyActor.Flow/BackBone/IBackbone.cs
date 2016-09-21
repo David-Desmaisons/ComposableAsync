@@ -10,6 +10,6 @@ namespace EasyActor.Flow.BackBone
 
         Task<TRes> Process<TMessage>(TMessage message, IProgress<TProgress> progress, CancellationToken cancellationToken);
 
-        IObservable<TMessage> GetObservable<TMessage>();
+        IObservable<TMessage> GetObservableMessage<TMessage>();
     }
 }
