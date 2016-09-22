@@ -1,6 +1,5 @@
 ﻿using EasyActor.TaskHelper;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,30 +7,10 @@ namespace EasyActor.Test.TestInfra.DummyClass
 {
     public class DummyClass : IDummyInterface2
     {
-        private static List<DummyClass> _Objects = new List<DummyClass>();
-
         public DummyClass()
         {
             CallingConstructorThread = Thread.CurrentThread;
-            _Objects.Add(this);
         }
-
-        public static IEnumerable<DummyClass> GetObjects()
-        {
-            return _Objects;
-        }
-
-        public static void ResetObjects() 
-        {
-            _Objects = new List<DummyClass>();
-        }
-
-        public static void ResetCount()
-        {
-            _Objects.Clear();
-        }
-
-        public static int Count { get { return _Objects.Count; } }
 
         public int DoAsyncCount { get; private set; }
 

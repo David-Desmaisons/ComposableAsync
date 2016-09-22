@@ -12,7 +12,7 @@ namespace EasyActor.Examples
     public class ConcurencyTest : IDisposable
     {
         private List<Thread> _Threads;
-        private int _ThreadCount = 1000;
+        private int _ThreadCount = 100;
         private IDoStuff _IActor;
 
         public ConcurencyTest()
