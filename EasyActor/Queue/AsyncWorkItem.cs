@@ -14,10 +14,7 @@ namespace EasyActor.Queue
             _Source = new TaskCompletionSource<T>();
         }
 
-        public Task<T> Task
-        {
-            get { return _Source.Task; }
-        }
+        public Task<T> Task => _Source.Task;
 
         public void Cancel()
         {

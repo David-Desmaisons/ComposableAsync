@@ -7,25 +7,19 @@ namespace EasyActor.TaskHelper
     public static class TaskBuilder
     {
         private static readonly Task _Completed;
-        private static readonly Task _Cancelled;
+
         static TaskBuilder()
         {
             _Completed = Task.FromResult<object>(null);
 
             var tcs = new TaskCompletionSource<object>();
             tcs.SetCanceled();
-            _Cancelled = tcs.Task;
+            Cancelled = tcs.Task;
         }
 
-        public static Task Completed
-        {
-            get { return _Completed; }
-        }
+        public static Task Completed => _Completed;
 
-        public static Task Cancelled
-        {
-            get {return _Cancelled;}
-        }
+        public static Task Cancelled { get; }
 
         private static Task<T> PrivateGetCancelled<T>()
         {
@@ -54,17 +48,13 @@ namespace EasyActor.TaskHelper
 
     public static class TaskBuilder<T>
     {
-        private static readonly Task<T> _Cancelled;
         static TaskBuilder()
         {
             var tcs = new TaskCompletionSource<T>();
             tcs.SetCanceled();
-            _Cancelled = tcs.Task;
+            Cancelled = tcs.Task;
         }
 
-        public static Task<T> Cancelled
-        {
-            get { return _Cancelled;}
-        }
+        public static Task<T> Cancelled { get; }
     }
 }

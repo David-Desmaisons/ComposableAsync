@@ -6,14 +6,17 @@ using System.Diagnostics;
 
 using EasyActor.TaskHelper;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace EasyActor.Examples
 {
 
     public class PingPong
     {
-        public PingPong() : this(ThreadPriority.Normal)
+        private readonly ITestOutputHelper _Output;
+        public PingPong(ITestOutputHelper output = null) : this(ThreadPriority.Normal)
         {
+            _Output = output;
         }
 
         private readonly ThreadPriority _Priority;
@@ -31,31 +34,35 @@ namespace EasyActor.Examples
 
             var one = new PingPonger("Bjorg");
 
-            IPingPonger Actor1 = fact.Build<IPingPonger>(one);
+            var actor1 = fact.Build<IPingPonger>(one);
 
-            var Two = new PingPonger("Lendl");
+            var two = new PingPonger("Lendl");
             var fact2 = taskPool ? new TaskPoolActorFactory() : fact;
-            IPingPonger Actor2 = fact2.Build<IPingPonger>(Two);
+            var actor2 = fact2.Build<IPingPonger>(two);
 
-            one.Ponger = Actor2;
-            Two.Ponger = Actor1;
+            one.Ponger = actor2;
+            two.Ponger = actor1;
 
             var watch = new Stopwatch();
             watch.Start();
 
-            await Actor1.Ping();
+            await actor1.Ping();
             Thread.Sleep(10000);
 
-            var lifeCyle = Actor2 as IActorCompleteLifeCycle;
+            var lifeCyle = actor2 as IActorCompleteLifeCycle;
             Task Task2 = (lifeCyle == null) ? TaskBuilder.Completed : lifeCyle.Abort();
-            await Task.WhenAll(((IActorCompleteLifeCycle)(Actor1)).Abort(), Task2);
+            await Task.WhenAll(((IActorCompleteLifeCycle)(actor1)).Abort(), Task2);
 
             watch.Stop();
 
-            Console.WriteLine($"Total Ping:{one.Count} Total Time: {watch.ElapsedMilliseconds} ms");
-            Console.WriteLine(one.Count);
-            Console.WriteLine(Two.Count);
-            Console.WriteLine($"Ping/ms:{one.Count/watch.ElapsedMilliseconds}");
+            Output($"Total Ping:{one.Count}, Total Pong:{two.Count} Total Time: {watch.ElapsedMilliseconds} ms");
+            Output($"Operation/ms:{(one.Count + two.Count) / watch.ElapsedMilliseconds}");
+        }
+
+        private void Output(string message)
+        {
+            Console.WriteLine(message);
+            _Output?.WriteLine(message);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace EasyActor
 
         public Task<T> Enqueue<T>(Func<T> action)
         {
-            return Safe( () => _TaskFactory.StartNew(action));
+            return Safe(() => _TaskFactory.StartNew(action));
         }
 
         public Task Enqueue(Func<Task> action)
@@ -54,16 +54,13 @@ namespace EasyActor
                });
         }
 
-        public TaskScheduler TaskScheduler
-        {
-            get { return _Scheduler; }
-        }
+        public TaskScheduler TaskScheduler => _Scheduler;
 
         public Task Stop(Func<Task> cleanup)
         {
-            if (cleanup!=null)
-                Enqueue(cleanup); 
-            
+            if (cleanup != null)
+                Enqueue(cleanup);
+
             _ConcurrentExclusiveSchedulerPair.Complete();
             return _ConcurrentExclusiveSchedulerPair.Completion;
         }

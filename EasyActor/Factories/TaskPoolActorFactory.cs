@@ -7,18 +7,11 @@ namespace EasyActor
 {
     public class TaskPoolActorFactory : ActorFactoryBase, IActorFactory
     {
-        public TaskPoolActorFactory()
-        {
-        }
-
-        public override ActorFactorType Type
-        {
-            get { return ActorFactorType.TaskPool; }
-        }
+        public override ActorFactorType Type => ActorFactorType.TaskPool;
 
         private T Build<T>(T concrete, IStopableTaskQueue queue) where T : class
         {
-            var asyncDisposable =  concrete as IAsyncDisposable;
+            var asyncDisposable = concrete as IAsyncDisposable;
             return CreateIActorLifeCycle(concrete, queue, TypeHelper.IActorLifeCycleType,
                         new ActorLifeCycleInterceptor(queue, asyncDisposable));
         }
@@ -31,9 +24,9 @@ namespace EasyActor
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
         {
             var queue = GetQueue();
-            return queue.Enqueue( ()=> Build<T>(concrete(),queue) );
-        }        
-        
+            return queue.Enqueue(() => Build<T>(concrete(), queue));
+        }
+
         private IStopableTaskQueue GetQueue()
         {
             return new TaskSchedulerQueue();
