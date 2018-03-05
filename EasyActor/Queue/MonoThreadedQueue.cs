@@ -27,9 +27,7 @@ namespace EasyActor.Queue
                 Name = string.Format("MonoThreadedQueue-{0}", _Count++)
             };
 
-            if (onCreate != null)
-                onCreate(_Current);
-
+            onCreate?.Invoke(_Current);
             _Current.Start();
         }
 
@@ -154,9 +152,7 @@ namespace EasyActor.Queue
                 }
             }
             _TaskQueue.Dispose();
-
-            if (_Clean != null)
-                _Clean.Do();
+            _Clean?.Do();
         }
 
         private SynchronizationContext _SynchronizationContext;

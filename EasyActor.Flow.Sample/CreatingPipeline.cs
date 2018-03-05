@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
- 
 using FluentAssertions;
 using EasyActor.Flow.BackBone;
 using EasyActor.Flow.Processor;
@@ -12,7 +11,7 @@ namespace EasyActor.Flow.Sample
     public class CreatingPipeline
     {
 
-        private class transformer : ITransformProcessor<double, string, int>
+        private class Transformer : ITransformProcessor<double, string, int>
         {
             public async Task<string> Transform(double message,  IProgress<int> progress, CancellationToken cancelationToken)
             {
@@ -21,7 +20,7 @@ namespace EasyActor.Flow.Sample
         }
 
 
-        private class parser : IProcessor<bool, string, int>
+        private class Parser : IProcessor<bool, string, int>
         {
             public async Task<bool> Process(string message, IBackbone<bool, int> backbone, IProgress<int> progress, CancellationToken cancelationToken)
             {
@@ -48,8 +47,8 @@ namespace EasyActor.Flow.Sample
         public CreatingPipeline()
         {
             var builder = new BackBoneBuilder<bool, int>();
-            builder.Register(new transformer());
-            builder.Register(new parser());
+            builder.Register(new Transformer());
+            builder.Register(new Parser());
             builder.Register(new Counter());
             _BackBone = builder.GetBackBone();
         }

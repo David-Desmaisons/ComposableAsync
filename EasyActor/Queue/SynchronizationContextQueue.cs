@@ -35,6 +35,13 @@ namespace EasyActor
             return workitem.Task;
         }
 
+        public Task Enqueue(Action action) 
+        {
+            var workitem = new ActionWorkItem(action);
+            _Context.Post(_ => workitem.Do(), null);
+            return workitem.Task;
+        }
+
         public TaskScheduler TaskScheduler
         {
             get { return new SynchronizationContextTaskScheduler(_Context); }

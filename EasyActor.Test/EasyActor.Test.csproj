@@ -84,6 +84,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ActorContextTest.cs" />
+    <Compile Include="Queue\MonoThreadedQueueBaseTest.cs" />
     <Compile Include="TaskPoolActorFactoryTest.cs" />
     <Compile Include="ActorFactoryBuilderTest.cs" />
     <Compile Include="ActorFactoryTest.cs" />

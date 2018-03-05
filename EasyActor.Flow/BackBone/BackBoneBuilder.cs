@@ -6,8 +6,8 @@ namespace EasyActor.Flow.BackBone
 {
     public class BackBoneBuilder<TRes, TTProgress> : IBackboneBuilder<TRes, TTProgress>
     {
-        private IDictionary<Type, object> _Processors = new Dictionary<Type, object>();
-        private Func<IDictionary<Type, object>, IBackbone<TRes, TTProgress>> _Builder;
+        private readonly IDictionary<Type, object> _Processors = new Dictionary<Type, object>();
+        private readonly Func<IDictionary<Type, object>, IBackbone<TRes, TTProgress>> _Builder;
 
         public BackBoneBuilder(): this(dic => new BackBone<TRes, TTProgress>(dic))
         {

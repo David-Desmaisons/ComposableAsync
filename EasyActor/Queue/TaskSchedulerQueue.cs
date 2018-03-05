@@ -29,6 +29,24 @@ namespace EasyActor
             }
         }
 
+        private static Task Safe(Func<Task> compute) 
+        {
+            try 
+            {
+                return compute();
+            }
+            catch 
+            {
+                return TaskBuilder.Cancelled;
+            }
+        }
+
+        public Task Enqueue(Action action) 
+        {
+            return Safe(() => _TaskFactory.StartNew(action));
+        }
+
+
         public Task<T> Enqueue<T>(Func<T> action)
         {
             return Safe(() => _TaskFactory.StartNew(action));

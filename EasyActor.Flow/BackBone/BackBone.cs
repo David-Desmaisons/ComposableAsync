@@ -65,8 +65,7 @@ namespace EasyActor.Flow.BackBone
         private void FireEvent(object element)
         {
             var onElement = _OnElement;
-            if (onElement != null)
-                onElement.Invoke(this, element);
+            onElement?.Invoke(this, element);
         }
 
         public IObservable<T> GetObservableMessage<T>() 
