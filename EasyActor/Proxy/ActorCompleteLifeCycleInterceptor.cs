@@ -10,15 +10,15 @@ namespace EasyActor
 {
     internal class ActorCompleteLifeCycleInterceptor:  InterfaceInterceptor<IActorCompleteLifeCycle>, IInterceptor
     {
-        private static readonly MethodInfo _Abort = _Type.GetMethod("Abort", BindingFlags.Instance | BindingFlags.Public);
+        private static readonly MethodInfo _Abort = Type.GetMethod("Abort", BindingFlags.Instance | BindingFlags.Public);
 
         private readonly IAbortableTaskQueue _Queue;
-        private readonly IAsyncDisposable _IAsyncDisposable;
+        private readonly IAsyncDisposable _AsyncDisposable;
 
-        public ActorCompleteLifeCycleInterceptor(IAbortableTaskQueue iqueue, IAsyncDisposable iAsyncDisposable)
+        public ActorCompleteLifeCycleInterceptor(IAbortableTaskQueue queue, IAsyncDisposable asyncDisposable)
         {
-            _Queue = iqueue;
-            _IAsyncDisposable = iAsyncDisposable;
+            _Queue = queue;
+            _AsyncDisposable = asyncDisposable;
         }
 
         [DebuggerNonUserCode]
@@ -30,7 +30,7 @@ namespace EasyActor
             return _Queue.Abort(() =>
             {
                 ActorFactoryBase.Clean(invocation.Proxy);
-                return (_IAsyncDisposable != null) ? _IAsyncDisposable.DisposeAsync() : TaskBuilder.Completed;
+                return (_AsyncDisposable != null) ? _AsyncDisposable.DisposeAsync() : TaskBuilder.Completed;
             });
         }
     }

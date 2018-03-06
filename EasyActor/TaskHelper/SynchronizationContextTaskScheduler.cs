@@ -11,28 +11,28 @@ namespace EasyActor.TaskHelper
     /// </summary>
     internal class SynchronizationContextTaskScheduler :  TaskScheduler
     {
-        private SynchronizationContext m_synchronizationContext;
+        private readonly SynchronizationContext _SynchronizationContext;
      
         public SynchronizationContextTaskScheduler(SynchronizationContext synContext)
         {
             if (synContext == null)
                 throw new ArgumentNullException("synContext can not be null");
  
-            m_synchronizationContext = synContext;
+            _SynchronizationContext = synContext;
         }
 
-        internal SynchronizationContext SynchronizationContext { get { return m_synchronizationContext; } }
- 
+        internal SynchronizationContext SynchronizationContext => _SynchronizationContext;
+
         [SecurityCritical]
         protected override void QueueTask(Task task)
         {
-            m_synchronizationContext.Post(PostCallback, task);
+            _SynchronizationContext.Post(PostCallback, task);
         }
       
         [SecurityCritical]
         protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
         {
-            return (SynchronizationContext.Current == m_synchronizationContext) && TryExecuteTask(task);
+            return (SynchronizationContext.Current == _SynchronizationContext) && TryExecuteTask(task);
         }
  
         [SecurityCritical]
@@ -46,10 +46,7 @@ namespace EasyActor.TaskHelper
             return GetScheduledTasks();
         }
 
-        public override Int32 MaximumConcurrencyLevel
-        {
-            get { return 1; }
-        }
+        public override Int32 MaximumConcurrencyLevel => 1;
 
         private void PostCallback(object obj)
         {

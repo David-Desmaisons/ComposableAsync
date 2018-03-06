@@ -11,10 +11,10 @@ namespace EasyActor.Factories
             Type = type;
         }
 
-        public object ActorProxy { get; private set; }
+        public object ActorProxy { get; }
 
-        public TaskScheduler TaskScheduler { get; private set; }
+        public TaskScheduler TaskScheduler { get; }
 
-        public ActorFactorType Type { get; private set; }
+        public ActorFactorType Type { get; }
     }
 }

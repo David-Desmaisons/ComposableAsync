@@ -2,7 +2,7 @@
 
 namespace EasyActor
 {
-    public static class IInvocationExtension
+    public static class InvocationExtension
     {
         public static T Call<T>(this IInvocation @this)
         {

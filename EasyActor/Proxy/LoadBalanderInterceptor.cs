@@ -15,15 +15,14 @@ namespace EasyActor.Proxy
 {
     internal class LoadBalanderInterceptor<T> : IInterceptor where T : class
     {
-
         private readonly Func<T> _Builder;
         private readonly int _ParrallelLimitation;
         private readonly BalancingOption _BalancingOption;
-        private bool _isCancelled = false;
+        private bool _IsCancelled = false;
 
-        private readonly ConcurrentBag<Tuple<T, MonoThreadedQueue>> _actors = new ConcurrentBag<Tuple<T, MonoThreadedQueue>>();
+        private readonly ConcurrentBag<Tuple<T, MonoThreadedQueue>> _Actors = new ConcurrentBag<Tuple<T, MonoThreadedQueue>>();
         private readonly ActorFactory _ActorFactory;
-        private readonly object _syncobject = new object();
+        private readonly object _Syncobject = new object();
 
         internal LoadBalanderInterceptor(Func<T> builder, BalancingOption balancingOption, ActorFactory actorFactory, int parrallelLimitation)
         {
@@ -35,20 +34,20 @@ namespace EasyActor.Proxy
 
         private Tuple<int,T> GetBestActor()
         {
-            return  _actors.Select(act => new Tuple<int,T>(act.Item2.EnqueuedTasksNumber, act.Item1))
+            return  _Actors.Select(act => new Tuple<int,T>(act.Item2.EnqueuedTasksNumber, act.Item1))
                                     .OrderBy(act => act.Item1).FirstOrDefault();
         }
 
         private T CreateNewActor()
         {
             var n = _ActorFactory.InternalBuildAsync<T>(_Builder).Result;
-            _actors.Add(n);
+            _Actors.Add(n);
             return n.Item1;
         }
 
         private T GetCorrectActor()
         {
-            var alreadyfull = _actors.Count == _ParrallelLimitation;
+            var alreadyfull = _Actors.Count == _ParrallelLimitation;
             var candidate = GetBestActor();
 
             if ((candidate != null) && (alreadyfull))
@@ -56,13 +55,13 @@ namespace EasyActor.Proxy
                 return candidate.Item2;
             }
 
-            lock (_syncobject) 
+            lock (_Syncobject) 
             {
-                if (_isCancelled)
+                if (_IsCancelled)
                     return null;
 
                 //check again for fullness under lock for thread safety 
-                if (_actors.Count==_ParrallelLimitation)
+                if (_Actors.Count==_ParrallelLimitation)
                     return GetBestActor().Item2;
 
                 if (_BalancingOption==BalancingOption.PreferParralelism)
@@ -78,11 +77,11 @@ namespace EasyActor.Proxy
 
         private void Cancel(IInvocation invocation)
         {
-            lock (_syncobject)
+            lock (_Syncobject)
             {
-                _isCancelled = true;
-                var tasks = _actors.Select(a => (Task)invocation.CallOn(a.Item1 as IActorCompleteLifeCycle)).ToArray();
-                _actors.Clear();
+                _IsCancelled = true;
+                var tasks = _Actors.Select(a => (Task)invocation.CallOn(a.Item1 as IActorCompleteLifeCycle)).ToArray();
+                _Actors.Clear();
                 invocation.ReturnValue = Task.WhenAll(tasks);
             }
         }
@@ -97,10 +96,7 @@ namespace EasyActor.Proxy
             }
 
             var actor = GetCorrectActor();
-            if (actor!=null)
-                invocation.ReturnValue = invocation.CallOn(actor);
-            else
-                invocation.ReturnValue = TaskBuilder.GetCancelled(invocation.Method.ReturnType);
+            invocation.ReturnValue = actor!=null ? invocation.CallOn(actor) : TaskBuilder.GetCancelled(invocation.Method.ReturnType);
         }
     }
 }

@@ -5,12 +5,12 @@ namespace EasyActor.Proxy
 {
     public abstract class InterfaceInterceptor<T> : IInterceptor where T : class
     {
-        protected static readonly Type _Type = typeof(T);
+        protected static readonly Type Type = typeof(T);
         public void Intercept(IInvocation invocation)
         {
             var method = invocation.Method;
 
-            if (method.DeclaringType != _Type)
+            if (method.DeclaringType != Type)
             {
                 invocation.Proceed();
                 return;

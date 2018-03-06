@@ -2,11 +2,11 @@
 
 namespace EasyActor.Collections
 {
-    public static class Collection
+    public static class CollectionExtension
     {
         public static ConcurrentBag<T> Clear<T>(this ConcurrentBag<T> @this)
         {  
-            T t= default(T);
+            var t= default(T);
             while (!@this.IsEmpty)
             {            
                 @this.TryTake(out t);

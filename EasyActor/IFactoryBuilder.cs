@@ -10,14 +10,14 @@ namespace EasyActor
     {
         /// <summary>
         /// Returns an actor factory 
-        /// <param name="Shared">
+        /// <param name="shared">
         /// if true all the actors created by this factory will use the same thread. 
         /// </param>
         /// <param name="onCreate">
         /// Delegate called on every new created thread. 
         /// </param>
         /// </summary>
-        IActorFactory GetFactory(bool Shared=false, Action<Thread> onCreate = null);
+        IActorFactory GetFactory(bool shared=false, Action<Thread> onCreate = null);
 
         /// <summary>
         /// Returns an actor factory corresponding to the given ActorFactorType

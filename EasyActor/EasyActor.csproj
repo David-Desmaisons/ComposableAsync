@@ -49,7 +49,7 @@
     <Compile Include="Options\ActorFactorType.cs" />
     <Compile Include="FactoryBuilder.cs" />
     <Compile Include="Options\BalancingOption.cs" />
-    <Compile Include="Collections\Collection.cs" />
+    <Compile Include="Collections\CollectionExtension.cs" />
     <Compile Include="Factories\ActorFactoryBase.cs" />
     <Compile Include="IActorContext.cs" />
     <Compile Include="IFactoryBuilder.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="IActorCompleteLifeCycle.cs" />
     <Compile Include="IAsyncDisposable.cs" />
     <Compile Include="Proxy\ActorLifeCycleInterceptor.cs" />
-    <Compile Include="Proxy\IInvocationExtension.cs" />
+    <Compile Include="Proxy\InvocationExtension.cs" />
     <Compile Include="Proxy\QueueDispatcherInterceptor.cs" />
     <Compile Include="Queue\MonoThreadedQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

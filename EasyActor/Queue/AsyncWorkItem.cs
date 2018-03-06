@@ -36,8 +36,8 @@ namespace EasyActor.Queue
 
     internal class AsyncActionWorkItem : AsyncWorkItem<object>, IWorkItem 
     {
-        public AsyncActionWorkItem(Func<Task> iDo)
-            : base(async () => { await iDo(); return null; })
+        public AsyncActionWorkItem(Func<Task> @do)
+            : base(async () => { await @do(); return null; })
         {
         }
     }

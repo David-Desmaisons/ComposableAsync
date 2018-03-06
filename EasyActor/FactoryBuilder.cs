@@ -5,9 +5,9 @@ namespace EasyActor
 {
     public class FactoryBuilder : IFactoryBuilder
     {
-        public IActorFactory GetFactory(bool Shared = false, Action<Thread> onCreate = null)
+        public IActorFactory GetFactory(bool shared = false, Action<Thread> onCreate = null)
         {
-            if (Shared)
+            if (shared)
                 return new SharedThreadActorFactory(onCreate);
 
             return new ActorFactory(onCreate);

@@ -6,18 +6,16 @@ namespace EasyActor.TaskHelper
 {
     public static class TaskBuilder
     {
-        private static readonly Task _Completed;
-
         static TaskBuilder()
         {
-            _Completed = Task.FromResult<object>(null);
+            Completed = Task.FromResult<object>(null);
 
             var tcs = new TaskCompletionSource<object>();
             tcs.SetCanceled();
             Cancelled = tcs.Task;
         }
 
-        public static Task Completed => _Completed;
+        public static Task Completed { get; }
 
         public static Task Cancelled { get; }
 
@@ -28,7 +26,7 @@ namespace EasyActor.TaskHelper
             return tcs.Task;
         }
 
-        private static readonly MethodInfo _GetCancelled = typeof(TaskBuilder).GetMethod("PrivateGetCancelled", BindingFlags.Static | BindingFlags.NonPublic);
+        private static readonly MethodInfo _GetCancelled = typeof(TaskBuilder).GetMethod(nameof(PrivateGetCancelled), BindingFlags.Static | BindingFlags.NonPublic);
 
         internal static Task GetCancelled(this Type @this)
         {
@@ -39,10 +37,11 @@ namespace EasyActor.TaskHelper
                     return Cancelled;
 
                 case TaskType.GenericTask:
-                    return (Task)_GetCancelled.MakeGenericMethod(task.Type).Invoke(null, new object[] { });    
-            }  
-            
-            return null;
+                    return (Task)_GetCancelled.MakeGenericMethod(task.Type).Invoke(null, new object[] { });
+
+                default:
+                    return null;
+            }
         }
     }
 

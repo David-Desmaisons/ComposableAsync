@@ -10,7 +10,7 @@ namespace EasyActor.Factories
         private static readonly ProxyGenerator _Generator;
         private static readonly Dictionary<object, ActorDescription> _Actors = new Dictionary<object, ActorDescription>();
 
-        internal static ProxyGenerator Generator {get {return _Generator;}}
+        internal static ProxyGenerator Generator => _Generator;
 
         static ActorFactoryBase()
         {
@@ -27,7 +27,7 @@ namespace EasyActor.Factories
         public static TaskScheduler GetContextFromProxy(object raw)
         {
             var res = GetChachedActor(raw);
-            return (res==null) ? null : res.TaskScheduler;
+            return res?.TaskScheduler;
         }
 
         public static void Clean(object raw)
@@ -48,7 +48,7 @@ namespace EasyActor.Factories
                 return null;
 
             if (res.Type != Type)
-                throw new ArgumentException(string.Format("Instance already proxyfied using another factory: {0}", res.Type), "concrete");
+                throw new ArgumentException($"Instance already proxyfied using another factory: {res.Type}", nameof(concrete));
 
             return (res.ActorProxy) as T;
         }
@@ -71,9 +71,8 @@ namespace EasyActor.Factories
             if (cached != null)
                 return cached;
 
-            var interceptors = new List<IInterceptor>(interceptor);
-            interceptors.Add(new QueueDispatcherInterceptor(queue)); 
-            var res = (T)_Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new Type[] {addicionalType }, concrete, interceptors.ToArray());
+            var interceptors = new List<IInterceptor>(interceptor) {new QueueDispatcherInterceptor(queue)};
+            var res = (T)_Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new [] {addicionalType }, concrete, interceptors.ToArray());
             Register(concrete, res, queue);
             return res;
         }

@@ -12,7 +12,7 @@ namespace EasyActor
         private T Build<T>(T concrete, IStopableTaskQueue queue) where T : class
         {
             var asyncDisposable = concrete as IAsyncDisposable;
-            return CreateIActorLifeCycle(concrete, queue, TypeHelper.IActorLifeCycleType,
+            return CreateIActorLifeCycle(concrete, queue, TypeHelper.ActorLifeCycleType,
                         new ActorLifeCycleInterceptor(queue, asyncDisposable));
         }
 

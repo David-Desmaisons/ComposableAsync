@@ -10,6 +10,7 @@ namespace EasyActor
         private readonly TaskScheduler _Scheduler;
         private readonly TaskFactory _TaskFactory;
         private readonly ConcurrentExclusiveSchedulerPair _ConcurrentExclusiveSchedulerPair;
+
         public TaskSchedulerQueue()
         {
             _ConcurrentExclusiveSchedulerPair = new ConcurrentExclusiveSchedulerPair();
@@ -45,7 +46,6 @@ namespace EasyActor
         {
             return Safe(() => _TaskFactory.StartNew(action));
         }
-
 
         public Task<T> Enqueue<T>(Func<T> action)
         {

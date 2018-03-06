@@ -42,9 +42,6 @@ namespace EasyActor
             return workitem.Task;
         }
 
-        public TaskScheduler TaskScheduler
-        {
-            get { return new SynchronizationContextTaskScheduler(_Context); }
-        }
+        public TaskScheduler TaskScheduler => new SynchronizationContextTaskScheduler(_Context);
     }
 }

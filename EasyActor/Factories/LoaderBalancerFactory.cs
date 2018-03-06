@@ -19,15 +19,15 @@ namespace EasyActor
         }
 
 
-        public T Build<T>(Func<T> concrete, int ParrallelLimitation) where T : class
+        public T Build<T>(Func<T> concrete, int parrallelLimitation) where T : class
         {
-            if (ParrallelLimitation <= 0)
+            if (parrallelLimitation <= 0)
                 throw new ArgumentOutOfRangeException("ParrallelLimitation should be positive");
 
             var interceptors = new IInterceptor[] { new LoadBalanderInterceptor<T>(concrete, _BalancingOption, 
-                                                        _ActorFactory, ParrallelLimitation) };
+                                                        _ActorFactory, parrallelLimitation) };
             return (T)ActorFactoryBase.Generator.CreateInterfaceProxyWithoutTarget(typeof(T), 
-                            new Type[] { TypeHelper.IActorCompleteLifeCycleType }, interceptors);
+                            new [] { TypeHelper.ActorCompleteLifeCycleType }, interceptors);
         }
     }
 }

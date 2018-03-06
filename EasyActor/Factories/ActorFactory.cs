@@ -16,15 +16,12 @@ namespace EasyActor
             _OnCreate = onCreate;
         }
 
-        public override ActorFactorType Type
-        {
-            get { return ActorFactorType.Standard; }
-        }
+        public override ActorFactorType Type => ActorFactorType.Standard;
 
-        private T Build<T>(T concrete, MonoThreadedQueue queue) where T : class
+        private T Build<T>(T concrete, IAbortableTaskQueue queue) where T : class
         {
             var asyncDisposable =  concrete as IAsyncDisposable;
-            return CreateIActorLifeCycle(concrete, queue, TypeHelper.IActorCompleteLifeCycleType,
+            return CreateIActorLifeCycle(concrete, queue, TypeHelper.ActorCompleteLifeCycleType,
                         new ActorCompleteLifeCycleInterceptor(queue,asyncDisposable),  
                         new ActorLifeCycleInterceptor(queue, asyncDisposable));
         }

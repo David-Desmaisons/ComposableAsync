@@ -9,7 +9,7 @@ namespace EasyActor
 {
     internal class ActorLifeCycleInterceptor : InterfaceInterceptor<IActorLifeCycle>, IInterceptor
     {
-        private static readonly MethodInfo _Stop = _Type.GetMethod("Stop", BindingFlags.Instance | BindingFlags.Public);
+        private static readonly MethodInfo _Stop = Type.GetMethod("Stop", BindingFlags.Instance | BindingFlags.Public);
 
         private readonly IStopableTaskQueue _Queue;
         private readonly IAsyncDisposable _IAsyncDisposable;

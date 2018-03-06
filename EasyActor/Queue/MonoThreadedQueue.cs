@@ -167,10 +167,7 @@ namespace EasyActor.Queue
             }
         }
 
-        public TaskScheduler TaskScheduler
-        {
-            get { return new SynchronizationContextTaskScheduler(SynchronizationContext); }
-        }
+        public TaskScheduler TaskScheduler => new SynchronizationContextTaskScheduler(SynchronizationContext);
 
         public void Dispose()
         {
