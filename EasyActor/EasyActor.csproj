@@ -33,10 +33,6 @@
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Retlang, Version=1.0.6.0, Culture=neutral, PublicKeyToken=a99b3bce1dc72e93, processorArchitecture=MSIL">
-      <HintPath>..\packages\retlang.1.0.6.0\lib\Net40\Retlang.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,7 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorContext.cs" />
-    <Compile Include="Factories\ActorRetlangFactory.cs" />
     <Compile Include="Factories\TaskPoolActorFactory.cs" />
     <Compile Include="Helper\TypeHelper.cs" />
     <Compile Include="IActorLifeCycle.cs" />
@@ -68,7 +63,6 @@
     <Compile Include="Queue\IMonoThreadQueue.cs" />
     <Compile Include="Queue\IStopableTaskQueue.cs" />
     <Compile Include="Queue\ITaskQueue.cs" />
-    <Compile Include="Queue\MonoThreadedRetlangQueue.cs" />
     <Compile Include="Queue\SynchronizationContextQueue.cs" />
     <Compile Include="Queue\TaskSchedulerQueue.cs" />
     <Compile Include="Factories\SharedThreadActorFactory.cs" />

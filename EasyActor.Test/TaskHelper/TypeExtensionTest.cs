@@ -41,5 +41,17 @@ namespace EasyActor.Test.TaskHelper
             target.MethodType.Should().Be(TaskType.GenericTask);
             target.Type.Should().Be(typeof(string));
         }
+
+
+        [Fact]
+        public void GetDelegateVoidType()
+        {
+            Type st = typeof(void);
+
+            var target = st.GetTaskType();
+
+            target.MethodType.Should().Be(TaskType.Void);
+            target.Type.Should().BeNull();
+        }
     }
 }

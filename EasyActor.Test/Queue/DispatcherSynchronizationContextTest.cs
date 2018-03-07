@@ -6,8 +6,8 @@ using Xunit;
 
 namespace EasyActor.Test.Queue
 {
-     
-    public class DispatcherSynchronizationContextTest
+
+    public class DispatcherSynchronizationContextTest : IDisposable
     {
         private readonly MonoThreadedQueueSynchronizationContext _Dispatcher;
         private readonly MonoThreadedQueue _Queue;
@@ -15,13 +15,19 @@ namespace EasyActor.Test.Queue
         public DispatcherSynchronizationContextTest()
         {
             _Queue = new MonoThreadedQueue(t => t.Priority = ThreadPriority.Highest);
-            _Dispatcher = new  MonoThreadedQueueSynchronizationContext(_Queue);
+            _Dispatcher = new MonoThreadedQueueSynchronizationContext(_Queue);
+        }
+
+        public void Dispose()
+        {
+            _Queue.Dispose();
         }
 
         [Fact]
-        public void Constructor_Throw_Exception_On_Null_Queue() {
+        public void Constructor_Throw_Exception_On_Null_Queue()
+        {
             MonoThreadedQueueSynchronizationContext res = null;
-            Action Do =  () => res = new MonoThreadedQueueSynchronizationContext(null);
+            Action Do = () => res = new MonoThreadedQueueSynchronizationContext(null);
 
             Do.ShouldThrow<ArgumentNullException>();
         }
@@ -30,9 +36,9 @@ namespace EasyActor.Test.Queue
         public void Post_Should_Run_On_Queue_Thread()
         {
             //arrange
-            Thread queuethread=null;
+            Thread queuethread = null;
             _Queue.Enqueue(() => queuethread = Thread.CurrentThread);
-            
+
             //act
             Thread postthread = null;
             SendOrPostCallback post = (o) => { postthread = Thread.CurrentThread; };
@@ -68,8 +74,8 @@ namespace EasyActor.Test.Queue
 
             //act
             Thread postthread = null;
-            SendOrPostCallback post = (o) => { postthread = Thread.CurrentThread; };        
-            _Queue.Enqueue(() =>   _Dispatcher.Send(post, null));
+            SendOrPostCallback post = (o) => { postthread = Thread.CurrentThread; };
+            _Queue.Enqueue(() => _Dispatcher.Send(post, null));
 
             //assert
             postthread.Should().Be(queuethread);

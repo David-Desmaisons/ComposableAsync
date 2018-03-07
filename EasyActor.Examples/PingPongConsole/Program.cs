@@ -22,14 +22,6 @@ namespace PingPongConsole
                 Console.WriteLine("ConcurrentQueue no task");
                 await new PingPong().TestNoTask(false);
                 Console.WriteLine("=================");
-
-                Console.WriteLine("Retlang Queue");
-                await new PingPong().TestRelang(false);
-                Console.WriteLine("=================");
-
-                Console.WriteLine("Retlang Queue no task");
-                await new PingPong().TestRelangNoTask(false);
-                Console.WriteLine("=================");
             }
             Console.ReadLine();
         }

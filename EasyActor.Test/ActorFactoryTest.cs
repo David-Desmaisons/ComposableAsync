@@ -129,11 +129,11 @@ namespace EasyActor.Test
 
 
         [Fact]
-        public void Method_returning_void_Task_Should_Throw_Exception()
+        public void Method_returning_void_Task_Should_Not_Throw_Exception()
         {
             var intface = _Factory.Build<IDummyInterface2>(new DummyClass());
             Action Do = () => intface.Do();
-            Do.ShouldThrow<NotSupportedException>();
+            Do.ShouldNotThrow();
         }
 
         [Fact]

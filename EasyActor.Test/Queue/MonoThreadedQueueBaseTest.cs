@@ -70,7 +70,27 @@ namespace EasyActor.Test.Queue
                 //act
                 await target.Enqueue(() => TaskFactory());
                 var first = RunningThread;
+                RunningThread = null;
                 await target.Enqueue(() => TaskFactory());
+
+                //assert
+                RunningThread.Should().Be(first);
+            }
+        }
+
+        [Fact]
+        public async Task Dispatch_And_Enqueue_Should_Run_OnSameThread()
+        {
+            //arrange
+            using (var target = GetQueue())
+            {
+
+                //act
+                await target.Enqueue(() => TaskFactory());
+                var first = RunningThread;
+                RunningThread = null;
+                target.Dispatch(() => { RunningThread = Thread.CurrentThread; });
+                await Task.Delay(200);
 
                 //assert
                 RunningThread.Should().Be(first);
