@@ -1,4 +1,5 @@
-﻿using System.Security.Permissions;
+﻿using System;
+using System.Security.Permissions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,7 +25,7 @@ namespace EasyActor.Test.TestInfra.WPFThreading
         }
     }
 
-    public class WpfThreadingHelper
+    public class WpfThreadingHelper :IDisposable
     {
         private readonly CancellationTokenSource _Cts;
         private Window _Window;
@@ -61,6 +62,12 @@ namespace EasyActor.Test.TestInfra.WPFThreading
                 DispatcherHelper.DoEvents();
                 tcs.TrySetResult(null);
             }
+        }
+
+        public void Dispose()
+        {
+            _Cts.Cancel();
+            _Cts?.Dispose();
         }
     }
 }

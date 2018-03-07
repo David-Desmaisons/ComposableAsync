@@ -25,7 +25,7 @@ namespace EasyActor.Test
 
         public void Dispose()
         {
-            _UIMessageLoop.Stop();
+            _UIMessageLoop.Dispose();
         }
 
         [Fact]
