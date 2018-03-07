@@ -88,6 +88,11 @@ namespace EasyActor.Queue
             }
         }
 
+        public void Dispatch(Action action)
+        {
+            _TaskQueue.Enqueue(action);
+        }
+
         public Task Enqueue(Action action)
         {
             return Enqueue(new ActionWorkItem(action));

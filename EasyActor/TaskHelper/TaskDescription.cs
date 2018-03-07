@@ -2,7 +2,7 @@
 
 namespace EasyActor.TaskHelper
 {
-    internal class TaskDescription
+    internal struct TaskDescription
     {
         internal TaskType MethodType { get; set; }
 

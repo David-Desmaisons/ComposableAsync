@@ -13,9 +13,9 @@ namespace EasyActor.Proxy
 
         private readonly ITaskQueue _Queue;
 
-        public QueueDispatcherInterceptor(ITaskQueue iqueue)
+        public QueueDispatcherInterceptor(ITaskQueue queue)
         {
-            _Queue = iqueue;
+            _Queue = queue;
         }
 
         public void Intercept(IInvocation invocation)
@@ -27,29 +27,26 @@ namespace EasyActor.Proxy
             switch (td.MethodType)
             {
                 case TaskType.None:
-                    throw new NotSupportedException("Actor method should only return Task or Task<T>");
+                    throw new NotSupportedException("Actor method should only return Task, Task<T> or void");
+
+                case TaskType.Void:
+                    _Queue.Dispatch(invocation.Call);
+                    break;
 
                 case TaskType.Task:
-                    invocation.ReturnValue = _Queue.Enqueue(() =>
-                        {
-                            return invocation.Call<Task>();
-                        });
-
+                    invocation.ReturnValue = _Queue.Enqueue(invocation.Call<Task>);
                     break;
 
                 case TaskType.GenericTask:
                     var mi = _Proceed.MakeGenericMethod(td.Type);
-                    mi.Invoke(this, new[] { invocation });
+                    mi.Invoke(this, new object[] { invocation });
                     break;
             }
         }
 
         private void Proceed<T>(IInvocation invocation)
         {
-            invocation.ReturnValue = _Queue.Enqueue(() =>
-            {
-                return invocation.Call<Task<T>>();
-            });
+            invocation.ReturnValue = _Queue.Enqueue(invocation.Call<Task<T>>);
         }
     }
 }

@@ -7,7 +7,7 @@ using EasyActor.TaskHelper;
 
 namespace EasyActor.Proxy
 {
-    internal class ActorLifeCycleInterceptor : InterfaceInterceptor<IActorLifeCycle>, IInterceptor
+    internal sealed class ActorLifeCycleInterceptor : InterfaceInterceptor<IActorLifeCycle>, IInterceptor
     {
         private static readonly MethodInfo _Stop = Type.GetMethod("Stop", BindingFlags.Instance | BindingFlags.Public);
 

@@ -41,6 +41,11 @@ namespace EasyActor.Queue
             }
         }
 
+        public void Dispatch(Action action)
+        {
+            Safe(() => _TaskFactory.StartNew(action));
+        }
+
         public Task Enqueue(Action action) 
         {
             return Safe(() => _TaskFactory.StartNew(action));

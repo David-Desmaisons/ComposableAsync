@@ -3,7 +3,8 @@
     internal enum TaskType
     {
         None,
+        Void,
         Task,
-        GenericTask
+        GenericTask,
     }
 }

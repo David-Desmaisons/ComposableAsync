@@ -12,7 +12,7 @@ using EasyActor.Helper;
 
 namespace EasyActor.Proxy
 {
-    internal class LoadBalanderInterceptor<T> : IInterceptor where T : class
+    internal sealed class LoadBalanderInterceptor<T> : IInterceptor where T : class
     {
         private readonly Func<T> _Builder;
         private readonly int _ParrallelLimitation;

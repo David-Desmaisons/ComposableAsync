@@ -84,6 +84,19 @@ namespace EasyActor.Queue
             } 
         }
 
+        public void Dispatch(Action action)
+        {
+            try
+            {
+                var workitem = new DispatchItem(action);
+                _TaskQueue.Add(workitem);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+        }
+
         public Task Enqueue(Action action)
         {
             return Enqueue( new ActionWorkItem(action) );
@@ -153,16 +166,8 @@ namespace EasyActor.Queue
         }
 
         private SynchronizationContext _SynchronizationContext;
-        private SynchronizationContext SynchronizationContext
-        {
-            get 
-            {
-                if (_SynchronizationContext == null)
-                    _SynchronizationContext = new MonoThreadedQueueSynchronizationContext(this);
-
-                return _SynchronizationContext;
-            }
-        }
+        private SynchronizationContext SynchronizationContext => 
+            _SynchronizationContext ?? (_SynchronizationContext = new MonoThreadedQueueSynchronizationContext(this));
 
         public TaskScheduler TaskScheduler => new SynchronizationContextTaskScheduler(SynchronizationContext);
 

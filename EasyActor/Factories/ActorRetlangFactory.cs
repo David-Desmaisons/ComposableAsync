@@ -8,11 +8,11 @@ using Retlang.Core;
 
 namespace EasyActor.Factories
 {
-    public class ActorRetlangFactor : ActorFactoryBase, IActorFactory
+    public class ActorRetlangFactory : ActorFactoryBase, IActorFactory
     {
         private readonly Action<Thread> _OnCreate;
 
-        public ActorRetlangFactor(Action<Thread> onCreate = null)
+        public ActorRetlangFactory(Action<Thread> onCreate = null)
         {
             _OnCreate = onCreate;
         }
@@ -40,6 +40,7 @@ namespace EasyActor.Factories
         private static MonoThreadedRetlangQueue GetMonoThreadedRetlangQueue(Action<Thread> updateThread)
         {
             var queue = new BusyWaitQueue(new DefaultExecutor(), 100000, 30000);
+            //var queue = new BoundedQueue(new DefaultExecutor()) { MaxDepth = 10000, MaxEnqueueWaitTime = 1000 };
             return new MonoThreadedRetlangQueue(queue, updateThread);
         }
 

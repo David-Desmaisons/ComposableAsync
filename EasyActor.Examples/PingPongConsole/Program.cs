@@ -13,13 +13,24 @@ namespace PingPongConsole
 
         static async Task MainAsync(string[] args)
         {
-            Console.WriteLine("ConcurrentQueue");
-            await new PingPong().Test(false);
-            Console.WriteLine("=================");
+            for (var index = 0; index < 2; index++)
+            {
+                Console.WriteLine("ConcurrentQueue");
+                await new PingPong().Test(false);
+                Console.WriteLine("=================");
 
-            Console.WriteLine("Retlang Queue");
-            await new PingPong().TestRelang(false);
+                Console.WriteLine("ConcurrentQueue no task");
+                await new PingPong().TestNoTask(false);
+                Console.WriteLine("=================");
 
+                Console.WriteLine("Retlang Queue");
+                await new PingPong().TestRelang(false);
+                Console.WriteLine("=================");
+
+                Console.WriteLine("Retlang Queue no task");
+                await new PingPong().TestRelangNoTask(false);
+                Console.WriteLine("=================");
+            }
             Console.ReadLine();
         }
     }

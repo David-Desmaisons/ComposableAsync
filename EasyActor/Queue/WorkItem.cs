@@ -4,6 +4,19 @@ using System.Threading.Tasks;
 
 namespace EasyActor.Queue
 {
+    internal class DispatchItem : IWorkItem
+    {
+        private readonly Action _Do;
+        public DispatchItem(Action @do)
+        {
+            _Do = @do;
+        }
+
+        public void Cancel() {}
+
+        public void Do() => _Do();
+    }
+
     internal class WorkItem<T> : IWorkItem
     {
         private readonly TaskCompletionSource<T> _Source;
@@ -38,8 +51,7 @@ namespace EasyActor.Queue
 
     internal class ActionWorkItem : WorkItem<object>, IWorkItem
     {
-        public ActionWorkItem(Action iDo)
-            : base(() => { iDo(); return null; })
+        public ActionWorkItem(Action @do) : base(() => { @do(); return null; })
         {
         }
     }

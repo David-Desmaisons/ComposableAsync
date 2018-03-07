@@ -34,6 +34,11 @@ namespace EasyActor.Queue
             return workitem.Task;
         }
 
+        public void Dispatch(Action action)
+        {
+            _Context.Post(_ => action(), null);
+        }
+
         public Task Enqueue(Action action) 
         {
             var workitem = new ActionWorkItem(action);

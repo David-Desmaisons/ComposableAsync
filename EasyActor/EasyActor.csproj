@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorContext.cs" />
-    <Compile Include="Factories\ActorRetlangFactor.cs" />
+    <Compile Include="Factories\ActorRetlangFactory.cs" />
     <Compile Include="Factories\TaskPoolActorFactory.cs" />
     <Compile Include="Helper\TypeHelper.cs" />
     <Compile Include="IActorLifeCycle.cs" />

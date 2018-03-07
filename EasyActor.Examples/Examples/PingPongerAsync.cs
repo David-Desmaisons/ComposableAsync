@@ -1,17 +1,16 @@
 ﻿using System.Threading.Tasks;
-
 using EasyActor.TaskHelper;
 
 namespace EasyActor.Examples
 {
-    internal class PingPonger : IPingPonger
+    internal class PingPongerAsync : IPingPongerAsync
     {
         public int Count { get; set; }
         public string Name { get; private set; }
 
-        internal IPingPonger Ponger { get; set; }
+        internal IPingPongerAsync PongerAsync { get; set; }
 
-        public PingPonger(string iName)
+        public PingPongerAsync(string iName)
         {
             Name = iName;
         }
@@ -19,8 +18,7 @@ namespace EasyActor.Examples
         public Task Ping()
         {
              Count++;
-            if (Ponger != null)
-                Ponger.Ping();
+            PongerAsync?.Ping();
             return TaskBuilder.Completed;
         }
     }

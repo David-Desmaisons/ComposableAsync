@@ -5,6 +5,8 @@ namespace EasyActor.Queue
 {
     public interface ITaskQueue
     {
+        void Dispatch(Action action);
+
         Task Enqueue(Action action);
 
         Task<T> Enqueue<T>(Func<T> action);
