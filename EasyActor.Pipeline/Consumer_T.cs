@@ -4,17 +4,17 @@ using System.Threading.Tasks;
 
 namespace EasyActor.Pipeline
 {
-    public class Consumer<T> :IConsumer<T>
+    public class Consumer<T> : IConsumer<T>
     {
-        private readonly Action<T> _act;
+        private readonly Action<T> _Act;
         public Consumer(Action<T> act)
         {
-            _act = act;
+            _Act = act;
         }
 
         public Task Consume(T entry)
         {
-            _act(entry);
+            _Act(entry);
             return TaskBuilder.Completed;
         }
     }

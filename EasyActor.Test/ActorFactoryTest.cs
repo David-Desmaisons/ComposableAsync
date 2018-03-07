@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using System.Threading;
 using EasyActor.Factories;
 using FluentAssertions;
- 
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
 
@@ -95,8 +94,7 @@ namespace EasyActor.Test
         {
             var target = new DummyClass();
             var sharedFactory = new SharedThreadActorFactory();
-            var intface = sharedFactory.Build<IDummyInterface2>(target);
-
+            sharedFactory.Build<IDummyInterface2>(target);
 
             Action Do = () => _Factory.Build<IDummyInterface2>(target);
 
@@ -251,22 +249,19 @@ namespace EasyActor.Test
         [Fact]
         public async Task Actor_IActorLifeCycle_Abort_Should_Cancel_Actor_Thread()
         {
-
             //arrange
             var clas = new DummyClass();
             var intface = _Factory.Build<IDummyInterface2>(clas);
 
             await intface.DoAsync();
             //act
-            IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
+            var disp = intface as IActorCompleteLifeCycle;
 
             await disp.Abort();
 
             //assert
             clas.CallingThread.IsAlive.Should().BeFalse();
         }
-
-
 
         [Fact]
         public async Task Actor_IActorLifeCycle_Abort_Should_Call_Proxified_Class_On_IAsyncDisposable()
@@ -276,7 +271,7 @@ namespace EasyActor.Test
             var intface = _Factory.Build<IDummyInterface1>(dispclass);
 
             //act
-            IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
+            var disp = intface as IActorCompleteLifeCycle;
 
             await disp.Abort();
 
@@ -292,7 +287,7 @@ namespace EasyActor.Test
             var progress = new Progress<int>(i => taskCompletionSource.TrySetResult(null));
             var dispclass = new DisposableClass();
             var intface = _Factory.Build<IDummyInterface1>(dispclass);
-            IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
+            var disp = intface as IActorCompleteLifeCycle;
 
             //act
             var Taskrunning = intface.DoAsync(progress);
@@ -312,10 +307,11 @@ namespace EasyActor.Test
             var dispclass = new DisposableClass();
             var intface = _Factory.Build<IDummyInterface1>(dispclass);
 
-            Task Taskrunning = intface.DoAsync(), Takenqueued = intface.DoAsync();
+            intface.DoAsync();
+            var Takenqueued = intface.DoAsync();
             Thread.Sleep(100);
             //act
-            IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
+            var disp = intface as IActorCompleteLifeCycle;
 
             await disp.Abort();
 
