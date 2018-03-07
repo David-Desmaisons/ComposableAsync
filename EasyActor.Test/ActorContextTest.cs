@@ -4,9 +4,10 @@
 using EasyActor.TaskHelper;
 using FluentAssertions;
 using System.Threading;
-using EasyActor.Test.WPFThreading;
+using EasyActor.Factories;
 using EasyActor.Queue;
 using EasyActor.Test.TestInfra.DummyClass;
+using EasyActor.Test.TestInfra.WPFThreading;
 using Xunit;
 
 namespace EasyActor.Test
@@ -69,7 +70,7 @@ namespace EasyActor.Test
         public async Task TaskFactory_Should_Return_TaskFactory_Compatible_With_Proxy_Thread_SynchronizationContextFactory_Context()
         {
             //arrange
-            var UIMessageLoop = new WPFThreadingHelper();
+            var UIMessageLoop = new WpfThreadingHelper();
             UIMessageLoop.Start().Wait();
 
             var scf = UIMessageLoop.Dispatcher.Invoke(() => new SynchronizationContextFactory());
@@ -82,7 +83,7 @@ namespace EasyActor.Test
             Thread tfthread = await res.StartNew(() => Thread.CurrentThread);
 
             //assert
-            tfthread.Should().Be(UIMessageLoop.UIThread);
+            tfthread.Should().Be(UIMessageLoop.UiThread);
 
             UIMessageLoop.Stop();
         }
@@ -122,7 +123,7 @@ namespace EasyActor.Test
         public void GetTaskScheduler_Should_Return_SynchronizationContext_Compatible_With_Proxy_Thread_SynchronizationContextFactory_Context()
         {
             //arrange
-            var UIMessageLoop = new WPFThreadingHelper();
+            var UIMessageLoop = new WpfThreadingHelper();
             UIMessageLoop.Start().Wait();
 
             var scf = UIMessageLoop.Dispatcher.Invoke(() => new SynchronizationContextFactory());

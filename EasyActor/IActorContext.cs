@@ -18,7 +18,6 @@ namespace EasyActor
         /// </returns>
         TaskFactory GetTaskFactory(object proxy);
 
-
         /// <summary>
         /// Returns TaskScheduler associated with corresponding proxified object. 
         /// </summary>        

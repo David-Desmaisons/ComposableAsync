@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Collections.Concurrent;
-using EasyActor.Factories;
-using EasyActor.Queue;
 using System.Threading;
+using System.Threading.Tasks;
+using EasyActor.Queue;
 
-
-namespace EasyActor
+namespace EasyActor.Factories
 {
     public class SharedThreadActorFactory : ActorFactoryBase, IActorFactory, IActorCompleteLifeCycle
     {
@@ -53,7 +51,8 @@ namespace EasyActor
 
         public Task Stop()
         {
-            return _Queue.Stop(GetEndTask);
+            var stoppable = _Queue as IStopableTaskQueue;
+            return stoppable?.Stop(GetEndTask) ?? _Queue.Abort(GetEndTask);
         }
     }
 }

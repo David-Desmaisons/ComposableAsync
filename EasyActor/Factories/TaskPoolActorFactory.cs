@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EasyActor.Factories;
 using EasyActor.Helper;
+using EasyActor.Proxy;
+using EasyActor.Queue;
 
-namespace EasyActor
+namespace EasyActor.Factories
 {
     public class TaskPoolActorFactory : ActorFactoryBase, IActorFactory
     {

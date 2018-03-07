@@ -20,11 +20,11 @@ namespace EasyActor.Test.TestInfra.DummyClass
             return Task.FromResult<object>(null);
         }
 
-        public Task DoAsync(IProgress<int> Progress)
+        public Task DoAsync(IProgress<int> progress)
         {
-            Progress.Report(1);
+            progress.Report(1);
             Thread.Sleep(800);
-            Progress.Report(95);
+            progress.Report(95);
             return Task.FromResult<object>(null);
         }
 

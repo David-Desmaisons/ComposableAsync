@@ -1,6 +1,6 @@
 ﻿using Castle.DynamicProxy;
 
-namespace EasyActor
+namespace EasyActor.Proxy
 {
     public static class InvocationExtension
     {

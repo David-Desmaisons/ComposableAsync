@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Threading;
-
+using EasyActor.Factories;
 using FluentAssertions;
  
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
 
 namespace EasyActor.Test
-{
-     
+{  
     public class ActorFactoryTest
     {
-
-        private ActorFactory _Factory;
+        private readonly ActorFactory _Factory;
 
         public ActorFactoryTest()
         {

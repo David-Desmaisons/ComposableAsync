@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace EasyActor
+namespace EasyActor.Queue
 {
-    public interface IAbortableTaskQueue : IStopableTaskQueue, IDisposable
+    public interface IAbortableTaskQueue : ITaskQueue
     {
         Task Abort(Func<Task> cleanup);
     }

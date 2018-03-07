@@ -7,6 +7,6 @@ namespace EasyActor.Test.TestInfra.DummyClass
     {
         Task DoAsync();
 
-        Task DoAsync(IProgress<int> Progress);
+        Task DoAsync(IProgress<int> progress);
     }
 }

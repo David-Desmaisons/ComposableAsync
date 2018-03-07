@@ -7,7 +7,7 @@ using EasyActor.TaskHelper;
 
 namespace EasyActor.Queue
 {
-    public class MonoThreadedQueue : IAbortableTaskQueue, IDisposable
+    public class MonoThreadedQueue : IMonoThreadQueue, IAbortableTaskQueue, IStopableTaskQueue
     {
         private static int _Count = 0;
 
@@ -24,17 +24,14 @@ namespace EasyActor.Queue
             _Current = new Thread(Consume)
             {
                 IsBackground = true,
-                Name = string.Format("MonoThreadedQueue-{0}", _Count++)
+                Name = $"MonoThreadedQueue-{_Count++}"
             };
 
             onCreate?.Invoke(_Current);
             _Current.Start();
         }
 
-        public int EnqueuedTasksNumber
-        {
-            get { return _TaskQueue.Count + (_Running ? 1 : 0); }
-        }
+        public int EnqueuedTasksNumber => _TaskQueue.Count + (_Running ? 1 : 0);
 
         public void Send(Action action)
         {

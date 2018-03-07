@@ -1,10 +1,9 @@
-﻿using EasyActor.Queue;
-using EasyActor.TaskHelper;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using EasyActor.TaskHelper;
 
-namespace EasyActor
+namespace EasyActor.Queue
 {
     internal class SynchronizationContextQueue : ITaskQueue
     {

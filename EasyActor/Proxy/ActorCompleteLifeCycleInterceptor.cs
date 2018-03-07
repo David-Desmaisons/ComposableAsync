@@ -1,12 +1,12 @@
-﻿using Castle.DynamicProxy;
-using System;
-using EasyActor.TaskHelper;
-using System.Reflection;
+﻿using System;
 using System.Diagnostics;
-using EasyActor.Proxy;
+using System.Reflection;
+using Castle.DynamicProxy;
 using EasyActor.Factories;
+using EasyActor.Queue;
+using EasyActor.TaskHelper;
 
-namespace EasyActor
+namespace EasyActor.Proxy
 {
     internal class ActorCompleteLifeCycleInterceptor:  InterfaceInterceptor<IActorCompleteLifeCycle>, IInterceptor
     {

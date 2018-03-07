@@ -6,9 +6,9 @@ namespace EasyActor.Test.TestInfra.DummyClass
     {
         public IDummyInterface3 DummyInterface { get; set; }
 
-        public async Task<int> DoAsync(bool First)
+        public async Task<int> DoAsync(bool first)
         {
-            if (First == false)
+            if (first == false)
                 return 1;
 
             var res = DummyInterface.DoAsync(false).Result + 1;

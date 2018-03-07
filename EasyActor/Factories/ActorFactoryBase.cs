@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EasyActor.Proxy;
+using EasyActor.Queue;
 
 namespace EasyActor.Factories
 {

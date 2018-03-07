@@ -1,11 +1,10 @@
-﻿using Castle.DynamicProxy;
-using EasyActor.Factories;
+﻿using System;
+using System.Threading;
+using Castle.DynamicProxy;
 using EasyActor.Helper;
 using EasyActor.Proxy;
-using System;
-using System.Threading;
 
-namespace EasyActor
+namespace EasyActor.Factories
 {
     public class LoadBalancerFactory : ILoadBalancerFactory
     {

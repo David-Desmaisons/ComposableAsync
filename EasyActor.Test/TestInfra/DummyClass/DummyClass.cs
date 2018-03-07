@@ -18,7 +18,7 @@ namespace EasyActor.Test.TestInfra.DummyClass
 
         public Thread CallingThread { get; private set; }
 
-        public Thread CallingConstructorThread { get; private set; }
+        public Thread CallingConstructorThread { get; }
 
         public bool Done { get; set; }
         public Task DoAsync()

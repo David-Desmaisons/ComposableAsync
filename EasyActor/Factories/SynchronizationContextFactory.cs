@@ -1,9 +1,9 @@
-﻿using EasyActor.Factories;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using EasyActor.Queue;
 
-namespace EasyActor
+namespace EasyActor.Factories
 {
     public class SynchronizationContextFactory : ActorFactoryBase, IActorFactory
     {

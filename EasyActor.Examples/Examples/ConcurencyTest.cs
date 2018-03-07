@@ -5,6 +5,7 @@ using System.Threading.Tasks;
  
 using FluentAssertions;
 using System.Threading;
+using EasyActor.Factories;
 using Xunit;
 
 namespace EasyActor.Examples

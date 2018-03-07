@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using EasyActor.Factories;
 
 namespace EasyActor
 {

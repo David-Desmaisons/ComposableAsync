@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Reflection;
+using System.Threading.Tasks;
 using Castle.DynamicProxy;
-
+using EasyActor.Queue;
 using EasyActor.TaskHelper;
 
-namespace EasyActor
+namespace EasyActor.Proxy
 {
     internal class QueueDispatcherInterceptor : IInterceptor
     {

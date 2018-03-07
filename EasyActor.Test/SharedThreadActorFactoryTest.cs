@@ -1,16 +1,15 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
- 
+using EasyActor.Factories;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
 
 namespace EasyActor.Test
-{
-     
+{     
     public class SharedThreadActorFactoryTest
     {
-        private SharedThreadActorFactory _Factory;
+        private readonly SharedThreadActorFactory _Factory;
         public SharedThreadActorFactoryTest()
         {
             _Factory = new SharedThreadActorFactory();

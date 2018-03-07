@@ -8,10 +8,7 @@ namespace EasyActor.Test.TestInfra.DummyClass
         public int Created => DummyClasses.Count;
         public ConcurrentBag<DummyClass> DummyClasses { get; private set; } = new ConcurrentBag<DummyClass>();
 
-        public Func<DummyClass> Factory
-        {
-            get { return () => Create(); }
-        }
+        public Func<DummyClass> Factory => Create;
 
         private DummyClass Create()
         {

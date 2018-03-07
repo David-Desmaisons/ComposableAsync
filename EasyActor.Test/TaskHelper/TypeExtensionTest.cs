@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
-
-using FluentAssertions;
- 
-
 using EasyActor.TaskHelper;
+using FluentAssertions;
 using Xunit;
 
-namespace EasyActor.Test
+namespace EasyActor.Test.TaskHelper
 {
-     
+
     public class TypeExtensionTest
     {
-         [Fact]
+        [Fact]
         public void GetDelegateTypeNoTask()
         {
             Type st = typeof(string);
@@ -23,7 +20,7 @@ namespace EasyActor.Test
             target.Type.Should().BeNull();
         }
 
-          [Fact]
+        [Fact]
         public void GetDelegateTypeTask()
         {
             Type st = typeof(Task);
@@ -34,7 +31,7 @@ namespace EasyActor.Test
             target.Type.Should().BeNull();
         }
 
-           [Fact]
+        [Fact]
         public void GetDelegateTypeGenericTask()
         {
             Type st = typeof(Task<string>);

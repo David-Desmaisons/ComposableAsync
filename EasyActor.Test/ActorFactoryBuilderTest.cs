@@ -2,6 +2,7 @@
 using FluentAssertions;
  
 using System.Threading;
+using EasyActor.Factories;
 using Xunit;
 
 namespace EasyActor.Test
@@ -9,7 +10,7 @@ namespace EasyActor.Test
      
     public class ActorFactoryBuilderTest : IDisposable
     {
-         private FactoryBuilder _ActorFactoryBuilder;
+         private readonly FactoryBuilder _ActorFactoryBuilder;
 
         public ActorFactoryBuilderTest()
         {

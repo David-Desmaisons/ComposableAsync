@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace EasyActor.Test.WPFThreading
+namespace EasyActor.Test.TestInfra.WPFThreading
 {
     public static class DispatcherHelper
     {
-        [SecurityPermissionAttribute(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
+        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public static void DoEvents()
         {
-            DispatcherFrame frame = new DispatcherFrame();
+            var frame = new DispatcherFrame();
             Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background,
                 new DispatcherOperationCallback(ExitFrame), frame);
             Dispatcher.PushFrame(frame);
@@ -24,46 +24,43 @@ namespace EasyActor.Test.WPFThreading
         }
     }
 
-    public class WPFThreadingHelper
+    public class WpfThreadingHelper
     {
-        private CancellationTokenSource _CTS;
+        private readonly CancellationTokenSource _Cts;
         private Window _Window;
 
-        public WPFThreadingHelper()
+        public WpfThreadingHelper()
         {
-            _CTS = new CancellationTokenSource();
+            _Cts = new CancellationTokenSource();
         }
 
-        public Thread UIThread { get; private set; }
+        public Thread UiThread { get; private set; }
 
-        public Dispatcher Dispatcher { get { return _Window.Dispatcher; } }
+        public Dispatcher Dispatcher => _Window.Dispatcher;
 
         public Task Start()
         {
             TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
-            UIThread = new Thread(()=>InitUIinSTA(tcs));
-            UIThread.Name = "Simulated UI Thread";
-            UIThread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
-            UIThread.Start();
+            UiThread = new Thread(() => InitUIinSta(tcs)) { Name = "Simulated UI Thread" };
+            UiThread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
+            UiThread.Start();
 
             return tcs.Task;
         }
 
         public void Stop()
         {
-            _CTS.Cancel();
+            _Cts.Cancel();
         }
 
-        private void InitUIinSTA(TaskCompletionSource<object> tcs)
+        private void InitUIinSta(TaskCompletionSource<object> tcs)
         {
             _Window = new Window();
-            while (_CTS.IsCancellationRequested == false)
+            while (_Cts.IsCancellationRequested == false)
             {
                 DispatcherHelper.DoEvents();
                 tcs.TrySetResult(null);
             }
         }
-
-
     }
 }

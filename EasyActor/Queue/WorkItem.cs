@@ -15,31 +15,28 @@ namespace EasyActor.Queue
             _Source = new TaskCompletionSource<T>();
         }
 
-        public Task<T> Task
-        {
-            get { return _Source.Task; }
-        }
+        public Task<T> Task => _Source.Task;
 
         public void Cancel()
         {
             _Source.TrySetCanceled();
         }
 
-         [DebuggerNonUserCode]
+        [DebuggerNonUserCode]
         public void Do()
         {
             try
             {
                 _Source.TrySetResult(_Do());
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _Source.TrySetException(e);
             }
         }
     }
 
-    internal class ActionWorkItem : WorkItem<object>, IWorkItem 
+    internal class ActionWorkItem : WorkItem<object>, IWorkItem
     {
         public ActionWorkItem(Action iDo)
             : base(() => { iDo(); return null; })

@@ -5,17 +5,17 @@ using System.Threading.Tasks;
 using FluentAssertions;
  
 using System.Threading;
+using EasyActor.Factories;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
 
 namespace EasyActor.Test
-{
-     
+{   
     public class LoadBalancerFactoryTest
     {
         private LoadBalancerFactory _Factory;
-        private Func<DummyClass> _Fact;
-        private DummyClassFactory _DummyFactory;
+        private readonly Func<DummyClass> _Fact;
+        private readonly DummyClassFactory _DummyFactory;
 
         public LoadBalancerFactoryTest()
         {

@@ -1,17 +1,16 @@
 ﻿using System;
- 
-using FluentAssertions;
-using EasyActor.Queue;
 using System.Threading;
+using EasyActor.Queue;
+using FluentAssertions;
 using Xunit;
 
-namespace EasyActor.Test
+namespace EasyActor.Test.Queue
 {
      
     public class DispatcherSynchronizationContextTest
     {
-        private MonoThreadedQueueSynchronizationContext _Dispatcher;
-        private MonoThreadedQueue _Queue;
+        private readonly MonoThreadedQueueSynchronizationContext _Dispatcher;
+        private readonly MonoThreadedQueue _Queue;
 
         public DispatcherSynchronizationContextTest()
         {

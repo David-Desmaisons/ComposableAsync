@@ -3,15 +3,15 @@
 using FluentAssertions;
  
 using System.Threading;
+using EasyActor.Factories;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
 
 namespace EasyActor.Test
-{
-     
+{     
     public class TaskPoolActorFactoryTest
     {
-        private TaskPoolActorFactory _TaskPoolActorFactory;
+        private readonly TaskPoolActorFactory _TaskPoolActorFactory;
 
         public TaskPoolActorFactoryTest()
         {

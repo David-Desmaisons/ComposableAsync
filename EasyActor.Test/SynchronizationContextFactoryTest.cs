@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
- 
-using EasyActor.Test.WPFThreading;
+using EasyActor.Factories;
 using EasyActor.Test.TestInfra.DummyClass;
+using EasyActor.Test.TestInfra.WPFThreading;
 using Xunit;
 
 namespace EasyActor.Test
@@ -12,12 +12,12 @@ namespace EasyActor.Test
      
     public class SynchronizationContextFactoryTest : IDisposable
     {
-        private WPFThreadingHelper _UIMessageLoop;
+        private WpfThreadingHelper _UIMessageLoop;
         private SynchronizationContextFactory _Factory;
 
         public SynchronizationContextFactoryTest()
         {
-            _UIMessageLoop = new WPFThreadingHelper();
+            _UIMessageLoop = new WpfThreadingHelper();
             _UIMessageLoop.Start().Wait();
 
             _Factory = _UIMessageLoop.Dispatcher.Invoke(() => new SynchronizationContextFactory());
@@ -83,7 +83,7 @@ namespace EasyActor.Test
             await actor.DoAsync();
 
             //assert
-            obj.CallingThread.Should().Be(_UIMessageLoop.UIThread);
+            obj.CallingThread.Should().Be(_UIMessageLoop.UiThread);
         }
 
         [Fact]
@@ -97,7 +97,7 @@ namespace EasyActor.Test
             await actor.ComputeAsync(5);
 
             //assert
-            obj.CallingThread.Should().Be(_UIMessageLoop.UIThread);
+            obj.CallingThread.Should().Be(_UIMessageLoop.UiThread);
         }
 
         [Fact]

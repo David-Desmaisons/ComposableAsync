@@ -1,49 +1,49 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Threading;
-using FluentAssertions;
+using System.Threading.Tasks;
 using EasyActor.Queue;
 using EasyActor.TaskHelper;
+using FluentAssertions;
 using Xunit;
 
-namespace EasyActor.Test
+namespace EasyActor.Test.Queue
 {
     public abstract class MonoThreadedQueueBaseTest
     {
-        private Thread _RunningThread;
+        protected Thread RunningThread;
 
-        protected MonoThreadedQueueBaseTest() 
+        protected MonoThreadedQueueBaseTest()
         {
-            _RunningThread = null;
+            RunningThread = null;
         }
 
-        protected abstract IAbortableTaskQueue GetQueue(Action<Thread> onCreate = null);
+        protected abstract IMonoThreadQueue GetQueue(Action<Thread> onCreate = null);
 
-        private Task TaskFactory(int sleep=1)
+        protected Task TaskFactory(int sleep = 1)
         {
-            _RunningThread = Thread.CurrentThread;
+            RunningThread = Thread.CurrentThread;
             Thread.Sleep(sleep * 1000);
             return TaskBuilder.Completed;
         }
 
-        private Task<T> TaskFactory<T>(T result, int sleep = 1)
+        protected Task<T> TaskFactory<T>(T result, int sleep = 1)
         {
-            _RunningThread = Thread.CurrentThread;
+            RunningThread = Thread.CurrentThread;
             Thread.Sleep(sleep * 1000);
             return Task.FromResult(result);
         }
 
-        private Task Throw()
+        protected Task Throw()
         {
             throw new Exception();
         }
 
-        private Task<T> Throw<T>()
+        protected Task<T> Throw<T>()
         {
             throw new Exception();
         }
 
-          [Fact]
+        [Fact]
         public async Task Enqueue_Should_Run_OnSeparatedThread()
         {
             Thread current = Thread.CurrentThread;
@@ -54,12 +54,12 @@ namespace EasyActor.Test
                 await target.Enqueue(() => TaskFactory());
 
                 //assert
-                _RunningThread.Should().NotBeNull();
-                _RunningThread.Should().NotBe(current);
+                RunningThread.Should().NotBeNull();
+                RunningThread.Should().NotBe(current);
             }
         }
 
-           [Fact]
+        [Fact]
         public async Task Enqueue_Should_Run_OnSameThread()
         {
             Thread current = Thread.CurrentThread;
@@ -69,28 +69,28 @@ namespace EasyActor.Test
 
                 //act
                 await target.Enqueue(() => TaskFactory());
-                var first = _RunningThread;
+                var first = RunningThread;
                 await target.Enqueue(() => TaskFactory());
 
                 //assert
-                _RunningThread.Should().Be(first);
+                RunningThread.Should().Be(first);
             }
         }
 
-         [Fact]
+        [Fact]
         public async Task Enqueue_Should_DispatchException()
         {
             Thread current = Thread.CurrentThread;
             //arrange
             using (var target = GetQueue())
             {
-                Exception error=null;
+                Exception error = null;
                 //act
                 try
                 {
                     await target.Enqueue(() => Throw());
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     error = e;
                 }
@@ -100,26 +100,23 @@ namespace EasyActor.Test
             }
         }
 
-       
-
-         [Fact]
-        
+        [Fact]
         public async Task Enqueue_Exception_Should_Not_Kill_MainThead()
         {
             Thread current = Thread.CurrentThread;
             //arrange
             using (var target = GetQueue())
-            {   
+            {
                 //act
                 try
                 {
-                    await target.Enqueue(() => Throw());
+                    await target.Enqueue(Throw);
                 }
                 catch
                 {
                 }
 
-                await target.Enqueue(() => TaskFactory());                     
+                await target.Enqueue(() => TaskFactory());
             }
         }
 
@@ -136,8 +133,8 @@ namespace EasyActor.Test
 
                 //assert
                 res.Should().Be(25);
-                _RunningThread.Should().NotBeNull();
-                _RunningThread.Should().NotBe(current);
+                RunningThread.Should().NotBeNull();
+                RunningThread.Should().NotBe(current);
             }
         }
 
@@ -149,20 +146,20 @@ namespace EasyActor.Test
             //arrange
             using (var target = GetQueue())
             {
-                Func<int> func = () => { _RunningThread = Thread.CurrentThread; return 25; };
+                Func<int> func = () => { RunningThread = Thread.CurrentThread; return 25; };
 
                 //act
                 var res = await target.Enqueue(func);
 
                 //assert
                 res.Should().Be(25);
-                _RunningThread.Should().NotBeNull();
-                _RunningThread.Should().NotBe(current);
+                RunningThread.Should().NotBeNull();
+                RunningThread.Should().NotBe(current);
             }
         }
 
 
-         [Fact]
+        [Fact]
         public async Task Enqueue_Should_DispatchException_With_Result()
         {
             //arrange
@@ -172,7 +169,7 @@ namespace EasyActor.Test
                 //act
                 try
                 {
-                    await target.Enqueue(() => Throw<string>());
+                    await target.Enqueue(Throw<string>);
                 }
                 catch (Exception e)
                 {
@@ -187,14 +184,14 @@ namespace EasyActor.Test
         [Fact]
         public async Task Enqueue_Exception_Should_Not_Kill_MainThead_With_Result()
         {
-            Thread current = Thread.CurrentThread;
+            var current = Thread.CurrentThread;
             //arrange
             using (var target = GetQueue())
             {
                 //act
                 try
                 {
-                    await target.Enqueue(() => Throw<int>());
+                    await target.Enqueue(Throw<int>);
                 }
                 catch
                 {
@@ -204,23 +201,22 @@ namespace EasyActor.Test
 
                 //assert
                 res.Should().Be(25);
-
             }
         }
 
         [Fact]
         public async Task Enqueue_Should_Work_OnAction()
         {
-            Thread current = Thread.CurrentThread;
+            var current = Thread.CurrentThread;
             //arrange
             using (var target = GetQueue())
             {
                 bool done = false;
-                Action act = () => done=true;
+                Action act = () => done = true;
                 //act
-                
+
                 await target.Enqueue(act);
-              
+
                 //assert
                 done.Should().BeTrue();
             }
@@ -230,7 +226,7 @@ namespace EasyActor.Test
         [Fact]
         public async Task Enqueue_Should_ReDispatch_Exception_OnAction()
         {
-            Thread current = Thread.CurrentThread;
+            var current = Thread.CurrentThread;
             //arrange
             using (var target = GetQueue())
             {
@@ -258,101 +254,27 @@ namespace EasyActor.Test
             Task newTask = null;
 
             //arrange
-            using (var target = GetQueue(t => t.Priority=ThreadPriority.Highest))
-            {
-                newTask =  target.Enqueue(() => TaskFactory(3));
-
-                while (_RunningThread == null)
-                {
-                    Thread.Sleep(100);
-                }
-            }
-
-            await newTask;
-            
-            _RunningThread.Should().NotBeNull();
-       
-            newTask.IsCanceled.Should().BeFalse();
-        }
-
-
-        [Fact]
-        public async Task Enqueue_Task_Should_Cancel_Not_Started_Task_When_OnDispose()
-        {
-            Task newTask = null, notstarted = null;
-
-            //arrange
             using (var target = GetQueue(t => t.Priority = ThreadPriority.Highest))
             {
                 newTask = target.Enqueue(() => TaskFactory(3));
 
-                while (_RunningThread == null)
+                while (RunningThread == null)
                 {
                     Thread.Sleep(100);
                 }
-
-                //act
-                notstarted = target.Enqueue(() => TaskFactory(3));
-            }
-            
-            await newTask;
-
-            //assert
-            TaskCanceledException error = null;
-            try
-            {
-                await notstarted;
-            }
-            catch (TaskCanceledException e)
-            {
-                error = e;
-            }
-
-            notstarted.IsCanceled.Should().BeTrue();
-            error.Should().NotBeNull();
-        }
-
-
-        [Fact]
-        public async Task Enqueue_Action_Should_Cancel_Not_Started_Task_When_OnDispose()
-        {
-            Task newTask = null, notstarted = null;
-            bool Done = false;
-
-            //arrange
-            using (var target = GetQueue(t=>t.Priority=ThreadPriority.Highest))
-            {
-                newTask = target.Enqueue(() => TaskFactory(3));
-
-                while (_RunningThread == null)
-                {
-                    Thread.Sleep(100);
-                }
-
-                notstarted = target.Enqueue(() => { Done = true; });
             }
 
             await newTask;
 
-            TaskCanceledException error = null;
-            try
-            {
-                await notstarted;
-            }
-            catch (TaskCanceledException e)
-            {
-                error = e;
-            }
+            RunningThread.Should().NotBeNull();
 
-            notstarted.IsCanceled.Should().BeTrue();
-            error.Should().NotBeNull();
-            Done.Should().BeFalse();
-        }
+            newTask.IsCanceled.Should().BeFalse();
+        }    
 
         [Fact]
         public async Task Enqueue_Task_Should_Cancel_Task_When_Added_On_Disposed_Queue()
         {
-            IAbortableTaskQueue queue = null;
+            IMonoThreadQueue queue = null;
             //arrange
             using (queue = GetQueue())
             {
@@ -378,7 +300,7 @@ namespace EasyActor.Test
         [Fact]
         public async Task Enqueue_Action_Should_Cancel_Task_When_On_Disposed_Queue()
         {
-            IAbortableTaskQueue queue = null;
+            IMonoThreadQueue queue = null;
             //arrange
             using (queue = GetQueue())
             {
@@ -406,15 +328,14 @@ namespace EasyActor.Test
         [Fact]
         public async Task Enqueue_Func_T_Should_Cancel_Task_When_On_Disposed_Queue()
         {
-            IAbortableTaskQueue queue = null;
+            IMonoThreadQueue queue = null;
             //arrange
             using (queue = GetQueue())
             {
                 var task = queue.Enqueue(() => TaskFactory());
             }
 
-
-            Func<int> func = () => { return 25; };
+            Func<int> func = () => 25;
             Task newesttask = queue.Enqueue(func);
 
             TaskCanceledException error = null;
@@ -437,7 +358,7 @@ namespace EasyActor.Test
             //arrange  
             var queue = GetQueue();
             var task = queue.Enqueue(() => TaskFactory(3));
-            while (_RunningThread == null)
+            while (RunningThread == null)
             {
                 Thread.Sleep(100);
             }
@@ -451,41 +372,18 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public async Task Dispose_Enqueued_Task_Should_Continue_After_Stoping_Queue()
+        public async Task Dispose_Enqueue_Items_Should_Return_Canceled_Task_After_Stoping_Queue()
         {
             //arrange  
             var queue = GetQueue();
-            var task = queue.Enqueue(() => TaskFactory(3));
-            while (_RunningThread == null)
-            {
-                Thread.Sleep(100);
-            }
+            queue.Dispose();
 
-            var enqueuedtask = queue.Enqueue(() => TaskFactory(3));
-            //act
-            await queue.Stop(()=> TaskBuilder.Completed);
-            await enqueuedtask;
-
-            //assert
-            task.IsCompleted.Should().BeTrue();
-            enqueuedtask.IsCompleted.Should().BeTrue();
-        }
-
-
-        [Fact]
-        public async Task Dispose_Enqueue_Items_Should_Return_Canceled_Task_After_Stoping_Queue()
-        {       
-            //arrange  
-            var queue = GetQueue();
-            var disposable = queue as IDisposable;
-            disposable.Dispose();
-
-            bool Done = false;
+            var done = false;
 
             TaskCanceledException error = null;
             try
             {
-                await queue.Enqueue(() => { Done = true; });
+                await queue.Enqueue(() => { done = true; });
             }
             catch (TaskCanceledException e)
             {
@@ -493,7 +391,7 @@ namespace EasyActor.Test
             }
 
             error.Should().NotBeNull();
-            Done.Should().BeFalse();
-        }
+            done.Should().BeFalse();
+        }    
     }
 }

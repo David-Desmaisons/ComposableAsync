@@ -1,28 +1,28 @@
 ﻿using System;
-using System.Threading.Tasks;
-using EasyActor.Queue;
-using EasyActor.Factories;
 using System.Threading;
+using System.Threading.Tasks;
 using EasyActor.Helper;
+using EasyActor.Proxy;
+using EasyActor.Queue;
 
-namespace EasyActor
+namespace EasyActor.Factories
 {
     public class ActorFactory : ActorFactoryBase, IActorFactory
     {
         private readonly Action<Thread> _OnCreate;
 
-        public ActorFactory(Action<Thread> onCreate = null )
+        public ActorFactory(Action<Thread> onCreate = null)
         {
             _OnCreate = onCreate;
         }
 
         public override ActorFactorType Type => ActorFactorType.Standard;
 
-        private T Build<T>(T concrete, IAbortableTaskQueue queue) where T : class
+        private T Build<T>(T concrete, MonoThreadedQueue queue) where T : class
         {
-            var asyncDisposable =  concrete as IAsyncDisposable;
+            var asyncDisposable = concrete as IAsyncDisposable;
             return CreateIActorLifeCycle(concrete, queue, TypeHelper.ActorCompleteLifeCycleType,
-                        new ActorCompleteLifeCycleInterceptor(queue,asyncDisposable),  
+                        new ActorCompleteLifeCycleInterceptor(queue, asyncDisposable),
                         new ActorLifeCycleInterceptor(queue, asyncDisposable));
         }
 
@@ -34,7 +34,7 @@ namespace EasyActor
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
         {
             var queue = new MonoThreadedQueue(_OnCreate);
-            return queue.Enqueue( ()=> Build<T>(concrete(),queue) );
+            return queue.Enqueue(() => Build<T>(concrete(), queue));
         }
 
         internal async Task<Tuple<T, MonoThreadedQueue>> InternalBuildAsync<T>(Func<T> concrete) where T : class

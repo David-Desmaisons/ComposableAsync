@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace EasyActor
+namespace EasyActor.Queue
 {
     public interface ITaskQueue
     {
