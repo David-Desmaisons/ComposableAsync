@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
@@ -13,32 +14,30 @@ namespace EasyActor.Examples
     public class PingPong
     {
         private readonly ITestOutputHelper _Output;
-        private readonly ThreadPriority _Priority;
 
-        public PingPong(ITestOutputHelper output = null) : this(ThreadPriority.Normal)
+        public PingPong(ITestOutputHelper output = null)
         {
             _Output = output;
         }
 
-        internal PingPong(ThreadPriority priority)
+        public static IEnumerable<object[]> GetFactories()
         {
-            _Priority = priority;
+            yield return new object[] { new ActorFactory() };
+            yield return new object[] { new SharedThreadActorFactory() };
+            yield return new object[] { new TaskPoolActorFactory() };
         }
 
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public async Task Test(bool taskPool)
+        [MemberData(nameof(GetFactories))]
+        public async Task Test(IActorFactory fact)
         {
-            IActorFactory fact = new ActorFactory(t => t.Priority = _Priority);
+            Output(fact.ToString());
 
             var one = new PingPongerAsync("Bjorg");
-
             var actor1 = fact.Build<IPingPongerAsync>(one);
 
             var two = new PingPongerAsync("Lendl");
-            var fact2 = taskPool ? new TaskPoolActorFactory() : fact;
-            var actor2 = fact2.Build<IPingPongerAsync>(two);
+            var actor2 = fact.Build<IPingPongerAsync>(two);
 
             one.PongerAsync = actor2;
             two.PongerAsync = actor1;
@@ -49,9 +48,7 @@ namespace EasyActor.Examples
             await actor1.Ping();
             Thread.Sleep(10000);
 
-            var lifeCyle = actor2 as IActorCompleteLifeCycle;
-            Task Task2 = (lifeCyle == null) ? TaskBuilder.Completed : lifeCyle.Abort();
-            await Task.WhenAll(((IActorCompleteLifeCycle)(actor1)).Abort(), Task2);
+            await Task.WhenAll(StopActor(actor1), StopActor(actor2));
 
             watch.Stop();
 
@@ -59,20 +56,25 @@ namespace EasyActor.Examples
             Output($"Operation/ms:{(one.Count + two.Count) / watch.ElapsedMilliseconds}");
         }
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public async Task TestNoTask(bool taskPool)
+        private static Task StopActor(object actor)
         {
-            IActorFactory fact = new ActorFactory(t => t.Priority = _Priority);
+            var lifeCyle = actor as IActorCompleteLifeCycle;
+            if (lifeCyle != null)
+                return lifeCyle.Abort();
 
+            var stopable = actor as IActorLifeCycle;
+            return stopable?.Stop() ?? TaskBuilder.Completed;
+        }
+
+        [Theory]
+        [MemberData(nameof(GetFactories))]
+        public async Task TestNoTask(IActorFactory fact)
+        {
             var one = new PingPongerSimple("Bjorg");
-
             var actor1 = fact.Build<IPingPonger>(one);
 
             var two = new PingPongerSimple("Lendl");
-            var fact2 = taskPool ? new TaskPoolActorFactory() : fact;
-            var actor2 = fact2.Build<IPingPonger>(two);
+            var actor2 = fact.Build<IPingPonger>(two);
 
             one.Ponger = actor2;
             two.Ponger = actor1;
@@ -83,9 +85,7 @@ namespace EasyActor.Examples
             actor1.Ping();
             Thread.Sleep(10000);
 
-            var lifeCyle = actor2 as IActorCompleteLifeCycle;
-            Task Task2 = (lifeCyle == null) ? TaskBuilder.Completed : lifeCyle.Abort();
-            await Task.WhenAll(((IActorCompleteLifeCycle)(actor1)).Abort(), Task2);
+            await Task.WhenAll(StopActor(actor1), StopActor(actor2));
 
             watch.Stop();
 

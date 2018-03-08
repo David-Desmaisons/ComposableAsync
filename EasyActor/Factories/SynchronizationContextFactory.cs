@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using EasyActor.Queue;
+using EasyActor.Fiber;
 
 namespace EasyActor.Factories
 {
     public class SynchronizationContextFactory : ActorFactoryBase, IActorFactory
     {
-        private readonly SynchronizationContextQueue _Context;
+        private readonly SynchronizationContextFiber _Context;
 
         public SynchronizationContextFactory(): this(SynchronizationContext.Current)
         {
@@ -18,7 +18,7 @@ namespace EasyActor.Factories
             if (synchronizationContext == null)
                 throw new ArgumentNullException("synchronizationContext can not be null");
 
-            _Context = new SynchronizationContextQueue(synchronizationContext);
+            _Context = new SynchronizationContextFiber(synchronizationContext);
         }
 
         public override ActorFactorType Type => ActorFactorType.InCurrentContext;

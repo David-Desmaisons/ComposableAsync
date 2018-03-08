@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
-using EasyActor.Queue;
 using EasyActor.TaskHelper;
 using EasyActor.Collections;
 using EasyActor.Factories;
+using EasyActor.Fiber;
 using EasyActor.Helper;
 
 namespace EasyActor.Proxy
@@ -19,7 +19,7 @@ namespace EasyActor.Proxy
         private readonly BalancingOption _BalancingOption;
         private bool _IsCancelled = false;
 
-        private readonly ConcurrentBag<Tuple<T, MonoThreadedQueue>> _Actors = new ConcurrentBag<Tuple<T, MonoThreadedQueue>>();
+        private readonly ConcurrentBag<Tuple<T, MonoThreadedFiber>> _Actors = new ConcurrentBag<Tuple<T, MonoThreadedFiber>>();
         private readonly ActorFactory _ActorFactory;
         private readonly object _Syncobject = new object();
 

@@ -2,18 +2,18 @@
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
-using EasyActor.Queue;
+using EasyActor.Fiber;
 
 namespace EasyActor.Factories
 {
     public class SharedThreadActorFactory : ActorFactoryBase, IActorFactory, IActorCompleteLifeCycle
     {
-        private readonly IAbortableTaskQueue _Queue;
+        private readonly IAbortableFiber _Queue;
         private readonly ConcurrentQueue<IAsyncDisposable> _Disposable;
 
         public SharedThreadActorFactory(Action<Thread> onCreated = null)
         {
-            _Queue = new MonoThreadedQueue(onCreated);
+            _Queue = new MonoThreadedFiber(onCreated);
             _Disposable = new ConcurrentQueue<IAsyncDisposable>();
         }
 
@@ -51,7 +51,7 @@ namespace EasyActor.Factories
 
         public Task Stop()
         {
-            var stoppable = _Queue as IStopableTaskQueue;
+            var stoppable = _Queue as IStopableFiber;
             return stoppable?.Stop(GetEndTask) ?? _Queue.Abort(GetEndTask);
         }
     }

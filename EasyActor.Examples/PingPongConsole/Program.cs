@@ -1,6 +1,8 @@
 ﻿using EasyActor.Examples;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using EasyActor;
 
 namespace PingPongConsole
 {
@@ -13,14 +15,14 @@ namespace PingPongConsole
 
         static async Task MainAsync(string[] args)
         {
-            for (var index = 0; index < 2; index++)
+            foreach (var fact in PingPong.GetFactories().Select(o => o[0] as IActorFactory))
             {
-                Console.WriteLine("ConcurrentQueue");
-                await new PingPong().Test(false);
+                Console.WriteLine("Task");
+                await new PingPong().Test(fact);
                 Console.WriteLine("=================");
 
-                Console.WriteLine("ConcurrentQueue no task");
-                await new PingPong().TestNoTask(false);
+                Console.WriteLine("No task");
+                await new PingPong().TestNoTask(fact);
                 Console.WriteLine("=================");
             }
             Console.ReadLine();

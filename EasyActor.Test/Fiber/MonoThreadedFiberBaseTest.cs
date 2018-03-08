@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using EasyActor.Queue;
+using EasyActor.Fiber;
 using EasyActor.TaskHelper;
 using FluentAssertions;
 using Xunit;
 
-namespace EasyActor.Test.Queue
+namespace EasyActor.Test.Fiber
 {
-    public abstract class MonoThreadedQueueBaseTest
+    public abstract class MonoThreadedFiberBaseTest
     {
         protected Thread RunningThread;
 
-        protected MonoThreadedQueueBaseTest()
+        protected MonoThreadedFiberBaseTest()
         {
             RunningThread = null;
         }
 
-        protected abstract IMonoThreadQueue GetQueue(Action<Thread> onCreate = null);
+        protected abstract IMonoThreadFiber GetQueue(Action<Thread> onCreate = null);
 
         protected Task TaskFactory(int sleep = 1)
         {
@@ -294,14 +294,14 @@ namespace EasyActor.Test.Queue
         [Fact]
         public async Task Enqueue_Task_Should_Cancel_Task_When_Added_On_Disposed_Queue()
         {
-            IMonoThreadQueue queue = null;
+            IMonoThreadFiber fiber = null;
             //arrange
-            using (queue = GetQueue())
+            using (fiber = GetQueue())
             {
-                var task = queue.Enqueue(() => TaskFactory());
+                var task = fiber.Enqueue(() => TaskFactory());
             }
 
-            Task newesttask = queue.Enqueue(() => TaskFactory());
+            Task newesttask = fiber.Enqueue(() => TaskFactory());
 
             TaskCanceledException error = null;
             try
@@ -320,15 +320,15 @@ namespace EasyActor.Test.Queue
         [Fact]
         public async Task Enqueue_Action_Should_Cancel_Task_When_On_Disposed_Queue()
         {
-            IMonoThreadQueue queue = null;
+            IMonoThreadFiber fiber = null;
             //arrange
-            using (queue = GetQueue())
+            using (fiber = GetQueue())
             {
-                var task = queue.Enqueue(() => TaskFactory());
+                var task = fiber.Enqueue(() => TaskFactory());
             }
 
             bool Done = false;
-            Task newesttask = queue.Enqueue(() => { Done = true; });
+            Task newesttask = fiber.Enqueue(() => { Done = true; });
 
             TaskCanceledException error = null;
             try
@@ -348,15 +348,15 @@ namespace EasyActor.Test.Queue
         [Fact]
         public async Task Enqueue_Func_T_Should_Cancel_Task_When_On_Disposed_Queue()
         {
-            IMonoThreadQueue queue = null;
+            IMonoThreadFiber fiber = null;
             //arrange
-            using (queue = GetQueue())
+            using (fiber = GetQueue())
             {
-                var task = queue.Enqueue(() => TaskFactory());
+                var task = fiber.Enqueue(() => TaskFactory());
             }
 
             Func<int> func = () => 25;
-            Task newesttask = queue.Enqueue(func);
+            Task newesttask = fiber.Enqueue(func);
 
             TaskCanceledException error = null;
             try

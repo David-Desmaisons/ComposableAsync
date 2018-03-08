@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace EasyActor.Queue
+namespace EasyActor.Fiber
 {
     internal class DispatchItem : IWorkItem
     {

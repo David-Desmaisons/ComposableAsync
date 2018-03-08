@@ -5,7 +5,7 @@ using EasyActor.TaskHelper;
 using FluentAssertions;
 using System.Threading;
 using EasyActor.Factories;
-using EasyActor.Queue;
+using EasyActor.Fiber;
 using EasyActor.Test.TestInfra.DummyClass;
 using EasyActor.Test.TestInfra.WPFThreading;
 using Xunit;

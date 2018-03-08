@@ -2,19 +2,19 @@
 using System.Threading.Tasks;
 using EasyActor.TaskHelper;
 
-namespace EasyActor.Queue
+namespace EasyActor.Fiber
 {
-    internal class TaskSchedulerQueue : IStopableTaskQueue
+    internal class TaskSchedulderDispatcher : IStopableFiber
     {
         private readonly TaskScheduler _Scheduler;
         private readonly TaskFactory _TaskFactory;
-        private readonly ConcurrentExclusiveSchedulerPair _ConcurrentExclusiveSchedulerPair;
+        private readonly Func<Task> _Complete;
 
-        public TaskSchedulerQueue()
+        public TaskSchedulderDispatcher(TaskScheduler taskScheduler, Func<Task> complete)
         {
-            _ConcurrentExclusiveSchedulerPair = new ConcurrentExclusiveSchedulerPair();
-            _Scheduler = _ConcurrentExclusiveSchedulerPair.ExclusiveScheduler;
+            _Scheduler = taskScheduler;
             _TaskFactory = new TaskFactory(_Scheduler);
+            _Complete = complete;
         }
 
         private static Task<T> Safe<T>(Func<Task<T>> compute)
@@ -29,13 +29,13 @@ namespace EasyActor.Queue
             }
         }
 
-        private static Task Safe(Func<Task> compute) 
+        private static Task Safe(Func<Task> compute)
         {
-            try 
+            try
             {
                 return compute();
             }
-            catch 
+            catch
             {
                 return TaskBuilder.Cancelled;
             }
@@ -46,7 +46,7 @@ namespace EasyActor.Queue
             Safe(() => _TaskFactory.StartNew(action));
         }
 
-        public Task Enqueue(Action action) 
+        public Task Enqueue(Action action)
         {
             return Safe(() => _TaskFactory.StartNew(action));
         }
@@ -83,8 +83,7 @@ namespace EasyActor.Queue
             if (cleanup != null)
                 Enqueue(cleanup);
 
-            _ConcurrentExclusiveSchedulerPair.Complete();
-            return _ConcurrentExclusiveSchedulerPair.Completion;
+            return _Complete();
         }
     }
 }

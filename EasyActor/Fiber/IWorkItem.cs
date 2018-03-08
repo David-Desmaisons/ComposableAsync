@@ -1,4 +1,4 @@
-﻿namespace EasyActor.Queue
+﻿namespace EasyActor.Fiber
 {
     internal interface IWorkItem
     {

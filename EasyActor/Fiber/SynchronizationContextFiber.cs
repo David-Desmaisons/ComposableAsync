@@ -3,12 +3,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using EasyActor.TaskHelper;
 
-namespace EasyActor.Queue
+namespace EasyActor.Fiber
 {
-    internal class SynchronizationContextQueue : ITaskQueue
+    internal class SynchronizationContextFiber : IFiber
     {
         private readonly SynchronizationContext _Context;
-        public SynchronizationContextQueue(SynchronizationContext synchronizationContext)
+        public SynchronizationContextFiber(SynchronizationContext synchronizationContext)
         {
             _Context = synchronizationContext;
         }

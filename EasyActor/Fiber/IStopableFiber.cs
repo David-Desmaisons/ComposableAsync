@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace EasyActor.Queue
+namespace EasyActor.Fiber
 {
-    public interface IStopableTaskQueue : ITaskQueue
+    public interface IStopableFiber : IFiber
     {
         Task Stop(Func<Task> cleanup);
     }

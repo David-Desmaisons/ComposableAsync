@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using EasyActor.Queue;
+using EasyActor.Fiber;
 using EasyActor.TaskHelper;
 using FluentAssertions;
 using Xunit;
 
-namespace EasyActor.Test.Queue
+namespace EasyActor.Test.Fiber
 {
 
-    public class MonoThreadQueueTest : MonoThreadedQueueBaseTest
+    public class MonoThreadFiberTest : MonoThreadedFiberBaseTest
     {
-        protected override IMonoThreadQueue GetQueue(Action<Thread> onCreate = null) => new MonoThreadedQueue(onCreate);
+        protected override IMonoThreadFiber GetQueue(Action<Thread> onCreate = null) => new MonoThreadedFiber(onCreate);
 
         [Fact]
         public async Task Dispose_Enqueued_Task_Should_Continue_After_Stoping_Queue()
         {
             //arrange  
-            var queue = new MonoThreadedQueue();
+            var queue = new MonoThreadedFiber();
             var task = queue.Enqueue(() => TaskFactory(3));
             while (RunningThread == null)
             {

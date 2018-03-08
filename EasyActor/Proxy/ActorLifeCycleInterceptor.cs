@@ -2,7 +2,7 @@
 using System.Reflection;
 using Castle.DynamicProxy;
 using EasyActor.Factories;
-using EasyActor.Queue;
+using EasyActor.Fiber;
 using EasyActor.TaskHelper;
 
 namespace EasyActor.Proxy
@@ -11,10 +11,10 @@ namespace EasyActor.Proxy
     {
         private static readonly MethodInfo _Stop = Type.GetMethod("Stop", BindingFlags.Instance | BindingFlags.Public);
 
-        private readonly IStopableTaskQueue _Queue;
+        private readonly IStopableFiber _Queue;
         private readonly IAsyncDisposable _IAsyncDisposable;
 
-        public ActorLifeCycleInterceptor(IStopableTaskQueue iqueue, IAsyncDisposable iAsyncDisposable)
+        public ActorLifeCycleInterceptor(IStopableFiber iqueue, IAsyncDisposable iAsyncDisposable)
         {
             _Queue = iqueue;
             _IAsyncDisposable = iAsyncDisposable;

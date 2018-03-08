@@ -4,22 +4,21 @@ using System.Threading;
 using System.Threading.Tasks;
 using EasyActor.TaskHelper;
 
-
-namespace EasyActor.Queue
+namespace EasyActor.Fiber
 {
-    public class MonoThreadedQueue : IMonoThreadQueue, IAbortableTaskQueue, IStopableTaskQueue
+    public class MonoThreadedFiber : IMonoThreadFiber, IAbortableFiber, IStopableFiber
     {
         private static int _Count = 0;
 
         private readonly BlockingCollection<IWorkItem> _TaskQueue = new BlockingCollection<IWorkItem>();
         private readonly Thread _Current;
-        private readonly CancellationTokenSource _CTS;
+        private readonly CancellationTokenSource _Cts;
         private AsyncActionWorkItem _Clean;
         private bool _Running = false;
 
-        public MonoThreadedQueue(Action<Thread> onCreate=null)
+        public MonoThreadedFiber(Action<Thread> onCreate=null)
         {
-            _CTS = new CancellationTokenSource();
+            _Cts = new CancellationTokenSource();
 
             _Current = new Thread(Consume)
             {
@@ -116,7 +115,7 @@ namespace EasyActor.Queue
         {
             try
             {
-                _CTS.Cancel();
+                _Cts.Cancel();
                 _TaskQueue.CompleteAdding();
             }
             catch(ObjectDisposedException)
@@ -144,7 +143,7 @@ namespace EasyActor.Queue
 
             try
             {
-                foreach (var action in _TaskQueue.GetConsumingEnumerable(_CTS.Token))
+                foreach (var action in _TaskQueue.GetConsumingEnumerable(_Cts.Token))
                 {
                     _Running = true;
                     action.Do();

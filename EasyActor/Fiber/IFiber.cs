@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace EasyActor.Queue
+namespace EasyActor.Fiber
 {
-    public interface ITaskQueue
+    public interface IFiber
     {
         void Dispatch(Action action);
 

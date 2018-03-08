@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace EasyActor.Queue
+namespace EasyActor.Fiber
 {
     internal class AsyncWorkItem<T> : IWorkItem
     {
         private readonly TaskCompletionSource<T> _Source;
         private readonly Func<Task<T>> _Do;
 
-        public AsyncWorkItem(Func<Task<T>> iDo)
+        public AsyncWorkItem(Func<Task<T>> @do)
         {
-            _Do = iDo;
+            _Do = @do;
             _Source = new TaskCompletionSource<T>();
         }
 

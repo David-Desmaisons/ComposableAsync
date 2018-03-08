@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Threading;
-using EasyActor.Queue;
+using EasyActor.Fiber;
 using FluentAssertions;
 using Xunit;
 
-namespace EasyActor.Test.Queue
+namespace EasyActor.Test.Fiber
 {
 
     public class DispatcherSynchronizationContextTest : IDisposable
     {
         private readonly MonoThreadedQueueSynchronizationContext _Dispatcher;
-        private readonly MonoThreadedQueue _Queue;
+        private readonly MonoThreadedFiber _Fiber;
 
         public DispatcherSynchronizationContextTest()
         {
-            _Queue = new MonoThreadedQueue(t => t.Priority = ThreadPriority.Highest);
-            _Dispatcher = new MonoThreadedQueueSynchronizationContext(_Queue);
+            _Fiber = new MonoThreadedFiber(t => t.Priority = ThreadPriority.Highest);
+            _Dispatcher = new MonoThreadedQueueSynchronizationContext(_Fiber);
         }
 
         public void Dispose()
         {
-            _Queue.Dispose();
+            _Fiber.Dispose();
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace EasyActor.Test.Queue
         {
             //arrange
             Thread queuethread = null;
-            _Queue.Enqueue(() => queuethread = Thread.CurrentThread);
+            _Fiber.Enqueue(() => queuethread = Thread.CurrentThread);
 
             //act
             Thread postthread = null;
@@ -54,7 +54,7 @@ namespace EasyActor.Test.Queue
         {
             //arrange
             Thread queuethread = null;
-            _Queue.Enqueue(() => queuethread = Thread.CurrentThread);
+            _Fiber.Enqueue(() => queuethread = Thread.CurrentThread);
 
             //act
             Thread postthread = null;
@@ -70,12 +70,12 @@ namespace EasyActor.Test.Queue
         {
             //arrange
             Thread queuethread = null;
-            _Queue.Enqueue(() => queuethread = Thread.CurrentThread);
+            _Fiber.Enqueue(() => queuethread = Thread.CurrentThread);
 
             //act
             Thread postthread = null;
             SendOrPostCallback post = (o) => { postthread = Thread.CurrentThread; };
-            _Queue.Enqueue(() => _Dispatcher.Send(post, null));
+            _Fiber.Enqueue(() => _Dispatcher.Send(post, null));
 
             //assert
             postthread.Should().Be(queuethread);

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EasyActor.Fiber;
 using EasyActor.Helper;
 using EasyActor.Proxy;
-using EasyActor.Queue;
 
 namespace EasyActor.Factories
 {
@@ -10,7 +10,7 @@ namespace EasyActor.Factories
     {
         public override ActorFactorType Type => ActorFactorType.TaskPool;
 
-        private T Build<T>(T concrete, IStopableTaskQueue queue) where T : class
+        private T Build<T>(T concrete, IStopableFiber queue) where T : class
         {
             var asyncDisposable = concrete as IAsyncDisposable;
             return CreateIActorLifeCycle(concrete, queue, TypeHelper.ActorLifeCycleType,
@@ -28,9 +28,9 @@ namespace EasyActor.Factories
             return queue.Enqueue(() => Build<T>(concrete(), queue));
         }
 
-        private IStopableTaskQueue GetQueue()
+        private IStopableFiber GetQueue()
         {
-            return new TaskSchedulerQueue();
+            return TaskSchedulerFiber.GetFiber();
         }
     }
 }

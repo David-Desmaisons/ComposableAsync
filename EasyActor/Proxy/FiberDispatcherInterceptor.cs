@@ -2,18 +2,18 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
-using EasyActor.Queue;
+using EasyActor.Fiber;
 using EasyActor.TaskHelper;
 
 namespace EasyActor.Proxy
 {
-    internal class QueueDispatcherInterceptor : IInterceptor
+    internal class FiberDispatcherInterceptor : IInterceptor
     {
-        private static readonly MethodInfo _Proceed = typeof(QueueDispatcherInterceptor).GetMethod(nameof(Proceed), BindingFlags.Instance | BindingFlags.NonPublic);
+        private static readonly MethodInfo _Proceed = typeof(FiberDispatcherInterceptor).GetMethod(nameof(Proceed), BindingFlags.Instance | BindingFlags.NonPublic);
 
-        private readonly ITaskQueue _Queue;
+        private readonly IFiber _Queue;
 
-        public QueueDispatcherInterceptor(ITaskQueue queue)
+        public FiberDispatcherInterceptor(IFiber queue)
         {
             _Queue = queue;
         }

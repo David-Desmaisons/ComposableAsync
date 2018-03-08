@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading;
 
-namespace EasyActor.Queue
+namespace EasyActor.Fiber
 {
     public sealed class MonoThreadedQueueSynchronizationContext : SynchronizationContext
     {
-        private readonly IMonoThreadQueue _Dispatcher;
+        private readonly IMonoThreadFiber _Dispatcher;
 
-        public MonoThreadedQueueSynchronizationContext(IMonoThreadQueue dispatcher)
+        public MonoThreadedQueueSynchronizationContext(IMonoThreadFiber dispatcher)
         {
             if (dispatcher == null)
                 throw new ArgumentNullException(nameof(dispatcher));

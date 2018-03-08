@@ -84,12 +84,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ActorContextTest.cs" />
-    <Compile Include="Queue\MonoThreadedQueueBaseTest.cs" />
+    <Compile Include="Fiber\MonoThreadedFiberBaseTest.cs" />
     <Compile Include="TaskPoolActorFactoryTest.cs" />
     <Compile Include="ActorFactoryBuilderTest.cs" />
     <Compile Include="ActorFactoryTest.cs" />
     <Compile Include="LoaderBalancerFactoryTest.cs" />
-    <Compile Include="Queue\DispatcherSynchronizationContextTest.cs" />
+    <Compile Include="Fiber\DispatcherSynchronizationContextTest.cs" />
     <Compile Include="TaskHelper\SynchronizationContextTaskSchedulerTest.cs" />
     <Compile Include="TaskHelper\TaskBuilderTest.cs" />
     <Compile Include="TestInfra\DummyClass\DummyCircularReferenceClass.cs" />
@@ -98,7 +98,7 @@
     <Compile Include="SharedThreadActorFactoryTest.cs" />
     <Compile Include="SynchronizationContextFactoryTest.cs" />
     <Compile Include="TaskHelper\TypeExtensionTest.cs" />
-    <Compile Include="Queue\MonoThreadedQueueTest.cs" />
+    <Compile Include="Fiber\MonoThreadedFiberTest.cs" />
     <Compile Include="TestInfra\DummyClass\DummyClassFactory.cs" />
     <Compile Include="TestInfra\DummyClass\DummyDisposableClass.cs" />
     <Compile Include="TestInfra\DummyClass\IDummyInterface3.cs" />

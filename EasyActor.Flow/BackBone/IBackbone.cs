@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace EasyActor.Flow.BackBone
 {
-    public interface IBackbone<TRes, TProgress> : IDisposable
+    public interface IBackbone<TRes, out TProgress> : IDisposable
     {
         IDisposable Connect<TMessage>(IObservable<TMessage> source);
 
