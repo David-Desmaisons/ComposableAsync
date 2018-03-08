@@ -43,7 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorContext.cs" />
+    <Compile Include="Factories\ActorMonoTheadPoolFactory.cs" />
+    <Compile Include="Factories\ActorTheadPoolFactory.cs" />
     <Compile Include="Factories\TaskPoolActorFactory.cs" />
+    <Compile Include="Fiber\ThreadPoolFiber.cs" />
     <Compile Include="Helper\TypeHelper.cs" />
     <Compile Include="IActorLifeCycle.cs" />
     <Compile Include="Options\ActorFactorType.cs" />

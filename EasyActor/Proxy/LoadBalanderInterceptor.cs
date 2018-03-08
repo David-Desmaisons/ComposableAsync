@@ -19,7 +19,7 @@ namespace EasyActor.Proxy
         private readonly BalancingOption _BalancingOption;
         private bool _IsCancelled = false;
 
-        private readonly ConcurrentBag<Tuple<T, MonoThreadedFiber>> _Actors = new ConcurrentBag<Tuple<T, MonoThreadedFiber>>();
+        private readonly ConcurrentBag<Tuple<T, IMonoThreadFiber>> _Actors = new ConcurrentBag<Tuple<T, IMonoThreadFiber>>();
         private readonly ActorFactory _ActorFactory;
         private readonly object _Syncobject = new object();
 

@@ -1,7 +1,6 @@
 ﻿using EasyActor.Flow.BackBone;
 using EasyActor.Flow.Processor;
 using NSubstitute;
- 
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -15,20 +14,20 @@ namespace EasyActor.FlowTest
      
     public class BackBoneBuilderTest
     {
-        private BackBoneBuilder<bool,int> _Builder;
+        private readonly BackBoneBuilder<bool,int> _Builder;
         private IDictionary<Type, object> _Processors;
-        private IProcessor<bool, string, int> _Processor;
-        private IProgress<int> _Progress;
-        private ITransformProcessor<bool, string, int> _Transformer;
-        private IProcessorFinalizer<bool, int, int> _IProcessorFinalizer;
-        private IBackbone<bool, int> _BackBone;
+        private readonly IProcessor<bool, string, int> _Processor;
+        private readonly IProgress<int> _Progress;
+        private readonly ITransformProcessor<bool, string, int> _Transformer;
+        private readonly IProcessorFinalizer<bool, int, int> _ProcessorFinalizer;
+        private readonly IBackbone<bool, int> _BackBone;
 
         public BackBoneBuilderTest()
         {
             _Processors = new Dictionary<Type, object>();
             _Processor = Substitute.For<IProcessor<bool, string, int>>();
             _Transformer = Substitute.For<ITransformProcessor<bool, string, int>>();
-            _IProcessorFinalizer = Substitute.For<IProcessorFinalizer<bool, int, int>> ();
+            _ProcessorFinalizer = Substitute.For<IProcessorFinalizer<bool, int, int>> ();
             _BackBone = Substitute.For<IBackbone<bool, int>>();
             _Progress = Substitute.For<IProgress<int>>();
             _Builder = new BackBoneBuilder<bool, int>(dic =>
@@ -88,12 +87,12 @@ namespace EasyActor.FlowTest
             var boolTRansformer = SetUpForFinalizer();
             await boolTRansformer.Process(23, _BackBone, _Progress, CancellationToken.None);
 
-            await _IProcessorFinalizer.Received(1).Process(23, _Progress, CancellationToken.None);
+            await _ProcessorFinalizer.Received(1).Process(23, _Progress, CancellationToken.None);
         }
 
         private ProcessorFinalizerAdapter<bool, int, int> SetUpForFinalizer()
         {
-            _Builder.Register(_IProcessorFinalizer);
+            _Builder.Register(_ProcessorFinalizer);
             _Builder.GetBackBone();
             return _Processors[typeof(int)] as ProcessorFinalizerAdapter<bool, int, int>;
         }

@@ -9,13 +9,13 @@ namespace EasyActor.Test.Fiber
 
     public class DispatcherSynchronizationContextTest : IDisposable
     {
-        private readonly MonoThreadedQueueSynchronizationContext _Dispatcher;
+        private readonly MonoThreadedFiberSynchronizationContext _Dispatcher;
         private readonly MonoThreadedFiber _Fiber;
 
         public DispatcherSynchronizationContextTest()
         {
             _Fiber = new MonoThreadedFiber(t => t.Priority = ThreadPriority.Highest);
-            _Dispatcher = new MonoThreadedQueueSynchronizationContext(_Fiber);
+            _Dispatcher = new MonoThreadedFiberSynchronizationContext(_Fiber);
         }
 
         public void Dispose()
@@ -26,8 +26,8 @@ namespace EasyActor.Test.Fiber
         [Fact]
         public void Constructor_Throw_Exception_On_Null_Queue()
         {
-            MonoThreadedQueueSynchronizationContext res = null;
-            Action Do = () => res = new MonoThreadedQueueSynchronizationContext(null);
+            MonoThreadedFiberSynchronizationContext res = null;
+            Action Do = () => res = new MonoThreadedFiberSynchronizationContext(null);
 
             Do.ShouldThrow<ArgumentNullException>();
         }
@@ -88,14 +88,14 @@ namespace EasyActor.Test.Fiber
             var cloned = _Dispatcher.CreateCopy();
 
             //assert
-            cloned.Should().BeAssignableTo<MonoThreadedQueueSynchronizationContext>();
+            cloned.Should().BeAssignableTo<MonoThreadedFiberSynchronizationContext>();
         }
 
         [Fact]
         public void CreateCopy_Should_Return_A_DispatcherSynchronizationContext_Conected_ToSameQueue()
         {
             //arrange
-            var cloned = (MonoThreadedQueueSynchronizationContext)_Dispatcher.CreateCopy();
+            var cloned = (MonoThreadedFiberSynchronizationContext)_Dispatcher.CreateCopy();
 
             //assert
             cloned.IsSame(_Dispatcher).Should().BeTrue();

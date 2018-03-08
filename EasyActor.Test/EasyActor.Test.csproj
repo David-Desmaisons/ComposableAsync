@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="ActorContextTest.cs" />
     <Compile Include="Fiber\MonoThreadedFiberBaseTest.cs" />
+    <Compile Include="Fiber\ThreadPoolFiberTest.cs" />
     <Compile Include="TaskPoolActorFactoryTest.cs" />
     <Compile Include="ActorFactoryBuilderTest.cs" />
     <Compile Include="ActorFactoryTest.cs" />

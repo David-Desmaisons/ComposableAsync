@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -15,10 +16,9 @@ namespace EasyActor.Flow.Sample
         {
             public async Task<string> Transform(double message,  IProgress<int> progress, CancellationToken cancelationToken)
             {
-                return message.ToString();
+                return message.ToString(CultureInfo.InvariantCulture);
             }
         }
-
 
         private class Parser : IProcessor<bool, string, int>
         {
@@ -42,7 +42,7 @@ namespace EasyActor.Flow.Sample
             }
         }
 
-        private IBackbone<bool, int> _BackBone;
+        private readonly IBackbone<bool, int> _BackBone;
 
         public CreatingPipeline()
         {

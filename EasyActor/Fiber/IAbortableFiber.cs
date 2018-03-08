@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace EasyActor.Fiber
 {
-    public interface IAbortableFiber : IFiber
+    public interface IAbortableFiber : IStopableFiber
     {
         Task Abort(Func<Task> cleanup);
     }

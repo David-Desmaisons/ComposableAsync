@@ -25,6 +25,7 @@ namespace EasyActor.Examples
             yield return new object[] { new ActorFactory() };
             yield return new object[] { new SharedThreadActorFactory() };
             yield return new object[] { new TaskPoolActorFactory() };
+            yield return new object[] { new ActorTheadPoolFactory() };        
         }
 
         [Theory]

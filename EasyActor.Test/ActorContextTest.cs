@@ -116,7 +116,7 @@ namespace EasyActor.Test
             res.Should().NotBeNull();
             res.Should().BeOfType<SynchronizationContextTaskScheduler>();
             var ressync = res as SynchronizationContextTaskScheduler;
-            ressync.SynchronizationContext.Should().BeAssignableTo<MonoThreadedQueueSynchronizationContext>();
+            ressync.SynchronizationContext.Should().BeAssignableTo<MonoThreadedFiberSynchronizationContext>();
         }
 
         [Fact]

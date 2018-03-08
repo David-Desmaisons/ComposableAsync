@@ -3,11 +3,11 @@ using System.Threading;
 
 namespace EasyActor.Fiber
 {
-    public sealed class MonoThreadedQueueSynchronizationContext : SynchronizationContext
+    public sealed class MonoThreadedFiberSynchronizationContext : SynchronizationContext
     {
         private readonly IMonoThreadFiber _Dispatcher;
 
-        public MonoThreadedQueueSynchronizationContext(IMonoThreadFiber dispatcher)
+        public MonoThreadedFiberSynchronizationContext(IMonoThreadFiber dispatcher)
         {
             if (dispatcher == null)
                 throw new ArgumentNullException(nameof(dispatcher));
@@ -27,14 +27,14 @@ namespace EasyActor.Fiber
             _Dispatcher.Enqueue(() => d(state));
         }
 
-        public bool IsSame(MonoThreadedQueueSynchronizationContext iother)
+        public bool IsSame(MonoThreadedFiberSynchronizationContext iother)
         {
             return _Dispatcher == iother._Dispatcher;
         }
 
         public override SynchronizationContext CreateCopy()
         {
-            return new MonoThreadedQueueSynchronizationContext(_Dispatcher);
+            return new MonoThreadedFiberSynchronizationContext(_Dispatcher);
         }
     }
 }

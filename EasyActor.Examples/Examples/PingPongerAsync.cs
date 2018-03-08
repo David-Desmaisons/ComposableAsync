@@ -6,7 +6,7 @@ namespace EasyActor.Examples
     internal class PingPongerAsync : IPingPongerAsync
     {
         public int Count { get; set; }
-        public string Name { get; private set; }
+        public string Name { get; }
 
         internal IPingPongerAsync PongerAsync { get; set; }
 

@@ -7,7 +7,7 @@ namespace EasyActor.FlowTest
 {
     public class ObservableHelper
     {
-        private HashSet<IObserver<string>> _observers = new HashSet<IObserver<string>>();
+        private readonly HashSet<IObserver<string>> _Observers = new HashSet<IObserver<string>>();
 
         public IObservable<string> GetObservable()
         {
@@ -16,13 +16,13 @@ namespace EasyActor.FlowTest
                 {
                     lock (this)
                     {
-                        _observers.Add(observer);
+                        _Observers.Add(observer);
                     }
                     return Disposable.Create(() =>
                     {
                         lock (this)
                         {
-                            _observers.Remove(observer);
+                            _Observers.Remove(observer);
                         }
                     });
                 });
@@ -30,7 +30,7 @@ namespace EasyActor.FlowTest
 
         public void Observe(string observed)
         {
-            OnObserved(obs => obs.OnNext(observed), () => _observers.Clear());
+            OnObserved(obs => obs.OnNext(observed), () => _Observers.Clear());
         }
 
         public void OnEnd()
@@ -42,7 +42,7 @@ namespace EasyActor.FlowTest
         {
             lock (this)
             {
-                foreach (var obs in _observers)
+                foreach (var obs in _Observers)
                 {
                     action(obs);
                 }

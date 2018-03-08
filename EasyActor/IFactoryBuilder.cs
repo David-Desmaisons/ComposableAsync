@@ -22,6 +22,11 @@ namespace EasyActor
         /// <summary>
         /// Returns an actor factory corresponding to the given ActorFactorType
         /// </summary>
+        IActorFactory GetThreadPoolFactory();
+
+        /// <summary>
+        /// Returns an actor factory corresponding to the given ActorFactorType
+        /// </summary>
         IActorFactory GetTaskBasedFactory();       
         
         /// <summary>

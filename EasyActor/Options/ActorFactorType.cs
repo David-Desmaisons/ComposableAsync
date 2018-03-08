@@ -16,6 +16,11 @@
         TaskPool,
 
         /// <summary>
+        /// Thread Pool factory, actors will be executed on a thread from the thread pool.
+        /// </summary>
+        ThreadPool,
+
+        /// <summary>
         /// Shared factory, all created actors share the same thread.
         /// </summary>
         Shared,

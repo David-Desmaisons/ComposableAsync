@@ -14,6 +14,11 @@ namespace EasyActor
             return new ActorFactory(onCreate);
         }
 
+        public IActorFactory GetThreadPoolFactory()
+        {
+            return new ActorTheadPoolFactory();
+        }
+
         public IActorFactory GetInContextFactory()
         {
             return new SynchronizationContextFactory();

@@ -16,14 +16,14 @@ namespace EasyActor.FlowTest
 
     public class BackBoneTest: IDisposable
     {
-        private IBackbone<bool, int> _BackBone;
-        private IDictionary<Type, object> _Processors = new Dictionary<Type, object>();
-        private IProcessor<bool, string, int> _StringProcessor;
-        private IProcessor<bool, int, int> _IntProcessor;
-        private IProgress<int> _Progess;
-        private CancellationToken _CancellationToken;
-        private IObservable<string> _SingleValue;
-        private ObservableHelper _ObservableHelper;
+        private readonly IBackbone<bool, int> _BackBone;
+        private readonly IDictionary<Type, object> _Processors;
+        private readonly IProcessor<bool, string, int> _StringProcessor;
+        private readonly IProcessor<bool, int, int> _IntProcessor;
+        private readonly IProgress<int> _Progess;
+        private readonly CancellationToken _CancellationToken;
+        private readonly IObservable<string> _SingleValue;
+        private readonly ObservableHelper _ObservableHelper;
 
         public BackBoneTest()
         {

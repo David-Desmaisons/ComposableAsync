@@ -2,8 +2,10 @@
 
 namespace EasyActor.Fiber
 {
-    public interface IMonoThreadFiber : IFiber, IDisposable
+    public interface IMonoThreadFiber : IAbortableFiber, IDisposable
     {
+        int EnqueuedTasksNumber { get; }
+
         void Send(Action action);
     }
 }
