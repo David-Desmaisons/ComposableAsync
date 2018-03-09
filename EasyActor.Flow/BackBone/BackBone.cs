@@ -11,8 +11,8 @@ namespace EasyActor.Flow.BackBone
     internal class BackBone<TRes, TProgress> : IBackbone<TRes, TProgress>
     {
         private readonly IDictionary<Type, object> _Processors;
-        private Lazy<CompositeDisposable> _Disposable = new Lazy<CompositeDisposable>();
-        private CancellationTokenSource _CancellationTokenSource = new CancellationTokenSource();
+        private readonly Lazy<CompositeDisposable> _Disposable = new Lazy<CompositeDisposable>();
+        private readonly CancellationTokenSource _CancellationTokenSource = new CancellationTokenSource();
         private event EventHandler<object> _OnElement;
 
         internal BackBone(IDictionary<Type, object> processors)
@@ -25,7 +25,7 @@ namespace EasyActor.Flow.BackBone
             if (_CancellationTokenSource.IsCancellationRequested)
                 return Disposable.Empty;
 
-            var disp = source.Subscribe(async message => await Process(message, null, _CancellationTokenSource.Token));
+            var disp = source.Subscribe(async message => await Process(message, null, CancellationToken.None));
             _Disposable.Value.Add(disp);
             return disp;
         }
@@ -57,7 +57,7 @@ namespace EasyActor.Flow.BackBone
                 }
                 catch (KeyNotFoundException)
                 {
-                    throw new ArgumentException(string.Format("No processor found for message {0}. Use register on BackBone builder to register processor.", messageType));
+                    throw new ArgumentException($"No processor found for message {messageType}. Use register on BackBone builder to register processor.");
                 }
             }
         }

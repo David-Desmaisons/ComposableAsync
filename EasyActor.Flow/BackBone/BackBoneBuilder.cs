@@ -27,7 +27,7 @@ namespace EasyActor.Flow.BackBone
             }
             catch(ArgumentException)
             {
-                throw new ArgumentException("processor", string.Format( "A processor of same message type ({0}) has already been registered!", messageType));
+                throw new ArgumentException($"A processor of same message type ({messageType}) has already been registered!", nameof(processor));
             }
         }
 
