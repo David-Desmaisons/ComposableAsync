@@ -2,21 +2,8 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace EasyActor.Fiber
+namespace EasyActor.Fiber.WorkItems
 {
-    internal class DispatchItem : IWorkItem
-    {
-        private readonly Action _Do;
-        public DispatchItem(Action @do)
-        {
-            _Do = @do;
-        }
-
-        public void Cancel() {}
-
-        public void Do() => _Do();
-    }
-
     internal class WorkItem<T> : IWorkItem
     {
         private readonly TaskCompletionSource<T> _Source;
@@ -46,13 +33,6 @@ namespace EasyActor.Fiber
             {
                 _Source.TrySetException(e);
             }
-        }
-    }
-
-    internal class ActionWorkItem : WorkItem<object>, IWorkItem
-    {
-        public ActionWorkItem(Action @do) : base(() => { @do(); return null; })
-        {
         }
     }
 }

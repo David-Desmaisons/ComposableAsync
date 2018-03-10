@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using EasyActor.Fiber.Scheduler;
+using EasyActor.Fiber.WorkItems;
 using EasyActor.TaskHelper;
 
 namespace EasyActor.Fiber

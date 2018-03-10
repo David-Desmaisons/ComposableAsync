@@ -7,6 +7,7 @@ using NSubstitute;
 
 using EasyActor.TaskHelper;
 using System.Threading;
+using EasyActor.Fiber.Scheduler;
 using Xunit;
 
 namespace EasyActor.Test.TaskHelper

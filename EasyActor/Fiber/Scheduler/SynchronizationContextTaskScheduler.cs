@@ -4,7 +4,7 @@ using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EasyActor.TaskHelper
+namespace EasyActor.Fiber.Scheduler
 {   
     /// <summary>
     /// Adapted from http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/TaskScheduler.cs,30e7d3d352bbb730
@@ -16,7 +16,7 @@ namespace EasyActor.TaskHelper
         public SynchronizationContextTaskScheduler(SynchronizationContext synContext)
         {
             if (synContext == null)
-                throw new ArgumentNullException("synContext can not be null");
+                throw new ArgumentNullException(nameof(synContext),"synContext can not be null");
  
             _SynchronizationContext = synContext;
         }

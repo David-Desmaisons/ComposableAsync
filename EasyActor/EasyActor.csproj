@@ -47,6 +47,7 @@
     <Compile Include="Factories\ActorTheadPoolFactory.cs" />
     <Compile Include="Factories\TaskPoolActorFactory.cs" />
     <Compile Include="Fiber\ThreadPoolFiber.cs" />
+    <Compile Include="Fiber\WorkItems\ActionWorkItem.cs" />
     <Compile Include="Helper\TypeHelper.cs" />
     <Compile Include="IActorLifeCycle.cs" />
     <Compile Include="Options\ActorFactorType.cs" />
@@ -80,11 +81,13 @@
     <Compile Include="Fiber\MonoThreadedFiber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Fiber\IWorkItem.cs" />
-    <Compile Include="Fiber\MonoThreadSynchronizationContext.cs" />
-    <Compile Include="Fiber\AsyncWorkItem.cs" />
-    <Compile Include="Fiber\WorkItem.cs" />
+    <Compile Include="Fiber\Context\MonoThreadSynchronizationContext.cs" />
+    <Compile Include="Fiber\WorkItems\AsyncActionWorkItem.cs" />
+    <Compile Include="Fiber\WorkItems\AsyncWorkItem.cs" />
+    <Compile Include="Fiber\WorkItems\DispatchItem.cs" />
+    <Compile Include="Fiber\WorkItems\WorkItem.cs" />
     <Compile Include="Factories\SynchronizationContextFactory.cs" />
-    <Compile Include="TaskHelper\SynchronizationContextTaskScheduler.cs" />
+    <Compile Include="Fiber\Scheduler\SynchronizationContextTaskScheduler.cs" />
     <Compile Include="TaskHelper\TaskDescription.cs" />
     <Compile Include="TaskHelper\TaskBuilder.cs" />
     <Compile Include="TaskHelper\TypeExtension.cs" />

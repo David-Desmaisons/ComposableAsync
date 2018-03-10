@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace EasyActor.Fiber
+namespace EasyActor.Fiber.WorkItems
 {
     internal class AsyncWorkItem<T> : IWorkItem
     {
@@ -31,14 +31,6 @@ namespace EasyActor.Fiber
             {
                 _Source.TrySetException(e);
             }
-        }
-    }
-
-    internal class AsyncActionWorkItem : AsyncWorkItem<object>, IWorkItem 
-    {
-        public AsyncActionWorkItem(Func<Task> @do)
-            : base(async () => { await @do(); return null; })
-        {
         }
     }
 }

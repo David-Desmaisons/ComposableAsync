@@ -6,6 +6,7 @@ using FluentAssertions;
 using System.Threading;
 using EasyActor.Factories;
 using EasyActor.Fiber;
+using EasyActor.Fiber.Scheduler;
 using EasyActor.Test.TestInfra.DummyClass;
 using EasyActor.Test.TestInfra.WPFThreading;
 using Xunit;
