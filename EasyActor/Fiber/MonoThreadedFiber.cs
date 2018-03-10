@@ -16,7 +16,7 @@ namespace EasyActor.Fiber
         private AsyncActionWorkItem _Clean;
         private bool _Running = false;
 
-        public MonoThreadedFiber(Action<Thread> onCreate=null)
+        public MonoThreadedFiber(Action<Thread> onCreate = null)
         {
             _Cts = new CancellationTokenSource();
 
@@ -34,7 +34,7 @@ namespace EasyActor.Fiber
 
         public void Send(Action action)
         {
-            if (Thread.CurrentThread==_Current)
+            if (Thread.CurrentThread == _Current)
             {
                 action();
                 return;
@@ -63,14 +63,14 @@ namespace EasyActor.Fiber
                 _TaskQueue.Add(workitem);
                 return workitem.Task;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return TaskBuilder<T>.Cancelled;
             }
         }
 
         public Task<T> Enqueue<T>(Func<T> action)
-        { 
+        {
             var workitem = new WorkItem<T>(action);
             try
             {
@@ -80,7 +80,7 @@ namespace EasyActor.Fiber
             catch (Exception)
             {
                 return TaskBuilder<T>.Cancelled;
-            } 
+            }
         }
 
         public void Dispatch(Action action)
@@ -98,7 +98,7 @@ namespace EasyActor.Fiber
 
         public Task Enqueue(Action action)
         {
-            return Enqueue( new ActionWorkItem(action) );
+            return Enqueue(new ActionWorkItem(action));
         }
 
         public Task Enqueue(Func<Task> action)
@@ -106,25 +106,25 @@ namespace EasyActor.Fiber
             return Enqueue(new AsyncActionWorkItem(action));
         }
 
-        public Task<T> Enqueue<T>( Func<Task<T>> action)
+        public Task<T> Enqueue<T>(Func<Task<T>> action)
         {
             return Enqueue(new AsyncWorkItem<T>(action));
         }
-     
-        private void StopQueueing() 
+
+        private void StopQueueing()
         {
             try
             {
                 _Cts.Cancel();
                 _TaskQueue.CompleteAdding();
             }
-            catch(ObjectDisposedException)
+            catch (ObjectDisposedException)
             {
             }
         }
 
         public Task Stop(Func<Task> cleanup)
-        {  
+        {
             _Clean = new AsyncActionWorkItem(cleanup);
             _TaskQueue.CompleteAdding();
             return _Clean.Task;
@@ -165,7 +165,7 @@ namespace EasyActor.Fiber
         }
 
         private SynchronizationContext _SynchronizationContext;
-        private SynchronizationContext SynchronizationContext => 
+        private SynchronizationContext SynchronizationContext =>
             _SynchronizationContext ?? (_SynchronizationContext = new MonoThreadedFiberSynchronizationContext(this));
 
         public TaskScheduler TaskScheduler => new SynchronizationContextTaskScheduler(SynchronizationContext);
