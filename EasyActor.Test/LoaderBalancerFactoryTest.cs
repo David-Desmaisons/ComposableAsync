@@ -1,24 +1,28 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
 using FluentAssertions;
- 
+
 using System.Threading;
 using EasyActor.Factories;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace EasyActor.Test
-{   
+{
     public class LoadBalancerFactoryTest
     {
         private LoadBalancerFactory _Factory;
         private readonly Func<DummyClass> _Fact;
         private readonly DummyClassFactory _DummyFactory;
+        private readonly ITestOutputHelper _Output;
 
-        public LoadBalancerFactoryTest()
+        public LoadBalancerFactoryTest(ITestOutputHelper output)
         {
+            _Output = output;
             _DummyFactory = new DummyClassFactory();
             _Fact = _DummyFactory.Factory;
             _Factory = new LoadBalancerFactory(BalancingOption.MinizeObjectCreation);
@@ -27,7 +31,7 @@ namespace EasyActor.Test
         [Fact]
         public void ShouldCreateBasicLB()
         {
-            var target = _Factory.Build<IDummyInterface2>(_Fact,2);
+            var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
 
             target.Should().NotBeNull();
         }
@@ -40,7 +44,7 @@ namespace EasyActor.Test
             Action Do = () => _Factory.Build<IDummyInterface2>(_Fact, parrallelism);
             Do.ShouldThrow<ArgumentOutOfRangeException>();
         }
-     
+
         [Fact]
         public async Task ShouldDelegateToPoco()
         {
@@ -52,7 +56,7 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public async Task MinizeObjectCreation_Should_Create_Poco_IfNeeded_Simultaneous() 
+        public async Task MinizeObjectCreation_Should_Create_Poco_IfNeeded_Simultaneous()
         {
             var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
             await Task.WhenAll(target.SlowDoAsync(), target.SlowDoAsync());
@@ -61,10 +65,10 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public async Task MinizeObjectCreation_Should_Create_Poco_IfNeeded() 
+        public async Task MinizeObjectCreation_Should_Create_Poco_IfNeeded()
         {
             var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
-            var t1= target.SlowDoAsync();
+            var t1 = target.SlowDoAsync();
             Thread.Sleep(200);
             var t2 = target.SlowDoAsync();
             await Task.WhenAll(t1, t2);
@@ -85,7 +89,7 @@ namespace EasyActor.Test
             var t4 = target.SlowDoAsync();
             Thread.Sleep(200);
             var t5 = target.SlowDoAsync();
-            await Task.WhenAll(t1, t2,t3,t4,t5);
+            await Task.WhenAll(t1, t2, t3, t4, t5);
 
             _DummyFactory.Created.Should().Be(2);
         }
@@ -154,7 +158,7 @@ namespace EasyActor.Test
 
             try
             {
-                await Task.WhenAll(t1,t2,t3,t4);
+                await Task.WhenAll(t1, t2, t3, t4);
             }
             catch
             {
@@ -193,22 +197,26 @@ namespace EasyActor.Test
 
             ThreadStart ts = () => Start(target);
 
-            var treads = Enumerable.Range(0,100).Select(i => new Thread(ts)).ToList();
+            var treads = Enumerable.Range(0, 100).Select(i => new Thread(ts)).ToList();
+            var watch = Stopwatch.StartNew();
             treads.ForEach(t => t.Start());
             treads.ForEach(t => t.Join());
+            watch.Stop();
+            _Output.WriteLine($"Time spend: {watch.ElapsedMilliseconds} ms");
+
+            var targetTime = 400 + (100 / 5) * 1000;
+            _Output.WriteLine($"Overhead: {watch.ElapsedMilliseconds - targetTime} ms");
 
             _DummyFactory.Created.Should().Be(5);
 
-            int j = 0;
+            var j = 0;
             foreach (var ob in _DummyFactory.DummyClasses)
             {
-                Console.WriteLine("actor {0}: {1}",j++,ob.SlowDoAsyncCount);
+                _Output.WriteLine($"actor {j++}: {ob.SlowDoAsyncCount}");
             }
 
             var count = _DummyFactory.DummyClasses.Select(o => o.SlowDoAsyncCount).Max();
-            
-            count.Should().BeLessOrEqualTo(21);
-            count.Should().BeGreaterOrEqualTo(19);
+            count.Should().BeOneOf(19, 20, 21);
         }
 
         private void Start(IDummyInterface2 dummy)

@@ -5,7 +5,6 @@ namespace EasyActor.Helper
     internal static class TypeHelper
     {
         public static readonly Type ActorCompleteLifeCycleType = typeof(IActorCompleteLifeCycle);
-
         public static readonly Type ActorLifeCycleType = typeof(IActorLifeCycle);
 
         public static bool IsActorCompleteLifeCycleTypeOrBase(Type type)

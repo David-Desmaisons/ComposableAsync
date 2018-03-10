@@ -31,9 +31,9 @@ namespace EasyActor.Proxy
             _BalancingOption = balancingOption;
         }
 
-        private Tuple<int,T> GetBestActor()
+        private Tuple<int, T> GetBestActor()
         {
-            return  _Actors.Select(act => new Tuple<int,T>(act.Item2.EnqueuedTasksNumber, act.Item1))
+            return _Actors.Select(act => new Tuple<int, T>(act.Item2.EnqueuedTasksNumber, act.Item1))
                                     .OrderBy(act => act.Item1).FirstOrDefault();
         }
 
@@ -46,31 +46,19 @@ namespace EasyActor.Proxy
 
         private T GetCorrectActor()
         {
-            var alreadyfull = _Actors.Count == _ParrallelLimitation;
-            var candidate = GetBestActor();
-
-            if ((candidate != null) && (alreadyfull))
-            {
-                return candidate.Item2;
-            }
-
-            lock (_Syncobject) 
+            lock (_Syncobject)
             {
                 if (_IsCancelled)
                     return null;
 
-                //check again for fullness under lock for thread safety 
-                if (_Actors.Count==_ParrallelLimitation)
+                if (_Actors.Count == _ParrallelLimitation)
                     return GetBestActor().Item2;
 
-                if (_BalancingOption==BalancingOption.PreferParralelism)
-                        return CreateNewActor();
+                if (_BalancingOption == BalancingOption.PreferParralelism)
+                    return CreateNewActor();
 
                 var best = GetBestActor();
-                if ((best!=null) && (best.Item1 == 0))
-                    return best.Item2;
-
-                return CreateNewActor();
+                return best?.Item1 == 0 ? best.Item2 : CreateNewActor();
             }
         }
 
@@ -95,7 +83,7 @@ namespace EasyActor.Proxy
             }
 
             var actor = GetCorrectActor();
-            invocation.ReturnValue = actor!=null ? invocation.CallOn(actor) : TaskBuilder.GetCancelled(invocation.Method.ReturnType);
+            invocation.ReturnValue = actor != null ? invocation.CallOn(actor) : TaskBuilder.GetCancelled(invocation.Method.ReturnType);
         }
     }
 }

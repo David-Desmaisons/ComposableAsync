@@ -21,7 +21,7 @@ namespace EasyActor.Factories
         public T Build<T>(Func<T> concrete, int parrallelLimitation) where T : class
         {
             if (parrallelLimitation <= 0)
-                throw new ArgumentOutOfRangeException("ParrallelLimitation should be positive");
+                throw new ArgumentOutOfRangeException(nameof(parrallelLimitation),"ParrallelLimitation should be positive");
 
             var interceptors = new IInterceptor[] { new LoadBalanderInterceptor<T>(concrete, _BalancingOption, 
                                                         _ActorFactory, parrallelLimitation) };
