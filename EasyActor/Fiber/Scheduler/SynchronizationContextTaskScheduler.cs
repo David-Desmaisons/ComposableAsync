@@ -5,19 +5,19 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace EasyActor.Fiber.Scheduler
-{   
+{
     /// <summary>
     /// Adapted from http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/TaskScheduler.cs,30e7d3d352bbb730
     /// </summary>
-    internal class SynchronizationContextTaskScheduler :  TaskScheduler
+    internal sealed class SynchronizationContextTaskScheduler : TaskScheduler
     {
         private readonly SynchronizationContext _SynchronizationContext;
-     
+
         public SynchronizationContextTaskScheduler(SynchronizationContext synContext)
         {
             if (synContext == null)
-                throw new ArgumentNullException(nameof(synContext),"synContext can not be null");
- 
+                throw new ArgumentNullException(nameof(synContext), "synContext can not be null");
+
             _SynchronizationContext = synContext;
         }
 
@@ -28,13 +28,13 @@ namespace EasyActor.Fiber.Scheduler
         {
             _SynchronizationContext.Post(PostCallback, task);
         }
-      
+
         [SecurityCritical]
         protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
         {
             return (SynchronizationContext.Current == _SynchronizationContext) && TryExecuteTask(task);
         }
- 
+
         [SecurityCritical]
         protected override IEnumerable<Task> GetScheduledTasks()
         {
