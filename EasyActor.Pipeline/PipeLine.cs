@@ -4,19 +4,19 @@ namespace EasyActor.Pipeline
 {
     public static class PipeLine
     {
-        public static IPipeline<Tin, Tout> Create<Tin, Tout>(ITransformer<Tin, Tout> Init)
+        public static IPipeline<TIn, TOut> Create<TIn, TOut>(ITransformer<TIn, TOut> init)
         {
-            return new Pipeline<Tin, Tout>(Init);
+            return new Pipeline<TIn, TOut>(init);
         }
 
-        public static IPipeline<Tin, Tout> Create<Tin, Tout>(Func<Tin, Tout> transform)
+        public static IPipeline<TIn, TOut> Create<TIn, TOut>(Func<TIn, TOut> transform)
         {
             return Create(Transformer.Create(transform));
         }
 
-        public static IPipeline<Tin, Tout> Create<Tin, Tout>(Func<Tin, Tout> transform, int MaxParallelism)
+        public static IPipeline<TIn, TOut> Create<TIn, TOut>(Func<TIn, TOut> transform, int maxParallelism)
         {
-            return Create(Transformer.Create(transform, MaxParallelism));
+            return Create(Transformer.Create(transform, maxParallelism));
         }
 
         public static IClosedPipeline<T> Create<T>(IConsumer<T> transform)
@@ -29,29 +29,29 @@ namespace EasyActor.Pipeline
             return Create<T>(Consumer.Create(transform));
         }
 
-        public static IClosedPipeline<T> Create<T>(Action<T> transform, int MaxParallelism)
+        public static IClosedPipeline<T> Create<T>(Action<T> transform, int maxParallelism)
         {
-            return Create<T>(Consumer.Create(transform, MaxParallelism));
+            return Create<T>(Consumer.Create(transform, maxParallelism));
         }
 
-        public static IPipeline<Tin, Tnext> Next<Tin, Tout, Tnext>(this IPipeline<Tin, Tout> @this, Func<Tout, Tnext> transform)
+        public static IPipeline<TIn, TNext> Next<TIn, TOut, TNext>(this IPipeline<TIn, TOut> @this, Func<TOut, TNext> transform)
         {
             return @this.Next(Transformer.Create(transform));
         }
 
-        public static IClosedPipeline<Tin> Next<Tin, Tout>(this IPipeline<Tin, Tout> @this, Action<Tout> transform)
+        public static IClosedPipeline<TIn> Next<TIn, TOut>(this IPipeline<TIn, TOut> @this, Action<TOut> transform)
         {
             return @this.Next(Consumer.Create(transform));
         }
 
-        public static IPipeline<Tin, Tnext> Next<Tin, Tout, Tnext>(this IPipeline<Tin, Tout> @this, Func<Tout, Tnext> transform, int MaxParallelism)
+        public static IPipeline<TIn, TNext> Next<TIn, TOut, TNext>(this IPipeline<TIn, TOut> @this, Func<TOut, TNext> transform, int MaxParallelism)
         {
             return @this.Next(Transformer.Create(transform, MaxParallelism));
         }
 
-        public static IClosedPipeline<Tin> Next<Tin, Tout>(this IPipeline<Tin, Tout> @this, Action<Tout> transform, int MaxParallelism)
+        public static IClosedPipeline<TIn> Next<TIn, TOut>(this IPipeline<TIn, TOut> @this, Action<TOut> transform, int maxParallelism)
         {
-            return @this.Next(Consumer.Create(transform, MaxParallelism));
+            return @this.Next(Consumer.Create(transform, maxParallelism));
         }
     }
 }

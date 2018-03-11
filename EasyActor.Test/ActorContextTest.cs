@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
- 
+
 using EasyActor.TaskHelper;
 using FluentAssertions;
 using System.Threading;
@@ -13,8 +14,8 @@ using Xunit;
 
 namespace EasyActor.Test
 {
-     
-    public class ActorContextTest
+
+    public class ActorContextTest : IDisposable
     {
         private IDummyInterface2 _Interface;
         private DummyClass _Proxified;
@@ -26,6 +27,11 @@ namespace EasyActor.Test
             var factory = new ActorFactory();
             _Proxified = new DummyClass();
             _Interface = factory.Build<IDummyInterface2>(_Proxified);
+        }
+
+        public void Dispose()
+        {
+            (_Interface as IActorLifeCycle)?.Stop().Wait();
         }
 
         [Fact]
@@ -59,17 +65,18 @@ namespace EasyActor.Test
 
             //act
             var res = _ActorContext.GetTaskFactory(_Proxified);
-            Thread tfthread = await res.StartNew(()=> Thread.CurrentThread);
+            Thread tfthread = await res.StartNew(() => Thread.CurrentThread);
 
             //assert
             tfthread.Should().NotBeNull();
             tfthread.Should().Be(_Proxified.CallingThread);
         }
 
-      
+
         [Fact]
         public async Task TaskFactory_Should_Return_TaskFactory_Compatible_With_Proxy_Thread_SynchronizationContextFactory_Context()
-        {
+        { 
+            Dispose();
             //arrange
             var UIMessageLoop = new WpfThreadingHelper();
             UIMessageLoop.Start().Wait();
@@ -123,6 +130,7 @@ namespace EasyActor.Test
         [Fact]
         public void GetTaskScheduler_Should_Return_SynchronizationContext_Compatible_With_Proxy_Thread_SynchronizationContextFactory_Context()
         {
+            Dispose();
             //arrange
             var UIMessageLoop = new WpfThreadingHelper();
             UIMessageLoop.Start().Wait();
@@ -134,8 +142,8 @@ namespace EasyActor.Test
 
             //act
             var res = _ActorContext.GetTaskScheduler(_Proxified);
-            var uisc = UIMessageLoop.Dispatcher.Invoke(()=>  SynchronizationContext.Current);
-         
+            var uisc = UIMessageLoop.Dispatcher.Invoke(() => SynchronizationContext.Current);
+
 
             //assert
             res.Should().NotBeNull();

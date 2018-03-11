@@ -1,11 +1,13 @@
-﻿namespace EasyActor.Pipeline
+﻿using EasyActor.Disposable;
+
+namespace EasyActor.Pipeline
 {
-    public interface IPipeline<Tin,Tout>
+    public interface IPipeline<TIn,TOut> : IAsyncDisposable
     {
-        IPipeline<Tin, Tnext> Next<Tnext>(ITransformer<Tout, Tnext> next);
+        IPipeline<TIn, TNext> Next<TNext>(ITransformer<TOut, TNext> next);
 
-        IClosedPipeline<Tin> Next(IConsumer<Tout> next);
+        IClosedPipeline<TIn> Next(IConsumer<TOut> next);
 
-        IClosedPipeline<Tin> Next(params IConsumer<Tout>[] next);
+        IClosedPipeline<TIn> Next(params IConsumer<TOut>[] next);
     }
 }

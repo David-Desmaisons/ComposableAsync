@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using EasyActor.Disposable;
 
 namespace EasyActor
 {

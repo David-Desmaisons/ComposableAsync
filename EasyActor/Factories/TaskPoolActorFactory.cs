@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EasyActor.Disposable;
 using EasyActor.Fiber;
 using EasyActor.Helper;
 using EasyActor.Proxy;
+using EasyActor.TaskHelper;
 
 namespace EasyActor.Factories
 {
-    public class TaskPoolActorFactory : ActorFactoryBase, IActorFactory
+    public sealed class TaskPoolActorFactory : ActorFactoryBase, IActorFactory
     {
+        private IStopableFiber GetQueue() => TaskSchedulerFiber.GetFiber();
+
         public override ActorFactorType Type => ActorFactorType.TaskPool;
 
         private T Build<T>(T concrete, IStopableFiber queue) where T : class
@@ -19,7 +23,8 @@ namespace EasyActor.Factories
 
         public T Build<T>(T concrete) where T : class
         {
-            return Build<T>(concrete, GetQueue());
+            var cached = CheckInCache(concrete);
+            return cached ?? Build<T>(concrete, GetQueue());
         }
 
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
@@ -28,9 +33,8 @@ namespace EasyActor.Factories
             return queue.Enqueue(() => Build<T>(concrete(), queue));
         }
 
-        private IStopableFiber GetQueue()
-        {
-            return TaskSchedulerFiber.GetFiber();
-        }
+        public void Dispose() { }
+
+        public Task DisposeAsync() => TaskBuilder.Completed;
     }
 }

@@ -29,11 +29,14 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public void ShouldCreateBasicLB()
+        public async Task ShouldCreateBasicLB()
         {
             var target = _Factory.Build<IDummyInterface2>(_Fact, 2);
 
             target.Should().NotBeNull();
+
+            var stop = target as IActorCompleteLifeCycle;
+            await stop.Abort();
         }
 
         [Theory]
@@ -53,6 +56,9 @@ namespace EasyActor.Test
 
             res.Should().Be(23);
             _DummyFactory.Created.Should().Be(1);
+
+            var stop = target as IActorCompleteLifeCycle;
+            await stop.Abort();
         }
 
         [Fact]
@@ -62,6 +68,9 @@ namespace EasyActor.Test
             await Task.WhenAll(target.SlowDoAsync(), target.SlowDoAsync());
 
             _DummyFactory.Created.Should().Be(2);
+
+            var stop = target as IActorCompleteLifeCycle;
+            await stop.Abort();
         }
 
         [Fact]
@@ -74,6 +83,9 @@ namespace EasyActor.Test
             await Task.WhenAll(t1, t2);
 
             _DummyFactory.Created.Should().Be(2);
+
+            var stop = target as IActorCompleteLifeCycle;
+            await stop.Abort();
         }
 
         [Fact]
@@ -92,6 +104,9 @@ namespace EasyActor.Test
             await Task.WhenAll(t1, t2, t3, t4, t5);
 
             _DummyFactory.Created.Should().Be(2);
+
+            var stop = target as IActorCompleteLifeCycle;
+            await stop.Abort();
         }
 
         [Fact]
@@ -103,6 +118,9 @@ namespace EasyActor.Test
             await target.SlowDoAsync();
 
             _DummyFactory.Created.Should().Be(1);
+
+            var stop = target as IActorCompleteLifeCycle;
+            await stop.Abort();
         }
 
         [Fact]
@@ -115,6 +133,9 @@ namespace EasyActor.Test
             await target.SlowDoAsync();
 
             _DummyFactory.Created.Should().Be(2);
+
+            var stop = target as IActorCompleteLifeCycle;
+            await stop.Abort();
         }
 
         [Fact]
@@ -188,16 +209,19 @@ namespace EasyActor.Test
             Action Do = () => target.SlowDoAsync().Wait();
 
             Do.ShouldThrow<TaskCanceledException>();
+
+            var stop = target as IActorCompleteLifeCycle;
+            await stop.Abort();
         }
 
         [Fact]
-        public void Stress_Paralellism()
+        public async Task Stress_Paralellism()
         {
             var target = _Factory.Build<IDummyInterface2>(_Fact, 5);
 
             ThreadStart ts = () => Start(target);
 
-            var treads = Enumerable.Range(0, 100).Select(i => new Thread(ts)).ToList();
+            var treads = Enumerable.Range(0, 100).Select(i => new Thread(ts) {Name = $"ThreadTest-{i}"}).ToList();
             var watch = Stopwatch.StartNew();
             treads.ForEach(t => t.Start());
             treads.ForEach(t => t.Join());
@@ -217,6 +241,9 @@ namespace EasyActor.Test
 
             var count = _DummyFactory.DummyClasses.Select(o => o.SlowDoAsyncCount).Max();
             count.Should().BeOneOf(19, 20, 21);
+
+            var stop = target as IActorCompleteLifeCycle;
+            await stop.Abort();
         }
 
         private void Start(IDummyInterface2 dummy)

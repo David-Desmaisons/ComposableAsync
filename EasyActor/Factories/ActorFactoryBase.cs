@@ -44,7 +44,7 @@ namespace EasyActor.Factories
             _Actors.Add(registered, actor);
         }
 
-        private T CheckInCache<T>(T concrete) where T : class
+        protected T CheckInCache<T>(T concrete) where T : class
         {
             var res = GetChachedActor(concrete);
             if (res == null)
@@ -70,10 +70,19 @@ namespace EasyActor.Factories
 
         protected T CreateIActorLifeCycle<T>(T concrete, IFiber fiber, Type addicionalType, params IInterceptor[] interceptor) where T : class
         {
+            var interceptors = new List<IInterceptor>(interceptor) { new FiberDispatcherInterceptor(fiber) };
+            var res = (T)_Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new[] { addicionalType }, concrete, interceptors.ToArray());
+            Register(concrete, res, fiber.TaskScheduler);
+            return res;
+        }
+
+        protected T CreateIActorLifeCycle<T>(T concrete, Func<IFiber> fiberBuilder, Type addicionalType, params IInterceptor[] interceptor) where T : class
+        {
             var cached = CheckInCache(concrete);
             if (cached != null)
                 return cached;
 
+            var fiber = fiberBuilder();
             var interceptors = new List<IInterceptor>(interceptor) { new FiberDispatcherInterceptor(fiber) };
             var res = (T)_Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new[] { addicionalType }, concrete, interceptors.ToArray());
             Register(concrete, res, fiber.TaskScheduler);

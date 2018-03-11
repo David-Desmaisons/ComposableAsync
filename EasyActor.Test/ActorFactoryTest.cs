@@ -34,6 +34,8 @@ namespace EasyActor.Test
             target.Done.Should().BeTrue();
             target.CallingThread.Should().NotBeNull();
             target.CallingThread.Should().NotBe(current);
+
+            await (intface as IActorLifeCycle).Stop();
         }
 
         [Fact]
@@ -48,6 +50,8 @@ namespace EasyActor.Test
             await intface.DoAsync();
 
             target.CallingThread.Should().Be(thread);
+
+            await (intface as IActorLifeCycle).Stop();
         }
 
         [Fact]
@@ -65,6 +69,9 @@ namespace EasyActor.Test
 
             //assert
             target1.CallingThread.Should().NotBe(target2.CallingThread);
+
+            await (intface1 as IActorLifeCycle).Stop();
+            await (intface2 as IActorLifeCycle).Stop();
         }
 
         [Fact]
@@ -73,32 +80,37 @@ namespace EasyActor.Test
             var target = new DummyClass();
             var intface = _Factory.Build<IDummyInterface2>(target);
 
-
             var res = await intface.DoAnRedoAsync();
 
             res.Item1.Should().Be(res.Item2);
+
+            await (intface as IActorLifeCycle).Stop();
         }
 
         [Fact]
-        public void Build_Should_CreateSameInterface_ForSamePOCO()
+        public async Task Build_Should_CreateSameInterface_ForSamePOCO()
         {
             var target = new DummyClass();
             var intface = _Factory.Build<IDummyInterface2>(target);
             var intface2 = _Factory.Build<IDummyInterface2>(target);
 
             intface.Should().BeSameAs(intface2);
+
+            await(intface as IActorLifeCycle).Stop();
         }
 
         [Fact]
-        public void Build_Should_Throw_Exception_IsSamePOCO_HasBeenUsedWithOtherFactory()
+        public async Task Build_Should_Throw_Exception_IsSamePOCO_HasBeenUsedWithOtherFactory()
         {
             var target = new DummyClass();
             var sharedFactory = new SharedThreadActorFactory();
-            sharedFactory.Build<IDummyInterface2>(target);
+            var intface = sharedFactory.Build<IDummyInterface2>(target);
 
             Action Do = () => _Factory.Build<IDummyInterface2>(target);
 
             Do.ShouldThrow<ArgumentException>().And.Message.Should().Contain("Shared");
+
+            await sharedFactory.DisposeAsync();
         }
 
         [Fact]
@@ -109,6 +121,8 @@ namespace EasyActor.Test
             await intface.SlowDoAsync();
 
             target.Done.Should().BeTrue();
+
+            await (intface as IActorLifeCycle).Stop();
         }
 
         [Fact]
@@ -123,15 +137,18 @@ namespace EasyActor.Test
             target.Done.Should().BeTrue();
             target.CallingThread.Should().NotBeNull();
             target.CallingThread.Should().NotBe(current);
+
+            await (intface as IActorLifeCycle).Stop();
         }
 
-
         [Fact]
-        public void Method_returning_void_Task_Should_Not_Throw_Exception()
+        public async Task Method_returning_void_Task_Should_Not_Throw_Exception()
         {
             var intface = _Factory.Build<IDummyInterface2>(new DummyClass());
             Action Do = () => intface.Do();
             Do.ShouldNotThrow();
+
+            await(intface as IActorLifeCycle).Stop();
         }
 
         [Fact]
@@ -145,20 +162,26 @@ namespace EasyActor.Test
             target.Done.Should().BeTrue();
             target.CallingConstructorThread.Should().NotBe(current);
             target.CallingConstructorThread.Should().Be(target.CallingThread);
+
+            await (intface as IActorLifeCycle).Stop();
         }
 
         [Fact]
-        public void Actor_Should_Implement_IActorLifeCycle_Even_If_Wrapped_Not_IDisposableAsync()
+        public async Task Actor_Should_Implement_IActorLifeCycle_Even_If_Wrapped_Not_IDisposableAsync()
         {
             var intface = _Factory.Build<IDummyInterface2>(new DummyClass());
             intface.Should().BeAssignableTo<IActorCompleteLifeCycle>();
+
+            await(intface as IActorLifeCycle).Stop();
         }
 
         [Fact]
-        public void Actor_Should_Implement_IActorLifeCycle()
+        public async Task Actor_Should_Implement_IActorLifeCycle()
         {
             var intface = _Factory.Build<IDummyInterface1>(new DisposableClass());
             intface.Should().BeAssignableTo<IActorCompleteLifeCycle>();
+
+            await(intface as IActorLifeCycle).Stop();
         }
 
         [Fact]

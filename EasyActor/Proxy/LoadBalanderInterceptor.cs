@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using EasyActor.TaskHelper;
-using EasyActor.Collections;
 using EasyActor.Factories;
 using EasyActor.Fiber;
 using EasyActor.Helper;
@@ -18,27 +17,45 @@ namespace EasyActor.Proxy
         private readonly int _ParrallelLimitation;
         private readonly BalancingOption _BalancingOption;
         private bool _IsCancelled = false;
+        private int _Count = 0;
 
-        private readonly ConcurrentBag<Tuple<T, IMonoThreadFiber>> _Actors = new ConcurrentBag<Tuple<T, IMonoThreadFiber>>();
+        private readonly List<Tuple<T, IMonoThreadFiber>> _Actors;
         private readonly ActorFactory _ActorFactory;
         private readonly object _Syncobject = new object();
 
         internal LoadBalanderInterceptor(Func<T> builder, BalancingOption balancingOption, ActorFactory actorFactory, int parrallelLimitation)
         {
+            _Actors = new List<Tuple<T, IMonoThreadFiber>>(parrallelLimitation);
             _Builder = builder;
             _ParrallelLimitation = parrallelLimitation;
             _ActorFactory = actorFactory;
             _BalancingOption = balancingOption;
         }
 
-        private Tuple<int, T> GetBestActor()
+        private T GetInactiveActor()
         {
-            return _Actors.Select(act => new Tuple<int, T>(act.Item2.EnqueuedTasksNumber, act.Item1))
-                                    .OrderBy(act => act.Item1).FirstOrDefault();
+            return _Actors.FirstOrDefault(act => act.Item2.EnqueuedTasksNumber == 0)?.Item1;
+        }
+
+        private T GetActorWithLessActivity()
+        {
+            T result = null;
+            var minTaskCount = 0;
+            foreach (var actor in _Actors)
+            {
+                var taskCount = actor.Item2.EnqueuedTasksNumber;
+                if ((result == null) || taskCount < minTaskCount)
+                {
+                    result = actor.Item1;
+                    minTaskCount = taskCount;
+                }
+            }
+            return result;
         }
 
         private T CreateNewActor()
         {
+            _Count++;
             var n = _ActorFactory.InternalBuildAsync<T>(_Builder).Result;
             _Actors.Add(n);
             return n.Item1;
@@ -51,14 +68,14 @@ namespace EasyActor.Proxy
                 if (_IsCancelled)
                     return null;
 
-                if (_Actors.Count == _ParrallelLimitation)
-                    return GetBestActor().Item2;
+                if (_Count == _ParrallelLimitation)
+                    return GetActorWithLessActivity();
 
                 if (_BalancingOption == BalancingOption.PreferParralelism)
                     return CreateNewActor();
 
-                var best = GetBestActor();
-                return best?.Item1 == 0 ? best.Item2 : CreateNewActor();
+                var best = GetInactiveActor();
+                return best ?? CreateNewActor();
             }
         }
 

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Reflection;
 using Castle.DynamicProxy;
+using EasyActor.Disposable;
 using EasyActor.Factories;
 using EasyActor.Fiber;
 using EasyActor.TaskHelper;

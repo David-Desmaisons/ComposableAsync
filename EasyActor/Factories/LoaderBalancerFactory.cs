@@ -17,7 +17,6 @@ namespace EasyActor.Factories
             _BalancingOption = option;
         }
 
-
         public T Build<T>(Func<T> concrete, int parrallelLimitation) where T : class
         {
             if (parrallelLimitation <= 0)

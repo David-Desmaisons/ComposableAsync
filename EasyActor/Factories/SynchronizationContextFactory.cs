@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using EasyActor.Fiber;
+using EasyActor.TaskHelper;
 
 namespace EasyActor.Factories
 {
@@ -9,14 +10,14 @@ namespace EasyActor.Factories
     {
         private readonly SynchronizationContextFiber _Context;
 
-        public SynchronizationContextFactory(): this(SynchronizationContext.Current)
+        public SynchronizationContextFactory() : this(SynchronizationContext.Current)
         {
         }
 
         public SynchronizationContextFactory(SynchronizationContext synchronizationContext)
         {
             if (synchronizationContext == null)
-                throw new ArgumentNullException("synchronizationContext can not be null");
+                throw new ArgumentNullException(nameof(synchronizationContext), "synchronizationContext can not be null");
 
             _Context = new SynchronizationContextFiber(synchronizationContext);
         }
@@ -25,12 +26,16 @@ namespace EasyActor.Factories
 
         public T Build<T>(T concrete) where T : class
         {
-            return Create(concrete, _Context); 
+            return Create(concrete, _Context);
         }
 
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
         {
             return _Context.Enqueue(() => Build<T>(concrete()));
         }
+
+        public void Dispose() { }
+
+        public Task DisposeAsync() => TaskBuilder.Completed;
     }
 }

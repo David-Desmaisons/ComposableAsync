@@ -127,9 +127,17 @@ namespace EasyActor.Fiber
 
         public Task Stop(Func<Task> cleanup)
         {
-            _Clean = new AsyncActionWorkItem(cleanup);
-            _TaskQueue.CompleteAdding();
-            return _Clean.Task;
+            try
+            {
+                _Clean = new AsyncActionWorkItem(cleanup);
+                _TaskQueue.CompleteAdding();
+                return _Clean.Task;
+            }
+            catch
+            {
+                return TaskBuilder.Completed;
+            }
+           
         }
 
         public Task Abort(Func<Task> cleanup)

@@ -96,6 +96,10 @@
       <Project>{af0325da-a330-4c41-b040-7be57f54f5d3}</Project>
       <Name>EasyActor.Pipeline</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EasyActor\EasyActor.csproj">
+      <Project>{487faea3-4503-4e5b-b10b-48b689dbf174}</Project>
+      <Name>EasyActor</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

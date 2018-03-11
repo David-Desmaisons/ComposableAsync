@@ -2,7 +2,7 @@
 
 namespace EasyActor.Pipeline
 {
-    public interface IConsumer<T>
+    public interface IConsumer<in T>
     {
         Task Consume(T entry);
     }

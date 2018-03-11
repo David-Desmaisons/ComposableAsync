@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorContext.cs" />
+    <Compile Include="Disposable\ActorDisposable.cs" />
+    <Compile Include="Disposable\AsyncDisposable.cs" />
     <Compile Include="Factories\ActorMonoTheadPoolFactory.cs" />
     <Compile Include="Factories\ActorTheadPoolFactory.cs" />
     <Compile Include="Factories\TaskPoolActorFactory.cs" />
@@ -74,7 +76,7 @@
     <Compile Include="Factories\ActorFactory.cs" />
     <Compile Include="IActorFactory.cs" />
     <Compile Include="IActorCompleteLifeCycle.cs" />
-    <Compile Include="IAsyncDisposable.cs" />
+    <Compile Include="Disposable\IAsyncDisposable.cs" />
     <Compile Include="Proxy\ActorLifeCycleInterceptor.cs" />
     <Compile Include="Proxy\InvocationExtension.cs" />
     <Compile Include="Proxy\FiberDispatcherInterceptor.cs" />

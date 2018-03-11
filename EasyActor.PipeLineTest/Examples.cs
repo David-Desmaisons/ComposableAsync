@@ -25,6 +25,10 @@ namespace EasyActor.PipeLineTest
             var final = pip.Next(print);
 
             await final.Consume(25);
+
+            await pip.DisposeAsync();
+            await final.DisposeAsync();
+            await final.DisposeAsync();
         }
 
         [Fact]
@@ -33,24 +37,37 @@ namespace EasyActor.PipeLineTest
             var pip = PipeLine.Create<int, int>(a => a * 2);
             var final = pip.Next(Console.WriteLine);
             await final.Consume(25);
+
+            await pip.DisposeAsync();
+            await final.DisposeAsync();
         }
 
         [Fact]
         public async Task Composition3()
         {
-            var pip = PipeLine.Create<int, int>(a => a * 2).Next(Console.WriteLine);
-            await pip.Consume(25);
-        }
+            var pip = PipeLine.Create<int, int>(a => a * 2);
+            var final = pip.Next(Console.WriteLine);
 
+            await final.Consume(25);
+
+            await pip.DisposeAsync();
+            await final.DisposeAsync();
+        }
 
         [Fact]
         public async Task Composition4()
         {
             Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
             var finaliser = PipeLine.Create<int>(i => _Output.WriteLine("{0} {1}", Thread.CurrentThread.ManagedThreadId, i));
-            await PipeLine.Create<int, int>(a => a * 2).Next(finaliser).Consume(25);
+            var first = PipeLine.Create<int, int>(a => a * 2);
+            var pipe = first.Next(finaliser);
+            await pipe.Consume(25);
 
             await finaliser.Consume(40);
+
+            await finaliser.DisposeAsync();
+            await pipe.DisposeAsync();
+            await first.DisposeAsync();
         }
 
         [Fact]
@@ -58,9 +75,17 @@ namespace EasyActor.PipeLineTest
         {
             Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
             var finaliser = PipeLine.Create<int>(i => _Output.WriteLine("{0} {1}", Thread.CurrentThread.ManagedThreadId, i));
-            await PipeLine.Create<int, int>(a => a * 2).Next(a => a - 2).Next(finaliser).Consume(25);
+            var first = PipeLine.Create<int, int>(a => a * 2);
+            var second = first.Next(a => a - 2);
+            var pipe = second.Next(finaliser);
+            await pipe.Consume(25);
 
             await finaliser.Consume(40);
+
+            await finaliser.DisposeAsync();
+            await first.DisposeAsync();
+            await second.DisposeAsync();
+            await pipe.DisposeAsync();
         }
 
         //                     ___ i => i * 3 -----> Console.WriteLine("1 - {0} {1}")
@@ -71,10 +96,23 @@ namespace EasyActor.PipeLineTest
         public async Task Composition6()
         {
             Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
-            var finaliser1 = PipeLine.Create<int, int>(i => i * 3).Next(i => _Output.WriteLine("1 - {0} {1}", Thread.CurrentThread.ManagedThreadId, i));
-            var finaliser2 = PipeLine.Create<int, int>(i => i * 5).Next(i => _Output.WriteLine("2 - {0} {1}", Thread.CurrentThread.ManagedThreadId, i));
+            var f1 = PipeLine.Create<int, int>(i => i * 3);
+            var finaliser1 = f1.Next(i => _Output.WriteLine("1 - {0} {1}", Thread.CurrentThread.ManagedThreadId, i));
 
-            await PipeLine.Create<int, int>(a => a * 2).Next(finaliser1, finaliser2).Consume(1);
+            var f2 = PipeLine.Create<int, int>(i => i * 5);
+            var finaliser2 = f2.Next(i => _Output.WriteLine("2 - {0} {1}", Thread.CurrentThread.ManagedThreadId, i));
+
+            var first = PipeLine.Create<int, int>(a => a * 2);
+            var pipe = first.Next(finaliser1, finaliser2);
+            await pipe.Consume(1);
+
+
+            await finaliser1.DisposeAsync();
+            await finaliser2.DisposeAsync();
+            await f1.DisposeAsync();
+            await f2.DisposeAsync();
+            await pipe.DisposeAsync();
+            await first.DisposeAsync();
         }
 
 
@@ -91,13 +129,24 @@ namespace EasyActor.PipeLineTest
             Func<int, int> M3 = i => { _Output.WriteLine("M3 {0}", Thread.CurrentThread.ManagedThreadId); return i * 3; };
             Func<int, int> M5 = i => { _Output.WriteLine("M5 {0}", Thread.CurrentThread.ManagedThreadId); return i * 5; };
 
-            var pip1 = PipeLine.Create<int, int>(M3).Next(finaliser1);
-            var pip2 = PipeLine.Create<int, int>(M5).Next(finaliser1);
+            var f1 = PipeLine.Create<int, int>(M3);
+            var pip1 = f1.Next(finaliser1);
+            var f2 = PipeLine.Create<int, int>(M5);
+            var pip2 = f2.Next(finaliser1);
 
-            var pip = PipeLine.Create<int, int>(a => a * 2).Next(pip1, pip2);
+            var f = PipeLine.Create<int, int>(a => a * 2);
+            var pip = f.Next(pip1, pip2);
 
             await pip.Consume(1);
             await pip.Consume(10);
+
+            await f1.DisposeAsync();
+            await f2.DisposeAsync();
+            await f.DisposeAsync();
+            await finaliser1.DisposeAsync();
+            await pip1.DisposeAsync();
+            await pip2.DisposeAsync();
+            await pip.DisposeAsync();
         }
 
         //                     ___ i => i * 3_(5)__ 
@@ -113,12 +162,23 @@ namespace EasyActor.PipeLineTest
             Func<int, int> M3 = i => { Thread.Sleep(500); _Output.WriteLine("M3:{0} Thread:{1} (5 threads)", i, Thread.CurrentThread.ManagedThreadId); return i * 3; };
             Func<int, int> M5 = i => { _Output.WriteLine("M5:{0} Thread:{1} (monothreaded)", i, Thread.CurrentThread.ManagedThreadId); return i * 5; };
 
-            var pip1 = PipeLine.Create(M3, 5).Next(finaliser1);
-            var pip2 = PipeLine.Create(M5).Next(finaliser1);
+            var f1 = PipeLine.Create(M3, 5);
+            var pip1 = f1.Next(finaliser1);
+            var f2 = PipeLine.Create(M5);
+            var pip2 = f2.Next(finaliser1);
 
-            var pipe = PipeLine.Create<int, int>(a => a * 2).Next(pip1, pip2);
+            var init = PipeLine.Create<int, int>(a => a * 2);
+            var pipe = init.Next(pip1, pip2);
 
             await Task.WhenAll(Enumerable.Range(0, 100).Select(i => pipe.Consume(i)));
+
+            await init.DisposeAsync();
+            await f1.DisposeAsync();
+            await f2.DisposeAsync();
+            await pip2.DisposeAsync();
+            await pip1.DisposeAsync();
+            await pipe.DisposeAsync();
+            await finaliser1.DisposeAsync();
         }
     }
 }

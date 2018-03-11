@@ -1,55 +1,58 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyActor.Disposable;
+using EasyActor.TaskHelper;
 
 namespace EasyActor.Pipeline
 {
-    public class Pipeline<Tin, Tout> : IPipeline<Tin,Tout>
+    public class Pipeline<TIn, TOut> : IPipeline<TIn, TOut>
     {
-        private Func<Tin, Task<Tout>> _Process;
+        private readonly Func<TIn, Task<TOut>> _Process;
+        private readonly IAsyncDisposable _Disposable;
 
-        internal Pipeline(ITransformer<Tin, Tout> Init)
+        internal Pipeline(ITransformer<TIn, TOut> init)
         {
-            if (Init == null) throw new ArgumentNullException("Init");
-            _Process = Init.Transform;
+            if (init == null) throw new ArgumentNullException(nameof(init));
+            _Process = init.Transform;
+            _Disposable = ActorDisposable.StopableToAsyncDisposable(init as IActorLifeCycle);
         }
 
-
-        internal Pipeline(Func<Tin, Task<Tout>> Init)
+        internal Pipeline(Func<TIn, Task<TOut>> init, IAsyncDisposable asyncDisposable)
         {
-            if (Init == null) throw new ArgumentNullException("Init");
-            _Process = Init;
-        }
-       
-
-        public IPipeline<Tin, Tnext> Next<Tnext>(ITransformer<Tout, Tnext> next)
-        {
-            return new Pipeline<Tin, Tnext>(async (tin) =>
-                {
-                    var trans = await _Process(tin);
-
-                    return await next.Transform(trans);
-                });
+            if (init == null) throw new ArgumentNullException(nameof(init));
+            _Process = init;
+            _Disposable = asyncDisposable;
         }
 
-        public IClosedPipeline<Tin> Next(IConsumer<Tout> next)
+        public IPipeline<TIn, TNext> Next<TNext>(ITransformer<TOut, TNext> next)
         {
-            return new ClosedPipeline<Tin>(async (tin) =>
+            return new Pipeline<TIn, TNext>(async (tin) =>
             {
                 var trans = await _Process(tin);
-
-                await next.Consume(trans);
-            });
+                return await next.Transform(trans);
+            },
+            ActorDisposable.StopableToAsyncDisposable(next as IActorLifeCycle));
         }
 
-        public IClosedPipeline<Tin> Next(params IConsumer<Tout>[] next)
+        public IClosedPipeline<TIn> Next(IConsumer<TOut> next)
         {
-            return new ClosedPipeline<Tin>(async (tin) =>
-            {
-                var trans = await _Process(tin);
+            return ClosedPipeline<TIn>.CreateClosedPipeline(_Process, next);
+        }
 
-                await Task.WhenAll(next.Select( n => n.Consume(trans)).ToArray());
-            });
+        public IClosedPipeline<TIn> Next(params IConsumer<TOut>[] next)
+        {
+            return ClosedPipeline<TIn>.CreateClosedPipeline(_Process, next);
+        }
+
+        public void Dispose()
+        {
+            _Disposable.Dispose();
+        }
+
+        public Task DisposeAsync()
+        {
+            return _Disposable.DisposeAsync();
         }
     }
 }

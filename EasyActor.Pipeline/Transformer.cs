@@ -4,14 +4,14 @@ namespace EasyActor.Pipeline
 {
     public static class Transformer
     {
-        public static ITransformer<Tin, Tout> Create<Tin, Tout>(Func<Tin, Tout> transform)
+        public static ITransformer<TIn, TOut> Create<TIn, TOut>(Func<TIn, TOut> transform)
         {
-            return ActorBuilder.ActorFactory.Build<ITransformer<Tin, Tout>>(new Transformer<Tin, Tout>(transform));
+            return ActorBuilder.ActorFactory.Build<ITransformer<TIn, TOut>>(new Transformer<TIn, TOut>(transform));
         }
 
-        public static ITransformer<Tin, Tout> Create<Tin, Tout>(Func<Tin, Tout> transform, int MaxParallelism)
+        public static ITransformer<TIn, TOut> Create<TIn, TOut>(Func<TIn, TOut> transform, int maxParallelism)
         {
-            return ActorBuilder.LoadBalancer.Build<ITransformer<Tin, Tout>>(()=>new Transformer<Tin, Tout>(transform), MaxParallelism);
+            return ActorBuilder.LoadBalancer.Build<ITransformer<TIn, TOut>>(()=>new Transformer<TIn, TOut>(transform), maxParallelism);
         }
     }
 }

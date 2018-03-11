@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EasyActor.Disposable;
 
 namespace EasyActor
 {
     /// <summary>
     ///  Factory to create actor from POCO
     /// </summary>
-    public interface IActorFactory
+    public interface IActorFactory : IAsyncDisposable
     {
         /// <summary>
         ///  Returns the type of the factory.

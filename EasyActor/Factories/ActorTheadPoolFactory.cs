@@ -6,6 +6,6 @@ namespace EasyActor.Factories
     {
         public override ActorFactorType Type => ActorFactorType.ThreadPool;
 
-        protected override IMonoThreadFiber GetFiber() => new ThreadPoolFiber();       
+        protected override IMonoThreadFiber GetMonoFiber() => new ThreadPoolFiber();
     }
 }

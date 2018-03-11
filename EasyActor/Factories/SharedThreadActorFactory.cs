@@ -2,18 +2,19 @@
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
+using EasyActor.Disposable;
 using EasyActor.Fiber;
 
 namespace EasyActor.Factories
 {
-    public class SharedThreadActorFactory : ActorFactoryBase, IActorFactory, IActorCompleteLifeCycle
+    public sealed class SharedThreadActorFactory : ActorFactoryBase, IActorFactory, IActorCompleteLifeCycle
     {
-        private readonly IAbortableFiber _Queue;
+        private readonly IAbortableFiber _Fiber;
         private readonly ConcurrentQueue<IAsyncDisposable> _Disposable;
 
         public SharedThreadActorFactory(Action<Thread> onCreated = null)
         {
-            _Queue = new MonoThreadedFiber(onCreated);
+            _Fiber = new MonoThreadedFiber(onCreated);
             _Disposable = new ConcurrentQueue<IAsyncDisposable>();
         }
 
@@ -21,7 +22,7 @@ namespace EasyActor.Factories
 
         public T Build<T>(T concrete) where T : class
         {
-            var res = Create(concrete, _Queue);
+            var res = Create(concrete, _Fiber);
 
             var disp = concrete as IAsyncDisposable;
             if (disp != null)
@@ -32,7 +33,7 @@ namespace EasyActor.Factories
 
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
         {
-            return _Queue.Enqueue(() => Build<T>(concrete()));
+            return _Fiber.Enqueue(() => Build<T>(concrete()));
         }
 
         private async Task GetEndTask()
@@ -46,13 +47,17 @@ namespace EasyActor.Factories
 
         public Task Abort()
         {
-            return _Queue.Abort(GetEndTask);
+            return _Fiber.Abort(GetEndTask);
         }
 
         public Task Stop()
         {
-            var stoppable = _Queue as IStopableFiber;
-            return stoppable?.Stop(GetEndTask) ?? _Queue.Abort(GetEndTask);
+            var stoppable = _Fiber as IStopableFiber;
+            return stoppable?.Stop(GetEndTask) ?? _Fiber.Abort(GetEndTask);
         }
+
+        public void Dispose() => Stop().Wait();
+
+        public Task DisposeAsync() => Stop();
     }
 }

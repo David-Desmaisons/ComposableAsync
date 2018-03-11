@@ -12,8 +12,8 @@ namespace EasyActor.Examples
 {    
     public class ConcurencyTest : IDisposable
     {
-        private List<Thread> _Threads;
-        private int _ThreadCount = 100;
+        private readonly List<Thread> _Threads;
+        private readonly int _ThreadCount = 100;
         private IDoStuff _IActor;
 
         public ConcurencyTest()
@@ -24,6 +24,7 @@ namespace EasyActor.Examples
         public void Dispose()
         {
             _Threads.ForEach(t => t.Abort());
+            (_IActor as IActorLifeCycle)?.Stop()?.Wait();
         }
 
         private async Task TestActor()
@@ -32,7 +33,7 @@ namespace EasyActor.Examples
         }
 
         [Theory]
-        [MemberData("TestCases")]
+        [MemberData(nameof(TestCases))]
         public async Task NoActor_Should_Generate_Random_Output(IDoStuff stuffer, bool safe)
         {
             _IActor = stuffer;

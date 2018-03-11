@@ -28,6 +28,7 @@ namespace EasyActor.Test
             var res = _ActorFactoryBuilder.GetFactory(true);
 
             res.Should().BeAssignableTo<SharedThreadActorFactory>();
+            res.Dispose();
         }
 
         [Fact]

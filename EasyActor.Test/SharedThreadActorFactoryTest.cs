@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
 using EasyActor.Factories;
@@ -7,12 +8,17 @@ using Xunit;
 
 namespace EasyActor.Test
 {     
-    public class SharedThreadActorFactoryTest
+    public class SharedThreadActorFactoryTest : IDisposable
     {
         private readonly SharedThreadActorFactory _Factory;
         public SharedThreadActorFactoryTest()
         {
             _Factory = new SharedThreadActorFactory();
+        }
+
+        public void Dispose()
+        {
+            _Factory.Dispose();
         }
 
         [Fact]

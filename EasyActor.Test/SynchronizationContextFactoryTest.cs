@@ -117,10 +117,11 @@ namespace EasyActor.Test
             var Factory = new ActorFactory();
             var intface = Factory.Build<IDummyInterface2>(target);
 
-
             Action Do = () => _Factory.Build<IDummyInterface2>(target);
 
             Do.ShouldThrow<ArgumentException>().And.Message.Should().Contain("Standard");
+
+            (intface as IActorLifeCycle)?.Stop().Wait();
         }
 
         [Fact]
