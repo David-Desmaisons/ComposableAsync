@@ -11,11 +11,11 @@ namespace EasyActor.Proxy
     {
         private static readonly MethodInfo _Proceed = typeof(FiberDispatcherInterceptor).GetMethod(nameof(Proceed), BindingFlags.Instance | BindingFlags.NonPublic);
 
-        private readonly IFiber _Queue;
+        private readonly IFiber _Fiber;
 
-        public FiberDispatcherInterceptor(IFiber queue)
+        public FiberDispatcherInterceptor(IFiber fiber)
         {
-            _Queue = queue;
+            _Fiber = fiber;
         }
 
         public void Intercept(IInvocation invocation)
@@ -30,11 +30,11 @@ namespace EasyActor.Proxy
                     throw new NotSupportedException("Actor method should only return Task, Task<T> or void");
 
                 case TaskType.Void:
-                    _Queue.Dispatch(invocation.Call);
+                    _Fiber.Dispatch(invocation.Call);
                     break;
 
                 case TaskType.Task:
-                    invocation.ReturnValue = _Queue.Enqueue(invocation.Call<Task>);
+                    invocation.ReturnValue = _Fiber.Enqueue(invocation.Call<Task>);
                     break;
 
                 case TaskType.GenericTask:
@@ -46,7 +46,7 @@ namespace EasyActor.Proxy
 
         private void Proceed<T>(IInvocation invocation)
         {
-            invocation.ReturnValue = _Queue.Enqueue(invocation.Call<Task<T>>);
+            invocation.ReturnValue = _Fiber.Enqueue(invocation.Call<Task<T>>);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using EasyActor.TaskHelper;
@@ -74,9 +75,8 @@ namespace EasyActor.Proxy
                 if (_BalancingOption == BalancingOption.PreferParralelism)
                     return CreateNewActor();
 
-                var best = GetInactiveActor();
-                return best ?? CreateNewActor();
-            }
+                return GetInactiveActor() ?? CreateNewActor();
+            }       
         }
 
         private void Cancel(IInvocation invocation)

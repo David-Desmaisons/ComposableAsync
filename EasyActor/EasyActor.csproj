@@ -55,7 +55,6 @@
     <Compile Include="Options\ActorFactorType.cs" />
     <Compile Include="FactoryBuilder.cs" />
     <Compile Include="Options\BalancingOption.cs" />
-    <Compile Include="Collections\CollectionExtension.cs" />
     <Compile Include="Factories\ActorFactoryBase.cs" />
     <Compile Include="IActorContext.cs" />
     <Compile Include="IFactoryBuilder.cs" />

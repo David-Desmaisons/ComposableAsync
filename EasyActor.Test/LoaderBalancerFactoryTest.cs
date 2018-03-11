@@ -239,8 +239,11 @@ namespace EasyActor.Test
                 _Output.WriteLine($"actor {j++}: {ob.SlowDoAsyncCount}");
             }
 
-            var count = _DummyFactory.DummyClasses.Select(o => o.SlowDoAsyncCount).Max();
-            count.Should().BeOneOf(19, 20, 21);
+            var maxCount = _DummyFactory.DummyClasses.Select(o => o.SlowDoAsyncCount).Max();
+            maxCount.Should().BeOneOf(20, 21);
+
+            var minCount = _DummyFactory.DummyClasses.Select(o => o.SlowDoAsyncCount).Min();
+            minCount.Should().BeOneOf(19, 20);
 
             var stop = target as IActorCompleteLifeCycle;
             await stop.Abort();
