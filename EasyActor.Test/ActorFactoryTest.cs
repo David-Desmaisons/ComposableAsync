@@ -212,7 +212,6 @@ namespace EasyActor.Test
             IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
 
             await disp.Stop();
-            Thread.Yield();
             //assert
             dispclass.IsDisposed.Should().BeTrue();
         }
@@ -268,7 +267,6 @@ namespace EasyActor.Test
             Takenqueued.IsCompleted.Should().BeTrue();
         }
 
-
         [Fact]
         public async Task Actor_IActorLifeCycle_Abort_Should_Cancel_Actor_Thread()
         {
@@ -281,6 +279,7 @@ namespace EasyActor.Test
             var disp = intface as IActorCompleteLifeCycle;
 
             await disp.Abort();
+            Thread.Yield();
 
             //assert
             clas.CallingThread.IsAlive.Should().BeFalse();
