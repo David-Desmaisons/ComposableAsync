@@ -17,7 +17,7 @@ namespace EasyActor.Channel.Test
         [Fact]
         public async Task Fact()
         {
-            var channel1 = new SinkChannel<int>();
+            var channel1 = new InChannel<int>();
 
             var t1 = Task.Run(() =>
             {
@@ -38,10 +38,15 @@ namespace EasyActor.Channel.Test
 
             //await Task.WhenAll(new[] {t1, t2});
 
-            var channel2 = channel1.Transform(o => o.Select(v => (v * 2).ToString()));
+            await WatchChannel(channel1, CancellationToken.None);
+        }
+
+        private async Task WatchChannel(IOutChannel<int> channel, CancellationToken token)
+        {
+            var channel2 = channel.Transform(o => o.Select(v => (v * 2).ToString()));
             using (var enumerator = channel2.GetMessages())
             {
-                while (await enumerator.MoveNext(CancellationToken.None))
+                while (await enumerator.MoveNext(token))
                 {
                     var item = enumerator.Current;
                     _TestOutputHelper.WriteLine(item);

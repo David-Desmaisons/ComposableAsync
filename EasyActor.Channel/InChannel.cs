@@ -3,10 +3,10 @@ using System.Reactive.Subjects;
 
 namespace EasyActor.Channel
 {
-    public sealed class SinkChannel<T> : Channel<T>, ISinkChannel<T>
+    public sealed class InChannel<T> : Channel<T>, IInChannel<T>
     {
         private readonly Subject<T> _Subject;
-        public SinkChannel() : base(new Subject<T>())
+        public InChannel() : base(new Subject<T>())
         {
             _Subject = (Subject<T>)Observable;
         }

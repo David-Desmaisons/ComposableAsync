@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace EasyActor.Channel
 {
-    public class Channel<T> : IObservableChannel<T>
+    public class Channel<T> : IOutChannel<T>
     {
         protected readonly IObservable<T> Observable;
         public Channel(IObservable<T> observable)
@@ -12,7 +12,7 @@ namespace EasyActor.Channel
             Observable = observable;
         }
 
-        public IObservableChannel<TNew> Transform<TNew>(Func<IObservable<T>, IObservable<TNew>> transform)
+        public IOutChannel<TNew> Transform<TNew>(Func<IObservable<T>, IObservable<TNew>> transform)
         {
             return new Channel<TNew>(transform(Observable));
         }

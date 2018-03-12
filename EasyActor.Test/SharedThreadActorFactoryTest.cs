@@ -70,6 +70,8 @@ namespace EasyActor.Test
 
             //assert
             await _Factory.Stop();
+
+            Thread.Yield();
             target1.CallingThread.IsAlive.Should().BeFalse();
         }
 
@@ -85,6 +87,8 @@ namespace EasyActor.Test
 
             //assert
             await _Factory.Abort();
+
+            Thread.Yield();
             target1.CallingThread.IsAlive.Should().BeFalse();
         }
 

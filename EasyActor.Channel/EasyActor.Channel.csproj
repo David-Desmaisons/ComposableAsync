@@ -71,10 +71,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Channel.cs" />
-    <Compile Include="IObservableChannel.cs" />
-    <Compile Include="ISinkChannel.cs" />
+    <Compile Include="IOutChannel.cs" />
+    <Compile Include="IInChannel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SinkChannel.cs" />
+    <Compile Include="InChannel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
