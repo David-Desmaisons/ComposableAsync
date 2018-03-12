@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor", "EasyActor\EasyActor.csproj", "{487FAEA3-4503-4E5B-B10B-48B689DBF174}"
 EndProject
@@ -22,6 +22,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor.Flow.Sample", "EasyActor.Flow.Sample\EasyActor.Flow.Sample.csproj", "{006A5983-D4DF-4709-B4CE-3E0A594ED361}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor.FlowTest", "EasyActor.FlowTest\EasyActor.FlowTest.csproj", "{067456C0-086C-46A8-B37F-1405717B7BFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor.Channel", "EasyActor.Channel\EasyActor.Channel.csproj", "{E3A81FDE-22BC-4144-8E9B-C9EB961C3BD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor.Channel.Test", "EasyActor.Channel.Test\EasyActor.Channel.Test.csproj", "{A84BDCA3-EED5-488E-B05B-26FE62CACA19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +73,14 @@ Global
 		{067456C0-086C-46A8-B37F-1405717B7BFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{067456C0-086C-46A8-B37F-1405717B7BFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{067456C0-086C-46A8-B37F-1405717B7BFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3A81FDE-22BC-4144-8E9B-C9EB961C3BD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3A81FDE-22BC-4144-8E9B-C9EB961C3BD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3A81FDE-22BC-4144-8E9B-C9EB961C3BD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3A81FDE-22BC-4144-8E9B-C9EB961C3BD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A84BDCA3-EED5-488E-B05B-26FE62CACA19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A84BDCA3-EED5-488E-B05B-26FE62CACA19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A84BDCA3-EED5-488E-B05B-26FE62CACA19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A84BDCA3-EED5-488E-B05B-26FE62CACA19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
