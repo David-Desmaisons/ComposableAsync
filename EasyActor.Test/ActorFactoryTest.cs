@@ -196,7 +196,7 @@ namespace EasyActor.Test
             IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
 
             await disp.Stop();
-
+            Thread.Yield();
             //assert
             clas.CallingThread.IsAlive.Should().BeFalse();
         }
@@ -212,7 +212,7 @@ namespace EasyActor.Test
             IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
 
             await disp.Stop();
-
+            Thread.Yield();
             //assert
             dispclass.IsDisposed.Should().BeTrue();
         }
