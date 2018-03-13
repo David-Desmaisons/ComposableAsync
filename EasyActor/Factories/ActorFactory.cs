@@ -15,6 +15,6 @@ namespace EasyActor.Factories
 
         public override ActorFactorType Type => ActorFactorType.Standard;
 
-        protected override IMonoThreadFiber GetMonoFiber() => new MonoThreadedFiber(_OnCreate);
+        protected override IAbortableFiber GetMonoFiber() => new MonoThreadedFiber(_OnCreate);
     }
 }

@@ -10,9 +10,9 @@ namespace EasyActor.Factories
 {
     public abstract class ActorMonoTheadPoolFactory : ActorFactoryBase, IActorFactory
     {
-        protected abstract IMonoThreadFiber GetMonoFiber();
+        protected abstract IAbortableFiber GetMonoFiber();
 
-        private T Build<T>(T concrete, IMonoThreadFiber fiber) where T : class
+        private T Build<T>(T concrete, IAbortableFiber fiber) where T : class
         {
             var asyncDisposable = concrete as IAsyncDisposable;
             return CreateIActorLifeCycle(concrete, fiber, TypeHelper.ActorCompleteLifeCycleType,
@@ -32,11 +32,11 @@ namespace EasyActor.Factories
             return queue.Enqueue(() => Build<T>(concrete(), queue));
         }
 
-        internal async Task<Tuple<T, IMonoThreadFiber>> InternalBuildAsync<T>(Func<T> concrete) where T : class
+        internal async Task<Tuple<T, IAbortableFiber>> InternalBuildAsync<T>(Func<T> concrete) where T : class
         {
             var queue = GetMonoFiber();
             var actor = await queue.Enqueue(() => Build<T>(concrete(), queue)).ConfigureAwait(false);
-            return new Tuple<T, IMonoThreadFiber>(actor, queue);
+            return new Tuple<T, IAbortableFiber>(actor, queue);
         }
 
         public void Dispose()

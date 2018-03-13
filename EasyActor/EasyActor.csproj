@@ -47,6 +47,7 @@
     <Compile Include="ActorContext.cs" />
     <Compile Include="Disposable\ActorDisposable.cs" />
     <Compile Include="Disposable\AsyncDisposable.cs" />
+    <Compile Include="Factories\ActorFactory.cs" />
     <Compile Include="Factories\ActorMonoTheadPoolFactory.cs" />
     <Compile Include="Factories\ActorTheadPoolFactory.cs" />
     <Compile Include="Factories\TaskPoolActorFactory.cs" />
@@ -74,7 +75,6 @@
     <Compile Include="Fiber\TaskSchedulderDispatcher.cs" />
     <Compile Include="Fiber\TaskSchedulerFiber.cs" />
     <Compile Include="Factories\SharedThreadActorFactory.cs" />
-    <Compile Include="Factories\ActorFactory.cs" />
     <Compile Include="IActorFactory.cs" />
     <Compile Include="IActorCompleteLifeCycle.cs" />
     <Compile Include="Disposable\IAsyncDisposable.cs" />
@@ -83,7 +83,7 @@
     <Compile Include="Proxy\FiberDispatcherInterceptor.cs" />
     <Compile Include="Fiber\MonoThreadedFiber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Fiber\IWorkItem.cs" />
+    <Compile Include="Fiber\WorkItems\IWorkItem.cs" />
     <Compile Include="Fiber\Context\MonoThreadSynchronizationContext.cs" />
     <Compile Include="Fiber\WorkItems\AsyncActionWorkItem.cs" />
     <Compile Include="Fiber\WorkItems\AsyncWorkItem.cs" />

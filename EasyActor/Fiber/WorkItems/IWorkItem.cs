@@ -1,4 +1,4 @@
-﻿namespace EasyActor.Fiber
+﻿namespace EasyActor.Fiber.WorkItems
 {
     internal interface IWorkItem
     {

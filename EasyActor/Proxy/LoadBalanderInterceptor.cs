@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using EasyActor.TaskHelper;
@@ -58,7 +57,8 @@ namespace EasyActor.Proxy
         {
             _Count++;
             var n = _ActorFactory.InternalBuildAsync<T>(_Builder).Result;
-            _Actors.Add(n);
+            var tuple = new Tuple<T,IMonoThreadFiber>(n.Item1, n.Item2 as IMonoThreadFiber);
+            _Actors.Add(tuple);
             return n.Item1;
         }
 
