@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EasyActor.TaskHelper;
 
 namespace EasyActor.Disposable
 {
-    public class AsyncDisposable: IAsyncDisposable
+    public class AsyncDisposable : IAsyncDisposable
     {
-        private readonly Func<Task> _Dispose;
-        public AsyncDisposable(Func<Task> dispose)
+        private readonly IDisposable _Disposable;
+        public AsyncDisposable(IDisposable disposable)
         {
-            _Dispose = dispose;
+            _Disposable = disposable;
         }
 
-        public void Dispose() => _Dispose().Wait();
+        public void Dispose() => _Disposable.Dispose();
 
-        public Task DisposeAsync() => _Dispose();
+        public Task DisposeAsync()
+        {
+            Dispose();
+            return TaskBuilder.Completed;
+        }
     }
 }

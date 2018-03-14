@@ -12,8 +12,8 @@ namespace EasyActor.Test
      
     public class SynchronizationContextFactoryTest : IDisposable
     {
-        private WpfThreadingHelper _UIMessageLoop;
-        private SynchronizationContextFactory _Factory;
+        private readonly WpfThreadingHelper _UIMessageLoop;
+        private readonly SynchronizationContextFactory _Factory;
 
         public SynchronizationContextFactoryTest()
         {
@@ -129,7 +129,7 @@ namespace EasyActor.Test
         {
             var current = Thread.CurrentThread;
             DummyClass target = null;
-            IDummyInterface2 intface = await _Factory.BuildAsync<IDummyInterface2>(() => { target = new DummyClass(); return target; });
+            var intface = await _Factory.BuildAsync<IDummyInterface2>(() => { target = new DummyClass(); return target; });
             await intface.DoAsync();
 
             target.Done.Should().BeTrue();

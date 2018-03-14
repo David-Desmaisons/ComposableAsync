@@ -10,7 +10,7 @@ namespace EasyActor.Factories
 {
     public sealed class TaskPoolActorFactory : ActorFactoryBase, IActorFactory
     {
-        private IStopableFiber GetQueue() => TaskSchedulerFiber.GetFiber();
+        private IStopableFiber GetFiber() => TaskSchedulerFiber.GetFiber();
 
         public override ActorFactorType Type => ActorFactorType.TaskPool;
 
@@ -24,12 +24,12 @@ namespace EasyActor.Factories
         public T Build<T>(T concrete) where T : class
         {
             var cached = CheckInCache(concrete);
-            return cached ?? Build<T>(concrete, GetQueue());
+            return cached ?? Build<T>(concrete, GetFiber());
         }
 
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
         {
-            var queue = GetQueue();
+            var queue = GetFiber();
             return queue.Enqueue(() => Build<T>(concrete(), queue));
         }
 

@@ -47,6 +47,8 @@
     <Compile Include="ActorContext.cs" />
     <Compile Include="Disposable\ActorDisposable.cs" />
     <Compile Include="Disposable\AsyncDisposable.cs" />
+    <Compile Include="Disposable\ComposableAsyncDisposable.cs" />
+    <Compile Include="Disposable\AsyncActionDisposable.cs" />
     <Compile Include="Factories\ActorFactory.cs" />
     <Compile Include="Factories\ActorMonoTheadPoolFactory.cs" />
     <Compile Include="Factories\ActorTheadPoolFactory.cs" />

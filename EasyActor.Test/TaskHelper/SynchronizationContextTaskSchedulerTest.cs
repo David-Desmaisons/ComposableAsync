@@ -47,7 +47,6 @@ namespace EasyActor.Test.TaskHelper
             target.GetScheduledTasksEnumerable().Should().BeNull();
         }
 
-
         private SynchronizationContext BuildSynchronizationContext()
         {
             var synContext = Substitute.For<SynchronizationContext>();

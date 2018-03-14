@@ -10,13 +10,13 @@ namespace EasyActor.Disposable
     {
         public static IAsyncDisposable StopableToAsyncDisposable(IActorLifeCycle lifeCycle)
         {
-            return new AsyncDisposable(GetDisposable(lifeCycle));
+            return new AsyncActionDisposable(GetDisposable(lifeCycle));
         }
 
         public static IAsyncDisposable StopableToAsyncDisposable(IEnumerable<IActorLifeCycle> lifeCycle)
         {
             Func<Task> disposable = () => Task.WhenAll(lifeCycle.Select(act => GetDisposable(act)()).ToArray());
-            return new AsyncDisposable(disposable);
+            return new AsyncActionDisposable(disposable);
         }
 
         private static Func<Task> GetDisposable(IActorLifeCycle lifeCycle) => 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 using EasyActor.Disposable;
@@ -10,12 +9,12 @@ namespace EasyActor.Factories
     public sealed class SharedThreadActorFactory : ActorFactoryBase, IActorFactory, IActorCompleteLifeCycle
     {
         private readonly IAbortableFiber _Fiber;
-        private readonly ConcurrentQueue<IAsyncDisposable> _Disposable;
+        private readonly ComposableAsyncDisposable _Disposable;
 
         public SharedThreadActorFactory(Action<Thread> onCreated = null)
         {
             _Fiber = new MonoThreadedFiber(onCreated);
-            _Disposable = new ConcurrentQueue<IAsyncDisposable>();
+            _Disposable = new ComposableAsyncDisposable();
         }
 
         public override ActorFactorType Type => ActorFactorType.Shared;
@@ -23,11 +22,7 @@ namespace EasyActor.Factories
         public T Build<T>(T concrete) where T : class
         {
             var res = Create(concrete, _Fiber);
-
-            var disp = concrete as IAsyncDisposable;
-            if (disp != null)
-                _Disposable.Enqueue(disp);
-
+            _Disposable.Add(concrete as IAsyncDisposable);
             return res;
         }
 
@@ -36,13 +31,9 @@ namespace EasyActor.Factories
             return _Fiber.Enqueue(() => Build<T>(concrete()));
         }
 
-        private async Task GetEndTask()
+        private Task GetEndTask()
         {
-            IAsyncDisposable actordisp = null;
-            while (_Disposable.TryDequeue(out actordisp))
-            {
-                await actordisp.DisposeAsync();
-            }
+            return _Disposable.DisposeAsync();
         }
 
         public Task Abort()

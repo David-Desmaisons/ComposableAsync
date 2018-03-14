@@ -6,7 +6,7 @@ using EasyActor.TaskHelper;
 
 namespace EasyActor.Factories
 {
-    public class SynchronizationContextFactory : ActorFactoryBase, IActorFactory
+    public sealed class SynchronizationContextFactory : ActorFactoryBase, IActorFactory
     {
         private readonly SynchronizationContextFiber _Context;
 
