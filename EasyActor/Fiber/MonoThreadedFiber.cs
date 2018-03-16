@@ -8,7 +8,7 @@ using EasyActor.TaskHelper;
 
 namespace EasyActor.Fiber
 {
-    public class MonoThreadedFiber : IMonoThreadFiber
+    public sealed class MonoThreadedFiber : IMonoThreadFiber
     {
         private static int _Count = 0;
 

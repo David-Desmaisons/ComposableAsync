@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace EasyActor.Fiber.WorkItems
 {
-    internal class WorkItem<T> : IWorkItem
+    public class WorkItem<T> : IWorkItem
     {
         private readonly TaskCompletionSource<T> _Source;
         private readonly Func<T> _Do;

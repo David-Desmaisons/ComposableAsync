@@ -8,16 +8,16 @@ using EasyActor.TaskHelper;
 
 namespace EasyActor.Proxy
 {
-    internal sealed class ActorLifeCycleInterceptor : InterfaceInterceptor<IActorLifeCycle>, IInterceptor
+    internal sealed class ActorLifeCycleInterceptor : InterfaceInterceptor<IActorLifeCycle>
     {
-        private static readonly MethodInfo _Stop = Type.GetMethod("Stop", BindingFlags.Instance | BindingFlags.Public);
+        private static readonly MethodInfo _Stop = Type.GetMethod(nameof(IActorLifeCycle.Stop), BindingFlags.Instance | BindingFlags.Public);
 
-        private readonly IStopableFiber _Queue;
+        private readonly IStopableFiber _Fiber;
         private readonly IAsyncDisposable _IAsyncDisposable;
 
-        public ActorLifeCycleInterceptor(IStopableFiber iqueue, IAsyncDisposable iAsyncDisposable)
+        public ActorLifeCycleInterceptor(IStopableFiber fiber, IAsyncDisposable iAsyncDisposable)
         {
-            _Queue = iqueue;
+            _Fiber = fiber;
             _IAsyncDisposable = iAsyncDisposable;
         }
 
@@ -26,7 +26,7 @@ namespace EasyActor.Proxy
             if (invocation.Method != _Stop)
                 throw new ArgumentOutOfRangeException();
 
-            return _Queue.Stop(() =>
+            return _Fiber.Stop(() =>
             {
                 ActorFactoryBase.Clean(invocation.Proxy);
                 return (_IAsyncDisposable != null) ? _IAsyncDisposable.DisposeAsync() : TaskBuilder.Completed;

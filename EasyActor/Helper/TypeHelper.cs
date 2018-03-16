@@ -6,6 +6,7 @@ namespace EasyActor.Helper
     {
         public static readonly Type ActorCompleteLifeCycleType = typeof(IActorCompleteLifeCycle);
         public static readonly Type ActorLifeCycleType = typeof(IActorLifeCycle);
+        public static readonly Type FiberProviderType = typeof(IFiberProvider);
 
         public static bool IsActorCompleteLifeCycleTypeOrBase(Type type)
         {

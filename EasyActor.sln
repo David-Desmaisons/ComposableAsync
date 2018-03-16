@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor.Channel", "EasyAc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor.Channel.Test", "EasyActor.Channel.Test\EasyActor.Channel.Test.csproj", "{A84BDCA3-EED5-488E-B05B-26FE62CACA19}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyActor.WPF", "EasyActor.WPF\EasyActor.WPF.csproj", "{3B8867F9-8970-45B7-AB6D-0806B7C6B3D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{A84BDCA3-EED5-488E-B05B-26FE62CACA19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A84BDCA3-EED5-488E-B05B-26FE62CACA19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A84BDCA3-EED5-488E-B05B-26FE62CACA19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B8867F9-8970-45B7-AB6D-0806B7C6B3D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B8867F9-8970-45B7-AB6D-0806B7C6B3D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B8867F9-8970-45B7-AB6D-0806B7C6B3D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B8867F9-8970-45B7-AB6D-0806B7C6B3D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

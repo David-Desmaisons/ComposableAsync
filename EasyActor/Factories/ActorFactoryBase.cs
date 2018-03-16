@@ -3,24 +3,23 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EasyActor.Fiber;
+using EasyActor.Helper;
 using EasyActor.Proxy;
 
 namespace EasyActor.Factories
 {
     public abstract class ActorFactoryBase
     {
-        private static readonly ProxyGenerator _Generator;
         private static readonly IDictionary<object, ActorDescription> _Actors = new ConcurrentDictionary<object, ActorDescription>();
 
-        internal static ProxyGenerator Generator => _Generator;
+        internal static ProxyGenerator Generator { get; }
 
         static ActorFactoryBase()
         {
-            _Generator = new ProxyGenerator();
+            Generator = new ProxyGenerator();
         }
 
-        private static ActorDescription GetChachedActor(object raw)
+        internal static ActorDescription GetCachedActor(object raw)
         {
             ActorDescription res;
             _Actors.TryGetValue(raw, out res);
@@ -29,8 +28,8 @@ namespace EasyActor.Factories
 
         public static TaskScheduler GetContextFromProxy(object raw)
         {
-            var res = GetChachedActor(raw);
-            return res?.TaskScheduler;
+            var res = GetCachedActor(raw);
+            return res?.Fiber.TaskScheduler;
         }
 
         public static void Clean(object raw)
@@ -38,15 +37,15 @@ namespace EasyActor.Factories
             _Actors.Remove(raw);
         }
 
-        private void Register<T>(T registered, T proxyfied, TaskScheduler taskScheduler)
+        private void Register<T>(T registered, T proxyfied, IFiber fiber)
         {
-            var actor = new ActorDescription(proxyfied, taskScheduler, Type);
+            var actor = new ActorDescription(proxyfied, fiber, Type);
             _Actors.Add(registered, actor);
         }
 
         protected T CheckInCache<T>(T concrete) where T : class
         {
-            var res = GetChachedActor(concrete);
+            var res = GetCachedActor(concrete);
             if (res == null)
                 return null;
 
@@ -62,17 +61,18 @@ namespace EasyActor.Factories
             if (cached != null)
                 return cached;
 
-            var interceptors = new IInterceptor[] { new FiberDispatcherInterceptor(fiber) };
-            var res = _Generator.CreateInterfaceProxyWithTargetInterface<T>(concrete, interceptors);
-            Register(concrete, res, fiber.TaskScheduler);
+            var interceptors = new IInterceptor[] { new FiberDispatcherInterceptor<T>(fiber), new FiberProviderInterceptor(fiber) };
+            var res = (T)Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new[] { TypeHelper.FiberProviderType }, concrete, interceptors);
+            Register(concrete, res, fiber);
             return res;
         }
 
         protected T CreateIActorLifeCycle<T>(T concrete, IFiber fiber, Type addicionalType, params IInterceptor[] interceptor) where T : class
         {
-            var interceptors = new List<IInterceptor>(interceptor) { new FiberDispatcherInterceptor(fiber) };
-            var res = (T)_Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new[] { addicionalType }, concrete, interceptors.ToArray());
-            Register(concrete, res, fiber.TaskScheduler);
+            var interceptors = new List<IInterceptor> { new FiberDispatcherInterceptor<T>(fiber), new FiberProviderInterceptor(fiber) };
+            interceptors.AddRange(interceptor);
+            var res = (T)Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new[] { TypeHelper.FiberProviderType, addicionalType }, concrete, interceptors.ToArray());
+            Register(concrete, res, fiber);
             return res;
         }
 
@@ -83,9 +83,9 @@ namespace EasyActor.Factories
                 return cached;
 
             var fiber = fiberBuilder();
-            var interceptors = new List<IInterceptor>(interceptor) { new FiberDispatcherInterceptor(fiber) };
-            var res = (T)_Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new[] { addicionalType }, concrete, interceptors.ToArray());
-            Register(concrete, res, fiber.TaskScheduler);
+            var interceptors = new List<IInterceptor>(interceptor) { new FiberDispatcherInterceptor<T>(fiber), new FiberProviderInterceptor(fiber) };
+            var res = (T)Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new[] { TypeHelper.FiberProviderType, addicionalType }, concrete, interceptors.ToArray());
+            Register(concrete, res, fiber);
             return res;
         }
 

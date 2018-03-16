@@ -8,7 +8,7 @@ using EasyActor.TaskHelper;
 
 namespace EasyActor.Fiber
 {
-    public class ThreadPoolFiber : IMonoThreadFiber
+    public sealed class ThreadPoolFiber : IMonoThreadFiber
     {
         private readonly BlockingCollection<IWorkItem> _TaskQueue = new BlockingCollection<IWorkItem>();
         private readonly CancellationTokenSource _Cts;

@@ -19,7 +19,7 @@ namespace EasyActor.Test
     {
         private IDummyInterface2 _Interface;
         private DummyClass _Proxified;
-        private ActorContext _ActorContext;
+        private readonly ActorContext _ActorContext;
 
         public ActorContextTest()
         {

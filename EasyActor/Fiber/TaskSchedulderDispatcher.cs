@@ -5,7 +5,7 @@ using EasyActor.TaskHelper;
 
 namespace EasyActor.Fiber
 {
-    internal class TaskSchedulderDispatcher : IStopableFiber
+    internal sealed class TaskSchedulderDispatcher : IStopableFiber
     {
         private readonly TaskScheduler _Scheduler;
         private readonly TaskFactory _TaskFactory;

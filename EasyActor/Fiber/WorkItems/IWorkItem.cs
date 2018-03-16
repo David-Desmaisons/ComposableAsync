@@ -1,6 +1,6 @@
 ﻿namespace EasyActor.Fiber.WorkItems
 {
-    internal interface IWorkItem
+    public interface IWorkItem
     {
         void Cancel();
 

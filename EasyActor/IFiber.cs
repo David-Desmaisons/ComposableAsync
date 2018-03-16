@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace EasyActor.Fiber
+namespace EasyActor
 {
     public interface IFiber
     {

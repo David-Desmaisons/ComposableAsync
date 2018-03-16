@@ -185,6 +185,27 @@ namespace EasyActor.Test
         }
 
         [Fact]
+        public async Task Actor_Should_Implement_IFiberProvider()
+        {
+            var intface = _Factory.Build<IDummyInterface1>(new DummyClass());
+            intface.Should().BeAssignableTo<IFiberProvider>();
+
+            await (intface as IActorLifeCycle).Stop();
+        }
+
+        [Fact]
+        public async Task Actor_Should_Returns_Fiber()
+        {
+            var intface = _Factory.Build<IDummyInterface1>(new DummyClass());
+            var fp = intface as IFiberProvider;
+
+            var fiber = fp.Fiber;
+
+            fiber.Should().NotBeNull();
+            await (intface as IActorLifeCycle).Stop();
+        }
+
+        [Fact]
         public async Task Actor_IActorLifeCycle_Stop_Should_Cancel_Actor_Thread()
         {
             //arrange

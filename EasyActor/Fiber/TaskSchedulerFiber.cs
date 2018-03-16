@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace EasyActor.Fiber
 {
-    internal class TaskSchedulerFiber 
+    internal static class TaskSchedulerFiber 
     {
         public static IStopableFiber GetFiber()
         {

@@ -1,19 +1,17 @@
-﻿using System.Threading.Tasks;
-
-namespace EasyActor.Factories
+﻿namespace EasyActor.Factories
 {
     internal class ActorDescription
     {
-        internal ActorDescription(object actor, TaskScheduler taskScheduler, ActorFactorType type)
+        internal ActorDescription(object actor, IFiber fiber, ActorFactorType type)
         {
             ActorProxy = actor;
-            TaskScheduler = taskScheduler;
+            Fiber = fiber;
             Type = type;
         }
 
         public object ActorProxy { get; }
 
-        public TaskScheduler TaskScheduler { get; }
+        public IFiber Fiber { get; }
 
         public ActorFactorType Type { get; }
     }

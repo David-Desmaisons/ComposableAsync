@@ -7,7 +7,7 @@ using EasyActor.TaskHelper;
 
 namespace EasyActor.Fiber
 {
-    internal class SynchronizationContextFiber : IFiber
+    public sealed class SynchronizationContextFiber : IFiber
     {
         private readonly SynchronizationContext _Context;
         public SynchronizationContextFiber(SynchronizationContext synchronizationContext)

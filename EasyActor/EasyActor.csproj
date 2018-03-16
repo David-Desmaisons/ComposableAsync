@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorContext.cs" />
+    <Compile Include="ActorExtension.cs" />
     <Compile Include="Disposable\ActorDisposable.cs" />
     <Compile Include="Disposable\AsyncDisposable.cs" />
     <Compile Include="Disposable\ComposableAsyncDisposable.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Fiber\WorkItems\ActionWorkItem.cs" />
     <Compile Include="Helper\TypeHelper.cs" />
     <Compile Include="IActorLifeCycle.cs" />
+    <Compile Include="IFiberProvider.cs" />
     <Compile Include="Options\ActorFactorType.cs" />
     <Compile Include="FactoryBuilder.cs" />
     <Compile Include="Options\BalancingOption.cs" />
@@ -67,12 +69,13 @@
     <Compile Include="Factories\LoaderBalancerFactory.cs" />
     <Compile Include="Factories\ActorDescription.cs" />
     <Compile Include="Proxy\ActorCompleteLifeCycleInterceptor.cs" />
+    <Compile Include="Proxy\FiberProviderInterceptor.cs" />
     <Compile Include="Proxy\InterfaceInterceptor.cs" />
     <Compile Include="Proxy\LoadBalanderInterceptor.cs" />
     <Compile Include="Fiber\IAbortableFiber.cs" />
     <Compile Include="Fiber\IMonoThreadFiber.cs" />
     <Compile Include="Fiber\IStopableFiber.cs" />
-    <Compile Include="Fiber\IFiber.cs" />
+    <Compile Include="IFiber.cs" />
     <Compile Include="Fiber\SynchronizationContextFiber.cs" />
     <Compile Include="Fiber\TaskSchedulderDispatcher.cs" />
     <Compile Include="Fiber\TaskSchedulerFiber.cs" />
