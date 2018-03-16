@@ -6,6 +6,10 @@ namespace EasyActor
     {
         public static IFiber GetAssociatedFiber(this object rawimplementation)
         {
+            var fiberProvider = rawimplementation as IFiberProvider;
+            if (fiberProvider != null)
+                return fiberProvider.Fiber;
+
             var description = ActorFactoryBase.GetCachedActor(rawimplementation);
             return description?.Fiber;
         }
