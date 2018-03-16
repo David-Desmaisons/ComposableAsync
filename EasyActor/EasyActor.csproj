@@ -69,6 +69,7 @@
     <Compile Include="Factories\LoaderBalancerFactory.cs" />
     <Compile Include="Factories\ActorDescription.cs" />
     <Compile Include="Proxy\ActorCompleteLifeCycleInterceptor.cs" />
+    <Compile Include="Proxy\FiberBehaviourCacherDispatcher.cs" />
     <Compile Include="Proxy\FiberProviderInterceptor.cs" />
     <Compile Include="Proxy\InterfaceInterceptor.cs" />
     <Compile Include="Proxy\LoadBalanderInterceptor.cs" />
