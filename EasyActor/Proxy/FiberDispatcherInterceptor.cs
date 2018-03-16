@@ -21,7 +21,7 @@ namespace EasyActor.Proxy
         public void Intercept(IInvocation invocation)
         {
             var method = invocation.Method;
-            if (method.DeclaringType != _Type)
+            if (!method.DeclaringType.IsAssignableFrom(_Type))
             {
                 invocation.Proceed();
                 return;
