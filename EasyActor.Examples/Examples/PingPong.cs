@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using Concurrent.Tasks;
 using EasyActor.Factories;
-using EasyActor.TaskHelper;
 using Xunit;
 using Xunit.Abstractions;
 

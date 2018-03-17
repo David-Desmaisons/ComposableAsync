@@ -1,9 +1,6 @@
 ﻿using System.Threading.Tasks;
-
+using Concurrent.Tasks;
 using FluentAssertions;
- 
-
-using EasyActor.TaskHelper;
 using Xunit;
 
 namespace EasyActor.Test.TaskHelper

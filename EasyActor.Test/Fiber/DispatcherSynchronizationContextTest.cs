@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
-using EasyActor.Fiber;
+using Concurrent.Fibers;
+using Concurrent.SynchronizationContexts;
 using FluentAssertions;
 using Xunit;
 

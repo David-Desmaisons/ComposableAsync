@@ -65,12 +65,12 @@ namespace EasyActor.Test
         }
 
 
-        [Fact]
-        public void GetFactory_LoadBalancerFactory_Return_LoadBalancerFactory()
-        {
-            var res = _ActorFactoryBuilder.GetLoadBalancerFactory();
+        //[Fact]
+        //public void GetFactory_LoadBalancerFactory_Return_LoadBalancerFactory()
+        //{
+        //    var res = _ActorFactoryBuilder.GetLoadBalancerFactory();
 
-            res.Should().BeOfType<LoadBalancerFactory>();
-        }
+        //    res.Should().BeOfType<LoadBalancerFactory>();
+        //}
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace EasyActor.Factories
+﻿using Concurrent;
+using EasyActor.Options;
+
+namespace EasyActor.Factories
 {
     internal class ActorDescription
     {

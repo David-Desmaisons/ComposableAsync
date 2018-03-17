@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using EasyActor.Fiber;
-using EasyActor.TaskHelper;
+using Concurrent;
+using Concurrent.Tasks;
 using FluentAssertions;
 using Xunit;
 

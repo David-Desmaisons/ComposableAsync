@@ -4,6 +4,7 @@ using FluentAssertions;
  
 using System.Threading;
 using EasyActor.Factories;
+using EasyActor.Options;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
 

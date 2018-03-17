@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
-using EasyActor.Fiber;
+using Concurrent;
+using Concurrent.Fibers;
 
 namespace EasyActor.Test.Fiber
 {

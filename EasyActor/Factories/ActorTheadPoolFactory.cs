@@ -1,4 +1,6 @@
-﻿using EasyActor.Fiber;
+﻿using Concurrent;
+using Concurrent.Fibers;
+using EasyActor.Options;
 
 namespace EasyActor.Factories
 {
@@ -6,6 +8,6 @@ namespace EasyActor.Factories
     {
         public override ActorFactorType Type => ActorFactorType.ThreadPool;
 
-        protected override IAbortableFiber GetMonoFiber() => new ThreadPoolFiber();
+        protected override IAbortableFiber GetMonoFiber() => Fiber.GetThreadPoolFiber();
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Concurrent;
+using Concurrent.Fibers;
 using EasyActor.Disposable;
-using EasyActor.Fiber;
+using EasyActor.Options;
 
 namespace EasyActor.Factories
 {
@@ -13,7 +15,7 @@ namespace EasyActor.Factories
 
         public SharedThreadActorFactory(Action<Thread> onCreated = null)
         {
-            _Fiber = new MonoThreadedFiber(onCreated);
+            _Fiber = Fiber.GetMonoThreadedFiber(onCreated);
             _Disposable = new ComposableAsyncDisposable();
         }
 

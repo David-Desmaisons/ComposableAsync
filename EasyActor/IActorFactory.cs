@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using EasyActor.Disposable;
+using EasyActor.Options;
 
 namespace EasyActor
 {

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Threading;
 using EasyActor.Factories;
+using EasyActor.Options;
 using FluentAssertions;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;

@@ -1,6 +1,6 @@
-﻿using EasyActor.TaskHelper;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using Concurrent.Tasks;
 
 namespace EasyActor.Examples
 {

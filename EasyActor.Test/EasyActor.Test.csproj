@@ -83,15 +83,12 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="ActorContextTest.cs" />
     <Compile Include="Fiber\MonoThreadedFiberBaseTest.cs" />
     <Compile Include="Fiber\ThreadPoolFiberTest.cs" />
     <Compile Include="TaskPoolActorFactoryTest.cs" />
     <Compile Include="ActorFactoryBuilderTest.cs" />
     <Compile Include="ActorFactoryTest.cs" />
-    <Compile Include="LoaderBalancerFactoryTest.cs" />
     <Compile Include="Fiber\DispatcherSynchronizationContextTest.cs" />
-    <Compile Include="TaskHelper\SynchronizationContextTaskSchedulerTest.cs" />
     <Compile Include="TaskHelper\TaskBuilderTest.cs" />
     <Compile Include="TestInfra\DummyClass\DummyCircularReferenceClass.cs" />
     <Compile Include="TestInfra\DummyClass\DummyClass.cs" />
@@ -111,6 +108,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Concurrent\Concurrent.csproj">
+      <Project>{4f2f8e53-87ba-42ce-b230-9aa6f4a56413}</Project>
+      <Name>Concurrent</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EasyActor\EasyActor.csproj">
       <Project>{487faea3-4503-4e5b-b10b-48b689dbf174}</Project>
       <Name>EasyActor</Name>

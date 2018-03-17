@@ -1,7 +1,8 @@
 ﻿using System.Windows.Threading;
-using EasyActor.WPF.Fiber;
+using Concurrent.Fibers;
+using Concurrent.WPF.Fiber;
 
-namespace EasyActor.WPF
+namespace Concurrent.WPF
 {
     public static class ActorExtension
     {
@@ -11,8 +12,9 @@ namespace EasyActor.WPF
             if (fiber != null)
                 return fiber;
 
-            var dispactch = rawimplementation as DispatcherObject;
-            return (dispactch != null) ? new DispatcherFiber(dispactch) : null;
+            return null;
+            //var dispactch = rawimplementation as DispatcherObject;
+            //return (dispactch != null) ? new DispatcherFiber(dispactch) : null;
         }
     }
 }

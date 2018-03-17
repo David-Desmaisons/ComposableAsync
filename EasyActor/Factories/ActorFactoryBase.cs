@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Threading;
+using Concurrent;
 using EasyActor.Helper;
+using EasyActor.Options;
 using EasyActor.Proxy;
 
 namespace EasyActor.Factories
@@ -26,10 +28,10 @@ namespace EasyActor.Factories
             return res;
         }
 
-        public static TaskScheduler GetContextFromProxy(object raw)
+        public static SynchronizationContext GetContextFromProxy(object raw)
         {
             var res = GetCachedActor(raw);
-            return res?.Fiber.TaskScheduler;
+            return res?.Fiber.SynchronizationContext;
         }
 
         public static void Clean(object raw)

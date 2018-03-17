@@ -1,4 +1,4 @@
-﻿namespace EasyActor
+﻿namespace EasyActor.Options
 {
     /// <summary>
     ///  Type of actor factory.

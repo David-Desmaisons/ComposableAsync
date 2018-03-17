@@ -1,4 +1,5 @@
 ﻿using Castle.DynamicProxy;
+using Concurrent;
 
 namespace EasyActor.Proxy 
 {

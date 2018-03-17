@@ -1,4 +1,6 @@
-﻿namespace EasyActor
+﻿using Concurrent;
+
+namespace EasyActor
 {
     public interface IFiberProvider
     {

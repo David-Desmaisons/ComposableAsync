@@ -2,10 +2,10 @@
 using System.Diagnostics;
 using System.Reflection;
 using Castle.DynamicProxy;
+using Concurrent;
+using Concurrent.Tasks;
 using EasyActor.Disposable;
 using EasyActor.Factories;
-using EasyActor.Fiber;
-using EasyActor.TaskHelper;
 
 namespace EasyActor.Proxy
 {

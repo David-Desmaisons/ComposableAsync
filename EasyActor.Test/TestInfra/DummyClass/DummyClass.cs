@@ -1,7 +1,7 @@
-﻿using EasyActor.TaskHelper;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Concurrent.Tasks;
 
 namespace EasyActor.Test.TestInfra.DummyClass
 {

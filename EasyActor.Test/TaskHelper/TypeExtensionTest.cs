@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EasyActor.TaskHelper;
+using Concurrent.Tasks;
 using FluentAssertions;
 using Xunit;
 

@@ -3,27 +3,29 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
-using EasyActor.TaskHelper;
+using Concurrent;
+using Concurrent.Tasks;
 
-namespace EasyActor.Proxy {
-    internal static class FiberBehaviourCacherDispatcher<T> 
+namespace EasyActor.Proxy
+{
+    internal static class FiberBehaviourCacherDispatcher<T>
     {
         private static readonly MethodInfo _Proceed = typeof(FiberBehaviourCacherDispatcher<T>).GetMethod(nameof(Proceed), BindingFlags.Static | BindingFlags.NonPublic);
         private static readonly Dictionary<MethodInfo, Func<IFiber, IInvocation, object>> _Cache = new Dictionary<MethodInfo, Func<IFiber, IInvocation, object>>();
 
-        static FiberBehaviourCacherDispatcher() 
+        static FiberBehaviourCacherDispatcher()
         {
             var type = typeof(T);
             RegisterType(type);
-            foreach (var @interface in type.GetInterfaces()) 
+            foreach (var @interface in type.GetInterfaces())
             {
                 RegisterType(@interface);
             }
         }
 
-        private static void RegisterType(Type t) 
+        private static void RegisterType(Type t)
         {
-            foreach(var methodInfo in t.GetMethods()) 
+            foreach (var methodInfo in t.GetMethods())
             {
                 _Cache.Add(methodInfo, BuildTransformFunction(methodInfo));
             }
@@ -33,17 +35,17 @@ namespace EasyActor.Proxy {
         {
             Func<IFiber, IInvocation, object> res = null;
             _Cache.TryGetValue(invocation.Method, out res);
-            return res;  
+            return res;
         }
 
-        private static Func<IFiber, IInvocation, object> BuildTransformFunction(MethodInfo method) 
+        private static Func<IFiber, IInvocation, object> BuildTransformFunction(MethodInfo method)
         {
             Func<IFiber, IInvocation, object> res = null;
             var td = method.ReturnType.GetTaskType();
             switch (td.MethodType)
             {
                 case TaskType.Void:
-                    res = (fiber, invocation) => 
+                    res = (fiber, invocation) =>
                     {
                         fiber.Dispatch(invocation.Call);
                         return null;

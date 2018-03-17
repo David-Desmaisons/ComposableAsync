@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
-using EasyActor.Fiber;
+using Concurrent;
+using Concurrent.Fibers;
+using EasyActor.Options;
 
 namespace EasyActor.Factories
 {
@@ -15,6 +17,6 @@ namespace EasyActor.Factories
 
         public override ActorFactorType Type => ActorFactorType.Standard;
 
-        protected override IAbortableFiber GetMonoFiber() => new MonoThreadedFiber(_OnCreate);
+        protected override IAbortableFiber GetMonoFiber() => Fiber.GetMonoThreadedFiber(_OnCreate);
     }
 }
