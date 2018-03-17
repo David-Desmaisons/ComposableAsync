@@ -8,20 +8,24 @@ namespace Concurrent.Fibers
 {
     internal sealed class TaskSchedulerFiber : TaskSchedulderDispatcher, IStopableFiber
     {
-        private TaskSchedulerFiber(TaskScheduler taskScheduler, Func<Task> complete) : base (taskScheduler, complete)
-        {
-            SynchronizationContext = new TaskSchedulerSynchronizationContext(taskScheduler);
+        private readonly ConcurrentExclusiveSchedulerPair _ConcurrentExclusiveSchedulerPair;
+
+        internal TaskSchedulerFiber():this(new ConcurrentExclusiveSchedulerPair())
+        {          
         }
 
-        internal static IStopableFiber GetFiber()
+        private TaskSchedulerFiber(ConcurrentExclusiveSchedulerPair concurrentExclusiveSchedulerPair) : base (concurrentExclusiveSchedulerPair.ExclusiveScheduler)
         {
-            var concurrentExclusiveSchedulerPair = new ConcurrentExclusiveSchedulerPair();
-            Func<Task> complete = () =>
-            {
-                concurrentExclusiveSchedulerPair.Complete();
-                return concurrentExclusiveSchedulerPair.Completion;
-            };
-            return new TaskSchedulerFiber(concurrentExclusiveSchedulerPair.ExclusiveScheduler, complete);
+            _ConcurrentExclusiveSchedulerPair = concurrentExclusiveSchedulerPair;
+            SynchronizationContext = new TaskSchedulerSynchronizationContext(concurrentExclusiveSchedulerPair.ExclusiveScheduler);
+        }
+
+        public override async Task Stop(Func<Task> cleanup)
+        {
+            await base.Stop(cleanup);
+
+            _ConcurrentExclusiveSchedulerPair.Complete();
+            await _ConcurrentExclusiveSchedulerPair.Completion;
         }
 
         public SynchronizationContext SynchronizationContext { get; }

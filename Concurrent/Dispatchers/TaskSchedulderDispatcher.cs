@@ -5,15 +5,13 @@ using Concurrent.WorkItems;
 
 namespace Concurrent.Dispatchers
 {
-    public class TaskSchedulderDispatcher : IDispatcher
+    internal class TaskSchedulderDispatcher : IDispatcher
     {
         private readonly TaskFactory _TaskFactory;
-        private readonly Func<Task> _Complete;
 
-        public TaskSchedulderDispatcher(TaskScheduler taskScheduler, Func<Task> complete)
+        public TaskSchedulderDispatcher(TaskScheduler taskScheduler)
         {
             _TaskFactory = new TaskFactory(taskScheduler);
-            _Complete = complete;
         }
 
         private static Task<T> Safe<T>(Func<Task<T>> compute)
@@ -75,12 +73,9 @@ namespace Concurrent.Dispatchers
                });
         }
 
-        public Task Stop(Func<Task> cleanup)
+        public virtual Task Stop(Func<Task> cleanup)
         {
-            if (cleanup != null)
-                Enqueue(cleanup);
-
-            return _Complete();
+            return Enqueue(() => cleanup() ?? TaskBuilder.Completed);
         }
     }
 }

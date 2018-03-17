@@ -12,7 +12,7 @@ namespace Concurrent
             return new MonoThreadedFiber(onCreate);
         }
 
-        public static IMonoThreadFiber GetThreadPoolFiber(Action<Thread> onCreate = null)
+        public static IMonoThreadFiber GetThreadPoolFiber()
         {
             return new ThreadPoolFiber();
         }
@@ -25,17 +25,17 @@ namespace Concurrent
         public static IFiber GetFiberFromCurrentContext()
         {
             var context = SynchronizationContext.Current;
-            return (context == null) ? new SynchronizationContextFiber(context) : null;
+            return (context != null) ? new SynchronizationContextFiber(context) : null;
+        }
+
+        public static IStopableFiber GetTaskBasedFiber()
+        {
+            return new TaskSchedulerFiber();
         }
 
         public static IDispatcher GetDispatcherFromCurrentContext()
         {
             return (IDispatcher) GetFiberFromCurrentContext() ?? new NullDispatcher();
-        }
-
-        public static IStopableFiber GetTaskBasedFiber()
-        {
-            return TaskSchedulerFiber.GetFiber();
         }
     }
 }

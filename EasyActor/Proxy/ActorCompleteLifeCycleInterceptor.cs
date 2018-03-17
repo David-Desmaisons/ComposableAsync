@@ -9,7 +9,7 @@ using EasyActor.Factories;
 
 namespace EasyActor.Proxy
 {
-    internal sealed class ActorCompleteLifeCycleInterceptor:  InterfaceInterceptor<IActorCompleteLifeCycle>
+    internal sealed class ActorCompleteLifeCycleInterceptor : InterfaceInterceptor<IActorCompleteLifeCycle>
     {
         private static readonly MethodInfo _Abort = Type.GetMethod(nameof(IActorCompleteLifeCycle.Abort), BindingFlags.Instance | BindingFlags.Public);
 
@@ -31,7 +31,7 @@ namespace EasyActor.Proxy
             return _Fiber.Abort(() =>
             {
                 ActorFactoryBase.Clean(invocation.Proxy);
-                return (_AsyncDisposable != null) ? _AsyncDisposable.DisposeAsync() : TaskBuilder.Completed;
+                return _AsyncDisposable?.DisposeAsync() ?? TaskBuilder.Completed;
             });
         }
     }

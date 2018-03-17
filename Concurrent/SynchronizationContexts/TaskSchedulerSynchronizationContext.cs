@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Concurrent.SynchronizationContexts
 {
-    public sealed class TaskSchedulerSynchronizationContext : SynchronizationContext
+    internal sealed class TaskSchedulerSynchronizationContext : SynchronizationContext
     {
         private readonly TaskFactory _TaskFactory;
 

@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace Concurrent.SynchronizationContexts
 {
-    public sealed class MonoThreadedFiberSynchronizationContext : SynchronizationContext
+    internal sealed class MonoThreadedFiberSynchronizationContext : SynchronizationContext
     {
         private readonly IMonoThreadFiber _Dispatcher;
 
