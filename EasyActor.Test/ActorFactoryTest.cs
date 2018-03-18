@@ -108,7 +108,7 @@ namespace EasyActor.Test
 
             Action Do = () => _Factory.Build<IDummyInterface2>(target);
 
-            Do.ShouldThrow<ArgumentException>().And.Message.Should().Contain("Shared");
+            Do.Should().Throw<ArgumentException>().And.Message.Should().Contain("Shared");
 
             await sharedFactory.DisposeAsync();
         }
@@ -142,7 +142,7 @@ namespace EasyActor.Test
         {
             _Actor1 = _Factory.Build<IDummyInterface2>(new DummyClass());
             Action Do = () => _Actor1.Do();
-            Do.ShouldNotThrow();
+            Do.Should().NotThrow();
         }
 
         [Fact]

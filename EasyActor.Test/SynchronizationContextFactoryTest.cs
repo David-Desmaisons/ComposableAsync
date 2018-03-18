@@ -41,7 +41,7 @@ namespace EasyActor.Test
             SynchronizationContext.SetSynchronizationContext(null);
             SynchronizationContextFactory res = null;
             Action Do = () => res = new SynchronizationContextFactory();
-            Do.ShouldThrow<ArgumentNullException>();
+            Do.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
@@ -120,7 +120,7 @@ namespace EasyActor.Test
 
             Action Do = () => _Factory.Build<IDummyInterface2>(target);
 
-            Do.ShouldThrow<ArgumentException>().And.Message.Should().Contain("Standard");
+            Do.Should().Throw<ArgumentException>().And.Message.Should().Contain("Standard");
 
             (intface as IAsyncDisposable)?.DisposeAsync();
         }

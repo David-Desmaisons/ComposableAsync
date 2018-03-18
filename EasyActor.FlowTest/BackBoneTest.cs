@@ -50,7 +50,7 @@ namespace EasyActor.FlowTest
         public void Process_WithMessageOfUnknowType_ThrowException()
         {
             Func<Task> act = () => _BackBone.Process(new object(), _Progess, CancellationToken.None);
-            act.ShouldThrow<ArgumentException>();
+            act.Should().Throw<ArgumentException>();
         }
 
         [Fact]
@@ -72,7 +72,7 @@ namespace EasyActor.FlowTest
         {
             _BackBone.Dispose();
             Func<Task> act = async() => await _BackBone.Process("test", _Progess, _CancellationToken);
-            act.ShouldThrow<TaskCanceledException>();
+            act.Should().Throw<TaskCanceledException>();
         }
 
         [Fact]
@@ -80,7 +80,7 @@ namespace EasyActor.FlowTest
         {
             var cancelledToken = new CancellationToken(true);
             Func<Task> act = async () => await _BackBone.Process("test", _Progess, cancelledToken);
-            act.ShouldThrow<TaskCanceledException>();
+            act.Should().Throw<TaskCanceledException>();
         }
 
         [Fact]

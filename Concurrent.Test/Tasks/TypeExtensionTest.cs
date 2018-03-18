@@ -4,9 +4,8 @@ using Concurrent.Tasks;
 using FluentAssertions;
 using Xunit;
 
-namespace EasyActor.Test.TaskHelper
+namespace Concurrent.Test.Tasks
 {
-
     public class TypeExtensionTest
     {
         [Fact]

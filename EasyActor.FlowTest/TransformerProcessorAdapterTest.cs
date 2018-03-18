@@ -51,7 +51,7 @@ namespace EasyActor.FlowTest
             _CancellationTokenSource.Cancel();
 
             Func<Task> act = () => _TransformerProcessorAdapter.Process(0, _BackBone, _Progess, _CancellationTokenSource.Token);
-            act.ShouldThrow<TaskCanceledException>();
+            act.Should().Throw<TaskCanceledException>();
 
             await _Transform.DidNotReceive().Transform(0, _Progess, _CancellationTokenSource.Token);
         }

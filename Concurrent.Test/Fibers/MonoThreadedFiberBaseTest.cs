@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Concurrent;
 using Concurrent.Tasks;
 using FluentAssertions;
 using Xunit;
 
-namespace EasyActor.Test.Fiber
+namespace Concurrent.Test.Fibers
 {
     public abstract class MonoThreadedFiberBaseTest
     {

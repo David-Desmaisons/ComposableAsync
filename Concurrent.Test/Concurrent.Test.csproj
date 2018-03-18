@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{006A5983-D4DF-4709-B4CE-3E0A594ED361}</ProjectGuid>
+    <ProjectGuid>{F6E7547D-130A-43BD-9E42-0004A46465A2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EasyActor.Flow.Sample</RootNamespace>
-    <AssemblyName>EasyActor.Flow.Sample</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>Concurrent.Test</RootNamespace>
+    <AssemblyName>Concurrent.Test</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -51,11 +51,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="xunit.assert, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\packages\xunit.assert.2.1.0\lib\portable-net45+win8+wp8+wpa81\xunit.assert.dll</HintPath>
+      <HintPath>..\packages\xunit.assert.2.1.0\lib\dotnet\xunit.assert.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="xunit.core, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\packages\xunit.extensibility.core.2.1.0\lib\portable-net45+win8+wp8+wpa81\xunit.core.dll</HintPath>
+      <HintPath>..\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="xunit.execution.desktop, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
@@ -64,24 +64,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreatingPipeline.cs" />
+    <Compile Include="Fibers\DispatcherSynchronizationContextTest.cs" />
+    <Compile Include="Fibers\MonoThreadedFiberBaseTest.cs" />
+    <Compile Include="Fibers\MonoThreadedFiberTest.cs" />
+    <Compile Include="Fibers\ThreadPoolFiberTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tasks\TaskBuilderTest.cs" />
+    <Compile Include="Tasks\TypeExtensionTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EasyActor.Flow\EasyActor.Flow.csproj">
-      <Project>{0ea7f2b2-6b70-41ae-9769-096e8a67cc8d}</Project>
-      <Name>EasyActor.Flow</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EasyActor\EasyActor.csproj">
-      <Project>{487faea3-4503-4e5b-b10b-48b689dbf174}</Project>
-      <Name>EasyActor</Name>
+    <ProjectReference Include="..\Concurrent\Concurrent.csproj">
+      <Project>{4f2f8e53-87ba-42ce-b230-9aa6f4a56413}</Project>
+      <Name>Concurrent</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading;
-using Concurrent;
 using Concurrent.Fibers;
 
-namespace EasyActor.Test.Fiber
+namespace Concurrent.Test.Fibers
 {
     public class ThreadPoolFiberTest : MonoThreadedFiberBaseTest
     {

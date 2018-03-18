@@ -17,7 +17,7 @@ namespace EasyActor.Factories
 
         public SharedThreadActorFactory(Action<Thread> onCreated = null)
         {
-            _Fiber = Fiber.GetMonoThreadedFiber(onCreated);
+            _Fiber = Fiber.CreateMonoThreadedFiber(onCreated);
             _RefCountAsyncDisposable = new RefCountAsyncDisposable(_Fiber);
             _FiberReference = _RefCountAsyncDisposable.GetDisposable();
         }

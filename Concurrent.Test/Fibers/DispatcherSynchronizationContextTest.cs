@@ -5,7 +5,7 @@ using Concurrent.SynchronizationContexts;
 using FluentAssertions;
 using Xunit;
 
-namespace EasyActor.Test.Fiber
+namespace Concurrent.Test.Fibers
 {
 
     public class DispatcherSynchronizationContextTest : IDisposable
@@ -30,7 +30,7 @@ namespace EasyActor.Test.Fiber
             MonoThreadedFiberSynchronizationContext res = null;
             Action Do = () => res = new MonoThreadedFiberSynchronizationContext(null);
 
-            Do.ShouldThrow<ArgumentNullException>();
+            Do.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
