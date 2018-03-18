@@ -42,8 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorExtension.cs" />
-    <Compile Include="Fiber\DispatcherExtension.cs" />
-    <Compile Include="Fiber\DispatcherFiber.cs" />
+    <Compile Include="Internal\DispatcherExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,5 @@
 ﻿using System.Windows.Threading;
-using Concurrent.Fibers;
-using Concurrent.WPF.Fiber;
+using Concurrent.WPF.Internal;
 
 namespace Concurrent.WPF
 {
@@ -12,9 +11,8 @@ namespace Concurrent.WPF
             if (fiber != null)
                 return fiber;
 
-            return null;
-            //var dispactch = rawimplementation as DispatcherObject;
-            //return (dispactch != null) ? new DispatcherFiber(dispactch) : null;
+            var dispactch = rawimplementation as DispatcherObject;
+            return (dispactch != null) ? Fiber.GetFiberFromSynchronizationContext(dispactch.Dispatcher.GetSynchronizationContext()) : null;
         }
     }
 }

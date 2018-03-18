@@ -5,7 +5,7 @@ using Concurrent.Tasks;
 
 namespace Concurrent.Disposable
 {
-    public class RefCountAsyncDisposable
+    public sealed class RefCountAsyncDisposable
     {
         private int _Count = 0;
         private readonly IAsyncDisposable _AsyncDisposable;

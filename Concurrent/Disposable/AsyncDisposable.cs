@@ -4,7 +4,7 @@ using Concurrent.Tasks;
 
 namespace Concurrent.Disposable
 {
-    public class AsyncDisposable : IAsyncDisposable
+    public sealed class AsyncDisposable : IAsyncDisposable
     {
         private readonly IDisposable _Disposable;
         public AsyncDisposable(IDisposable disposable)

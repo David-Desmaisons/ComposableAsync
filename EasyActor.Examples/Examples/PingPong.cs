@@ -11,13 +11,19 @@ using Xunit.Abstractions;
 namespace EasyActor.Examples
 {
 
-    public class PingPong
+    public class PingPong : IDisposable
     {
         private readonly ITestOutputHelper _Output;
+        private IActorFactory _ActorFactory;
 
         public PingPong(ITestOutputHelper output = null)
         {
             _Output = output;
+        }
+
+        public void Dispose()
+        {
+            _ActorFactory?.Dispose();
         }
 
         public static IEnumerable<object[]> GetFactories()
@@ -56,7 +62,7 @@ namespace EasyActor.Examples
             Output($"Total Ping:{one.Count}, Total Pong:{two.Count} Total Time: {watch.ElapsedMilliseconds} ms");
             Output($"Operation/ms:{(one.Count + two.Count) / watch.ElapsedMilliseconds}");
 
-            await fact.DisposeAsync();
+            _ActorFactory = fact;
         }
 
         private static Task StopActor(object actor)
@@ -90,6 +96,8 @@ namespace EasyActor.Examples
 
             Output($"Total Ping:{one.Count}, Total Pong:{two.Count} Total Time: {watch.ElapsedMilliseconds} ms");
             Output($"Operation/ms:{(one.Count + two.Count) / watch.ElapsedMilliseconds}");
+
+            _ActorFactory = fact;
         }
 
         private void Output(string message)

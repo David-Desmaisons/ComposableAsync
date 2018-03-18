@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Concurrent.Disposable
 {
-    public class ComposableAsyncDisposable : IAsyncDisposable
+    public sealed class ComposableAsyncDisposable : IAsyncDisposable
     {
         private readonly ConcurrentQueue<IAsyncDisposable> _Disposables;
         public ComposableAsyncDisposable()

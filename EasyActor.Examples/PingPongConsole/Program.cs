@@ -17,13 +17,16 @@ namespace PingPongConsole
         {
             foreach (var fact in PingPong.GetFactories().Select(o => o[0] as IActorFactory))
             {
-                Console.WriteLine("Task");
-                await new PingPong().Test(fact);
-                Console.WriteLine("=================");
+                using (fact)
+                {
+                    Console.WriteLine("Task");
+                    await new PingPong().Test(fact);
+                    Console.WriteLine("=================");
 
-                Console.WriteLine("No task");
-                await new PingPong().TestNoTask(fact);
-                Console.WriteLine("=================");
+                    Console.WriteLine("No task");
+                    await new PingPong().TestNoTask(fact);
+                    Console.WriteLine("=================");
+                }            
             }
             Console.ReadLine();
         }

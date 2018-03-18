@@ -1,18 +1,24 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using Concurrent.Tasks;
 
 namespace Concurrent.Disposable
 {
-    public class AsyncActionDisposable : IAsyncDisposable
+    public sealed class AsyncActionDisposable : IAsyncDisposable
     {
-        private readonly Func<Task> _Dispose;
+        private Func<Task> _Dispose;
         public AsyncActionDisposable(Func<Task> dispose)
         {
             _Dispose = dispose;
         }
 
-        public void Dispose() => _Dispose().Wait();
+        public void Dispose() => DisposeAsync().Wait();
 
-        public Task DisposeAsync() => _Dispose();
+        public Task DisposeAsync()
+        {
+            var dispose = Interlocked.Exchange(ref _Dispose, null);
+            return dispose?.Invoke()?? TaskBuilder.Completed;
+        }
     }
 }
