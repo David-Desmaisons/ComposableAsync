@@ -1,7 +1,8 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
-namespace EasyActor.Disposable
+namespace Concurrent.Disposable
 {
     public class ComposableAsyncDisposable : IAsyncDisposable
     {

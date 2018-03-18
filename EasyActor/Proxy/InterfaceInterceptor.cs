@@ -10,7 +10,7 @@ namespace EasyActor.Proxy
         {
             var method = invocation.Method;
 
-            if (method.DeclaringType != Type)
+            if (!method.DeclaringType.IsAssignableFrom(Type))
             {
                 invocation.Proceed();
                 return;

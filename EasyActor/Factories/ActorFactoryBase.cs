@@ -13,8 +13,9 @@ namespace EasyActor.Factories
     public abstract class ActorFactoryBase
     {
         private static readonly IDictionary<object, ActorDescription> _Actors = new ConcurrentDictionary<object, ActorDescription>();
+        private static ProxyGenerator Generator { get; }
 
-        internal static ProxyGenerator Generator { get; }
+        public abstract ActorFactorType Type { get; }
 
         static ActorFactoryBase()
         {
@@ -90,7 +91,5 @@ namespace EasyActor.Factories
             Register(concrete, res, fiber);
             return res;
         }
-
-        public abstract ActorFactorType Type { get; }
     }
 }

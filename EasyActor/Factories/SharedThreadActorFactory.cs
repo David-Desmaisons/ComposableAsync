@@ -2,30 +2,33 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Concurrent;
-using Concurrent.Fibers;
-using EasyActor.Disposable;
+using Concurrent.Disposable;
+using EasyActor.Helper;
 using EasyActor.Options;
+using EasyActor.Proxy;
 
 namespace EasyActor.Factories
 {
-    public sealed class SharedThreadActorFactory : ActorFactoryBase, IActorFactory, IActorCompleteLifeCycle
+    public sealed class SharedThreadActorFactory : ActorFactoryBase, IActorFactory
     {
-        private readonly IAbortableFiber _Fiber;
-        private readonly ComposableAsyncDisposable _Disposable;
+        private readonly IStopableFiber _Fiber;
+        private readonly RefCountAsyncDisposable _RefCountAsyncDisposable;
+        private readonly IAsyncDisposable _FiberReference;
 
         public SharedThreadActorFactory(Action<Thread> onCreated = null)
         {
             _Fiber = Fiber.GetMonoThreadedFiber(onCreated);
-            _Disposable = new ComposableAsyncDisposable();
+            _RefCountAsyncDisposable = new RefCountAsyncDisposable(_Fiber);
+            _FiberReference = _RefCountAsyncDisposable.GetDisposable();
         }
 
         public override ActorFactorType Type => ActorFactorType.Shared;
 
         public T Build<T>(T concrete) where T : class
         {
-            var res = Create(concrete, _Fiber);
-            _Disposable.Add(concrete as IAsyncDisposable);
-            return res;
+            var asyncDisposable = concrete as IAsyncDisposable;
+            return CreateIActorLifeCycle(concrete, _Fiber, TypeHelper.AsyncDisposable,
+                new DisposabeInterceptor(_RefCountAsyncDisposable.GetDisposable(), asyncDisposable));
         }
 
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
@@ -33,24 +36,8 @@ namespace EasyActor.Factories
             return _Fiber.Enqueue(() => Build<T>(concrete()));
         }
 
-        private Task GetEndTask()
-        {
-            return _Disposable.DisposeAsync();
-        }
+        public void Dispose() => _FiberReference.Dispose();
 
-        public Task Abort()
-        {
-            return _Fiber.Abort(GetEndTask);
-        }
-
-        public Task Stop()
-        {
-            var stoppable = _Fiber as IStopableFiber;
-            return stoppable?.Stop(GetEndTask) ?? _Fiber.Abort(GetEndTask);
-        }
-
-        public void Dispose() => Stop().Wait();
-
-        public Task DisposeAsync() => Stop();
+        public Task DisposeAsync() => _FiberReference.DisposeAsync();
     }
 }

@@ -24,7 +24,7 @@ namespace EasyActor.Examples
         public void Dispose()
         {
             _Threads.ForEach(t => t.Abort());
-            (_IActor as IActorLifeCycle)?.Stop()?.Wait();
+            (_IActor as IAsyncDisposable)?.DisposeAsync()?.Wait();
         }
 
         private async Task TestActor()

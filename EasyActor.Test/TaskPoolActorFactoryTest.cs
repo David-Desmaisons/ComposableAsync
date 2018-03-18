@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using FluentAssertions;
  
@@ -98,30 +99,30 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public void Actor_Should_Implement_IActorLifeCycle()
+        public void Actor_Should_Implement_IAsyncDisposable()
         {
             var intface = _TaskPoolActorFactory.Build<IDummyInterface2>(new DummyClass());
-            intface.Should().BeAssignableTo<IActorLifeCycle>();
+            intface.Should().BeAssignableTo<IAsyncDisposable>();
         }
 
         [Fact]
-        public async Task Actor_IActorLifeCycle_Stop_Should_Call_Proxified_Class_On_IAsyncDisposable()
+        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Call_Proxified_Class_On_IAsyncDisposable()
         {
             //arrange
             var dispclass = new DisposableClass();
             var intface = _TaskPoolActorFactory.Build<IDummyInterface1>(dispclass);
 
             //act
-            var disp = (IActorLifeCycle) intface;
+            var disp = (IAsyncDisposable) intface;
 
-            await disp.Stop();
+            await disp.DisposeAsync();
 
             //assert
             dispclass.IsDisposed.Should().BeTrue();
         }
 
         [Fact]
-        public async Task Actor_Should_Return_Cancelled_Task_On_Any_Method_AfterCalling_IActorLifeCycle_Stop()
+        public async Task Actor_Should_Return_Cancelled_Task_On_Any_Method_AfterCalling_IAsyncDisposable_DisposeAsync()
         {
             //arrange
             var dispclass = new DisposableClass();
@@ -130,9 +131,9 @@ namespace EasyActor.Test
             //act
             var task = intface.DoAsync();
 
-            var disp = (IActorLifeCycle) intface;
+            var disp = (IAsyncDisposable) intface;
 
-            await disp.Stop();
+            await disp.DisposeAsync();
 
             TaskCanceledException error = null;
             Task canc = null;
@@ -153,7 +154,7 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public async Task Actor_IActorLifeCycle_Stop_Should_Not_Cancel_Enqueued_Task()
+        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Not_Cancel_Enqueued_Task()
         {
             //arrange
             var dispclass = new DisposableClass();
@@ -163,9 +164,9 @@ namespace EasyActor.Test
             var takenqueued = intface.DoAsync();
             Thread.Sleep(100);
             //act
-            var disp = (IActorLifeCycle) intface;
+            var disp = (IAsyncDisposable) intface;
 
-            await disp.Stop();
+            await disp.DisposeAsync();
             await takenqueued;
 
             //assert

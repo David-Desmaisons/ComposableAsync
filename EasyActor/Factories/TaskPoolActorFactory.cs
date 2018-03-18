@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Concurrent;
 using Concurrent.Tasks;
-using EasyActor.Disposable;
 using EasyActor.Helper;
 using EasyActor.Options;
 using EasyActor.Proxy;
@@ -18,8 +17,8 @@ namespace EasyActor.Factories
         private T Build<T>(T concrete, IStopableFiber fiber) where T : class
         {
             var asyncDisposable = concrete as IAsyncDisposable;
-            return CreateIActorLifeCycle(concrete, fiber, TypeHelper.ActorLifeCycleType,
-                        new ActorLifeCycleInterceptor(fiber, asyncDisposable));
+            return CreateIActorLifeCycle(concrete, fiber, TypeHelper.AsyncDisposable,
+                        new DisposabeInterceptor(fiber, asyncDisposable));
         }
 
         public T Build<T>(T concrete) where T : class

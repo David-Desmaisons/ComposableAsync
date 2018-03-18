@@ -27,9 +27,9 @@ namespace Concurrent.SynchronizationContexts
             _Dispatcher.Enqueue(() => d(state));
         }
 
-        public bool IsSame(MonoThreadedFiberSynchronizationContext iother)
+        public bool IsSame(MonoThreadedFiberSynchronizationContext other)
         {
-            return _Dispatcher == iother._Dispatcher;
+            return _Dispatcher == other._Dispatcher;
         }
 
         public override SynchronizationContext CreateCopy()

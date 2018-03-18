@@ -20,6 +20,7 @@ namespace Concurrent.SynchronizationContexts
         private TaskSchedulerSynchronizationContext(TaskFactory taskFactory)
         {
             _TaskFactory = taskFactory;
+            SetWaitNotificationRequired();
         }
 
         public override void Send(SendOrPostCallback d, object state)

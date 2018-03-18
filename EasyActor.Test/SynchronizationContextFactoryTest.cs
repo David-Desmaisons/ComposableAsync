@@ -112,7 +112,7 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public void Build_Should_Throw_Exception_IsSamePOCO_HasBeenUsedWithOtherFactory()
+        public async Task Build_Should_Throw_Exception_IsSamePOCO_HasBeenUsedWithOtherFactory()
         {
             var target = new DummyClass();
             var Factory = new ActorFactory();
@@ -122,7 +122,7 @@ namespace EasyActor.Test
 
             Do.ShouldThrow<ArgumentException>().And.Message.Should().Contain("Standard");
 
-            (intface as IActorLifeCycle)?.Stop().Wait();
+            (intface as IAsyncDisposable)?.DisposeAsync();
         }
 
         [Fact]

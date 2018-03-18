@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 namespace Concurrent
 {
-    public interface IStopableFiber : IFiber
+    public interface IStopableFiber : IFiber, IAsyncDisposable
     {
-        Task Stop(Func<Task> cleanup);
     }
 }

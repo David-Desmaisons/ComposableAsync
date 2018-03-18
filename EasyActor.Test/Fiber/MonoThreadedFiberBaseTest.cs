@@ -415,27 +415,6 @@ namespace EasyActor.Test.Fiber
         }
 
         [Fact]
-        public async Task Dispose_Enqueued_Task_Should_Continue_After_Stoping_Queue()
-        {
-            //arrange  
-            var queue = GetQueue();
-            var task = queue.Enqueue(() => TaskFactory(3));
-            while (RunningThread == null)
-            {
-                Thread.Sleep(100);
-            }
-
-            var enqueuedtask = queue.Enqueue(() => TaskFactory(3));
-            //act
-            await queue.Stop(() => TaskBuilder.Completed);
-            await enqueuedtask;
-
-            //assert
-            task.IsCompleted.Should().BeTrue();
-            enqueuedtask.IsCompleted.Should().BeTrue();
-        }
-
-        [Fact]
         public async Task Enqueue_Task_Should_Cancel_Not_Started_Task_When_OnDispose()
         {
             Task newTask = null, notstarted = null;

@@ -9,13 +9,23 @@ using Xunit;
 
 namespace EasyActor.Test
 {  
-    public class ActorFactoryTest
+    public class ActorFactoryTest :IDisposable
     {
         private readonly ActorFactory _Factory;
+        private IDummyInterface2 _Actor1;
+        private IDummyInterface2 _Actor2;
+        private IDummyInterface1 _Actor3;
 
         public ActorFactoryTest()
         {
             _Factory = new ActorFactory();
+        }
+
+        public void Dispose()
+        {
+            (_Actor1 as IDisposable)?.Dispose();
+            (_Actor2 as IDisposable)?.Dispose();
+            (_Actor3 as IDisposable)?.Dispose();
         }
 
         [Fact]
@@ -29,30 +39,26 @@ namespace EasyActor.Test
         {
             var current = Thread.CurrentThread;
             var target = new DummyClass();
-            var intface = _Factory.Build<IDummyInterface2>(target);
-            await intface.DoAsync();
+            _Actor1 = _Factory.Build<IDummyInterface2>(target);
+            await _Actor1.DoAsync();
 
             target.Done.Should().BeTrue();
             target.CallingThread.Should().NotBeNull();
             target.CallingThread.Should().NotBe(current);
-
-            await (intface as IActorLifeCycle).Stop();
         }
 
         [Fact]
         public async Task Method_Should_Always_Run_On_Same_Thread()
         {
             var target = new DummyClass();
-            var intface = _Factory.Build<IDummyInterface2>(target);
-            await intface.DoAsync();
+            _Actor1 = _Factory.Build<IDummyInterface2>(target);
+            await _Actor1.DoAsync();
 
             var thread = target.CallingThread;
 
-            await intface.DoAsync();
+            await _Actor1.DoAsync();
 
             target.CallingThread.Should().Be(thread);
-
-            await (intface as IActorLifeCycle).Stop();
         }
 
         [Fact]
@@ -61,43 +67,36 @@ namespace EasyActor.Test
             //arrange
             var target1 = new DummyClass();
             var target2 = new DummyClass();
-            var intface1 = _Factory.Build<IDummyInterface2>(target1);
-            var intface2 = _Factory.Build<IDummyInterface2>(target2);
+            _Actor1 = _Factory.Build<IDummyInterface2>(target1);
+            _Actor2 = _Factory.Build<IDummyInterface2>(target2);
 
             //act
-            await intface1.DoAsync();
-            await intface2.DoAsync();
+            await _Actor1.DoAsync();
+            await _Actor2.DoAsync();
 
             //assert
             target1.CallingThread.Should().NotBe(target2.CallingThread);
-
-            await (intface1 as IActorLifeCycle).Stop();
-            await (intface2 as IActorLifeCycle).Stop();
         }
 
         [Fact]
         public async Task Method_Should_Run_On_Same_Thread_After_Await()
         {
             var target = new DummyClass();
-            var intface = _Factory.Build<IDummyInterface2>(target);
+            _Actor1 = _Factory.Build<IDummyInterface2>(target);
 
-            var res = await intface.DoAnRedoAsync();
+            var res = await _Actor1.DoAnRedoAsync();
 
             res.Item1.Should().Be(res.Item2);
-
-            await (intface as IActorLifeCycle).Stop();
         }
 
         [Fact]
-        public async Task Build_Should_CreateSameInterface_ForSamePOCO()
+        public void Build_Should_CreateSameInterface_ForSamePOCO()
         {
             var target = new DummyClass();
-            var intface = _Factory.Build<IDummyInterface2>(target);
+            _Actor1 = _Factory.Build<IDummyInterface2>(target);
             var intface2 = _Factory.Build<IDummyInterface2>(target);
 
-            intface.Should().BeSameAs(intface2);
-
-            await(intface as IActorLifeCycle).Stop();
+            _Actor1.Should().BeSameAs(intface2);
         }
 
         [Fact]
@@ -105,7 +104,7 @@ namespace EasyActor.Test
         {
             var target = new DummyClass();
             var sharedFactory = new SharedThreadActorFactory();
-            var intface = sharedFactory.Build<IDummyInterface2>(target);
+            _Actor1 = sharedFactory.Build<IDummyInterface2>(target);
 
             Action Do = () => _Factory.Build<IDummyInterface2>(target);
 
@@ -118,12 +117,10 @@ namespace EasyActor.Test
         public async Task Task_returned_By_Method_Should_Be_Awaited()
         {
             var target = new DummyClass();
-            var intface = _Factory.Build<IDummyInterface2>(target);
-            await intface.SlowDoAsync();
+            _Actor1 = _Factory.Build<IDummyInterface2>(target);
+            await _Actor1.SlowDoAsync();
 
             target.Done.Should().BeTrue();
-
-            await (intface as IActorLifeCycle).Stop();
         }
 
         [Fact]
@@ -131,25 +128,21 @@ namespace EasyActor.Test
         {
             var current = Thread.CurrentThread;
             var target = new DummyClass();
-            var intface = _Factory.Build<IDummyInterface2>(target);
-            var result = await intface.ComputeAsync(25);
+            _Actor1 = _Factory.Build<IDummyInterface2>(target);
+            var result = await _Actor1.ComputeAsync(25);
 
             result.Should().Be(25);
             target.Done.Should().BeTrue();
             target.CallingThread.Should().NotBeNull();
             target.CallingThread.Should().NotBe(current);
-
-            await (intface as IActorLifeCycle).Stop();
         }
 
         [Fact]
-        public async Task Method_returning_void_Task_Should_Not_Throw_Exception()
+        public void Method_returning_void_Task_Should_Not_Throw_Exception()
         {
-            var intface = _Factory.Build<IDummyInterface2>(new DummyClass());
-            Action Do = () => intface.Do();
+            _Actor1 = _Factory.Build<IDummyInterface2>(new DummyClass());
+            Action Do = () => _Actor1.Do();
             Do.ShouldNotThrow();
-
-            await(intface as IActorLifeCycle).Stop();
         }
 
         [Fact]
@@ -157,106 +150,90 @@ namespace EasyActor.Test
         {
             var current = Thread.CurrentThread;
             DummyClass target = null;
-            IDummyInterface2 intface = await _Factory.BuildAsync<IDummyInterface2>(() => { target = new DummyClass(); return target; });
-            await intface.DoAsync();
+            _Actor1 = await _Factory.BuildAsync<IDummyInterface2>(() => { target = new DummyClass(); return target; });
+            await _Actor1.DoAsync();
 
             target.Done.Should().BeTrue();
             target.CallingConstructorThread.Should().NotBe(current);
             target.CallingConstructorThread.Should().Be(target.CallingThread);
-
-            await (intface as IActorLifeCycle).Stop();
         }
 
         [Fact]
-        public async Task Actor_Should_Implement_IActorLifeCycle_Even_If_Wrapped_Not_IDisposableAsync()
+        public void Actor_Should_Implement_IAsyncDisposable_Even_If_Wrapped_Not_IDisposableAsync()
         {
-            var intface = _Factory.Build<IDummyInterface2>(new DummyClass());
-            intface.Should().BeAssignableTo<IActorCompleteLifeCycle>();
-
-            await(intface as IActorLifeCycle).Stop();
+            _Actor1 = _Factory.Build<IDummyInterface2>(new DummyClass());
+            _Actor1.Should().BeAssignableTo<IAsyncDisposable>();
         }
 
         [Fact]
-        public async Task Actor_Should_Implement_IActorLifeCycle()
+        public void Actor_Should_Implement_IFiberProvider()
         {
-            var intface = _Factory.Build<IDummyInterface1>(new DisposableClass());
-            intface.Should().BeAssignableTo<IActorCompleteLifeCycle>();
-
-            await(intface as IActorLifeCycle).Stop();
+            _Actor1 = _Factory.Build<IDummyInterface2>(new DummyClass());
+            _Actor1.Should().BeAssignableTo<IFiberProvider>();
         }
 
         [Fact]
-        public async Task Actor_Should_Implement_IFiberProvider()
+        public void Actor_Should_Returns_Fiber()
         {
-            var intface = _Factory.Build<IDummyInterface1>(new DummyClass());
-            intface.Should().BeAssignableTo<IFiberProvider>();
-
-            await (intface as IActorLifeCycle).Stop();
-        }
-
-        [Fact]
-        public async Task Actor_Should_Returns_Fiber()
-        {
-            var intface = _Factory.Build<IDummyInterface1>(new DummyClass());
-            var fp = intface as IFiberProvider;
+            _Actor1 = _Factory.Build<IDummyInterface2>(new DummyClass());
+            var fp = _Actor1 as IFiberProvider;
 
             var fiber = fp.Fiber;
 
             fiber.Should().NotBeNull();
-            await (intface as IActorLifeCycle).Stop();
         }
 
         [Fact]
-        public async Task Actor_IActorLifeCycle_Stop_Should_Cancel_Actor_Thread()
+        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Cancel_Actor_Thread()
         {
             //arrange
             var clas = new DummyClass();
-            var intface = _Factory.Build<IDummyInterface2>(clas);
+            _Actor1 = _Factory.Build<IDummyInterface2>(clas);
 
-            await intface.DoAsync();
+            await _Actor1.DoAsync();
             //act
-            IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
+            var disp = _Actor1 as IAsyncDisposable;
 
-            await disp.Stop();
+            await disp.DisposeAsync();
             Thread.Yield();
             //assert
             clas.CallingThread.IsAlive.Should().BeFalse();
         }
 
         [Fact]
-        public async Task Actor_IActorLifeCycle_Stop_Should_Call_Proxified_Class_On_IAsyncDisposable()
+        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Call_Proxified_Class_On_IAsyncDisposable()
         {
             //arrange
             var dispclass = new DisposableClass();
-            var intface = _Factory.Build<IDummyInterface1>(dispclass);
+            _Actor3 = _Factory.Build<IDummyInterface1>(dispclass);
 
             //act
-            IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
+            var disp = _Actor3 as IAsyncDisposable;
 
-            await disp.Stop();
+            await disp.DisposeAsync();
             //assert
             dispclass.IsDisposed.Should().BeTrue();
         }
 
         [Fact]
-        public async Task Actor_Should_Return_Cancelled_Task_On_Any_Method_AfterCalling_IActorLifeCycle_Stop()
+        public async Task Actor_Should_Return_Cancelled_Task_On_Any_Method_AfterCalling_IAsyncDisposable_DisposeAsync()
         {
             //arrange
             var dispclass = new DisposableClass();
-            var intface = _Factory.Build<IDummyInterface1>(dispclass);
+            _Actor3 = _Factory.Build<IDummyInterface1>(dispclass);
 
             //act
-            var task = intface.DoAsync();
+            var task = _Actor3.DoAsync();
 
-            var disp = intface as IActorCompleteLifeCycle;
+            var disp = _Actor3 as IAsyncDisposable;
 
-            await disp.Stop();
+            await disp.DisposeAsync();
 
             TaskCanceledException error = null;
             Task canc = null;
             try
             {
-                canc = intface.DoAsync();
+                canc = _Actor3.DoAsync();
                 await canc;
             }
             catch (TaskCanceledException e)
@@ -270,73 +247,21 @@ namespace EasyActor.Test
             canc.IsCanceled.Should().BeTrue();
         }
 
-        [Fact]
-        public async Task Actor_IActorLifeCycle_Stop_Should_Not_Cancel_Enqueued_Task()
-        {
-            //arrange
-            var dispclass = new DisposableClass();
-            var intface = _Factory.Build<IDummyInterface1>(dispclass);
-
-            Task Taskrunning = intface.DoAsync(), Takenqueued = intface.DoAsync();
-            Thread.Sleep(100);
-            //act
-            IActorCompleteLifeCycle disp = intface as IActorCompleteLifeCycle;
-
-            await disp.Stop();
-            await Takenqueued;
-
-            //assert
-            Takenqueued.IsCompleted.Should().BeTrue();
-        }
 
         [Fact]
-        public async Task Actor_IActorLifeCycle_Abort_Should_Cancel_Actor_Thread()
-        {
-            //arrange
-            var clas = new DummyClass();
-            var intface = _Factory.Build<IDummyInterface2>(clas);
-
-            await intface.DoAsync();
-            //act
-            var disp = intface as IActorCompleteLifeCycle;
-
-            await disp.Abort();
-            Thread.Yield();
-
-            //assert
-            clas.CallingThread.IsAlive.Should().BeFalse();
-        }
-
-        [Fact]
-        public async Task Actor_IActorLifeCycle_Abort_Should_Call_Proxified_Class_On_IAsyncDisposable()
-        {
-            //arrange
-            var dispclass = new DisposableClass();
-            var intface = _Factory.Build<IDummyInterface1>(dispclass);
-
-            //act
-            var disp = intface as IActorCompleteLifeCycle;
-
-            await disp.Abort();
-
-            //assert
-            dispclass.IsDisposed.Should().BeTrue();
-        }
-
-        [Fact]
-        public async Task Actor_IActorLifeCycle_Abort_Should_Not_Cancel_RunningTask()
+        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Not_Cancel_RunningTask()
         {
             //arrange
             var taskCompletionSource = new TaskCompletionSource<object>();
             var progress = new Progress<int>(i => taskCompletionSource.TrySetResult(null));
             var dispclass = new DisposableClass();
-            var intface = _Factory.Build<IDummyInterface1>(dispclass);
-            var disp = intface as IActorCompleteLifeCycle;
+            _Actor3 = _Factory.Build<IDummyInterface1>(dispclass);
+            var disp = _Actor3 as IAsyncDisposable;
 
             //act
-            var Taskrunning = intface.DoAsync(progress);
+            var Taskrunning = _Actor3.DoAsync(progress);
             await taskCompletionSource.Task;
-            await disp.Abort();
+            await disp.DisposeAsync();
             await Taskrunning;
             Thread.Sleep(100);
 
@@ -345,19 +270,19 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public async Task Actor_IActorLifeCycle_Abort_Should_Cancel_Enqueued_Task()
+        public async Task Actor_DisposeAsync_Should_Cancel_Enqueued_Task()
         {
             //arrange
             var dispclass = new DisposableClass();
-            var intface = _Factory.Build<IDummyInterface1>(dispclass);
+            _Actor3 = _Factory.Build<IDummyInterface1>(dispclass);
 
-            intface.DoAsync();
-            var Takenqueued = intface.DoAsync();
+            _Actor3.DoAsync();
+            var Takenqueued = _Actor3.DoAsync();
             Thread.Sleep(100);
             //act
-            var disp = intface as IActorCompleteLifeCycle;
+            var disp = _Actor3 as IAsyncDisposable;
 
-            await disp.Abort();
+            await disp.DisposeAsync();
 
             //assert
             TaskCanceledException error = null;
@@ -373,38 +298,6 @@ namespace EasyActor.Test
             //assert
             error.Should().NotBeNull();
             Takenqueued.IsCanceled.Should().BeTrue();
-        }
-
-        [Fact]
-        public async Task Actor_Should_Return_Cancelled_Task_On_Any_Method_AfterCalling_IActorLifeCycle_Abort()
-        {
-            //arrange
-            var dispclass = new DisposableClass();
-            var intface = _Factory.Build<IDummyInterface1>(dispclass);
-
-            //act
-            var task = intface.DoAsync();
-
-            var disp = intface as IActorCompleteLifeCycle;
-
-            await disp.Abort();
-
-            TaskCanceledException error = null;
-            Task canc = null;
-            try
-            {
-                canc = intface.DoAsync();
-                await canc;
-            }
-            catch (TaskCanceledException e)
-            {
-                error = e;
-            }
-
-            //assert
-            error.Should().NotBeNull();
-            task.IsCompleted.Should().BeTrue();
-            canc.IsCanceled.Should().BeTrue();
         }
     }
 }

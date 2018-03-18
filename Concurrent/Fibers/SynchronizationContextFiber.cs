@@ -7,6 +7,9 @@ namespace Concurrent.Fibers
 {
     internal sealed class SynchronizationContextFiber : IFiber
     {
+        public bool IsAlive => true;
+        public SynchronizationContext SynchronizationContext => _Context;
+
         private readonly SynchronizationContext _Context;
         public SynchronizationContextFiber(SynchronizationContext synchronizationContext)
         {
@@ -45,7 +48,5 @@ namespace Concurrent.Fibers
             _Context.Post(_ => workitem.Do(), null);
             return workitem.Task;
         }
-
-        public SynchronizationContext SynchronizationContext => _Context;
     }
 }

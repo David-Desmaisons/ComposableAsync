@@ -55,16 +55,14 @@ namespace EasyActor.Examples
 
             Output($"Total Ping:{one.Count}, Total Pong:{two.Count} Total Time: {watch.ElapsedMilliseconds} ms");
             Output($"Operation/ms:{(one.Count + two.Count) / watch.ElapsedMilliseconds}");
+
+            await fact.DisposeAsync();
         }
 
         private static Task StopActor(object actor)
         {
-            var lifeCyle = actor as IActorCompleteLifeCycle;
-            if (lifeCyle != null)
-                return lifeCyle.Abort();
-
-            var stopable = actor as IActorLifeCycle;
-            return stopable?.Stop() ?? TaskBuilder.Completed;
+            var lifeCyle = actor as IAsyncDisposable;
+            return lifeCyle?.DisposeAsync() ?? TaskBuilder.Completed;
         }
 
         [Theory]

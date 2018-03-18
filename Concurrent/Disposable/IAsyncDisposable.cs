@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 //For reference see discussion:
 //https://github.com/dotnet/roslyn/issues/114
 
-namespace EasyActor.Disposable
+namespace System
 {
     /// <summary>
     ///  Asynchroneous version of IDisposable

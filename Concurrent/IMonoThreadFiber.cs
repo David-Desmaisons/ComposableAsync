@@ -2,7 +2,7 @@
 
 namespace Concurrent
 {
-    public interface IMonoThreadFiber : IAbortableFiber, IDisposable
+    public interface IMonoThreadFiber : IStopableFiber
     {
         void Send(Action action);
     }

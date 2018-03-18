@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Tasks;
-using EasyActor.Disposable;
 
 namespace EasyActor.Test.TestInfra.DummyClass
 {

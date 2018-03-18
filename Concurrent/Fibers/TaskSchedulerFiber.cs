@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Dispatchers;
 using Concurrent.SynchronizationContexts;
@@ -8,26 +7,31 @@ namespace Concurrent.Fibers
 {
     internal sealed class TaskSchedulerFiber : TaskSchedulderDispatcher, IStopableFiber
     {
+        public bool IsAlive { get; private set; } = true;
+        public SynchronizationContext SynchronizationContext { get; }
+
         private readonly ConcurrentExclusiveSchedulerPair _ConcurrentExclusiveSchedulerPair;
 
-        internal TaskSchedulerFiber():this(new ConcurrentExclusiveSchedulerPair())
-        {          
+        internal TaskSchedulerFiber() : this(new ConcurrentExclusiveSchedulerPair())
+        {
         }
 
-        private TaskSchedulerFiber(ConcurrentExclusiveSchedulerPair concurrentExclusiveSchedulerPair) : base (concurrentExclusiveSchedulerPair.ExclusiveScheduler)
+        private TaskSchedulerFiber(ConcurrentExclusiveSchedulerPair concurrentExclusiveSchedulerPair) : base(concurrentExclusiveSchedulerPair.ExclusiveScheduler)
         {
             _ConcurrentExclusiveSchedulerPair = concurrentExclusiveSchedulerPair;
             SynchronizationContext = new TaskSchedulerSynchronizationContext(concurrentExclusiveSchedulerPair.ExclusiveScheduler);
         }
 
-        public override async Task Stop(Func<Task> cleanup)
+        public async Task DisposeAsync()
         {
-            await base.Stop(cleanup);
-
             _ConcurrentExclusiveSchedulerPair.Complete();
             await _ConcurrentExclusiveSchedulerPair.Completion;
+            IsAlive = false;
         }
 
-        public SynchronizationContext SynchronizationContext { get; }
+        public void Dispose()
+        {
+            DisposeAsync().Wait();
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace EasyActor.Disposable
+namespace Concurrent.Disposable
 {
     public class AsyncActionDisposable : IAsyncDisposable
     {

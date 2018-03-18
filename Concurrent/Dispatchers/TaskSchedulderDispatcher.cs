@@ -72,10 +72,5 @@ namespace Concurrent.Dispatchers
                    return workItem.Task;
                });
         }
-
-        public virtual Task Stop(Func<Task> cleanup)
-        {
-            return Enqueue(() => cleanup() ?? TaskBuilder.Completed);
-        }
     }
 }

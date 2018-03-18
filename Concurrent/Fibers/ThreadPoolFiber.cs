@@ -10,19 +10,21 @@ namespace Concurrent.Fibers
 {
     internal sealed class ThreadPoolFiber : IMonoThreadFiber
     {
+        public bool IsAlive => !_EndFiber.Task.IsCompleted;
+
+        private SynchronizationContext _SynchronizationContext;
+        public SynchronizationContext SynchronizationContext =>
+            _SynchronizationContext ?? (_SynchronizationContext = new MonoThreadedFiberSynchronizationContext(this));
+
         private readonly BlockingCollection<IWorkItem> _TaskQueue = new BlockingCollection<IWorkItem>();
-        private readonly CancellationTokenSource _Cts;
+        private readonly CancellationTokenSource _Cts = new CancellationTokenSource();
         private Thread _Current;
-        private AsyncActionWorkItem _Clean;
-        private bool _Running = false;
+        private readonly TaskCompletionSource<int> _EndFiber = new TaskCompletionSource<int>();
 
         public ThreadPoolFiber()
         {
-            _Cts = new CancellationTokenSource();
             ThreadPool.QueueUserWorkItem(_ => Consume());
         }
-
-        public int EnqueuedTasksNumber => _TaskQueue.Count + (_Running ? 1 : 0);
 
         public void Send(Action action)
         {
@@ -103,32 +105,6 @@ namespace Concurrent.Fibers
             return Enqueue(new AsyncWorkItem<T>(action));
         }
 
-        private void StopQueueing()
-        {
-            try
-            {
-                _Cts.Cancel();
-                _TaskQueue.CompleteAdding();
-            }
-            catch (ObjectDisposedException)
-            {
-            }
-        }
-
-        public Task Stop(Func<Task> cleanup)
-        {
-            _Clean = new AsyncActionWorkItem(cleanup);
-            _TaskQueue.CompleteAdding();
-            return _Clean.Task;
-        }
-
-        public Task Abort(Func<Task> cleanup)
-        {
-            _Clean = new AsyncActionWorkItem(cleanup);
-            StopQueueing();
-            return _Clean.Task;
-        }
-
         private void Consume()
         {
             _Current = Thread.CurrentThread;
@@ -139,9 +115,7 @@ namespace Concurrent.Fibers
             {
                 foreach (var action in _TaskQueue.GetConsumingEnumerable(_Cts.Token))
                 {
-                    _Running = true;
                     action.Do();
-                    _Running = false;
                 }
             }
             catch (OperationCanceledException)
@@ -149,23 +123,36 @@ namespace Concurrent.Fibers
                 _TaskQueue.CompleteAdding();
                 foreach (var action in _TaskQueue.GetConsumingEnumerable())
                 {
-                    _Running = true;
                     action.Cancel();
-                    _Running = false;
                 }
             }
             _TaskQueue.Dispose();
-            _Clean?.Do();
+            _EndFiber.TrySetResult(0);
             SynchronizationContext.SetSynchronizationContext(currentContext);
         }
 
-        private SynchronizationContext _SynchronizationContext;
-        public SynchronizationContext SynchronizationContext =>
-            _SynchronizationContext ?? (_SynchronizationContext = new MonoThreadedFiberSynchronizationContext(this));
+        private void StopQueueing()
+        {
+            _Cts.Cancel();
+            _TaskQueue.CompleteAdding();
+        }
+
+        public Task DisposeAsync()
+        {
+            try
+            {
+                StopQueueing();
+                return _EndFiber.Task;
+            }
+            catch
+            {
+                return TaskBuilder.Completed;
+            }
+        }
 
         public void Dispose()
         {
-            StopQueueing();
+            DisposeAsync().Wait();
         }
     }
 }
