@@ -60,7 +60,7 @@ namespace Concurrent.Test.Dispatchers
             thread.Should().Be(Thread.CurrentThread);
         }
 
-        [Fact]
+        [Fact(Skip = "Machine dependant")]
         public async Task Enqueue_Action_Does_Not_Run_Actions_Sequencially()
         {
             var tester = new SequenceTester(_NullDispatcherTest);
@@ -68,7 +68,7 @@ namespace Concurrent.Test.Dispatchers
             tester.Count.Should().BeLessThan(tester.MaxThreads);
         }
 
-        [Fact]
+        [Fact(Skip = "Machine dependant")]
         public async Task Enqueue_Task_Does_Not_Run_Actions_Sequencially_after_await()
         {
             var tester = new SequenceTester(_NullDispatcherTest);
