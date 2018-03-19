@@ -7,7 +7,7 @@ namespace Concurrent.Test.TestHelper
     public class SequenceTester
     {
         public int Count { get; private set; } = 0;
-        public int MaxThreads { get; set; } = 300;
+        public int MaxThreads { get; set; } = 500;
         private readonly IDispatcher _Dispatcher;
 
         public SequenceTester(IDispatcher dispatcher)
