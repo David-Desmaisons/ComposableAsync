@@ -3,9 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Concurrent;
 using Concurrent.Disposable;
-using EasyActor.Helper;
 using EasyActor.Options;
-using EasyActor.Proxy;
 
 namespace EasyActor.Factories
 {
@@ -24,16 +22,20 @@ namespace EasyActor.Factories
 
         public override ActorFactorType Type => ActorFactorType.Shared;
 
+        private T PrivateBuild<T>(T concrete) where T : class
+        {
+            return CreateDisposable(concrete, _Fiber, _RefCountAsyncDisposable.GetDisposable());
+        }
+
         public T Build<T>(T concrete) where T : class
         {
-            var asyncDisposable = concrete as IAsyncDisposable;
-            return CreateIActorLifeCycle(concrete, _Fiber, TypeHelper.AsyncDisposable,
-                new DisposabeInterceptor(_RefCountAsyncDisposable.GetDisposable(), asyncDisposable));
+            var cached = CheckInCache(concrete);
+            return cached ?? PrivateBuild(concrete);
         }
 
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
         {
-            return _Fiber.Enqueue(() => Build<T>(concrete()));
+            return _Fiber.Enqueue(() => PrivateBuild<T>(concrete()));
         }
 
         public void Dispose() => _FiberReference.Dispose();

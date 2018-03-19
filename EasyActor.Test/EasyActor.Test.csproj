@@ -98,12 +98,15 @@
     <Compile Include="TestInfra\DummyClass\IDummyInterface3.cs" />
     <Compile Include="TestInfra\DummyClass\IDummyInterface2.cs" />
     <Compile Include="TestInfra\DummyClass\IDummyInterface1.cs" />
-    <Compile Include="TestInfra\WPFThreading\WPFThreadingHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Concurrent.Test\Concurrent.Test.csproj">
+      <Project>{f6e7547d-130a-43bd-9e42-0004a46465a2}</Project>
+      <Name>Concurrent.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Concurrent\Concurrent.csproj">
       <Project>{4f2f8e53-87ba-42ce-b230-9aa6f4a56413}</Project>
       <Name>Concurrent</Name>

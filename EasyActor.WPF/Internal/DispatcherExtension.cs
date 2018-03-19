@@ -6,9 +6,7 @@ namespace Concurrent.WPF.Internal
     {
         internal static SynchronizationContext GetSynchronizationContext(this System.Windows.Threading.Dispatcher dispatcher)
         {
-            SynchronizationContext result = null;
-            dispatcher.Invoke(() => result = SynchronizationContext.Current);
-            return result;
+            return dispatcher.Invoke(() => SynchronizationContext.Current);
         }
     }
 }

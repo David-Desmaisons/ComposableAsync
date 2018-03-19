@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace EasyActor.Test.TestInfra.WPFThreading
+namespace Concurrent.Test.TestHelper
 {
     public static class DispatcherHelper
     {
@@ -25,8 +25,11 @@ namespace EasyActor.Test.TestInfra.WPFThreading
         }
     }
 
-    public class WpfThreadingHelper :IDisposable
+    public class WpfThreadingHelper : IDisposable
     {
+        public Thread UiThread { get; private set; }
+        public Dispatcher Dispatcher => _Window.Dispatcher;
+
         private readonly CancellationTokenSource _Cts;
         private Window _Window;
 
@@ -34,18 +37,13 @@ namespace EasyActor.Test.TestInfra.WPFThreading
         {
             _Cts = new CancellationTokenSource();
         }
-
-        public Thread UiThread { get; private set; }
-
-        public Dispatcher Dispatcher => _Window.Dispatcher;
-
+    
         public Task Start()
         {
             TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
-            UiThread = new Thread(() => InitUIinSta(tcs)) { Name = "Simulated UI Thread" };
+            UiThread = new Thread(InitUIinSta) { Name = "Simulated UI Thread" };
             UiThread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
-            UiThread.Start();
-
+            UiThread.Start(tcs);
             return tcs.Task;
         }
 
@@ -54,8 +52,9 @@ namespace EasyActor.Test.TestInfra.WPFThreading
             _Cts.Cancel();
         }
 
-        private void InitUIinSta(TaskCompletionSource<object> tcs)
+        private void InitUIinSta(object context)
         {
+            var tcs = context as TaskCompletionSource<object>;
             _Window = new Window();
             while (_Cts.IsCancellationRequested == false)
             {

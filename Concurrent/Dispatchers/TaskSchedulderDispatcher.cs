@@ -7,10 +7,13 @@ namespace Concurrent.Dispatchers
 {
     internal class TaskSchedulderDispatcher : IDispatcher
     {
+        internal TaskScheduler TaskScheduler { get; }
+
         private readonly TaskFactory _TaskFactory;
 
         public TaskSchedulderDispatcher(TaskScheduler taskScheduler)
         {
+            TaskScheduler = taskScheduler;
             _TaskFactory = new TaskFactory(taskScheduler);
         }
 

@@ -6,7 +6,7 @@ namespace Concurrent.SynchronizationContexts
 {
     internal sealed class TaskSchedulerSynchronizationContext : SynchronizationContext
     {
-        private readonly TaskFactory _TaskFactory;
+        internal TaskFactory TaskFactory { get; }
 
         public TaskSchedulerSynchronizationContext(TaskScheduler taskScheduler): this (new TaskFactory(taskScheduler))
         {
@@ -19,23 +19,23 @@ namespace Concurrent.SynchronizationContexts
 
         private TaskSchedulerSynchronizationContext(TaskFactory taskFactory)
         {
-            _TaskFactory = taskFactory;
+            TaskFactory = taskFactory;
             SetWaitNotificationRequired();
         }
 
         public override void Send(SendOrPostCallback d, object state)
         {
-            _TaskFactory.StartNew(() => d(state)).Wait();
+            TaskFactory.StartNew(() => d(state)).Wait();
         }
 
         public override void Post(SendOrPostCallback d, object state)
         {
-            _TaskFactory.StartNew(() => d(state));
+            TaskFactory.StartNew(() => d(state));
         }
 
         public override SynchronizationContext CreateCopy()
         {
-            return new TaskSchedulerSynchronizationContext(_TaskFactory);
+            return new TaskSchedulerSynchronizationContext(TaskFactory);
         }
     }
 }

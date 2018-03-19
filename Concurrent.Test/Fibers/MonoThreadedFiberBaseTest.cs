@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Tasks;
+using Concurrent.Test.TestHelper;
 using FluentAssertions;
 using Xunit;
 
@@ -107,7 +108,7 @@ namespace Concurrent.Test.Fibers
                 //act
                 try
                 {
-                    await target.Enqueue(() => Throw());
+                    await target.Enqueue(Throw);
                 }
                 catch (Exception e)
                 {
@@ -203,7 +204,6 @@ namespace Concurrent.Test.Fibers
         [Fact]
         public async Task Enqueue_Exception_Should_Not_Kill_MainThead_With_Result()
         {
-            var current = Thread.CurrentThread;
             //arrange
             using (var target = GetQueue())
             {
@@ -266,7 +266,6 @@ namespace Concurrent.Test.Fibers
             }
         }
 
-
         [Fact]
         public async Task Enqueue_Should_Not_Cancel_Already_Runing_Task_OnDispose()
         {
@@ -326,8 +325,8 @@ namespace Concurrent.Test.Fibers
                 var task = fiber.Enqueue(() => TaskFactory());
             }
 
-            bool Done = false;
-            Task newesttask = fiber.Enqueue(() => { Done = true; });
+            var Done = false;
+            var newesttask = fiber.Enqueue(() => { Done = true; });
 
             TaskCanceledException error = null;
             try
@@ -484,6 +483,28 @@ namespace Concurrent.Test.Fibers
             notstarted.IsCanceled.Should().BeTrue();
             error.Should().NotBeNull();
             Done.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task Enqueue_Action_Runs_Actions_Sequencially()
+        {
+            using (var target = GetQueue())
+            {
+                var tester = new SequenceTester(target);
+                await tester.Stress();
+                tester.Count.Should().Be(tester.MaxThreads);
+            } 
+        }
+
+        [Fact]
+        public async Task Enqueue_Task_Runs_Actions_Sequencially_after_await()
+        {
+            using (var target = GetQueue())
+            {
+                var tester = new SequenceTester(target);
+                await tester.StressTask();
+                tester.Count.Should().Be(tester.MaxThreads);
+            }
         }
     }
 }

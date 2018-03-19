@@ -28,7 +28,7 @@ namespace Concurrent.Test.Tasks
         [Fact]
         public void Cancelled_Type_Task_T_Should_Be_Cancelled()
         {
-            var target = TaskBuilder.GetCancelled(typeof(Task<int>));
+            var target = typeof(Task<int>).GetCancelled();
 
             target.IsCanceled.Should().BeTrue();
             target.Should().BeOfType<Task<int>>();
@@ -37,7 +37,7 @@ namespace Concurrent.Test.Tasks
         [Fact]
         public void Cancelled_Type_Task_Should_Be_Cancelled()
         {
-            var target = TaskBuilder.GetCancelled(typeof(Task));
+            var target = typeof(Task).GetCancelled();
 
             target.IsCanceled.Should().BeTrue();
             target.Should().BeAssignableTo<Task>();
@@ -47,7 +47,7 @@ namespace Concurrent.Test.Tasks
         [Fact]
         public void Cancelled_Type_Object_Should_Be_Null()
         {
-            var target = TaskBuilder.GetCancelled(typeof(object));
+            var target = typeof(object).GetCancelled();
 
             target.Should().BeNull();
         }

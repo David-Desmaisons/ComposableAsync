@@ -5,15 +5,15 @@ using Concurrent.SynchronizationContexts;
 using FluentAssertions;
 using Xunit;
 
-namespace Concurrent.Test.Fibers
+namespace Concurrent.Test.SynchronizationContexts
 {
 
-    public class DispatcherSynchronizationContextTest : IDisposable
+    public class MonoThreadedFiberSynchronizationContextTest : IDisposable
     {
         private readonly MonoThreadedFiberSynchronizationContext _Dispatcher;
         private readonly MonoThreadedFiber _Fiber;
 
-        public DispatcherSynchronizationContextTest()
+        public MonoThreadedFiberSynchronizationContextTest()
         {
             _Fiber = new MonoThreadedFiber(t => t.Priority = ThreadPriority.Highest);
             _Dispatcher = new MonoThreadedFiberSynchronizationContext(_Fiber);

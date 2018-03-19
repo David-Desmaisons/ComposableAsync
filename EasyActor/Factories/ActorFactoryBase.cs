@@ -70,24 +70,17 @@ namespace EasyActor.Factories
             return res;
         }
 
-        protected T CreateIActorLifeCycle<T>(T concrete, IFiber fiber, Type addicionalType, params IInterceptor[] interceptor) where T : class
+        protected T CreateDisposable<T>(T concrete, IStopableFiber fiber, IAsyncDisposable actorDisposable = null) where T : class
         {
-            var interceptors = new List<IInterceptor> { new FiberDispatcherInterceptor<T>(fiber), new FiberProviderInterceptor(fiber) };
-            interceptors.AddRange(interceptor);
-            var res = (T)Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new[] { TypeHelper.FiberProviderType, addicionalType }, concrete, interceptors.ToArray());
-            Register(concrete, res, fiber);
-            return res;
-        }
-
-        protected T CreateIActorLifeCycle<T>(T concrete, Func<IFiber> fiberBuilder, Type addicionalType, params IInterceptor[] interceptor) where T : class
-        {
-            var cached = CheckInCache(concrete);
-            if (cached != null)
-                return cached;
-
-            var fiber = fiberBuilder();
-            var interceptors = new List<IInterceptor>(interceptor) { new FiberDispatcherInterceptor<T>(fiber), new FiberProviderInterceptor(fiber) };
-            var res = (T)Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new[] { TypeHelper.FiberProviderType, addicionalType }, concrete, interceptors.ToArray());
+            actorDisposable = actorDisposable ?? fiber;
+            var fiberDisposable = concrete as IAsyncDisposable;
+            var interceptors = new IInterceptor[]
+            {
+                new FiberDispatcherInterceptor<T>(fiber),
+                new FiberProviderInterceptor(fiber),
+                new DisposabeInterceptor(actorDisposable, fiberDisposable) 
+            };
+            var res = (T)Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new[] { TypeHelper.FiberProviderType, TypeHelper.AsyncDisposable }, concrete, interceptors);
             Register(concrete, res, fiber);
             return res;
         }
