@@ -15,6 +15,7 @@ namespace EasyActor.Test
         private IDummyInterface2 _Actor1;
         private IDummyInterface2 _Actor2;
         private IDummyInterface1 _Actor3;
+        private IDummyInterface4 _Actor4;
 
         public ActorFactoryTest()
         {
@@ -26,6 +27,7 @@ namespace EasyActor.Test
             (_Actor1 as IDisposable)?.Dispose();
             (_Actor2 as IDisposable)?.Dispose();
             (_Actor3 as IDisposable)?.Dispose();
+            _Actor4?.Dispose();
         }
 
         [Fact]
@@ -201,6 +203,22 @@ namespace EasyActor.Test
         }
 
         [Fact]
+        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Cancel_Actor_Thread_Case2()
+        {
+            //arrange
+            var dispclass = new DisposableClass();
+            _Actor4 = _Factory.Build<IDummyInterface4>(dispclass);
+
+            await _Actor4.DoAsync();
+            var thread = dispclass.LastCallingThread;
+
+            await _Actor4.DisposeAsync();
+            Thread.Yield();
+            //assert
+            thread.IsAlive.Should().BeFalse();
+        }
+
+        [Fact]
         public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Call_Proxified_Class_On_IAsyncDisposable()
         {
             //arrange
@@ -213,6 +231,64 @@ namespace EasyActor.Test
             await disp.DisposeAsync();
             //assert
             dispclass.IsDisposed.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Call_Proxified_Class_On_IAsyncDisposable_Case_2() 
+        {
+            //arrange
+            var dispclass = new DisposableClass();
+            _Actor4 = _Factory.Build<IDummyInterface4>(dispclass);
+
+            await _Actor4.DisposeAsync();
+            //assert
+            dispclass.IsDisposed.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Call_Proxified_Class_On_ActorThread() 
+        {
+            //arrange
+            var testThread = Thread.CurrentThread;
+
+            var dispclass = new DisposableClass();
+            _Actor3 = _Factory.Build<IDummyInterface1>(dispclass);
+
+            await _Actor3.DoAsync();
+
+            var thread = dispclass.LastCallingThread;
+
+            //act
+            var disp = _Actor3 as IAsyncDisposable;
+
+            await disp.DisposeAsync();
+            //assert
+            var disposableThread = dispclass.LastCallingThread;
+
+            disposableThread.Should().NotBe(testThread);
+            disposableThread.Should().Be(thread);
+        }
+
+        [Fact]
+        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Call_Proxified_Class_On_ActorThread_Case_2() 
+        {
+            //arrange
+            var testThread = Thread.CurrentThread;
+
+            var dispclass = new DisposableClass();
+            _Actor4 = _Factory.Build<IDummyInterface4>(dispclass);
+
+            await _Actor4.DoAsync();
+
+            var thread = dispclass.LastCallingThread;
+            //act
+
+            await _Actor4.DisposeAsync();
+            //assert
+            var disposableThread = dispclass.LastCallingThread;
+
+            disposableThread.Should().NotBe(testThread);
+            disposableThread.Should().Be(thread);
         }
 
         [Fact]
@@ -270,7 +346,7 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public async Task Actor_DisposeAsync_Should_Cancel_Enqueued_Task()
+        public async Task Actor_DisposeAsync_Should_Run_Enqueued_Task()
         {
             //arrange
             var dispclass = new DisposableClass();

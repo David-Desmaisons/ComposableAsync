@@ -70,15 +70,15 @@ namespace EasyActor.Factories
             return res;
         }
 
-        protected T CreateDisposable<T>(T concrete, IStopableFiber fiber, IAsyncDisposable actorDisposable = null) where T : class
+        protected T CreateDisposable<T>(T concrete, IStopableFiber fiber, IAsyncDisposable fiberDisposable = null) where T : class
         {
-            actorDisposable = actorDisposable ?? fiber;
-            var fiberDisposable = concrete as IAsyncDisposable;
+            fiberDisposable = fiberDisposable ?? fiber;
+            var actorDisposable = concrete as IAsyncDisposable;
             var interceptors = new IInterceptor[]
             {
                 new FiberDispatcherInterceptor<T>(fiber),
                 new FiberProviderInterceptor(fiber),
-                new DisposabeInterceptor(actorDisposable, fiberDisposable) 
+                new DisposabeInterceptor(fiber, actorDisposable, fiberDisposable) 
             };
             var res = (T)Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new[] { TypeHelper.FiberProviderType, TypeHelper.AsyncDisposable }, concrete, interceptors);
             Register(concrete, res, fiber);

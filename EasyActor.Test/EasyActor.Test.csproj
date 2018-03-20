@@ -95,6 +95,7 @@
     <Compile Include="SynchronizationContextFactoryTest.cs" />
     <Compile Include="TestInfra\DummyClass\DummyClassFactory.cs" />
     <Compile Include="TestInfra\DummyClass\DummyDisposableClass.cs" />
+    <Compile Include="TestInfra\DummyClass\IDummyInterface4.cs" />
     <Compile Include="TestInfra\DummyClass\IDummyInterface3.cs" />
     <Compile Include="TestInfra\DummyClass\IDummyInterface2.cs" />
     <Compile Include="TestInfra\DummyClass\IDummyInterface1.cs" />

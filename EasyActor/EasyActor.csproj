@@ -66,6 +66,7 @@
     <Compile Include="Proxy\FiberDispatcherInterceptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Factories\SynchronizationContextFactory.cs" />
+    <Compile Include="Proxy\ProxySolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

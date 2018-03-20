@@ -11,7 +11,7 @@ namespace EasyActor.Proxy
     internal static class FiberBehaviourCacherDispatcher<T>
     {
         private static readonly MethodInfo _Proceed = typeof(FiberBehaviourCacherDispatcher<T>).GetMethod(nameof(Proceed), BindingFlags.Static | BindingFlags.NonPublic);
-        private static readonly Dictionary<MethodInfo, Func<IFiber, IInvocation, object>> _Cache = new Dictionary<MethodInfo, Func<IFiber, IInvocation, object>>();
+        private static readonly Dictionary<MethodInfo, ProxyFiberSolver> _Cache = new Dictionary<MethodInfo, ProxyFiberSolver>();
 
         static FiberBehaviourCacherDispatcher()
         {
@@ -31,14 +31,16 @@ namespace EasyActor.Proxy
             }
         }
 
-        public static Func<IFiber, IInvocation, object> GetTransformFunction(IInvocation invocation)
+        public static ProxyFiberSolver GetTransformFunction(IInvocation invocation)
         {
-            Func<IFiber, IInvocation, object> res = null;
-            _Cache.TryGetValue(invocation.Method, out res);
-            return res;
+            ProxyFiberSolver res;
+            if (_Cache.TryGetValue(invocation.Method, out res))
+                return res;
+
+            return new ProxyFiberSolver(null, true);
         }
 
-        private static Func<IFiber, IInvocation, object> BuildTransformFunction(MethodInfo method)
+        private static ProxyFiberSolver BuildTransformFunction(MethodInfo method)
         {
             Func<IFiber, IInvocation, object> res = null;
             var td = method.ReturnType.GetTaskType();
@@ -65,7 +67,12 @@ namespace EasyActor.Proxy
                     throw new NotSupportedException("Actor method should only return Task, Task<T> or void");
             }
 
-            return res;
+            return new ProxyFiberSolver(res, res == null || ShouldContinue(method));
+        }
+
+        private static bool ShouldContinue(MethodInfo method) 
+        {
+            return (method == DisposabeInterceptor.DisposeAsync) || (method == DisposabeInterceptor.Dispose);
         }
 
         private static object Proceed<TResult>(IFiber fiber, IInvocation invocation)
