@@ -11,13 +11,11 @@ namespace EasyActor.Factories
     {
         private readonly IStopableFiber _Fiber;
         private readonly RefCountAsyncDisposable _RefCountAsyncDisposable;
-        private readonly IAsyncDisposable _FiberReference;
 
         public SharedThreadActorFactory(Action<Thread> onCreated = null)
         {
             _Fiber = Fiber.CreateMonoThreadedFiber(onCreated);
             _RefCountAsyncDisposable = new RefCountAsyncDisposable(_Fiber);
-            _FiberReference = _RefCountAsyncDisposable.GetDisposable();
         }
 
         public override ActorFactorType Type => ActorFactorType.Shared;
@@ -38,8 +36,8 @@ namespace EasyActor.Factories
             return _Fiber.Enqueue(() => PrivateBuild<T>(concrete()));
         }
 
-        public void Dispose() => _FiberReference.Dispose();
+        public void Dispose() => _RefCountAsyncDisposable.Dispose();
 
-        public Task DisposeAsync() => _FiberReference.DisposeAsync();
+        public Task DisposeAsync() => _RefCountAsyncDisposable.DisposeAsync();
     }
 }

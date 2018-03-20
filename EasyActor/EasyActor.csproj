@@ -45,7 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorExtension.cs" />
-    <Compile Include="Disposable\ActorDisposable.cs" />
     <Compile Include="Factories\ActorFactory.cs" />
     <Compile Include="Factories\ActorMonoTheadPoolFactory.cs" />
     <Compile Include="Factories\ActorTheadPoolFactory.cs" />
