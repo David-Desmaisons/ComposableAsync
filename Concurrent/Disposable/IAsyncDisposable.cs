@@ -8,7 +8,7 @@ namespace System
     /// <summary>
     ///  Asynchroneous version of IDisposable
     /// </summary>
-    public interface IAsyncDisposable : IDisposable
+    public interface IAsyncDisposable
     {
         /// <summary>
         ///  Performs asyncroneously application-defined tasks associated with freeing,

@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Concurrent.Dispatchers;
 using Concurrent.Fibers;
+using Concurrent.Tasks;
 using FluentAssertions;
 using Xunit;
 
 namespace Concurrent.Test
 {
-    public class FiberTest : IDisposable
+    public class FiberTest : IAsyncLifetime
     {
         private IStopableFiber _Fiber;
 
-        public void Dispose()
+        public Task InitializeAsync() => TaskBuilder.Completed;
+
+        public Task DisposeAsync()
         {
-            _Fiber?.Dispose();
+            return _Fiber.DisposeAsync();
         }
 
         [Fact]

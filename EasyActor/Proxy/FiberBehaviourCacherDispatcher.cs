@@ -72,7 +72,7 @@ namespace EasyActor.Proxy
 
         private static bool ShouldContinue(MethodInfo method) 
         {
-            return (method == DisposabeInterceptor.DisposeAsync) || (method == DisposabeInterceptor.Dispose);
+            return (method == DisposabeInterceptor.DisposeAsync);
         }
 
         private static object Proceed<TResult>(IFiber fiber, IInvocation invocation)

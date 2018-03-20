@@ -4,6 +4,7 @@ using FluentAssertions;
 using System.Threading;
 using EasyActor.Factories;
 using Xunit;
+using System.Threading.Tasks;
 
 namespace EasyActor.Test
 {
@@ -23,12 +24,12 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public void GetFactory_Shared_Return_SharedThreadActorFactory()
+        public async Task GetFactory_Shared_Return_SharedThreadActorFactory()
         {
             var res = _ActorFactoryBuilder.GetFactory(true);
 
             res.Should().BeAssignableTo<SharedThreadActorFactory>();
-            res.Dispose();
+            await res.DisposeAsync();
         }
 
         [Fact]

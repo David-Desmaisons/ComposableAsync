@@ -11,7 +11,7 @@ using Xunit.Abstractions;
 namespace EasyActor.Examples
 {
 
-    public class PingPong : IDisposable
+    public class PingPong : IAsyncLifetime
     {
         private readonly ITestOutputHelper _Output;
         private IActorFactory _ActorFactory;
@@ -20,10 +20,11 @@ namespace EasyActor.Examples
         {
             _Output = output;
         }
+        public Task InitializeAsync() => TaskBuilder.Completed;
 
-        public void Dispose()
+        public async Task DisposeAsync()
         {
-            _ActorFactory?.Dispose();
+            await _ActorFactory?.DisposeAsync();
         }
 
         public static IEnumerable<object[]> GetFactories()

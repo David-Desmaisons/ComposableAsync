@@ -9,17 +9,15 @@ namespace Concurrent.Test.Fibers
 {
     public class MonoThreadFiberTest : MonoThreadedFiberBaseTest
     {
-        protected override IMonoThreadFiber GetQueue(Action<Thread> onCreate = null) => new MonoThreadedFiber(onCreate);
+        protected override IMonoThreadFiber GetFiber(Action<Thread> onCreate = null) => new MonoThreadedFiber(onCreate);
 
         [Fact]
         public async Task Enqueue_Should_Run_On_Dedicated_Thread()
         {
-            using (var target = GetQueue())
-            {
+            var target = GetSafeFiber();
                 await target.Enqueue(() => TaskFactory());
 
                 RunningThread.IsThreadPoolThread.Should().BeFalse();
-            }
         }
     }
 }

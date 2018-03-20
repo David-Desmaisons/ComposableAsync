@@ -6,10 +6,11 @@ using EasyActor.Options;
 using FluentAssertions;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
+using Concurrent.Tasks;
 
 namespace EasyActor.Test
 {  
-    public class ActorFactoryTest :IDisposable
+    public class ActorFactoryTest : IAsyncLifetime
     {
         private readonly ActorFactory _Factory;
         private IDummyInterface2 _Actor1;
@@ -22,12 +23,19 @@ namespace EasyActor.Test
             _Factory = new ActorFactory();
         }
 
-        public void Dispose()
+        public Task InitializeAsync() => TaskBuilder.Completed;
+
+        public async Task DisposeAsync() 
         {
-            (_Actor1 as IDisposable)?.Dispose();
-            (_Actor2 as IDisposable)?.Dispose();
-            (_Actor3 as IDisposable)?.Dispose();
-            _Actor4?.Dispose();
+            await Wait(_Actor1);
+            await Wait(_Actor2);
+            await Wait(_Actor3);
+            await Wait(_Actor4?.DisposeAsync());
+        }
+
+        private static Task Wait<T>(T actor) where T: class
+        {
+            return (actor as IAsyncDisposable)?.DisposeAsync() ?? TaskBuilder.Completed;
         }
 
         [Fact]
@@ -335,14 +343,14 @@ namespace EasyActor.Test
             var disp = _Actor3 as IAsyncDisposable;
 
             //act
-            var Taskrunning = _Actor3.DoAsync(progress);
+            var taskrunning = _Actor3.DoAsync(progress);
             await taskCompletionSource.Task;
             await disp.DisposeAsync();
-            await Taskrunning;
+            await taskrunning;
             Thread.Sleep(100);
 
             //assert
-            Taskrunning.IsCompleted.Should().BeTrue();
+            taskrunning.IsCompleted.Should().BeTrue();
         }
 
         [Fact]
