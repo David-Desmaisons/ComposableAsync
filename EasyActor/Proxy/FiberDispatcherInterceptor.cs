@@ -19,7 +19,6 @@ namespace EasyActor.Proxy
             if (proxyFiberSolver.Continue)
             {
                 invocation.Proceed();
-                return;
             }
         }
     }
