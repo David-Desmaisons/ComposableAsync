@@ -353,7 +353,7 @@ namespace EasyActor.Test
             _Actor3 = _Factory.Build<IDummyInterface1>(dispclass);
 
             _Actor3.DoAsync();
-            var Takenqueued = _Actor3.DoAsync();
+            var Taskenqueued = _Actor3.DoAsync();
             Thread.Sleep(100);
             //act
             var disp = _Actor3 as IAsyncDisposable;
@@ -364,7 +364,7 @@ namespace EasyActor.Test
             TaskCanceledException error = null;
             try
             {
-                await Takenqueued;
+                await Taskenqueued;
             }
             catch (TaskCanceledException e)
             {
@@ -372,8 +372,10 @@ namespace EasyActor.Test
             }
 
             //assert
-            error.Should().NotBeNull();
-            Takenqueued.IsCanceled.Should().BeTrue();
+            error.Should().BeNull();
+            Taskenqueued.IsCompleted.Should().BeTrue();
+            Taskenqueued.IsCanceled.Should().BeFalse();
+            Taskenqueued.IsFaulted.Should().BeFalse();
         }
     }
 }
