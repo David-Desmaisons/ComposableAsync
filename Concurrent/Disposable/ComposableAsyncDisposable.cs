@@ -25,8 +25,6 @@ namespace Concurrent.Disposable
             _Disposables = new ConcurrentQueue<IAsyncDisposable>(disposables);
         }
 
-        public void Dispose() => DisposeAsync().Wait();
-
         public async Task DisposeAsync()
         {
             IAsyncDisposable actordisp;

@@ -8,8 +8,6 @@ namespace Concurrent.Disposable
     {
         private NullAsyncDisposable() { }
 
-        public void Dispose() { }
-
         public Task DisposeAsync() => TaskBuilder.Completed;
 
         public static IAsyncDisposable Null { get; } = new NullAsyncDisposable();

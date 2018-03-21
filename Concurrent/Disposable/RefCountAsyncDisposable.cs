@@ -6,10 +6,11 @@ namespace Concurrent.Disposable
 {
     public sealed class RefCountAsyncDisposable : IAsyncDisposable
     {
-        private int _Count = 0;
-        private bool _PrimaryDisposed = false;
+        private int _Count = 1;
         private IAsyncDisposable _AsyncDisposable;
         private readonly object _Locker = new object();
+        private bool _AlreadyReleased = false;
+
         public RefCountAsyncDisposable(IAsyncDisposable asyncDisposable)
         {
             _AsyncDisposable = asyncDisposable;
@@ -27,23 +28,17 @@ namespace Concurrent.Disposable
             }
         }
 
-        private Task Release()
-        {
-            return AltereState(d => { d._Count--; });
-        }
-
         public Task DisposeAsync()
-        {
-            return AltereState(d => d._PrimaryDisposed = true);
-        }
-
-        private Task AltereState(Action<RefCountAsyncDisposable> update)
         {
             IAsyncDisposable disposable;
             lock (_Locker)
             {
-                update(this);
-                if ((_Count > 0) || (!_PrimaryDisposed))
+                if (_AlreadyReleased)
+                    return TaskBuilder.Completed;
+
+                _AlreadyReleased = true;
+                _Count--;
+                if (_Count > 0)
                     return TaskBuilder.Completed;
 
                 disposable = _AsyncDisposable;
@@ -53,9 +48,20 @@ namespace Concurrent.Disposable
             return disposable?.DisposeAsync() ?? TaskBuilder.Completed;
         }
 
-        public void Dispose()
+        private Task Release()
         {
-            DisposeAsync().Wait();
+            IAsyncDisposable disposable;
+            lock (_Locker)
+            {
+                _Count--;
+                if (_Count > 0)
+                    return TaskBuilder.Completed;
+
+                disposable = _AsyncDisposable;
+                _AsyncDisposable = null;
+            }
+
+            return disposable?.DisposeAsync() ?? TaskBuilder.Completed;
         }
     }
 }

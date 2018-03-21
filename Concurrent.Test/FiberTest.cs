@@ -18,7 +18,7 @@ namespace Concurrent.Test
 
         public Task DisposeAsync()
         {
-            return _Fiber.DisposeAsync();
+            return _Fiber?.DisposeAsync() ?? TaskBuilder.Completed;
         }
 
         [Fact]

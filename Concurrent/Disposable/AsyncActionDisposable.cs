@@ -13,12 +13,10 @@ namespace Concurrent.Disposable
             _Dispose = dispose;
         }
 
-        public void Dispose() => DisposeAsync().Wait();
-
         public Task DisposeAsync()
         {
             var dispose = Interlocked.Exchange(ref _Dispose, null);
-            return dispose?.Invoke()?? TaskBuilder.Completed;
+            return dispose?.Invoke() ?? TaskBuilder.Completed;
         }
     }
 }

@@ -406,6 +406,7 @@ namespace Concurrent.Test.Fibers
             {
                 Thread.Sleep(100);
             }
+            await target.DisposeAsync();
 
             //act
             notstarted = target.Enqueue(() => TaskFactory(3));
@@ -442,6 +443,7 @@ namespace Concurrent.Test.Fibers
             {
                 Thread.Sleep(100);
             }
+            await target.DisposeAsync();
 
             notstarted = target.Enqueue(() => { done = true; });
 

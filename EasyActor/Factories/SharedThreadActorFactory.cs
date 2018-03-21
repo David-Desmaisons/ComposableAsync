@@ -36,8 +36,6 @@ namespace EasyActor.Factories
             return _Fiber.Enqueue(() => PrivateBuild<T>(concrete()));
         }
 
-        public void Dispose() => _RefCountAsyncDisposable.Dispose();
-
         public Task DisposeAsync() => _RefCountAsyncDisposable.DisposeAsync();
     }
 }
