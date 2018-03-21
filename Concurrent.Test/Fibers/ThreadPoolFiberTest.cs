@@ -15,9 +15,9 @@ namespace Concurrent.Test.Fibers
         public async Task Enqueue_Should_Run_On_PoolThread_Thread()
         {
             var target = GetSafeFiber();
-                await target.Enqueue(() => TaskFactory());
+            await target.Enqueue(() => TaskFactory());
 
-                RunningThread.IsThreadPoolThread.Should().BeTrue();
+            RunningThread.IsThreadPoolThread.Should().BeTrue();
         }
     }
 }

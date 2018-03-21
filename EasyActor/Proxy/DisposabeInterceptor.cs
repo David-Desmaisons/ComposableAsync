@@ -27,7 +27,8 @@ namespace EasyActor.Proxy
         {
             Debug.Assert(invocation.Method == DisposeAsync);
             var currentResult = (Task) invocation.ReturnValue;
-            return (currentResult ?? ((_ActorDisposable!=null) ? _Fiber.Enqueue(() => _ActorDisposable.DisposeAsync()) : TaskBuilder.Completed)).ContinueWith(_ => _FiberDisposable.DisposeAsync()).Unwrap();
+            return (currentResult ?? ((_ActorDisposable!=null) ? _Fiber.Enqueue(() => _ActorDisposable.DisposeAsync()) : TaskBuilder.Completed))
+                        .ContinueWith(_ => _FiberDisposable.DisposeAsync()).Unwrap();
         }
     }
 }

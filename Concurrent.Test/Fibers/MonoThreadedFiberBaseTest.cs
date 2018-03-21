@@ -21,14 +21,14 @@ namespace Concurrent.Test.Fibers
 
         public Task InitializeAsync() => TaskBuilder.Completed;
 
-        public async Task DisposeAsync() 
+        public async Task DisposeAsync()
         {
             await _ComposableAsyncDisposable.DisposeAsync();
         }
 
         protected abstract IMonoThreadFiber GetFiber(Action<Thread> onCreate = null);
 
-        protected IMonoThreadFiber GetSafeFiber(Action<Thread> onCreate = null) 
+        protected IMonoThreadFiber GetSafeFiber(Action<Thread> onCreate = null)
         {
             var fiber = GetFiber(onCreate);
             _ComposableAsyncDisposable.Add(fiber);
@@ -62,7 +62,7 @@ namespace Concurrent.Test.Fibers
         [Fact]
         public async Task Enqueue_Should_Run_OnSeparatedThread()
         {
-            Thread current = Thread.CurrentThread;
+            var current = Thread.CurrentThread;
             //arrange
             var target = GetSafeFiber();
 
@@ -77,18 +77,17 @@ namespace Concurrent.Test.Fibers
         [Fact]
         public async Task Enqueue_Should_Run_OnSameThread()
         {
-            Thread current = Thread.CurrentThread;
             //arrange
             var target = GetSafeFiber();
 
-                //act
-                await target.Enqueue(() => TaskFactory());
-                var first = RunningThread;
-                RunningThread = null;
-                await target.Enqueue(() => TaskFactory());
+            //act
+            await target.Enqueue(() => TaskFactory());
+            var first = RunningThread;
+            RunningThread = null;
+            await target.Enqueue(() => TaskFactory());
 
-                //assert
-                RunningThread.Should().Be(first);
+            //assert
+            RunningThread.Should().Be(first);
         }
 
         [Fact]
@@ -97,70 +96,68 @@ namespace Concurrent.Test.Fibers
             //arrange
             var target = GetSafeFiber();
 
-                //act
-                await target.Enqueue(() => TaskFactory());
-                var first = RunningThread;
-                RunningThread = null;
-                target.Dispatch(() => { RunningThread = Thread.CurrentThread; });
-                await Task.Delay(200);
+            //act
+            await target.Enqueue(() => TaskFactory());
+            var first = RunningThread;
+            RunningThread = null;
+            target.Dispatch(() => { RunningThread = Thread.CurrentThread; });
+            await Task.Delay(200);
 
-                //assert
-                RunningThread.Should().Be(first);
+            //assert
+            RunningThread.Should().Be(first);
         }
 
         [Fact]
         public async Task Enqueue_Should_DispatchException()
         {
-            Thread current = Thread.CurrentThread;
             //arrange
             var target = GetSafeFiber();
-                Exception error = null;
-                //act
-                try
-                {
-                    await target.Enqueue(Throw);
-                }
-                catch (Exception e)
-                {
-                    error = e;
-                }
+            Exception error = null;
+            //act
+            try
+            {
+                await target.Enqueue(Throw);
+            }
+            catch (Exception e)
+            {
+                error = e;
+            }
 
-                //assert
-                error.Should().NotBeNull();
+            //assert
+            error.Should().NotBeNull();
         }
 
         [Fact]
         public async Task Enqueue_Exception_Should_Not_Kill_MainThead()
         {
-            Thread current = Thread.CurrentThread;
             //arrange
             var target = GetSafeFiber();
-                //act
-                try
-                {
-                    await target.Enqueue(Throw);
-                }
-                catch
-                {
-                }
+            //act
+            try
+            {
+                await target.Enqueue(Throw);
+            }
+            catch
+            {
+            }
 
-                await target.Enqueue(() => TaskFactory());
+            await target.Enqueue(() => TaskFactory());
         }
 
         [Fact]
         public async Task Enqueue_Should_Work_With_Result()
         {
-            Thread current = Thread.CurrentThread;
+            var current = Thread.CurrentThread;
             //arrange
             var target = GetSafeFiber();
 
-                //act
-                var res = await target.Enqueue(() => TaskFactory<int>(25));
+            //act
+            var res = await target.Enqueue(() => TaskFactory<int>(25));
 
-                //assert
-                res.Should().Be(25);
-                RunningThread.Should().NotBeNull();
-                RunningThread.Should().NotBe(current);
+            //assert
+            res.Should().Be(25);
+            RunningThread.Should().NotBeNull();
+            RunningThread.Should().NotBe(current);
         }
 
         [Fact]
@@ -170,15 +167,15 @@ namespace Concurrent.Test.Fibers
             Thread current = Thread.CurrentThread;
             //arrange
             var target = GetSafeFiber();
-                Func<int> func = () => { RunningThread = Thread.CurrentThread; return 25; };
+            Func<int> func = () => { RunningThread = Thread.CurrentThread; return 25; };
 
-                //act
-                var res = await target.Enqueue(func);
+            //act
+            var res = await target.Enqueue(func);
 
-                //assert
-                res.Should().Be(25);
-                RunningThread.Should().NotBeNull();
-                RunningThread.Should().NotBe(current);
+            //assert
+            res.Should().Be(25);
+            RunningThread.Should().NotBeNull();
+            RunningThread.Should().NotBe(current);
         }
 
 
@@ -187,19 +184,19 @@ namespace Concurrent.Test.Fibers
         {
             //arrange
             var target = GetSafeFiber();
-                Exception error = null;
-                //act
-                try
-                {
-                    await target.Enqueue(Throw<string>);
-                }
-                catch (Exception e)
-                {
-                    error = e;
-                }
+            Exception error = null;
+            //act
+            try
+            {
+                await target.Enqueue(Throw<string>);
+            }
+            catch (Exception e)
+            {
+                error = e;
+            }
 
-                //assert
-                error.Should().NotBeNull();
+            //assert
+            error.Should().NotBeNull();
         }
 
         [Fact]
@@ -207,59 +204,57 @@ namespace Concurrent.Test.Fibers
         {
             //arrange
             var target = GetSafeFiber();
-                //act
-                try
-                {
-                    await target.Enqueue(Throw<int>);
-                }
-                catch
-                {
-                }
+            //act
+            try
+            {
+                await target.Enqueue(Throw<int>);
+            }
+            catch
+            {
+            }
 
-                var res = await target.Enqueue(() => TaskFactory<int>(25));
+            var res = await target.Enqueue(() => TaskFactory<int>(25));
 
-                //assert
-                res.Should().Be(25);
+            //assert
+            res.Should().Be(25);
         }
 
         [Fact]
         public async Task Enqueue_Should_Work_OnAction()
         {
-            var current = Thread.CurrentThread;
             //arrange
             var target = GetSafeFiber();
 
-                bool done = false;
-                Action act = () => done = true;
-                //act
+            bool done = false;
+            Action act = () => done = true;
+            //act
 
-                await target.Enqueue(act);
+            await target.Enqueue(act);
 
-                //assert
-                done.Should().BeTrue();
+            //assert
+            done.Should().BeTrue();
         }
 
 
         [Fact]
         public async Task Enqueue_Should_ReDispatch_Exception_OnAction()
         {
-            var current = Thread.CurrentThread;
             //arrange
             var target = GetSafeFiber();
             Exception error = null;
             Action act = () => Throw();
-                //act
-                try
-                {
-                    await target.Enqueue(act);
-                }
-                catch (Exception e)
-                {
-                    error = e;
-                }
+            //act
+            try
+            {
+                await target.Enqueue(act);
+            }
+            catch (Exception e)
+            {
+                error = e;
+            }
 
-                //assert
-                error.Should().NotBeNull();
+            //assert
+            error.Should().NotBeNull();
         }
 
         [Fact]
@@ -268,8 +263,8 @@ namespace Concurrent.Test.Fibers
             Task newTask = null;
 
             //arrange
-           var target = GetSafeFiber(t => t.Priority = ThreadPriority.Highest);
-                newTask = target.Enqueue(() => TaskFactory(3));
+            var target = GetSafeFiber(t => t.Priority = ThreadPriority.Highest);
+            newTask = target.Enqueue(() => TaskFactory(3));
 
             while (RunningThread == null)
             {
@@ -281,7 +276,7 @@ namespace Concurrent.Test.Fibers
             RunningThread.Should().NotBeNull();
 
             newTask.IsCanceled.Should().BeFalse();
-        }    
+        }
 
         [Fact]
         public async Task Enqueue_Task_Should_Cancel_Task_When_Added_On_Disposed_Queue()
@@ -360,15 +355,15 @@ namespace Concurrent.Test.Fibers
         public async Task Dispose_Running_Task_Should_Continue_After_Stoping_Queue()
         {
             //arrange  
-            var queue = GetSafeFiber();
-            var task = queue.Enqueue(() => TaskFactory(3));
+            var fiber = GetSafeFiber();
+            var task = fiber.Enqueue(() => TaskFactory(3));
             while (RunningThread == null)
             {
                 Thread.Sleep(100);
             }
 
             //act
-            await queue.DisposeAsync();
+            await fiber.DisposeAsync();
             await task;
 
             //assert
@@ -379,15 +374,15 @@ namespace Concurrent.Test.Fibers
         public async Task Dispose_Enqueue_Items_Should_Return_Canceled_Task_After_Stoping_Queue()
         {
             //arrange  
-            var queue = GetSafeFiber();
-            await queue.DisposeAsync();
+            var fiber = GetSafeFiber();
+            await fiber.DisposeAsync();
 
             var done = false;
 
             TaskCanceledException error = null;
             try
             {
-                await queue.Enqueue(() => { done = true; });
+                await fiber.Enqueue(() => { done = true; });
             }
             catch (TaskCanceledException e)
             {
@@ -405,14 +400,14 @@ namespace Concurrent.Test.Fibers
 
             //arrange
             var target = GetSafeFiber(t => t.Priority = ThreadPriority.Highest);
-                newTask = target.Enqueue(() => TaskFactory(3));
+            newTask = target.Enqueue(() => TaskFactory(3));
 
             while (RunningThread == null)
             {
                 Thread.Sleep(100);
             }
 
-                //act
+            //act
             notstarted = target.Enqueue(() => TaskFactory(3));
 
             await newTask;
@@ -437,18 +432,18 @@ namespace Concurrent.Test.Fibers
         public async Task Enqueue_Action_Should_Cancel_Not_Started_Task_When_OnDispose()
         {
             Task newTask = null, notstarted = null;
-            bool Done = false;
+            var done = false;
 
             //arrange
             var target = GetSafeFiber(t => t.Priority = ThreadPriority.Highest);
-                newTask = target.Enqueue(() => TaskFactory(3));
+            newTask = target.Enqueue(() => TaskFactory(3));
 
             while (RunningThread == null)
             {
                 Thread.Sleep(100);
             }
 
-            notstarted = target.Enqueue(() => { Done = true; });
+            notstarted = target.Enqueue(() => { done = true; });
 
             await newTask;
 
@@ -464,13 +459,13 @@ namespace Concurrent.Test.Fibers
 
             notstarted.IsCanceled.Should().BeTrue();
             error.Should().NotBeNull();
-            Done.Should().BeFalse();
+            done.Should().BeFalse();
         }
 
         [Fact]
         public async Task Enqueue_Action_Runs_Actions_Sequencially()
         {
-            var target =GetSafeFiber();
+            var target = GetSafeFiber();
             var tester = new SequenceTester(target);
             await tester.Stress();
             tester.Count.Should().Be(tester.MaxThreads);
