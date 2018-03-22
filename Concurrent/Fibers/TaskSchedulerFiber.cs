@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Dispatchers;
 using Concurrent.SynchronizationContexts;
@@ -27,9 +28,10 @@ namespace Concurrent.Fibers
             _ConcurrentExclusiveSchedulerPair.Complete();
             await _ConcurrentExclusiveSchedulerPair.Completion;
             IsAlive = false;
+            GC.SuppressFinalize(this);
         }
 
-        public void Dispose()
+        ~TaskSchedulerFiber() 
         {
             DisposeAsync().Wait();
         }

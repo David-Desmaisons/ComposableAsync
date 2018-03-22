@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Concurrent.Fibers;
 using Concurrent.SynchronizationContexts;
+using Concurrent.Tasks;
 using FluentAssertions;
 using Xunit;
 
 namespace Concurrent.Test.SynchronizationContexts
 {
 
-    public class MonoThreadedFiberSynchronizationContextTest : IDisposable
+    public class MonoThreadedFiberSynchronizationContextTest : IAsyncLifetime
     {
         private readonly MonoThreadedFiberSynchronizationContext _Dispatcher;
         private readonly MonoThreadedFiber _Fiber;
@@ -19,18 +21,16 @@ namespace Concurrent.Test.SynchronizationContexts
             _Dispatcher = new MonoThreadedFiberSynchronizationContext(_Fiber);
         }
 
-        public void Dispose()
-        {
-            _Fiber.Dispose();
-        }
+        public Task InitializeAsync() => TaskBuilder.Completed;
+        public Task DisposeAsync() => _Fiber.DisposeAsync();
 
         [Fact]
         public void Constructor_Throw_Exception_On_Null_Queue()
         {
             MonoThreadedFiberSynchronizationContext res = null;
-            Action Do = () => res = new MonoThreadedFiberSynchronizationContext(null);
+            Action @do = () => res = new MonoThreadedFiberSynchronizationContext(null);
 
-            Do.Should().Throw<ArgumentNullException>();
+            @do.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]

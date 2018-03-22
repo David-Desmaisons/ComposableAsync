@@ -19,34 +19,40 @@ namespace Concurrent.Fibers
         public Task<T> Enqueue<T>(Func<T> action)
         {
             var workitem = new WorkItem<T>(action);
-            _Context.Post(_ => workitem.Do(), null);
+            _Context.Post(_SendOrPostWorkItem, workitem);
             return workitem.Task;
         }
 
         public Task Enqueue(Func<Task> action)
         {
             var workitem = new AsyncActionWorkItem(action);
-            _Context.Post(_ => workitem.Do(), null);
+            _Context.Post(_SendOrPostWorkItem, workitem);
             return workitem.Task;
         }
 
         public Task<T> Enqueue<T>(Func<Task<T>> action)
         {
             var workitem = new AsyncWorkItem<T>(action);
-            _Context.Post(_ => workitem.Do(),null);
+            _Context.Post(_SendOrPostWorkItem, workitem);
             return workitem.Task;
         }
 
         public void Dispatch(Action action)
         {
-            _Context.Post(_ => action(), null);
+            _Context.Post(RunAction, action);
         }
 
         public Task Enqueue(Action action) 
         {
             var workitem = new ActionWorkItem(action);
-            _Context.Post(_ => workitem.Do(), null);
+            _Context.Post(_SendOrPostWorkItem, workitem);
             return workitem.Task;
         }
+
+        private static readonly SendOrPostCallback _SendOrPostWorkItem = DoWorkItem;
+        private static readonly SendOrPostCallback _SendOrPostAction = RunAction;
+
+        private static void DoWorkItem(object state) => ((IWorkItem) state).Do();
+        private static void RunAction(object state) => ((Action) state)();
     }
 }
