@@ -56,7 +56,6 @@
     <Compile Include="Factories\ActorFactoryBase.cs" />
     <Compile Include="IFactoryBuilder.cs" />
     <Compile Include="Factories\ActorDescription.cs" />
-    <Compile Include="Proxy\DisposabeInterceptor.cs" />
     <Compile Include="Proxy\FiberBehaviourCacherDispatcher.cs" />
     <Compile Include="Proxy\FiberProviderInterceptor.cs" />
     <Compile Include="Proxy\InterfaceInterceptor.cs" />

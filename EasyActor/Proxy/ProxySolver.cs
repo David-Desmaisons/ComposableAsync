@@ -10,12 +10,6 @@ namespace EasyActor.Proxy
 
         public Func<IFiber, IInvocation, object> Transform { get; }
 
-        public ProxyFiberSolver(Func<IFiber, IInvocation, object> transform)
-        {
-            Continue = false;
-            Transform = transform;
-        }
-
         public ProxyFiberSolver(Func<IFiber, IInvocation, object> transform, bool @continue)
         {
             Continue = @continue;

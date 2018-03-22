@@ -35,8 +35,6 @@ namespace EasyActor.Factories
             return _Fiber.Enqueue(() => Build<T>(concrete()));
         }
 
-        public void Dispose() { }
-
         public Task DisposeAsync() => TaskBuilder.Completed;
     }
 }

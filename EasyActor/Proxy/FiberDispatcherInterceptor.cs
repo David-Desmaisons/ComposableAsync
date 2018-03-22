@@ -15,11 +15,13 @@ namespace EasyActor.Proxy
         public void Intercept(IInvocation invocation)
         {
             var proxyFiberSolver = FiberBehaviourCacherDispatcher<T>.GetTransformFunction(invocation);
-            invocation.ReturnValue = proxyFiberSolver.Transform?.Invoke(_Fiber, invocation);
-            if (proxyFiberSolver.Continue)
+            if (proxyFiberSolver.Continue) 
             {
                 invocation.Proceed();
+                return;
             }
+
+            invocation.ReturnValue = proxyFiberSolver.Transform.Invoke(_Fiber, invocation);
         }
     }
 }

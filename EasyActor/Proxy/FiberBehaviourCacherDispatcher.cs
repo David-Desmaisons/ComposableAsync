@@ -67,12 +67,7 @@ namespace EasyActor.Proxy
                     throw new NotSupportedException("Actor method should only return Task, Task<T> or void");
             }
 
-            return new ProxyFiberSolver(res, res == null || ShouldContinue(method));
-        }
-
-        private static bool ShouldContinue(MethodInfo method) 
-        {
-            return (method == DisposabeInterceptor.DisposeAsync);
+            return new ProxyFiberSolver(res, false);
         }
 
         private static object Proceed<TResult>(IFiber fiber, IInvocation invocation)

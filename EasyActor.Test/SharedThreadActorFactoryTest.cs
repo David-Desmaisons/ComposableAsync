@@ -74,7 +74,7 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public async Task DisposeAsync_On_Factory_Should_Not_Kill_Thread()
+        public async Task DisposeAsync_On_Factory_Should_Kill_Thread()
         {
             //arrange
             var target1 = new DummyClass();
@@ -87,57 +87,7 @@ namespace EasyActor.Test
             await _Factory.DisposeAsync();
 
             Thread.Yield();
-            target1.CallingThread.IsAlive.Should().BeTrue();
-        }
-
-        [Fact]
-        public async Task DisposeAsync_On_Actor_Should_Not_Kill_Thread()
-        {
-            //arrange
-            var target1 = new DummyClass();
-            _Actor1 = _Factory.Build<IDummyInterface2>(target1);
-
-            //act
-            await _Actor1.DoAsync();
-
-            //assert
-            await (_Actor1 as IAsyncDisposable).DisposeAsync();
-
-            Thread.Yield();
-            target1.CallingThread.IsAlive.Should().BeTrue();
-        }
-
-        [Fact]
-        public async Task DisposeAsync_On_Actor_And_Factory_Should_Kill_Thread()
-        {
-            //arrange
-            var target1 = new DummyClass();
-            _Actor1 = _Factory.Build<IDummyInterface2>(target1);
-
-            //act
-            await _Actor1.DoAsync();
-
-            //assert
-            await _Factory.DisposeAsync();
-
-            await (_Actor1 as IAsyncDisposable).DisposeAsync();
-
-            Thread.Yield();
             target1.CallingThread.IsAlive.Should().BeFalse();
-        }
-
-        [Fact]
-        public async Task DisposeAsync_Should_Call_Actor_IAsyncDisposable_DisposeAsync_Thread()
-        {
-            //arrange
-            var target1 = new DisposableClass();
-            _Actor3 = _Factory.Build<IDummyInterface1>(target1);
-
-            //act
-            await (_Actor3 as IAsyncDisposable).DisposeAsync();
-
-            //assert
-            target1.IsDisposed.Should().BeTrue();
         }
     }
 }

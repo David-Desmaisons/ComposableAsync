@@ -8,6 +8,7 @@ using EasyActor.Factories;
 using EasyActor.Options;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
+using Concurrent;
 
 namespace EasyActor.Test
 {     
@@ -99,29 +100,6 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public void Actor_Should_Implement_IAsyncDisposable()
-        {
-            var intface = _TaskPoolActorFactory.Build<IDummyInterface2>(new DummyClass());
-            intface.Should().BeAssignableTo<IAsyncDisposable>();
-        }
-
-        [Fact]
-        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Call_Proxified_Class_On_IAsyncDisposable()
-        {
-            //arrange
-            var dispclass = new DisposableClass();
-            var intface = _TaskPoolActorFactory.Build<IDummyInterface1>(dispclass);
-
-            //act
-            var disp = (IAsyncDisposable) intface;
-
-            await disp.DisposeAsync();
-
-            //assert
-            dispclass.IsDisposed.Should().BeTrue();
-        }
-
-        [Fact]
         public async Task Actor_Should_Return_Cancelled_Task_On_Any_Method_AfterCalling_IAsyncDisposable_DisposeAsync()
         {
             //arrange
@@ -131,7 +109,7 @@ namespace EasyActor.Test
             //act
             var task = intface.DoAsync();
 
-            var disp = (IAsyncDisposable) intface;
+            var disp = GetFiber(intface) as IAsyncDisposable;
 
             await disp.DisposeAsync();
 
@@ -164,7 +142,7 @@ namespace EasyActor.Test
             var takenqueued = intface.DoAsync();
             Thread.Sleep(100);
             //act
-            var disp = (IAsyncDisposable) intface;
+            var disp = GetFiber(intface) as IAsyncDisposable;
 
             await disp.DisposeAsync();
             await takenqueued;
@@ -172,5 +150,7 @@ namespace EasyActor.Test
             //assert
             takenqueued.IsCompleted.Should().BeTrue();
         }
+
+        private IFiber GetFiber<T>(T actor) => (actor as IFiberProvider)?.Fiber;
     }
 }

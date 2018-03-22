@@ -9,25 +9,16 @@ namespace EasyActor.Factories
     {
         protected abstract IStopableFiber GetMonoFiber();
 
-        private T PrivateBuild<T>(T concrete, IStopableFiber fiber) where T : class
-        {
-            return CreateDisposable(concrete, fiber);
-        }
-
         public T Build<T>(T concrete) where T : class
         {
             var cached = CheckInCache(concrete);
-            return cached ?? PrivateBuild<T>(concrete, GetMonoFiber());
+            return cached ?? Create<T>(concrete, GetMonoFiber());
         }
 
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
         {
-            var queue = GetMonoFiber();
-            return queue.Enqueue(() => PrivateBuild<T>(concrete(), queue));
-        }
-
-        public void Dispose()
-        {
+            var fiber = GetMonoFiber();
+            return fiber.Enqueue(() => Create<T>(concrete(), fiber));
         }
 
         public Task DisposeAsync() => TaskBuilder.Completed;

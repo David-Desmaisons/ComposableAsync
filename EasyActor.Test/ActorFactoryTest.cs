@@ -169,13 +169,6 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public void Actor_Should_Implement_IAsyncDisposable_Even_If_Wrapped_Not_IDisposableAsync()
-        {
-            _Actor1 = _Factory.Build<IDummyInterface2>(new DummyClass());
-            _Actor1.Should().BeAssignableTo<IAsyncDisposable>();
-        }
-
-        [Fact]
         public void Actor_Should_Implement_IFiberProvider()
         {
             _Actor1 = _Factory.Build<IDummyInterface2>(new DummyClass());
@@ -194,54 +187,6 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Cancel_Actor_Thread()
-        {
-            //arrange
-            var clas = new DummyClass();
-            _Actor1 = _Factory.Build<IDummyInterface2>(clas);
-
-            await _Actor1.DoAsync();
-            //act
-            var disp = _Actor1 as IAsyncDisposable;
-
-            await disp.DisposeAsync();
-            Thread.Yield();
-            //assert
-            clas.CallingThread.IsAlive.Should().BeFalse();
-        }
-
-        [Fact]
-        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Cancel_Actor_Thread_Case2()
-        {
-            //arrange
-            var dispclass = new DisposableClass();
-            _Actor4 = _Factory.Build<IDummyInterface4>(dispclass);
-
-            await _Actor4.DoAsync();
-            var thread = dispclass.LastCallingThread;
-
-            await _Actor4.DisposeAsync();
-            Thread.Yield();
-            //assert
-            thread.IsAlive.Should().BeFalse();
-        }
-
-        [Fact]
-        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Call_Proxified_Class_On_IAsyncDisposable()
-        {
-            //arrange
-            var dispclass = new DisposableClass();
-            _Actor3 = _Factory.Build<IDummyInterface1>(dispclass);
-
-            //act
-            var disp = _Actor3 as IAsyncDisposable;
-
-            await disp.DisposeAsync();
-            //assert
-            dispclass.IsDisposed.Should().BeTrue();
-        }
-
-        [Fact]
         public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Call_Proxified_Class_On_IAsyncDisposable_Case_2() 
         {
             //arrange
@@ -251,30 +196,6 @@ namespace EasyActor.Test
             await _Actor4.DisposeAsync();
             //assert
             dispclass.IsDisposed.Should().BeTrue();
-        }
-
-        [Fact]
-        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Call_Proxified_Class_On_ActorThread() 
-        {
-            //arrange
-            var testThread = Thread.CurrentThread;
-
-            var dispclass = new DisposableClass();
-            _Actor3 = _Factory.Build<IDummyInterface1>(dispclass);
-
-            await _Actor3.DoAsync();
-
-            var thread = dispclass.LastCallingThread;
-
-            //act
-            var disp = _Actor3 as IAsyncDisposable;
-
-            await disp.DisposeAsync();
-            //assert
-            var disposableThread = dispclass.LastCallingThread;
-
-            disposableThread.Should().NotBe(testThread);
-            disposableThread.Should().Be(thread);
         }
 
         [Fact]
@@ -297,93 +218,6 @@ namespace EasyActor.Test
 
             disposableThread.Should().NotBe(testThread);
             disposableThread.Should().Be(thread);
-        }
-
-        [Fact]
-        public async Task Actor_Should_Return_Cancelled_Task_On_Any_Method_AfterCalling_IAsyncDisposable_DisposeAsync()
-        {
-            //arrange
-            var dispclass = new DisposableClass();
-            _Actor3 = _Factory.Build<IDummyInterface1>(dispclass);
-
-            //act
-            var task = _Actor3.DoAsync();
-
-            var disp = _Actor3 as IAsyncDisposable;
-
-            await disp.DisposeAsync();
-
-            TaskCanceledException error = null;
-            Task canc = null;
-            try
-            {
-                canc = _Actor3.DoAsync();
-                await canc;
-            }
-            catch (TaskCanceledException e)
-            {
-                error = e;
-            }
-
-            //assert
-            error.Should().NotBeNull();
-            task.IsCompleted.Should().BeTrue();
-            canc.IsCanceled.Should().BeTrue();
-        }
-
-
-        [Fact]
-        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Not_Cancel_RunningTask()
-        {
-            //arrange
-            var taskCompletionSource = new TaskCompletionSource<object>();
-            var progress = new Progress<int>(i => taskCompletionSource.TrySetResult(null));
-            var dispclass = new DisposableClass();
-            _Actor3 = _Factory.Build<IDummyInterface1>(dispclass);
-            var disp = _Actor3 as IAsyncDisposable;
-
-            //act
-            var taskrunning = _Actor3.DoAsync(progress);
-            await taskCompletionSource.Task;
-            await disp.DisposeAsync();
-            await taskrunning;
-            Thread.Sleep(100);
-
-            //assert
-            taskrunning.IsCompleted.Should().BeTrue();
-        }
-
-        [Fact]
-        public async Task Actor_DisposeAsync_Should_Run_Enqueued_Task()
-        {
-            //arrange
-            var dispclass = new DisposableClass();
-            _Actor3 = _Factory.Build<IDummyInterface1>(dispclass);
-
-            _Actor3.DoAsync();
-            var Taskenqueued = _Actor3.DoAsync();
-            Thread.Sleep(100);
-            //act
-            var disp = _Actor3 as IAsyncDisposable;
-
-            await disp.DisposeAsync();
-
-            //assert
-            TaskCanceledException error = null;
-            try
-            {
-                await Taskenqueued;
-            }
-            catch (TaskCanceledException e)
-            {
-                error = e;
-            }
-
-            //assert
-            error.Should().BeNull();
-            Taskenqueued.IsCompleted.Should().BeTrue();
-            Taskenqueued.IsCanceled.Should().BeFalse();
-            Taskenqueued.IsFaulted.Should().BeFalse();
         }
     }
 }

@@ -122,8 +122,6 @@ namespace EasyActor.Test
             Action Do = () => _Factory.Build<IDummyInterface2>(target);
 
             Do.Should().Throw<ArgumentException>().And.Message.Should().Contain("Standard");
-
-            await (intface as IAsyncDisposable).DisposeAsync();
         }
 
         [Fact]
