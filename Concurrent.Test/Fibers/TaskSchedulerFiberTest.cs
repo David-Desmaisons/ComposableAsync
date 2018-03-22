@@ -80,6 +80,17 @@ namespace Concurrent.Test.Fibers
         }
 
         [Fact]
+        public async Task Enqueue_Func_Task_T_Continue_After_Await_On_Scheduler()
+        {
+            var scheduler = await _TaskSchedulerFiber.Enqueue(async () =>
+            {
+                await Task.Yield();
+                return TaskScheduler.Current;
+            });
+            scheduler.Should().Be(_TaskSchedulerFiber.TaskScheduler);
+        }
+
+        [Fact]
         public async Task Enqueue_Func_Task_T_Runs_On_ThreadPool_Thead()
         {
             var thread = await _TaskSchedulerFiber.Enqueue(() => Task.FromResult(Thread.CurrentThread));

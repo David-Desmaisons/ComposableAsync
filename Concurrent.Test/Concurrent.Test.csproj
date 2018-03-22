@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dispatchers\NullDispatcherTest.cs" />
+    <Compile Include="FiberExtensionTest.cs" />
     <Compile Include="Fibers\TaskSchedulerFiberTest.cs" />
     <Compile Include="Fibers\SynchronizationContextFiberTest.cs" />
     <Compile Include="FiberTest.cs" />

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
+using Concurrent.Tasks;
 using Concurrent.Test.TestHelper;
 using EasyActor.Factories;
 using EasyActor.Options;
@@ -122,7 +123,7 @@ namespace EasyActor.Test
 
             Do.Should().Throw<ArgumentException>().And.Message.Should().Contain("Standard");
 
-            (intface as IAsyncDisposable)?.DisposeAsync();
+            await (intface as IAsyncDisposable).DisposeAsync();
         }
 
         [Fact]
