@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions;
- 
 using System.Threading;
 using EasyActor.Factories;
 using Xunit;
@@ -64,14 +63,5 @@ namespace EasyActor.Test
 
             res.Should().BeAssignableTo<SynchronizationContextFactory>();
         }
-
-
-        //[Fact]
-        //public void GetFactory_LoadBalancerFactory_Return_LoadBalancerFactory()
-        //{
-        //    var res = _ActorFactoryBuilder.GetLoadBalancerFactory();
-
-        //    res.Should().BeOfType<LoadBalancerFactory>();
-        //}
     }
 }

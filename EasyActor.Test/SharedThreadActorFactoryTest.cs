@@ -15,7 +15,6 @@ namespace EasyActor.Test
         private readonly SharedThreadActorFactory _Factory;
         private IDummyInterface2 _Actor1;
         private IDummyInterface2 _Actor2;
-        private IDummyInterface1 _Actor3;
 
         public SharedThreadActorFactoryTest()
         {
@@ -29,7 +28,6 @@ namespace EasyActor.Test
             await Wait(_Factory.DisposeAsync());
             await Wait(_Actor1);
             await Wait(_Actor2);
-            await Wait(_Actor3);        
         }
 
         private static Task Wait<T>(T actor) where T : class

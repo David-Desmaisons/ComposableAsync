@@ -67,16 +67,15 @@ namespace Concurrent.Test.SynchronizationContexts
         }
 
         [Fact]
-        public void Send_Should_Run_Immediately_On_Queue_Thread()
+        public async Task Send_Should_Run_Immediately_On_Queue_Thread()
         {
             //arrange
-            Thread queuethread = null;
-            _Fiber.Enqueue(() => queuethread = Thread.CurrentThread);
+            var queuethread = await _Fiber.Enqueue(() => Thread.CurrentThread);
 
             //act
             Thread postthread = null;
             SendOrPostCallback post = (o) => { postthread = Thread.CurrentThread; };
-            _Fiber.Enqueue(() => _Dispatcher.Send(post, null));
+            await _Fiber.Enqueue(() => _Dispatcher.Send(post, null));
 
             //assert
             postthread.Should().Be(queuethread);

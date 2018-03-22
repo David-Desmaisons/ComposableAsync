@@ -15,7 +15,6 @@ namespace EasyActor.Test
         private readonly ActorFactory _Factory;
         private IDummyInterface2 _Actor1;
         private IDummyInterface2 _Actor2;
-        private IDummyInterface1 _Actor3;
         private IDummyInterface4 _Actor4;
 
         public ActorFactoryTest()
@@ -29,7 +28,6 @@ namespace EasyActor.Test
         {
             await Wait(_Actor1);
             await Wait(_Actor2);
-            await Wait(_Actor3);
             await Wait(_Actor4?.DisposeAsync());
         }
 
