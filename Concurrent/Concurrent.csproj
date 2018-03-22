@@ -42,8 +42,8 @@
   <ItemGroup>
     <Compile Include="Dispatchers\NullDispatcher.cs" />
     <Compile Include="Disposable\AsyncActionDisposable.cs" />
+    <Compile Include="Disposable\IShareableAsyncDisposable.cs" />
     <Compile Include="Disposable\NulllAsyncDisposable.cs" />
-    <Compile Include="Disposable\AsyncDisposable.cs" />
     <Compile Include="Disposable\ComposableAsyncDisposable.cs" />
     <Compile Include="Disposable\IAsyncDisposable.cs" />
     <Compile Include="Disposable\RefCountAsyncDisposable.cs" />
