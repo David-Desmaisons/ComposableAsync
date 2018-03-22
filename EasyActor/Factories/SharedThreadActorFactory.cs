@@ -10,21 +10,19 @@ namespace EasyActor.Factories
     public sealed class SharedThreadActorFactory : ActorFactoryBase, IActorFactory
     {
         private readonly IStopableFiber _Fiber;
-        private readonly RefCountAsyncDisposable _RefCountAsyncDisposable;
         private readonly IAsyncDisposable _DisposableFiber;
 
         public SharedThreadActorFactory(Action<Thread> onCreated = null)
         {
             _Fiber = Fiber.CreateMonoThreadedFiber(onCreated);
-            _RefCountAsyncDisposable = new RefCountAsyncDisposable(_Fiber);
-            _DisposableFiber = _RefCountAsyncDisposable.GetDisposable();
+            _DisposableFiber = RefCountAsyncDisposable.Using(_Fiber);
         }
 
         public override ActorFactorType Type => ActorFactorType.Shared;
 
         private T PrivateBuild<T>(T concrete) where T : class
         {
-            return CreateDisposable(concrete, _Fiber, _RefCountAsyncDisposable.GetDisposable());
+            return CreateDisposable(concrete, _Fiber, RefCountAsyncDisposable.Using(_Fiber));
         }
 
         public T Build<T>(T concrete) where T : class
