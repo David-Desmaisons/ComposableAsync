@@ -30,12 +30,14 @@ namespace EasyActor.Examples
             await _ActorFactory.DisposeAsync();
         }
 
+        private static readonly FactoryBuilder _FactoryBuilder = new FactoryBuilder();
+
         public static IEnumerable<object[]> GetFactories()
         {
-            yield return new object[] { new ActorFactory() };
-            yield return new object[] { new SharedThreadActorFactory() };
-            yield return new object[] { new TaskPoolActorFactory() };
-            yield return new object[] { new ActorTheadPoolFactory() };        
+            yield return new object[] { _FactoryBuilder.GetFactory() };
+            yield return new object[] { _FactoryBuilder.GetFactory(shared:true) };
+            yield return new object[] { _FactoryBuilder.GetTaskBasedFactory() };
+            yield return new object[] { _FactoryBuilder.GetThreadPoolFactory() };        
         }
 
         [Theory]

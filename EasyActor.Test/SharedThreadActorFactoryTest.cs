@@ -2,7 +2,6 @@
 using FluentAssertions;
 using System.Threading;
 using Concurrent.Tasks;
-using EasyActor.Factories;
 using EasyActor.Options;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
@@ -11,13 +10,13 @@ namespace EasyActor.Test
 {     
     public class SharedThreadActorFactoryTest : IAsyncLifetime
     {
-        private readonly SharedThreadActorFactory _Factory;
+        private readonly IActorFactory _Factory;
         private IDummyInterface2 _Actor1;
         private IDummyInterface2 _Actor2;
 
         public SharedThreadActorFactoryTest()
         {
-            _Factory = new SharedThreadActorFactory();
+            _Factory = new FactoryBuilder().GetFactory(true);
         }
 
         public Task InitializeAsync() => TaskBuilder.Completed;

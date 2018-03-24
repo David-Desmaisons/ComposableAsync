@@ -11,7 +11,7 @@ namespace EasyActor
             if (fiberProvider != null)
                 return fiberProvider.Fiber;
 
-            var description = ActorFactoryBase.GetCachedActor(rawimplementation);
+            var description = ActorFactory.GetCachedActor(rawimplementation);
             return description?.Fiber;
         }
     }

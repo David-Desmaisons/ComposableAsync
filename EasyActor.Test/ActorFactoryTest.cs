@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Threading;
 using Concurrent.Tasks;
-using EasyActor.Factories;
 using EasyActor.Options;
 using FluentAssertions;
 using EasyActor.Test.TestInfra.DummyClass;
@@ -12,16 +11,18 @@ namespace EasyActor.Test
 {  
     public class ActorFactoryTest : IAsyncLifetime
     {
-        private readonly ActorFactory _Factory;
+        private readonly IActorFactory _Factory;
 
         public ActorFactoryTest()
         {
-            _Factory = new ActorFactory();
+            _Factory = new FactoryBuilder().GetFactory();
         }
 
         public Task InitializeAsync() => TaskBuilder.Completed;
 
         public Task DisposeAsync() => _Factory.DisposeAsync();
+
+        private static readonly FactoryBuilder _FactoryBuilder = new FactoryBuilder();
 
         [Fact]
         public void Type_Should_Be_Standard()
@@ -98,7 +99,7 @@ namespace EasyActor.Test
         public async Task Build_Should_Throw_Exception_IsSamePOCO_HasBeenUsedWithOtherFactory()
         {
             var target = new DummyClass();
-            var sharedFactory = new SharedThreadActorFactory();
+            var sharedFactory = _FactoryBuilder.GetFactory(shared:true);
             var actor = sharedFactory.Build<IDummyInterface2>(target);
 
             Action Do = () => _Factory.Build<IDummyInterface2>(target);

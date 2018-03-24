@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
-using EasyActor.Factories;
 using EasyActor.Options;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
@@ -12,11 +11,11 @@ namespace EasyActor.Test
 {     
     public class TaskPoolActorFactoryTest
     {
-        private readonly TaskPoolActorFactory _TaskPoolActorFactory;
+        private readonly IActorFactory _TaskPoolActorFactory;
 
         public TaskPoolActorFactoryTest()
         {
-            _TaskPoolActorFactory = new TaskPoolActorFactory();
+            _TaskPoolActorFactory = new FactoryBuilder().GetTaskBasedFactory();
         }
 
         [Fact]

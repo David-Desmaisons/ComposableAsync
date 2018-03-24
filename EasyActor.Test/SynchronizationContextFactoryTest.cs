@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
 using Concurrent.Test.TestHelper;
-using EasyActor.Factories;
 using EasyActor.Options;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
@@ -14,20 +13,22 @@ namespace EasyActor.Test
     public class SynchronizationContextFactoryTest : IDisposable
     {
         private readonly WpfThreadingHelper _UiMessageLoop;
-        private readonly SynchronizationContextFactory _Factory;
+        private readonly IActorFactory _Factory;
 
         public SynchronizationContextFactoryTest()
         {
             _UiMessageLoop = new WpfThreadingHelper();
             _UiMessageLoop.Start().Wait();
 
-            _Factory = _UiMessageLoop.Dispatcher.Invoke(() => new SynchronizationContextFactory());
+            _Factory = _UiMessageLoop.Dispatcher.Invoke(() => _FactoryBuilder.GetInContextFactory());
         }
 
         public void Dispose()
         {
             _UiMessageLoop.Dispose();
         }
+
+        private static readonly FactoryBuilder _FactoryBuilder = new FactoryBuilder();
 
         [Fact]
         public void Type_Should_Be_InCurrentContext()
@@ -39,8 +40,8 @@ namespace EasyActor.Test
         public void Creating_SynchronizationContextFactory_WithoutContext_ThrowException() 
         {
             SynchronizationContext.SetSynchronizationContext(null);
-            SynchronizationContextFactory res = null;
-            Action Do = () => res = new SynchronizationContextFactory();
+            IActorFactory res = null;
+            Action Do = () => res = _FactoryBuilder.GetInContextFactory();
             Do.Should().Throw<ArgumentNullException>();
         }
 
@@ -115,7 +116,7 @@ namespace EasyActor.Test
         public async Task Build_Should_Throw_Exception_IsSamePOCO_HasBeenUsedWithOtherFactory()
         {
             var target = new DummyClass();
-            var factory = new ActorFactory();
+            var factory = _FactoryBuilder.GetFactory();
             var intface = factory.Build<IDummyInterface2>(target);
 
             Action Do = () => _Factory.Build<IDummyInterface2>(target);

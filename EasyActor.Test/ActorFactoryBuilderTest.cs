@@ -1,16 +1,16 @@
 ﻿using System;
 using FluentAssertions;
 using System.Threading;
-using EasyActor.Factories;
 using Xunit;
 using System.Threading.Tasks;
+using EasyActor.Options;
 
 namespace EasyActor.Test
 {
-     
+
     public class ActorFactoryBuilderTest : IDisposable
     {
-         private readonly FactoryBuilder _ActorFactoryBuilder;
+        private readonly FactoryBuilder _ActorFactoryBuilder;
 
         public ActorFactoryBuilderTest()
         {
@@ -27,7 +27,7 @@ namespace EasyActor.Test
         {
             var res = _ActorFactoryBuilder.GetFactory(true);
 
-            res.Should().BeAssignableTo<SharedThreadActorFactory>();
+            res.Type.Should().Be(ActorFactorType.Shared);
             await res.DisposeAsync();
         }
 
@@ -36,7 +36,7 @@ namespace EasyActor.Test
         {
             var res = _ActorFactoryBuilder.GetFactory(false);
 
-            res.Should().BeOfType<ActorFactory>();
+            res.Type.Should().Be(ActorFactorType.Standard);
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace EasyActor.Test
         {
             var res = _ActorFactoryBuilder.GetTaskBasedFactory();
 
-            res.Should().BeOfType<TaskPoolActorFactory>();
+            res.Type.Should().Be(ActorFactorType.TaskPool);
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace EasyActor.Test
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
             var res = _ActorFactoryBuilder.GetInContextFactory();
 
-            res.Should().BeAssignableTo<SynchronizationContextFactory>();
+            res.Type.Should().Be(ActorFactorType.InCurrentContext);
         }
 
         [Fact]
@@ -61,7 +61,7 @@ namespace EasyActor.Test
         {
             var res = _ActorFactoryBuilder.GetInContextFactory(new SynchronizationContext());
 
-            res.Should().BeAssignableTo<SynchronizationContextFactory>();
+            res.Type.Should().Be(ActorFactorType.InCurrentContext);
         }
     }
 }

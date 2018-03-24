@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using EasyActor.Factories;
+using EasyActor.FiberManangers;
 
 namespace EasyActor
 {
@@ -8,30 +9,28 @@ namespace EasyActor
     {
         public IActorFactory GetFactory(bool shared = false, Action<Thread> onCreate = null)
         {
-            if (shared)
-                return new SharedThreadActorFactory(onCreate);
-
-            return new ActorFactory(onCreate);
+            return shared ? new ActorFactory(new SharedThreadFiberManager(onCreate)) : 
+                            new ActorFactory(new StandardFiberManager(onCreate));
         }
 
         public IActorFactory GetThreadPoolFactory()
         {
-            return new ActorTheadPoolFactory();
+            return new ActorFactory(new TheadPoolFiberManager());
         }
 
         public IActorFactory GetInContextFactory()
         {
-            return new SynchronizationContextFactory();
+            return new ActorFactory(new SynchronizationContextFiberManage());
         }
 
         public IActorFactory GetInContextFactory(SynchronizationContext synchronizationContext)
         {
-            return new SynchronizationContextFactory(synchronizationContext);
+            return new ActorFactory(new SynchronizationContextFiberManage(synchronizationContext));
         }
 
         public IActorFactory GetTaskBasedFactory()
         {
-            return new TaskPoolActorFactory();
+            return new ActorFactory(new TaskPoolFiberManager());
         }
     }
 }

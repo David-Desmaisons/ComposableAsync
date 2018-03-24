@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
- 
 using FluentAssertions;
 using System.Threading;
-using EasyActor.Factories;
 using Xunit;
 
 namespace EasyActor.Examples
@@ -61,12 +59,14 @@ namespace EasyActor.Examples
             return factories.SelectMany(f => stuffers, (f, s) => BuildTestData(f(), s()));
         }
 
+        private static readonly FactoryBuilder _FactoryBuilder = new FactoryBuilder();
+
         private static IEnumerable<Func<IActorFactory>> Factories 
         {
             get 
             {
-                yield return () => new ActorFactory();
-                yield return () => new TaskPoolActorFactory();
+                yield return () => _FactoryBuilder.GetFactory();
+                yield return () => _FactoryBuilder.GetTaskBasedFactory();
             }
         }
 
