@@ -34,6 +34,10 @@
       <HintPath>..\packages\FluentAssertions.5.2.0\lib\net45\FluentAssertions.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NSubstitute, Version=1.9.1.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\NSubstitute.1.9.1.0\lib\net45\NSubstitute.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -70,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dispatchers\NullDispatcherTest.cs" />
-    <Compile Include="FiberExtensionTest.cs" />
+    <Compile Include="DispatcherExtensionTest.cs" />
     <Compile Include="Fibers\TaskSchedulerFiberTest.cs" />
     <Compile Include="Fibers\SynchronizationContextFiberTest.cs" />
     <Compile Include="FiberTest.cs" />

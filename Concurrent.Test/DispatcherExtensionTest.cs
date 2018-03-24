@@ -1,16 +1,19 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using NSubstitute;
 using Xunit;
 
 namespace Concurrent.Test
 {
-    public class FiberExtensionTest : IAsyncLifetime
+    public class DispatcherExtensionTest : IAsyncLifetime
     {
         private readonly IMonoThreadFiber _Fiber;
+        private readonly IDispatcher _Dispatcher = Substitute.For<IDispatcher>();
         private Thread _FiberThread;
 
-        public FiberExtensionTest()
+        public DispatcherExtensionTest()
         {
             _Fiber = Fiber.CreateMonoThreadedFiber();
         }
@@ -46,6 +49,25 @@ namespace Concurrent.Test
 
             var thread = Thread.CurrentThread;
             thread.Should().BeSameAs(_FiberThread);
+        }
+
+        [Fact]
+        public void SwitchToContext_GetAwaibale_IsComplete_Is_False()
+        {
+            var awaitable = _Dispatcher.SwitchToContext().GetAwaiter();
+            awaitable.IsCompleted.Should().BeFalse();
+        }
+
+        [Fact]
+        public void SwitchToContext_GetAwaibale_Dispatch_Action()
+        {
+            var action = Substitute.For<Action>();
+            var awaitable = _Dispatcher.SwitchToContext().GetAwaiter();
+            awaitable.OnCompleted(action);
+
+
+            _Dispatcher.Received(1).Dispatch(Arg.Any<Action>());
+            _Dispatcher.Received().Dispatch(action);
         }
     }
 }

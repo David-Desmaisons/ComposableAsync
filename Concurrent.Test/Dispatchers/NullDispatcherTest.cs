@@ -10,11 +10,11 @@ namespace Concurrent.Test.Dispatchers
 {
     public class NullDispatcherTest
     {
-        private readonly NullDispatcher _NullDispatcherTest;
+        private readonly IDispatcher _NullDispatcherTest;
 
         public NullDispatcherTest()
         {
-            _NullDispatcherTest = new NullDispatcher();
+            _NullDispatcherTest = NullDispatcher.Instance;
         }
 
         [Fact]

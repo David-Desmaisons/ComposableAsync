@@ -35,7 +35,7 @@ namespace Concurrent
 
         public static IDispatcher GetDispatcherFromCurrentContext()
         {
-            return (IDispatcher) GetFiberFromCurrentContext() ?? new NullDispatcher();
+            return (IDispatcher) GetFiberFromCurrentContext() ?? NullDispatcher.Instance;
         }
     }
 }

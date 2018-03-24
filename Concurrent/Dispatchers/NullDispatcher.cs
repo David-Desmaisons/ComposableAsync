@@ -4,8 +4,12 @@ using Concurrent.Tasks;
 
 namespace Concurrent.Dispatchers
 {
-    internal class NullDispatcher: IDispatcher
+    public class NullDispatcher: IDispatcher
     {
+        private NullDispatcher() { }
+
+        public static IDispatcher Instance { get; } = new NullDispatcher();
+
         public void Dispatch(Action action)
         {
             action();

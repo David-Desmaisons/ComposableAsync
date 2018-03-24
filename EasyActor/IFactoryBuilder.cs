@@ -17,7 +17,7 @@ namespace EasyActor
         /// Delegate called on every new created thread. 
         /// </param>
         /// </summary>
-        IActorFactory GetFactory(bool shared=false, Action<Thread> onCreate = null);
+        IActorFactory GetFactory(bool shared = false, Action<Thread> onCreate = null);
 
         /// <summary>
         /// Returns an actor factory corresponding to the given ActorFactorType
@@ -27,8 +27,8 @@ namespace EasyActor
         /// <summary>
         /// Returns an actor factory corresponding to the given ActorFactorType
         /// </summary>
-        IActorFactory GetTaskBasedFactory();       
-        
+        IActorFactory GetTaskBasedFactory();
+
         /// <summary>
         /// Returns an actor factory corresponding to the current threading context
         /// </summary>

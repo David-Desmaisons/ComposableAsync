@@ -44,7 +44,7 @@
     <Compile Include="Disposable\ComposableAsyncDisposable.cs" />
     <Compile Include="Disposable\IAsyncDisposable.cs" />
     <Compile Include="Fiber.cs" />
-    <Compile Include="FiberExtension.cs" />
+    <Compile Include="DispatcherExtension.cs" />
     <Compile Include="Fibers\MonoThreadedFiber.cs" />
     <Compile Include="Fibers\SynchronizationContextFiber.cs" />
     <Compile Include="Fibers\ThreadPoolFiber.cs" />

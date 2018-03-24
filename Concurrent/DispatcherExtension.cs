@@ -4,15 +4,15 @@ using System.Security;
 
 namespace Concurrent
 {
-    public static class FiberExtension
+    public static class DispatcherExtension
     {
         public struct FiberAwaiter : INotifyCompletion
         {
             public bool IsCompleted => false;
 
-            private readonly IFiber _Fiber;
+            private readonly IDispatcher _Fiber;
 
-            public FiberAwaiter(IFiber fiber)
+            public FiberAwaiter(IDispatcher fiber)
             {
                 _Fiber = fiber;
             }
@@ -26,10 +26,10 @@ namespace Concurrent
             public void GetResult() { }
         }
 
-        public struct FiberAwaiterProvider
+        public struct DispatcherAwaiterProvider
         {
             private readonly FiberAwaiter _Awaiter;
-            public FiberAwaiterProvider(IFiber fiber)
+            public DispatcherAwaiterProvider(IDispatcher fiber)
             {
                 _Awaiter = new FiberAwaiter(fiber);
             }
@@ -37,9 +37,9 @@ namespace Concurrent
             public FiberAwaiter GetAwaiter() => _Awaiter;
         }
 
-        public static FiberAwaiterProvider SwitchToContext(this IFiber fiber)
+        public static DispatcherAwaiterProvider SwitchToContext(this IDispatcher fiber)
         {
-            return new FiberAwaiterProvider(fiber);
+            return new DispatcherAwaiterProvider(fiber);
         }
     }
 }
