@@ -7,10 +7,9 @@ using EasyActor.Options;
 
 namespace EasyActor.Factories
 {
-    public sealed class ActorFactory : ActorMonoTheadPoolFactory, IActorFactory
+    public sealed class ActorFactory : ActorMonoTheadPoolFactory
     {
         private readonly Action<Thread> _OnCreate;
-        private readonly ComposableAsyncDisposable _ComposableAsyncDisposable = new ComposableAsyncDisposable(); 
 
         public ActorFactory(Action<Thread> onCreate = null)
         {
@@ -19,8 +18,6 @@ namespace EasyActor.Factories
 
         public override ActorFactorType Type => ActorFactorType.Standard;
 
-        protected override IStopableFiber GetMonoFiber() => _ComposableAsyncDisposable.Add(Fiber.CreateMonoThreadedFiber(_OnCreate));
-
-        public Task DisposeAsync() => _ComposableAsyncDisposable.DisposeAsync();
+        protected override IStopableFiber ObtainMonoFiber() => Fiber.CreateMonoThreadedFiber(_OnCreate);
     }
 }

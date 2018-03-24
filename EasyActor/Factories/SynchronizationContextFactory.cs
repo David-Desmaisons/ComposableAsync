@@ -25,14 +25,20 @@ namespace EasyActor.Factories
 
         public override ActorFactorType Type => ActorFactorType.InCurrentContext;
 
-        public T Build<T>(T concrete) where T : class
+        private T PrivateBuild<T>(T concrete) where T : class
         {
             return Create(concrete, _Fiber);
         }
 
+        public T Build<T>(T concrete) where T : class
+        {
+            var cached = CheckInCache(concrete);
+            return cached ?? PrivateBuild(concrete);
+        }
+
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
         {
-            return _Fiber.Enqueue(() => Build<T>(concrete()));
+            return _Fiber.Enqueue(() => PrivateBuild<T>(concrete()));
         }
 
         public Task DisposeAsync() => TaskBuilder.Completed;

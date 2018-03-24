@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Concurrent;
+using Concurrent.Disposable;
 
 namespace EasyActor.Factories
 {
-    public abstract class ActorMonoTheadPoolFactory : ActorFactoryBase
+    public abstract class ActorMonoTheadPoolFactory : ActorFactoryBase, IActorFactory
     {
-        protected abstract IStopableFiber GetMonoFiber();
+        private readonly ComposableAsyncDisposable _ComposableAsyncDisposable = new ComposableAsyncDisposable();
+
+        private IStopableFiber GetMonoFiber() => _ComposableAsyncDisposable.Add(ObtainMonoFiber());
+
+        protected abstract IStopableFiber ObtainMonoFiber();
 
         public T Build<T>(T concrete) where T : class
         {
@@ -19,5 +24,7 @@ namespace EasyActor.Factories
             var fiber = GetMonoFiber();
             return fiber.Enqueue(() => Create<T>(concrete(), fiber));
         }
+
+        public Task DisposeAsync() => _ComposableAsyncDisposable.DisposeAsync();
     }
 }
