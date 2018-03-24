@@ -39,7 +39,7 @@ namespace Concurrent.Fibers
 
         public void Dispatch(Action action)
         {
-            _Context.Post(RunAction, action);
+            _Context.Post(_SendOrPostAction, action);
         }
 
         public Task Enqueue(Action action) 

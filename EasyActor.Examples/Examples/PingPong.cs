@@ -24,7 +24,10 @@ namespace EasyActor.Examples
 
         public async Task DisposeAsync()
         {
-            await _ActorFactory?.DisposeAsync();
+            if (_ActorFactory == null)
+                return;
+
+            await _ActorFactory.DisposeAsync();
         }
 
         public static IEnumerable<object[]> GetFactories()
@@ -76,6 +79,8 @@ namespace EasyActor.Examples
         [MemberData(nameof(GetFactories))]
         public async Task TestNoTask(IActorFactory fact)
         {
+            Output(fact.ToString());
+
             var one = new PingPongerSimple("Bjorg");
             var actor1 = fact.Build<IPingPonger>(one);
 

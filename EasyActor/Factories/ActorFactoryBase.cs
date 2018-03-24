@@ -1,7 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using Concurrent;
 using EasyActor.Helper;
@@ -12,8 +11,9 @@ namespace EasyActor.Factories
 {
     public abstract class ActorFactoryBase
     {
-        private static readonly IDictionary<object, ActorDescription> _Actors = new ConcurrentDictionary<object, ActorDescription>();
+        private static readonly ConditionalWeakTable<object, ActorDescription> _Actors = new ConditionalWeakTable<object, ActorDescription>();
         private static ProxyGenerator Generator { get; }
+        private static readonly object _Locker = new object();
 
         public abstract ActorFactorType Type { get; }
 
@@ -24,9 +24,12 @@ namespace EasyActor.Factories
 
         internal static ActorDescription GetCachedActor(object raw)
         {
-            ActorDescription res;
-            _Actors.TryGetValue(raw, out res);
-            return res;
+            lock (_Locker)
+            {
+                ActorDescription res;
+                _Actors.TryGetValue(raw, out res);
+                return res;
+            }
         }
 
         public static SynchronizationContext GetContextFromProxy(object raw)
@@ -37,13 +40,20 @@ namespace EasyActor.Factories
 
         public static void Clean(object raw)
         {
-            _Actors.Remove(raw);
+            lock (_Locker)
+            {
+                _Actors.Remove(raw);
+            }
         }
 
-        private void Register<T>(T registered, T proxyfied, IFiber fiber)
+        private T Register<T>(T registered, T proxyfied, IFiber fiber)
         {
-            var actor = new ActorDescription(proxyfied, fiber, Type);
-            _Actors.Add(registered, actor);
+            lock (_Locker)
+            {
+                var actor = new ActorDescription(proxyfied, fiber, Type);
+                _Actors.Add(registered, actor);
+                return proxyfied;
+            }
         }
 
         protected T CheckInCache<T>(T concrete) where T : class
@@ -66,8 +76,7 @@ namespace EasyActor.Factories
 
             var interceptors = new IInterceptor[] { new FiberDispatcherInterceptor<T>(fiber), new FiberProviderInterceptor(fiber) };
             var res = (T)Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new[] { TypeHelper.FiberProviderType }, concrete, interceptors);
-            Register(concrete, res, fiber);
-            return res;
+            return Register(concrete, res, fiber);
         }
     }
 }

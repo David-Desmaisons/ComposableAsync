@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Threading;
+using Concurrent.Tasks;
 using EasyActor.Factories;
 using EasyActor.Options;
 using FluentAssertions;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
-using Concurrent.Tasks;
 
 namespace EasyActor.Test
 {  
     public class ActorFactoryTest : IAsyncLifetime
     {
         private readonly ActorFactory _Factory;
-        private IDummyInterface2 _Actor1;
-        private IDummyInterface2 _Actor2;
-        private IDummyInterface4 _Actor4;
 
         public ActorFactoryTest()
         {
@@ -24,17 +21,7 @@ namespace EasyActor.Test
 
         public Task InitializeAsync() => TaskBuilder.Completed;
 
-        public async Task DisposeAsync() 
-        {
-            await Wait(_Actor1);
-            await Wait(_Actor2);
-            await Wait(_Actor4?.DisposeAsync());
-        }
-
-        private static Task Wait<T>(T actor) where T: class
-        {
-            return (actor as IAsyncDisposable)?.DisposeAsync() ?? TaskBuilder.Completed;
-        }
+        public Task DisposeAsync() => _Factory.DisposeAsync();
 
         [Fact]
         public void Type_Should_Be_Standard()
@@ -47,8 +34,8 @@ namespace EasyActor.Test
         {
             var current = Thread.CurrentThread;
             var target = new DummyClass();
-            _Actor1 = _Factory.Build<IDummyInterface2>(target);
-            await _Actor1.DoAsync();
+            var actor = _Factory.Build<IDummyInterface2>(target);
+            await actor.DoAsync();
 
             target.Done.Should().BeTrue();
             target.CallingThread.Should().NotBeNull();
@@ -59,12 +46,12 @@ namespace EasyActor.Test
         public async Task Method_Should_Always_Run_On_Same_Thread()
         {
             var target = new DummyClass();
-            _Actor1 = _Factory.Build<IDummyInterface2>(target);
-            await _Actor1.DoAsync();
+            var actor = _Factory.Build<IDummyInterface2>(target);
+            await actor.DoAsync();
 
             var thread = target.CallingThread;
 
-            await _Actor1.DoAsync();
+            await actor.DoAsync();
 
             target.CallingThread.Should().Be(thread);
         }
@@ -75,12 +62,12 @@ namespace EasyActor.Test
             //arrange
             var target1 = new DummyClass();
             var target2 = new DummyClass();
-            _Actor1 = _Factory.Build<IDummyInterface2>(target1);
-            _Actor2 = _Factory.Build<IDummyInterface2>(target2);
+            var actor = _Factory.Build<IDummyInterface2>(target1);
+            actor = _Factory.Build<IDummyInterface2>(target2);
 
             //act
-            await _Actor1.DoAsync();
-            await _Actor2.DoAsync();
+            await actor.DoAsync();
+            await actor.DoAsync();
 
             //assert
             target1.CallingThread.Should().NotBe(target2.CallingThread);
@@ -90,9 +77,9 @@ namespace EasyActor.Test
         public async Task Method_Should_Run_On_Same_Thread_After_Await()
         {
             var target = new DummyClass();
-            _Actor1 = _Factory.Build<IDummyInterface2>(target);
+            var actor = _Factory.Build<IDummyInterface2>(target);
 
-            var res = await _Actor1.DoAnRedoAsync();
+            var res = await actor.DoAnRedoAsync();
 
             res.Item1.Should().Be(res.Item2);
         }
@@ -101,10 +88,10 @@ namespace EasyActor.Test
         public void Build_Should_CreateSameInterface_ForSamePOCO()
         {
             var target = new DummyClass();
-            _Actor1 = _Factory.Build<IDummyInterface2>(target);
+            var actor = _Factory.Build<IDummyInterface2>(target);
             var intface2 = _Factory.Build<IDummyInterface2>(target);
 
-            _Actor1.Should().BeSameAs(intface2);
+            actor.Should().BeSameAs(intface2);
         }
 
         [Fact]
@@ -112,7 +99,7 @@ namespace EasyActor.Test
         {
             var target = new DummyClass();
             var sharedFactory = new SharedThreadActorFactory();
-            _Actor1 = sharedFactory.Build<IDummyInterface2>(target);
+            var actor = sharedFactory.Build<IDummyInterface2>(target);
 
             Action Do = () => _Factory.Build<IDummyInterface2>(target);
 
@@ -125,8 +112,8 @@ namespace EasyActor.Test
         public async Task Task_returned_By_Method_Should_Be_Awaited()
         {
             var target = new DummyClass();
-            _Actor1 = _Factory.Build<IDummyInterface2>(target);
-            await _Actor1.SlowDoAsync();
+            var actor = _Factory.Build<IDummyInterface2>(target);
+            await actor.SlowDoAsync();
 
             target.Done.Should().BeTrue();
         }
@@ -136,8 +123,8 @@ namespace EasyActor.Test
         {
             var current = Thread.CurrentThread;
             var target = new DummyClass();
-            _Actor1 = _Factory.Build<IDummyInterface2>(target);
-            var result = await _Actor1.ComputeAsync(25);
+            var actor = _Factory.Build<IDummyInterface2>(target);
+            var result = await actor.ComputeAsync(25);
 
             result.Should().Be(25);
             target.Done.Should().BeTrue();
@@ -148,8 +135,8 @@ namespace EasyActor.Test
         [Fact]
         public void Method_returning_void_Task_Should_Not_Throw_Exception()
         {
-            _Actor1 = _Factory.Build<IDummyInterface2>(new DummyClass());
-            Action Do = () => _Actor1.Do();
+            var actor = _Factory.Build<IDummyInterface2>(new DummyClass());
+            Action Do = () => actor.Do();
             Do.Should().NotThrow();
         }
 
@@ -158,8 +145,8 @@ namespace EasyActor.Test
         {
             var current = Thread.CurrentThread;
             DummyClass target = null;
-            _Actor1 = await _Factory.BuildAsync<IDummyInterface2>(() => { target = new DummyClass(); return target; });
-            await _Actor1.DoAsync();
+            var actor = await _Factory.BuildAsync<IDummyInterface2>(() => { target = new DummyClass(); return target; });
+            await actor.DoAsync();
 
             target.Done.Should().BeTrue();
             target.CallingConstructorThread.Should().NotBe(current);
@@ -169,17 +156,17 @@ namespace EasyActor.Test
         [Fact]
         public void Actor_Should_Implement_IFiberProvider()
         {
-            _Actor1 = _Factory.Build<IDummyInterface2>(new DummyClass());
-            _Actor1.Should().BeAssignableTo<IFiberProvider>();
+            var actor = _Factory.Build<IDummyInterface2>(new DummyClass());
+            actor.Should().BeAssignableTo<IFiberProvider>();
         }
 
         [Fact]
         public void Actor_Should_Returns_Fiber()
         {
-            _Actor1 = _Factory.Build<IDummyInterface2>(new DummyClass());
-            var fp = _Actor1 as IFiberProvider;
+            var actor = _Factory.Build<IDummyInterface2>(new DummyClass());
+            var fp = actor as IFiberProvider;
 
-            var fiber = fp.Fiber;
+            var fiber = fp?.Fiber;
 
             fiber.Should().NotBeNull();
         }
@@ -189,9 +176,9 @@ namespace EasyActor.Test
         {
             //arrange
             var dispclass = new DisposableClass();
-            _Actor4 = _Factory.Build<IDummyInterface4>(dispclass);
+            var actor = _Factory.Build<IDummyInterface4>(dispclass);
 
-            await _Actor4.DisposeAsync();
+            await actor.DisposeAsync();
             //assert
             dispclass.IsDisposed.Should().BeTrue();
         }
@@ -203,14 +190,14 @@ namespace EasyActor.Test
             var testThread = Thread.CurrentThread;
 
             var dispclass = new DisposableClass();
-            _Actor4 = _Factory.Build<IDummyInterface4>(dispclass);
+            var actor = _Factory.Build<IDummyInterface4>(dispclass);
 
-            await _Actor4.DoAsync();
+            await actor.DoAsync();
 
             var thread = dispclass.LastCallingThread;
             //act
 
-            await _Actor4.DisposeAsync();
+            await actor.DisposeAsync();
             //assert
             var disposableThread = dispclass.LastCallingThread;
 

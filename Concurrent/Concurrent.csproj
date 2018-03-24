@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dispatchers\NullDispatcher.cs" />
+    <Compile Include="Disposable\ComposableAsyncDisposable.cs" />
     <Compile Include="Disposable\IAsyncDisposable.cs" />
     <Compile Include="Fiber.cs" />
     <Compile Include="FiberExtension.cs" />

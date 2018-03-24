@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using FluentAssertions;
- 
 using System.Threading;
 using EasyActor.Factories;
 using EasyActor.Options;

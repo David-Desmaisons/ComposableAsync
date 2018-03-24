@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
 using Concurrent.Tasks;
@@ -25,14 +24,7 @@ namespace EasyActor.Test
 
         public async Task DisposeAsync()
         {
-            await Wait(_Factory.DisposeAsync());
-            await Wait(_Actor1);
-            await Wait(_Actor2);
-        }
-
-        private static Task Wait<T>(T actor) where T : class
-        {
-            return (actor as IAsyncDisposable)?.DisposeAsync() ?? TaskBuilder.Completed;
+            await _Factory.DisposeAsync();
         }
 
         [Fact]

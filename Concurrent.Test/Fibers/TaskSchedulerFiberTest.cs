@@ -9,13 +9,20 @@ using Xunit;
 
 namespace Concurrent.Test.Fibers
 {
-    public class TaskSchedulerFiberTest
+    public class TaskSchedulerFiberTest : IAsyncLifetime
     {
         private readonly TaskSchedulerFiber _TaskSchedulerFiber;
 
         public TaskSchedulerFiberTest()
         {
             _TaskSchedulerFiber = new TaskSchedulerFiber();
+        }
+
+        public Task InitializeAsync() => TaskBuilder.Completed;
+
+        public Task DisposeAsync()
+        {
+            return _TaskSchedulerFiber.DisposeAsync();
         }
 
         [Fact]

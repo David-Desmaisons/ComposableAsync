@@ -9,7 +9,7 @@ using EasyActor.Factories;
 using Xunit;
 
 namespace EasyActor.Examples
-{    
+{
     public class ConcurencyTest : IDisposable
     {
         private readonly List<Thread> _Threads;
@@ -24,7 +24,6 @@ namespace EasyActor.Examples
         public void Dispose()
         {
             _Threads.ForEach(t => t.Abort());
-            (_IActor as IAsyncDisposable)?.DisposeAsync()?.Wait();
         }
 
         private async Task TestActor()
@@ -34,7 +33,7 @@ namespace EasyActor.Examples
 
         [Theory]
         [MemberData(nameof(TestCases))]
-        public async Task NoActor_Should_Generate_Random_Output(IDoStuff stuffer, bool safe)
+        public async Task NoActor_Should_Generate_Random_Output(IAsyncDisposable factory, IDoStuff stuffer, bool safe)
         {
             _IActor = stuffer;
             //act
@@ -46,25 +45,28 @@ namespace EasyActor.Examples
             if (safe)
                 res.Should().Be(_ThreadCount); 
             else
-                res.Should().NotBe(_ThreadCount); 
+                res.Should().NotBe(_ThreadCount);
+
+            if (factory!=null)
+                await factory.DisposeAsync();
         }
 
         private static object[] BuildTestData(IActorFactory factory, IDoStuff stuffer) 
         {
-            return new object[] { factory.Build(stuffer), true };
+            return new object[] { factory, factory.Build(stuffer), true };
         }
 
-        private static IEnumerable<object[]> GetOKTestData(IEnumerable<IActorFactory> factories, IEnumerable<Func<IDoStuff>> stuffers) 
+        private static IEnumerable<object[]> GetOkTestData(IEnumerable<Func<IActorFactory>> factories, IEnumerable<Func<IDoStuff>> stuffers) 
         {
-            return factories.SelectMany(f => stuffers, (f, s) => BuildTestData(f, s()));
+            return factories.SelectMany(f => stuffers, (f, s) => BuildTestData(f(), s()));
         }
 
-        private static IEnumerable<IActorFactory> Factories 
+        private static IEnumerable<Func<IActorFactory>> Factories 
         {
             get 
             {
-                yield return new ActorFactory();
-                yield return new TaskPoolActorFactory();
+                yield return () => new ActorFactory();
+                yield return () => new TaskPoolActorFactory();
             }
         }
 
@@ -81,10 +83,10 @@ namespace EasyActor.Examples
         {
             get 
             {
-                yield return new object[] { new StufferSleep(), false };
-                yield return new object[] { new StufferAwait(), false };
+                yield return new object[] { null, new StufferSleep(), false };
+                yield return new object[] { null, new StufferAwait(), false };
 
-                foreach (var td in GetOKTestData(Factories, Stuffers)) 
+                foreach (var td in GetOkTestData(Factories, Stuffers)) 
                 {
                     yield return td;
                 }

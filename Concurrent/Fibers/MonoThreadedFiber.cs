@@ -137,7 +137,6 @@ namespace Concurrent.Fibers
             }
             _TaskQueue.Dispose();
             _EndFiber.TrySetResult(0);
-            GC.SuppressFinalize(this);
         }
 
         private void StopQueueing()
@@ -148,6 +147,7 @@ namespace Concurrent.Fibers
 
         public Task DisposeAsync()
         {
+            GC.SuppressFinalize(this);
             try
             {
                 StopQueueing();
@@ -159,9 +159,9 @@ namespace Concurrent.Fibers
             }
         }
 
-        ~MonoThreadedFiber() 
+        ~MonoThreadedFiber()
         {
-            DisposeAsync().Wait();
+            StopQueueing();
         }
     }
 }

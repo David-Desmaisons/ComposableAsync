@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
-using Concurrent.Tasks;
 using Concurrent.Test.TestHelper;
 using EasyActor.Factories;
 using EasyActor.Options;
@@ -116,12 +115,14 @@ namespace EasyActor.Test
         public async Task Build_Should_Throw_Exception_IsSamePOCO_HasBeenUsedWithOtherFactory()
         {
             var target = new DummyClass();
-            var Factory = new ActorFactory();
-            var intface = Factory.Build<IDummyInterface2>(target);
+            var factory = new ActorFactory();
+            var intface = factory.Build<IDummyInterface2>(target);
 
             Action Do = () => _Factory.Build<IDummyInterface2>(target);
 
             Do.Should().Throw<ArgumentException>().And.Message.Should().Contain("Standard");
+
+            await factory.DisposeAsync();
         }
 
         [Fact]

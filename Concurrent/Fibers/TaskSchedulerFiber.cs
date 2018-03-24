@@ -25,15 +25,15 @@ namespace Concurrent.Fibers
 
         public async Task DisposeAsync()
         {
+            GC.SuppressFinalize(this);
             _ConcurrentExclusiveSchedulerPair.Complete();
             await _ConcurrentExclusiveSchedulerPair.Completion;
             IsAlive = false;
-            GC.SuppressFinalize(this);
         }
 
-        ~TaskSchedulerFiber() 
+        ~TaskSchedulerFiber()
         {
-            DisposeAsync().Wait();
+            _ConcurrentExclusiveSchedulerPair.Complete();
         }
     }
 }

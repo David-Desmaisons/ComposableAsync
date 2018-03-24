@@ -33,10 +33,5 @@ namespace EasyActor
         {
             return new TaskPoolActorFactory();
         }
-
-        //public ILoadBalancerFactory GetLoadBalancerFactory(BalancingOption option = BalancingOption.MinizeObjectCreation, Action<Thread> onCreate = null)
-        //{
-        //    return new LoadBalancerFactory(option, onCreate);
-        //}
     }
 }

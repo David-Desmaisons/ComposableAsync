@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Concurrent;
-using Concurrent.Tasks;
 
 namespace EasyActor.Factories
 {
-    public abstract class ActorMonoTheadPoolFactory : ActorFactoryBase, IActorFactory
+    public abstract class ActorMonoTheadPoolFactory : ActorFactoryBase
     {
         protected abstract IStopableFiber GetMonoFiber();
 
@@ -20,7 +19,5 @@ namespace EasyActor.Factories
             var fiber = GetMonoFiber();
             return fiber.Enqueue(() => Create<T>(concrete(), fiber));
         }
-
-        public Task DisposeAsync() => TaskBuilder.Completed;
     }
 }
