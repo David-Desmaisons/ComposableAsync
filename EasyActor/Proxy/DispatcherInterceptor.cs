@@ -3,13 +3,13 @@ using Concurrent;
 
 namespace EasyActor.Proxy 
 {
-    internal class FiberDispatcherInterceptor<T> : IInterceptor
+    internal class DispatcherInterceptor<T> : IInterceptor
     {
-        private readonly IFiber _Fiber;
+        private readonly IDispatcher _Dispatcher;
 
-        public FiberDispatcherInterceptor(IFiber fiber)
+        public DispatcherInterceptor(IDispatcher dispatcher)
         {
-            _Fiber = fiber;
+            _Dispatcher = dispatcher;
         }
 
         public void Intercept(IInvocation invocation)
@@ -21,7 +21,7 @@ namespace EasyActor.Proxy
                 return;
             }
 
-            invocation.ReturnValue = proxyFiberSolver.Transform.Invoke(_Fiber, invocation);
+            invocation.ReturnValue = proxyFiberSolver.Transform.Invoke(_Dispatcher, invocation);
         }
     }
 }

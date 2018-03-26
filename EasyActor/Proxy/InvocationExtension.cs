@@ -13,10 +13,5 @@ namespace EasyActor.Proxy
         {
             return (T)@this.Method.Invoke(@this.InvocationTarget, @this.Arguments);
         }
-
-        public static object CallOn(this IInvocation @this, object delegated)
-        {
-            return @this.Method.Invoke(delegated, @this.Arguments);
-        }
     }
 }

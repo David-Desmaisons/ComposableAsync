@@ -8,9 +8,9 @@ namespace EasyActor.Proxy
     {
         public bool Continue { get; }
 
-        public Func<IFiber, IInvocation, object> Transform { get; }
+        public Func<IDispatcher, IInvocation, object> Transform { get; }
 
-        public ProxyFiberSolver(Func<IFiber, IInvocation, object> transform, bool @continue)
+        public ProxyFiberSolver(Func<IDispatcher, IInvocation, object> transform, bool @continue)
         {
             Continue = @continue;
             Transform = transform;

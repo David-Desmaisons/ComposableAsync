@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using Concurrent.Tasks;
-using EasyActor.Factories;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -55,8 +54,7 @@ namespace EasyActor.Examples
             one.PongerAsync = actor2;
             two.PongerAsync = actor1;
 
-            var watch = new Stopwatch();
-            watch.Start();
+            var watch = Stopwatch.StartNew();
 
             await actor1.Ping();
             Thread.Sleep(10000);
@@ -92,8 +90,7 @@ namespace EasyActor.Examples
             one.Ponger = actor2;
             two.Ponger = actor1;
 
-            var watch = new Stopwatch();
-            watch.Start();
+            var watch = Stopwatch.StartNew();
 
             actor1.Ping();
             Thread.Sleep(10000);

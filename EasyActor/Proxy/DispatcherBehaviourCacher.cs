@@ -42,25 +42,19 @@ namespace EasyActor.Proxy
 
         private static ProxyFiberSolver BuildTransformFunction(MethodInfo method)
         {
-            Func<IFiber, IInvocation, object> res = null;
+            Func<IDispatcher, IInvocation, object> res = null;
             var td = method.ReturnType.GetTaskType();
             switch (td.MethodType)
             {
                 case TaskType.Void:
-                    res = (fiber, invocation) =>
-                    {
-                        fiber.Dispatch(invocation.Call);
-                        return null;
-                    };
-                    break;
+                    return new ProxyFiberSolver(Dispatch, false);
 
                 case TaskType.Task:
-                    res = (fiber, invocation) => fiber.Enqueue(invocation.Call<Task>);
-                    break;
+                    return new ProxyFiberSolver(Enqueue, false);
 
                 case TaskType.GenericTask:
                     var mi = _Proceed.MakeGenericMethod(td.Type);
-                    res = (fiber, invocation) => mi.Invoke(null, new object[] { fiber, invocation });
+                    res = (dispatcher, invocation) => mi.Invoke(null, new object[] { dispatcher, invocation });
                     break;
 
                 case TaskType.None:
@@ -70,9 +64,16 @@ namespace EasyActor.Proxy
             return new ProxyFiberSolver(res, false);
         }
 
-        private static object Proceed<TResult>(IFiber fiber, IInvocation invocation)
+        private static object Dispatch(IDispatcher dispatcher, IInvocation invocation)
         {
-            return fiber.Enqueue(invocation.Call<Task<TResult>>);
+            dispatcher.Dispatch(invocation.Call);
+            return null;
         }
+
+        private static object Enqueue(IDispatcher dispatcher, IInvocation invocation) => 
+            dispatcher.Enqueue(invocation.Call<Task>);
+
+        private static object Proceed<TResult>(IDispatcher dispatcher, IInvocation invocation) =>
+            dispatcher.Enqueue(invocation.Call<Task<TResult>>);
     }
 }

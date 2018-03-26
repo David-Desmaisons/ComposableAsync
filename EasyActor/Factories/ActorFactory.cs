@@ -6,7 +6,6 @@ using Castle.DynamicProxy;
 using Concurrent;
 using Concurrent.Disposable;
 using EasyActor.FiberManangers;
-using EasyActor.Helper;
 using EasyActor.Options;
 using EasyActor.Proxy;
 
@@ -81,8 +80,10 @@ namespace EasyActor.Factories
 
         private T Create<T>(T concrete, IFiber fiber) where T : class
         {
-            var interceptors = new IInterceptor[] { new FiberDispatcherInterceptor<T>(fiber), new FiberProviderInterceptor(fiber) };
-            var res = (T)Generator.CreateInterfaceProxyWithTargetInterface(typeof(T), new[] { TypeHelper.FiberProviderType }, concrete, interceptors);
+            var interceptors = new IInterceptor[] { new DispatcherInterceptor<T>(fiber) };
+            var options = new ProxyGenerationOptions();
+            options.AddMixinInstance(new FiberProvider(fiber));
+            var res = Generator.CreateInterfaceProxyWithTarget<T>(concrete, options, interceptors);
             return Register(concrete, res, fiber);
         }
 

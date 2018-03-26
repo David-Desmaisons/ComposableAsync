@@ -52,18 +52,16 @@
     <Compile Include="FiberManangers\TaskPoolFiberManager.cs" />
     <Compile Include="FiberManangers\TheadPoolFiberManager.cs" />
     <Compile Include="FiberManangers\StandardFiberManager.cs" />
-    <Compile Include="Helper\TypeHelper.cs" />
     <Compile Include="IFiberProvider.cs" />
     <Compile Include="Options\ActorFactorType.cs" />
     <Compile Include="FactoryBuilder.cs" />
     <Compile Include="IFactoryBuilder.cs" />
     <Compile Include="Factories\ActorDescription.cs" />
-    <Compile Include="Proxy\FiberBehaviourCacherDispatcher.cs" />
-    <Compile Include="Proxy\FiberProviderInterceptor.cs" />
-    <Compile Include="Proxy\InterfaceInterceptor.cs" />
+    <Compile Include="Proxy\DispatcherBehaviourCacher.cs" />
+    <Compile Include="Proxy\FiberProvider.cs" />
     <Compile Include="IActorFactory.cs" />
     <Compile Include="Proxy\InvocationExtension.cs" />
-    <Compile Include="Proxy\FiberDispatcherInterceptor.cs" />
+    <Compile Include="Proxy\DispatcherInterceptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxy\ProxySolver.cs" />
   </ItemGroup>
