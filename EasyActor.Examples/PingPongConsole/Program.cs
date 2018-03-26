@@ -15,19 +15,22 @@ namespace PingPongConsole
 
         static async Task MainAsync(string[] args)
         {
+            var pingPong = new PingPong();
+            await OnEveryFactory("Task", pingPong.Test);
+
+            await OnEveryFactory("No Task", pingPong.TestNoTask);
+
+            Console.ReadLine();
+        }
+
+        private static async Task OnEveryFactory(string title, Func<IActorFactory, Task> doOnActor)
+        {
             foreach (var fact in PingPong.GetFactories().Select(o => o[0] as IActorFactory))
             {
-                    Console.WriteLine("Task");
-                    await new PingPong().Test(fact);
-                    Console.WriteLine("=================");
-
-                    Console.WriteLine("No task");
-                    await new PingPong().TestNoTask(fact);
-                    Console.WriteLine("=================");
-
-                await fact.DisposeAsync();
+                Console.WriteLine(title);
+                await doOnActor(fact);
+                Console.WriteLine("=================");
             }
-            Console.ReadLine();
         }
     }
 }
