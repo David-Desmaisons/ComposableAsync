@@ -30,7 +30,7 @@ namespace EasyActor.Examples
 
         [Theory]
         [MemberData(nameof(GetFactories))]
-        public async Task Test(IActorFactory fact)
+        public async Task TestTask(IActorFactory fact)
         {
             Output(fact.Type.ToString());
 
@@ -70,6 +70,33 @@ namespace EasyActor.Examples
 
             one.Ponger = actor2;
             two.Ponger = actor1;
+
+            var watch = Stopwatch.StartNew();
+
+            actor1.Ping();
+            Thread.Sleep(10000);
+
+            await fact.DisposeAsync();
+            watch.Stop();
+
+            Output($"Total Ping:{one.Count}, Total Pong:{two.Count} Total Time: {watch.ElapsedMilliseconds} ms");
+            Output($"Operation/ms:{(one.Count + two.Count) / watch.ElapsedMilliseconds}");
+        }
+
+        [Theory]
+        [MemberData(nameof(GetFactories))]
+        public async Task TestTask_T(IActorFactory fact)
+        {
+            Output(fact.Type.ToString());
+
+            var one = new PingPongerBoolAsync("Bjorg");
+            var actor1 = fact.Build<IPingPongerBoolAsync>(one);
+
+            var two = new PingPongerBoolAsync("Lendl");
+            var actor2 = fact.Build<IPingPongerBoolAsync>(two);
+
+            one.PongerAsync = actor2;
+            two.PongerAsync = actor1;
 
             var watch = Stopwatch.StartNew();
 

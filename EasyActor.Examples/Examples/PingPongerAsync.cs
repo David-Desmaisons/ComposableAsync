@@ -10,9 +10,9 @@ namespace EasyActor.Examples
 
         internal IPingPongerAsync PongerAsync { get; set; }
 
-        public PingPongerAsync(string iName)
+        public PingPongerAsync(string name)
         {
-            Name = iName;
+            Name = name;
         }
 
         public Task Ping()

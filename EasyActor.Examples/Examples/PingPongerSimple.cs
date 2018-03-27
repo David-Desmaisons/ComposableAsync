@@ -7,9 +7,9 @@
 
         internal IPingPonger Ponger { get; set; }
 
-        public PingPongerSimple(string iName)
+        public PingPongerSimple(string name)
         {
-            Name = iName;
+            Name = name;
         }
 
         public void Ping()

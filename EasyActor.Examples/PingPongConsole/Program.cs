@@ -16,7 +16,9 @@ namespace PingPongConsole
         static async Task MainAsync(string[] args)
         {
             var pingPong = new PingPong();
-            await OnEveryFactory("Task", pingPong.Test);
+            await OnEveryFactory("Task Bool", pingPong.TestTask_T);
+
+            await OnEveryFactory("Task", pingPong.TestTask);
 
             await OnEveryFactory("No Task", pingPong.TestNoTask);
 

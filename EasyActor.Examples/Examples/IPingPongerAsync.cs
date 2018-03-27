@@ -7,6 +7,11 @@ namespace EasyActor.Examples
         Task Ping();
     }
 
+    public interface IPingPongerBoolAsync
+    {
+        Task<bool> Ping();
+    }
+
     public interface IPingPonger
     {
         void Ping();

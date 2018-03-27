@@ -57,12 +57,14 @@
     <Compile Include="FactoryBuilder.cs" />
     <Compile Include="IFactoryBuilder.cs" />
     <Compile Include="Factories\ActorDescription.cs" />
+    <Compile Include="Proxy\DispatcherBehaviour.cs" />
     <Compile Include="Proxy\DispatcherBehaviourCacher.cs" />
     <Compile Include="Proxy\FiberProvider.cs" />
     <Compile Include="IActorFactory.cs" />
     <Compile Include="Proxy\InvocationExtension.cs" />
     <Compile Include="Proxy\DispatcherInterceptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxy\InvocationOnDispatcher.cs" />
     <Compile Include="Proxy\ProxySolver.cs" />
   </ItemGroup>
   <ItemGroup>
