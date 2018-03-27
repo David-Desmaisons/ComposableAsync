@@ -5,6 +5,7 @@ using Concurrent.Tasks;
 using EasyActor.Options;
 using FluentAssertions;
 using EasyActor.Test.TestInfra.DummyClass;
+using Ploeh.AutoFixture.Xunit2;
 using Xunit;
 
 namespace EasyActor.Test
@@ -83,6 +84,44 @@ namespace EasyActor.Test
             var res = await actor.DoAnRedoAsync();
 
             res.Item1.Should().Be(res.Item2);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task Build_Should_Create_Proxy_That_Handles_Generic_Interface(bool value)
+        {
+            var target = new GenericImplementation();
+            var actor = _Factory.Build<IGenericInterface<string>>(target);
+
+            var res = await actor.GetResult(value);
+
+            res.Should().Be(value);
+            target.LastCallingThread.Should().NotBe(Thread.CurrentThread);
+        }
+
+        [Theory, AutoData]
+        public async Task Build_Should_Create_Proxy_That_Handles_Generic_Interface_2(string value)
+        {
+            var target = new GenericImplementation();
+            var actor = _Factory.Build<IGenericInterface<string>>(target);
+
+            var res = await actor.GetResult(value);
+
+            res.Should().Be($"{value}-transformed");
+            target.LastCallingThread.Should().NotBe(Thread.CurrentThread);
+        }
+
+        [Theory, AutoData]
+        public async Task Build_Should_Create_Proxy_That_Handles_Generic_Interface_3(int value)
+        {
+            var target = new GenericImplementation();
+            var actor = _Factory.Build<IGenericInterface<string>>(target);
+
+            var res = await actor.GetResultString(value);
+
+            res.Should().Be($"{value}");
+            target.LastCallingThread.Should().NotBe(Thread.CurrentThread);
         }
 
         [Fact]

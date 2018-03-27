@@ -34,7 +34,8 @@ namespace EasyActor.Proxy
         public static ProxyFiberSolver GetTransformFunction(IInvocation invocation)
         {
             ProxyFiberSolver res;
-            if (_Cache.TryGetValue(invocation.Method, out res))
+            var registeredMethodInfo = invocation.Method.IsGenericMethod ? invocation.Method.GetGenericMethodDefinition() : invocation.Method;
+            if (_Cache.TryGetValue(registeredMethodInfo, out res))
                 return res;
 
             return new ProxyFiberSolver(null, true);
@@ -53,6 +54,9 @@ namespace EasyActor.Proxy
                     return new ProxyFiberSolver(Enqueue, false);
 
                 case TaskType.GenericTask:
+                    if (td.Type.IsGenericParameter)
+                        return new ProxyFiberSolver(DynamicEnqueue, false);
+
                     var mi = _Proceed.MakeGenericMethod(td.Type);
                     res = (dispatcher, invocation) => mi.Invoke(null, new object[] { dispatcher, invocation });
                     break;
@@ -70,7 +74,14 @@ namespace EasyActor.Proxy
             return null;
         }
 
-        private static object Enqueue(IDispatcher dispatcher, IInvocation invocation) => 
+        private static object DynamicEnqueue(IDispatcher dispatcher, IInvocation invocation)
+        {
+            var solvedTask = invocation.Method.ReturnType.GetTaskType();
+            var mi = _Proceed.MakeGenericMethod(solvedTask.Type);
+            return mi.Invoke(null, new object[] { dispatcher, invocation });
+        }
+
+        private static object Enqueue(IDispatcher dispatcher, IInvocation invocation) =>
             dispatcher.Enqueue(invocation.Call<Task>);
 
         private static object Proceed<TResult>(IDispatcher dispatcher, IInvocation invocation) =>
