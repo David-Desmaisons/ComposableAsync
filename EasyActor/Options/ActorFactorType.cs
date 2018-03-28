@@ -29,6 +29,12 @@
         /// In Context factory: actors will use the current SynchronizationContext
         /// such as WPF or windows form thread.
         /// </summary>
-        InCurrentContext
+        InCurrentContext,
+
+
+        /// <summary>
+        /// Actors will use the fiber provided to the actor factory
+        /// </summary>
+        FromFiber
     }
 }

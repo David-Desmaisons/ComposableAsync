@@ -2,7 +2,7 @@
 using Concurrent;
 using EasyActor.Options;
 
-namespace EasyActor.FiberManangers
+namespace EasyActor.DispatcherManangers
 {
     public interface IDispatcherMananger : IAsyncDisposable
     {

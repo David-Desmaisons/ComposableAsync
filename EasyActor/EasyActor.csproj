@@ -45,13 +45,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorExtension.cs" />
+    <Compile Include="DispatcherManangers\DispatcherMananger.cs" />
     <Compile Include="Factories\ActorFactory.cs" />
-    <Compile Include="FiberManangers\IDispatcherMananger.cs" />
-    <Compile Include="FiberManangers\SynchronizationContextFiberManage.cs" />
-    <Compile Include="FiberManangers\SharedThreadFiberManager.cs" />
-    <Compile Include="FiberManangers\TaskPoolFiberManager.cs" />
-    <Compile Include="FiberManangers\TheadPoolFiberManager.cs" />
-    <Compile Include="FiberManangers\StandardFiberManager.cs" />
+    <Compile Include="DispatcherManangers\IDispatcherMananger.cs" />
+    <Compile Include="DispatcherManangers\SynchronizationContextFiberManage.cs" />
+    <Compile Include="DispatcherManangers\SharedThreadFiberManager.cs" />
+    <Compile Include="DispatcherManangers\TaskPoolFiberManager.cs" />
+    <Compile Include="DispatcherManangers\TheadPoolFiberManager.cs" />
+    <Compile Include="DispatcherManangers\StandardFiberManager.cs" />
     <Compile Include="IFiberProvider.cs" />
     <Compile Include="Options\ActorFactorType.cs" />
     <Compile Include="FactoryBuilder.cs" />

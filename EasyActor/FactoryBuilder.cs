@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading;
+using Concurrent;
+using EasyActor.DispatcherManangers;
 using EasyActor.Factories;
-using EasyActor.FiberManangers;
 
 namespace EasyActor
 {
@@ -31,6 +32,11 @@ namespace EasyActor
         public IActorFactory GetTaskBasedFactory()
         {
             return new ActorFactory(new TaskPoolFiberManager());
+        }
+
+        public IActorFactory GetFactoryForFiber(IFiber fiber)
+        {
+            return new ActorFactory(new DispatcherMananger(fiber));
         }
     }
 }

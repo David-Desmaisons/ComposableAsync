@@ -3,7 +3,7 @@ using Concurrent;
 using Concurrent.Tasks;
 using EasyActor.Options;
 
-namespace EasyActor.FiberManangers
+namespace EasyActor.DispatcherManangers
 {
     internal class TheadPoolFiberManager : IDispatcherMananger
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Concurrent;
 
 namespace EasyActor
 {
@@ -38,5 +39,10 @@ namespace EasyActor
         /// Returns an actor factory using the provided synchronizationContext 
         /// </summary>
         IActorFactory GetInContextFactory(SynchronizationContext synchronizationContext);
+
+        /// <summary>
+        /// Returns an actor factory using the provided fiber 
+        /// </summary>
+        IActorFactory GetFactoryForFiber(IFiber dispatcher);
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using Concurrent;
 using Concurrent.Disposable;
-using EasyActor.FiberManangers;
+using EasyActor.DispatcherManangers;
 using EasyActor.Options;
 using EasyActor.Proxy;
 
@@ -42,12 +42,6 @@ namespace EasyActor.Factories
             }
         }
 
-        public static SynchronizationContext GetContextFromProxy(object raw)
-        {
-            var res = GetCachedActor(raw);
-            return res?.Fiber.SynchronizationContext;
-        }
-
         public static void Clean(object raw)
         {
             lock (_Locker)
@@ -56,11 +50,11 @@ namespace EasyActor.Factories
             }
         }
 
-        private T Register<T>(T registered, T proxyfied, IFiber fiber)
+        private T Register<T>(T registered, T proxyfied, IDispatcher dispatcher)
         {
             lock (_Locker)
             {
-                var actor = new ActorDescription(proxyfied, fiber, Type);
+                var actor = new ActorDescription(proxyfied, dispatcher, Type);
                 _Actors.Add(registered, actor);
                 return proxyfied;
             }
@@ -86,7 +80,7 @@ namespace EasyActor.Factories
             if (fiber != null)
                 options.AddMixinInstance(new FiberProvider(fiber));
             var res = Generator.CreateInterfaceProxyWithTarget<T>(concrete, options, interceptors);
-            return Register(concrete, res, fiber);
+            return Register(concrete, res, dispatcher);
         }
 
         private IDispatcher GetDispatcher()

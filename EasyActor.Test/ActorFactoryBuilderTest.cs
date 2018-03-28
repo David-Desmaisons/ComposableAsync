@@ -3,7 +3,9 @@ using FluentAssertions;
 using System.Threading;
 using Xunit;
 using System.Threading.Tasks;
+using Concurrent;
 using EasyActor.Options;
+using EasyActor.Test.TestInfra.DummyClass;
 
 namespace EasyActor.Test
 {
@@ -62,6 +64,23 @@ namespace EasyActor.Test
             var res = _ActorFactoryBuilder.GetInContextFactory(new SynchronizationContext());
 
             res.Type.Should().Be(ActorFactorType.InCurrentContext);
+        }
+
+        [Fact]
+        public async Task GetFactoryForFiber_Creates_Actor_Using_The_Provided_Fiber()
+        {
+            var fiber = Fiber.CreateMonoThreadedFiber();
+            var fiberThread = await fiber.Enqueue(() => Thread.CurrentThread);
+
+            var factory = _ActorFactoryBuilder.GetFactoryForFiber(fiber);
+
+            var target = new DummyClass();
+            var actor = factory.Build<IDummyInterface2>(target);
+            await actor.DoAsync();
+
+            target.CallingThread.Should().Be(fiberThread);
+
+            await fiber.DisposeAsync();
         }
     }
 }

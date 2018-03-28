@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Concurrent;
 using EasyActor.Options;
 
-namespace EasyActor.FiberManangers
+namespace EasyActor.DispatcherManangers
 {
     internal class SharedThreadFiberManager : IDispatcherMananger
     {
