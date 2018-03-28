@@ -7,10 +7,10 @@ using EasyActor.Options;
 
 namespace EasyActor.FiberManangers
 {
-    internal class SynchronizationContextFiberManage : IFiberMananger
+    internal class SynchronizationContextFiberManage : IDispatcherMananger
     {
         public ActorFactorType Type => ActorFactorType.InCurrentContext;
-        public bool DisposeFiber => false;
+        public bool DisposeDispatcher => false;
         private readonly IFiber _Fiber;
 
         public SynchronizationContextFiberManage() : this(SynchronizationContext.Current)
@@ -24,7 +24,7 @@ namespace EasyActor.FiberManangers
             _Fiber = Fiber.GetFiberFromSynchronizationContext(synchronizationContext);
         }
 
-        public IFiber GetFiber() => _Fiber;
+        public IDispatcher GetDispatcher() => _Fiber;
 
         public Task DisposeAsync() => TaskBuilder.Completed;
     }

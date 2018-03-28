@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="ActorExtension.cs" />
     <Compile Include="Factories\ActorFactory.cs" />
-    <Compile Include="FiberManangers\IFiberMananger.cs" />
+    <Compile Include="FiberManangers\IDispatcherMananger.cs" />
     <Compile Include="FiberManangers\SynchronizationContextFiberManage.cs" />
     <Compile Include="FiberManangers\SharedThreadFiberManager.cs" />
     <Compile Include="FiberManangers\TaskPoolFiberManager.cs" />

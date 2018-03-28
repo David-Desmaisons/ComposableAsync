@@ -17,14 +17,14 @@ namespace EasyActor.Factories
         private static ProxyGenerator Generator { get; }
         private static readonly object _Locker = new object();
 
-        public ActorFactorType Type => _FiberMananger.Type;
+        public ActorFactorType Type => _DispatcherMananger.Type;
 
-        private readonly IFiberMananger _FiberMananger;
+        private readonly IDispatcherMananger _DispatcherMananger;
         private readonly ComposableAsyncDisposable _ComposableAsyncDisposable = new ComposableAsyncDisposable();
 
-        public ActorFactory(IFiberMananger fiberMananger)
+        public ActorFactory(IDispatcherMananger dispatcherMananger)
         {
-            _FiberMananger = _ComposableAsyncDisposable.Add(fiberMananger);
+            _DispatcherMananger = _ComposableAsyncDisposable.Add(dispatcherMananger);
         }
 
         static ActorFactory()
@@ -78,34 +78,36 @@ namespace EasyActor.Factories
             return (res.ActorProxy) as T;
         }
 
-        private T Create<T>(T concrete, IFiber fiber) where T : class
+        private T Create<T>(T concrete, IDispatcher dispatcher) where T : class
         {
-            var interceptors = new IInterceptor[] { new DispatcherInterceptor<T>(fiber) };
+            var interceptors = new IInterceptor[] { new DispatcherInterceptor<T>(dispatcher) };
             var options = new ProxyGenerationOptions();
-            options.AddMixinInstance(new FiberProvider(fiber));
+            var fiber = dispatcher as IFiber;
+            if (fiber != null)
+                options.AddMixinInstance(new FiberProvider(fiber));
             var res = Generator.CreateInterfaceProxyWithTarget<T>(concrete, options, interceptors);
             return Register(concrete, res, fiber);
         }
 
-        private IFiber GetFiber()
+        private IDispatcher GetDispatcher()
         {
-            var fiber = _FiberMananger.GetFiber();
-            if (_FiberMananger.DisposeFiber)
+            var dispatcher = _DispatcherMananger.GetDispatcher();
+            if (_DispatcherMananger.DisposeDispatcher)
             {
-                _ComposableAsyncDisposable.Add(fiber as IAsyncDisposable);
+                _ComposableAsyncDisposable.Add(dispatcher as IAsyncDisposable);
             }
-            return fiber;
+            return dispatcher;
         }
 
         public T Build<T>(T concrete) where T : class
         {
             var cached = CheckInCache(concrete);
-            return cached ?? Create<T>(concrete, GetFiber());
+            return cached ?? Create<T>(concrete, GetDispatcher());
         }
 
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
         {
-            var fiber = GetFiber();
+            var fiber = GetDispatcher();
             return fiber.Enqueue(() => Create<T>(concrete(), fiber));
         }
 

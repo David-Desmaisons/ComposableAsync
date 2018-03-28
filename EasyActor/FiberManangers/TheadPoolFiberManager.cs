@@ -5,12 +5,12 @@ using EasyActor.Options;
 
 namespace EasyActor.FiberManangers
 {
-    internal class TheadPoolFiberManager : IFiberMananger
+    internal class TheadPoolFiberManager : IDispatcherMananger
     {
         public ActorFactorType Type => ActorFactorType.ThreadPool;
-        public bool DisposeFiber => true;
+        public bool DisposeDispatcher => true;
 
-        public IFiber GetFiber() => Fiber.GetThreadPoolFiber();
+        public IDispatcher GetDispatcher() => Fiber.GetThreadPoolFiber();
 
         public Task DisposeAsync() => TaskBuilder.Completed;
     }

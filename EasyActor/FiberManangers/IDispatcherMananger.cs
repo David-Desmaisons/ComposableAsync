@@ -4,12 +4,12 @@ using EasyActor.Options;
 
 namespace EasyActor.FiberManangers
 {
-    public interface IFiberMananger : IAsyncDisposable
+    public interface IDispatcherMananger : IAsyncDisposable
     {
-        bool DisposeFiber { get; }
+        bool DisposeDispatcher { get; }
 
         ActorFactorType Type { get; }
 
-        IFiber GetFiber();
+        IDispatcher GetDispatcher();
     }
 }

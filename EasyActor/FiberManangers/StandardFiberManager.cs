@@ -7,10 +7,10 @@ using EasyActor.Options;
 
 namespace EasyActor.FiberManangers
 {
-    internal class StandardFiberManager : IFiberMananger
+    internal class StandardFiberManager : IDispatcherMananger
     {
         public ActorFactorType Type => ActorFactorType.Standard;
-        public bool DisposeFiber => true;
+        public bool DisposeDispatcher => true;
 
         private readonly Action<Thread> _OnCreate;
         public StandardFiberManager(Action<Thread> onCreate = null)
@@ -18,7 +18,7 @@ namespace EasyActor.FiberManangers
             _OnCreate = onCreate;
         }
 
-        public IFiber GetFiber() => Fiber.CreateMonoThreadedFiber(_OnCreate);
+        public IDispatcher GetDispatcher() => Fiber.CreateMonoThreadedFiber(_OnCreate);
 
         public Task DisposeAsync() => TaskBuilder.Completed;
     }
