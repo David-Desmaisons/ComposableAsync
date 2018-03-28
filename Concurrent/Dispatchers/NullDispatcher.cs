@@ -4,7 +4,7 @@ using Concurrent.Tasks;
 
 namespace Concurrent.Dispatchers
 {
-    public class NullDispatcher: IDispatcher
+    public sealed class NullDispatcher: IDispatcher
     {
         private NullDispatcher() { }
 

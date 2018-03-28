@@ -59,21 +59,21 @@ namespace Concurrent.Dispatchers
         public Task Enqueue(Func<Task> action)
         {
             return Safe(() =>
-                {
-                    var workItem = new AsyncActionWorkItem(action);
-                    _TaskFactory.StartNew(() => workItem.Do());
-                    return workItem.Task;
-                });
+            {
+                var workItem = new AsyncActionWorkItem(action);
+                _TaskFactory.StartNew(workItem.Do);
+                return workItem.Task;
+            });
         }
 
         public Task<T> Enqueue<T>(Func<Task<T>> action)
         {
             return Safe(() =>
-               {
-                   var workItem = new AsyncWorkItem<T>(action);
-                   _TaskFactory.StartNew(() => workItem.Do());
-                   return workItem.Task;
-               });
+            {
+                var workItem = new AsyncWorkItem<T>(action);
+                _TaskFactory.StartNew(workItem.Do);
+                return workItem.Task;
+            });
         }
     }
 }
