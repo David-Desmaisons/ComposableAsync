@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Concurrent.Disposable;
 using Concurrent.Tasks;
 using Concurrent.Test.TestHelper;
 using FluentAssertions;
+using Ploeh.AutoFixture.Xunit2;
 using Xunit;
 
 namespace Concurrent.Test.Fibers
@@ -12,7 +14,7 @@ namespace Concurrent.Test.Fibers
     public abstract class MonoThreadedFiberBaseTest : IAsyncLifetime
     {
         protected Thread RunningThread;
-        private readonly List<IAsyncDisposable> _Disposables = new List<IAsyncDisposable>();
+        private readonly ComposableAsyncDisposable _Disposables = new ComposableAsyncDisposable();
 
         protected MonoThreadedFiberBaseTest()
         {
@@ -21,21 +23,14 @@ namespace Concurrent.Test.Fibers
 
         public Task InitializeAsync() => TaskBuilder.Completed;
 
-        public async Task DisposeAsync()
-        {
-            foreach (var asyncDisposable in _Disposables)
-            {
-                await asyncDisposable.DisposeAsync();
-            }
-        }
+        public Task DisposeAsync() => _Disposables.DisposeAsync();
 
         protected abstract IMonoThreadFiber GetFiber(Action<Thread> onCreate = null);
 
         protected IMonoThreadFiber GetSafeFiber(Action<Thread> onCreate = null)
         {
             var fiber = GetFiber(onCreate);
-            _Disposables.Add(fiber);
-            return fiber;
+            return _Disposables.Add(fiber);
         }
 
         protected Task TaskFactory(int sleep = 1)
@@ -63,7 +58,7 @@ namespace Concurrent.Test.Fibers
         }
 
         [Fact]
-        public async Task Enqueue_Should_Run_OnSeparatedThread()
+        public async Task Enqueue_Task_Should_Run_OnSeparatedThread()
         {
             var current = Thread.CurrentThread;
             //arrange
@@ -78,7 +73,7 @@ namespace Concurrent.Test.Fibers
         }
 
         [Fact]
-        public async Task Enqueue_Should_Run_OnSameThread()
+        public async Task Enqueue_Task_Should_Run_OnSameThread()
         {
             //arrange
             var target = GetSafeFiber();
@@ -91,6 +86,94 @@ namespace Concurrent.Test.Fibers
 
             //assert
             RunningThread.Should().Be(first);
+        }
+
+        [Fact]
+        public async Task Enqueue_Task_With_Cancellation_Should_Run_OnSameThread()
+        {
+            //arrange
+            var target = GetSafeFiber();
+
+            //act
+            await target.Enqueue(() => TaskFactory(), CancellationToken.None);
+            var first = RunningThread;
+            RunningThread = null;
+            await target.Enqueue(() => TaskFactory(), CancellationToken.None);
+
+            //assert
+            RunningThread.Should().Be(first);
+        }
+
+        [Fact]
+        public async Task Enqueue_Task_With_Cancellation_Should_Run_OnSeparatedThread()
+        {
+            var current = Thread.CurrentThread;
+            //arrange
+            var target = GetSafeFiber();
+
+            //act
+            await target.Enqueue(() => TaskFactory(), CancellationToken.None);
+
+            //assert
+            RunningThread.Should().NotBeNull();
+            RunningThread.Should().NotBe(current);
+        }
+
+        [Fact]
+        public async Task Enqueue_Task_With_Cancellation_Imediatelly_Cancel_Tasks_Enqueued()
+        {
+            var target = GetSafeFiber();
+            var cancellationTokenSource = new CancellationTokenSource();
+            var watch = Stopwatch.StartNew();
+
+            var taskEnqueued = target.Enqueue(() => TaskFactory(2));
+            var newTask = target.Enqueue(() => TaskFactory(), cancellationTokenSource.Token);
+
+            cancellationTokenSource.Cancel();
+
+            await AwaitForCancellation(newTask);
+           
+            var time = watch.Elapsed;
+
+            await taskEnqueued;
+
+            time.Should().BeLessThan(TimeSpan.FromSeconds(1));
+        }
+
+        [Fact]
+        public async Task Enqueue_Task_With_Cancellation_Do_Not_Run_Task_Cancelled_Enqueued()
+        {
+            var target = GetSafeFiber();
+            var cancellationTokenSource = new CancellationTokenSource();
+            var taskHasbeenCalled = false;
+
+            var taskEnqueued = target.Enqueue(() => TaskFactory(2));
+            var newTask = target.Enqueue(() => {
+                taskHasbeenCalled = true;
+                return TaskBuilder.Completed;
+            }, cancellationTokenSource.Token);
+
+            cancellationTokenSource.Cancel();
+
+            await AwaitForCancellation(newTask);
+
+            await taskEnqueued;
+
+            await Task.Delay(200);
+
+            taskHasbeenCalled.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task Enqueue_after_await_does_not_continue_on_actor_thread()
+        {
+            //arrange
+            var target = GetSafeFiber();
+
+            //act
+            var thread = await target.Enqueue(() => Thread.CurrentThread);
+
+            thread.Should().NotBe(Thread.CurrentThread);
         }
 
         [Fact]
@@ -131,7 +214,7 @@ namespace Concurrent.Test.Fibers
         }
 
         [Fact]
-        public async Task Enqueue_Exception_Should_Not_Kill_MainThead()
+        public async Task Enqueue_Task_Exception_Should_Not_Kill_MainThead()
         {
             //arrange
             var target = GetSafeFiber();
@@ -147,43 +230,116 @@ namespace Concurrent.Test.Fibers
             await target.Enqueue(() => TaskFactory());
         }
 
+        [Theory, AutoData]
+        public async Task Enqueue_Task_T_Return_Result(int data)
+        {
+            //arrange
+            var target = GetSafeFiber();
+
+            //act
+            var res = await target.Enqueue(() => TaskFactory<int>(data));
+
+            //assert
+            res.Should().Be(data);
+        }
+
         [Fact]
-        public async Task Enqueue_Should_Work_With_Result()
+        public async Task Enqueue_Task_T_Run_On_Separated_Thread()
         {
             var current = Thread.CurrentThread;
             //arrange
             var target = GetSafeFiber();
 
             //act
-            var res = await target.Enqueue(() => TaskFactory<int>(25));
+            await target.Enqueue(() => TaskFactory<int>(12));
+
+            var thread = RunningThread;
+            thread.Should().NotBeNull();
+            thread.Should().NotBe(current);
 
             //assert
-            res.Should().Be(25);
+            await target.Enqueue(() => TaskFactory<int>(12));
+            RunningThread.Should().NotBeNull();
+            RunningThread.Should().Be(thread);
+        }
+
+        [Theory, AutoData]
+        public async Task Enqueue_Task_T_With_Cancellation_Return_Result(int data)
+        {
+            var current = Thread.CurrentThread;
+            //arrange
+            var target = GetSafeFiber();
+
+            //act
+            var res = await target.Enqueue(() => TaskFactory<int>(data), CancellationToken.None);
+
+            //assert
+            res.Should().Be(data);
             RunningThread.Should().NotBeNull();
             RunningThread.Should().NotBe(current);
         }
 
         [Fact]
-        public async Task Enqueue_Func_T_Should_Work_AsExpected_With_Result()
+        public async Task Enqueue_Task_T_With_Cancellation_Run_On_Separated_Thread()
+        {
+            var current = Thread.CurrentThread;
+            //arrange
+            var target = GetSafeFiber();
+
+            //act
+            await target.Enqueue(() => TaskFactory<int>(12));
+
+            var thread = RunningThread;
+            thread.Should().NotBeNull();
+            thread.Should().NotBe(current);
+
+            //assert
+            await target.Enqueue(() => TaskFactory<int>(12), CancellationToken.None);
+            RunningThread.Should().NotBeNull();
+            RunningThread.Should().Be(thread);
+        }
+
+        [Fact]
+        public async Task Enqueue_Task_T_With_Cancellation_Imediatelly_Cancel_Tasks_Enqueued()
+        {
+            var target = GetSafeFiber();
+            var cancellationTokenSource = new CancellationTokenSource();
+            var watch = Stopwatch.StartNew();
+
+            var taskEnqueued = target.Enqueue(() => TaskFactory<int>(12, 2));
+            var newTask = target.Enqueue(() => TaskFactory<int>(12), cancellationTokenSource.Token);
+
+            cancellationTokenSource.Cancel();
+
+            await AwaitForCancellation(newTask);
+
+            var time = watch.Elapsed;
+
+            await taskEnqueued;
+          
+            time.Should().BeLessThan(TimeSpan.FromSeconds(1));
+        }
+
+        [Theory, AutoData]
+        public async Task Enqueue_Func_T_Should_Work_AsExpected_With_Result(int value)
         {
 
             Thread current = Thread.CurrentThread;
             //arrange
             var target = GetSafeFiber();
-            Func<int> func = () => { RunningThread = Thread.CurrentThread; return 25; };
+            Func<int> func = () => { RunningThread = Thread.CurrentThread; return value; };
 
             //act
-            var res = await target.Enqueue(func);
+           await target.Enqueue(func);
 
             //assert
-            res.Should().Be(25);
+            value.Should().Be(value);
             RunningThread.Should().NotBeNull();
             RunningThread.Should().NotBe(current);
         }
 
-
         [Fact]
-        public async Task Enqueue_Should_DispatchException_With_Result()
+        public async Task Enqueue_Task_T_Should_DispatchException_With_Result()
         {
             //arrange
             var target = GetSafeFiber();
@@ -203,7 +359,7 @@ namespace Concurrent.Test.Fibers
         }
 
         [Fact]
-        public async Task Enqueue_Exception_Should_Not_Kill_MainThead_With_Result()
+        public async Task Enqueue_Task_T_Exception_Should_Not_Kill_MainThead_With_Result()
         {
             //arrange
             var target = GetSafeFiber();
@@ -223,7 +379,7 @@ namespace Concurrent.Test.Fibers
         }
 
         [Fact]
-        public async Task Enqueue_Should_Work_OnAction()
+        public async Task Enqueue_Action_Should_Work_OnAction()
         {
             //arrange
             var target = GetSafeFiber();
@@ -240,7 +396,7 @@ namespace Concurrent.Test.Fibers
 
 
         [Fact]
-        public async Task Enqueue_Should_ReDispatch_Exception_OnAction()
+        public async Task Enqueue_Action_Should_ReDispatch_Exception_OnAction()
         {
             //arrange
             var target = GetSafeFiber();
@@ -261,7 +417,7 @@ namespace Concurrent.Test.Fibers
         }
 
         [Fact]
-        public async Task Enqueue_Should_Not_Cancel_Already_Runing_Task_OnDispose()
+        public async Task Enqueue_Task_Should_Not_Cancel_Already_Runing_Task_OnDispose()
         {
             Task newTask = null;
 
@@ -306,14 +462,14 @@ namespace Concurrent.Test.Fibers
         }
 
         [Fact]
-        public async Task Enqueue_Action_Should_Cancel_Task_When_On_Disposed_Queue()
+        public async Task Enqueue_Action_Should_Cancel_Task_When_On_Disposed()
         {
             var fiber = GetSafeFiber();
             var task = fiber.Enqueue(() => TaskFactory());
             await fiber.DisposeAsync();
 
-            var Done = false;
-            var newesttask = fiber.Enqueue(() => { Done = true; });
+            var done = false;
+            var newesttask = fiber.Enqueue(() => { done = true; });
 
             TaskCanceledException error = null;
             try
@@ -327,7 +483,7 @@ namespace Concurrent.Test.Fibers
 
             newesttask.IsCanceled.Should().BeTrue();
             error.Should().NotBeNull();
-            Done.Should().BeFalse();
+            done.Should().BeFalse();
         }
 
         [Fact]
@@ -483,6 +639,20 @@ namespace Concurrent.Test.Fibers
             var tester = new SequenceTester(target);
             await tester.StressTask();
             tester.Count.Should().Be(tester.MaxThreads);
+        }
+
+        private static async Task AwaitForCancellation(Task toBeCancelled)
+        {
+            var cancelled = false;
+            try
+            {
+                await toBeCancelled;
+            }
+            catch (TaskCanceledException)
+            {
+                cancelled = true;
+            }
+            cancelled.Should().BeTrue();
         }
     }
 }

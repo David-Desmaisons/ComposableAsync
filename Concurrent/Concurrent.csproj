@@ -48,6 +48,7 @@
     <Compile Include="Fibers\MonoThreadedFiber.cs" />
     <Compile Include="Fibers\SynchronizationContextFiber.cs" />
     <Compile Include="Fibers\ThreadPoolFiber.cs" />
+    <Compile Include="ICancellableDispatcher.cs" />
     <Compile Include="IDispatcher.cs" />
     <Compile Include="Dispatchers\TaskSchedulderDispatcher.cs" />
     <Compile Include="IFiber.cs" />

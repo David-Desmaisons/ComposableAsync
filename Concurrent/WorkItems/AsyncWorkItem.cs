@@ -7,6 +7,7 @@ namespace Concurrent.WorkItems
     {
         private readonly TaskCompletionSource<T> _Source;
         private readonly Func<Task<T>> _Do;
+        private bool _Cancelled = false;
 
         public AsyncWorkItem(Func<Task<T>> @do)
         {
@@ -19,10 +20,14 @@ namespace Concurrent.WorkItems
         public void Cancel()
         {
             _Source.TrySetCanceled();
+            _Cancelled = true;
         }
 
         public async void Do()
         {
+            if (_Cancelled)
+                return;
+
             try
             {
                 _Source.TrySetResult(await _Do());

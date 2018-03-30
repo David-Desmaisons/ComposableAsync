@@ -159,6 +159,20 @@ namespace Concurrent.Fibers
             }
         }
 
+        public Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
+        {
+            var workItem = new AsyncActionWorkItem(action);
+            cancellationToken.Register(workItem.Cancel);
+            return Enqueue(workItem);
+        }
+
+        public Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
+        {
+            var workItem = new AsyncWorkItem<T>(action);
+            cancellationToken.Register(workItem.Cancel);
+            return Enqueue(workItem);
+        }
+
         ~MonoThreadedFiber()
         {
             StopQueueing();
