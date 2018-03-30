@@ -8,7 +8,6 @@ namespace Concurrent.WorkItems
     {
         private readonly TaskCompletionSource<T> _Source;
         private readonly Func<T> _Do;
-        private bool _Cancelled = false;
 
         public WorkItem(Func<T> @do)
         {
@@ -21,15 +20,11 @@ namespace Concurrent.WorkItems
         public void Cancel()
         {
             _Source.TrySetCanceled();
-            _Cancelled = true;
         }
 
         [DebuggerNonUserCode]
         public void Do()
         {
-            if (_Cancelled)
-                return;
-
             try
             {
                 _Source.TrySetResult(_Do());

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Concurrent.WorkItems
@@ -13,6 +14,13 @@ namespace Concurrent.WorkItems
         {
             _Do = @do;
             _Source = new TaskCompletionSource<T>();
+        }
+
+        public AsyncWorkItem(Func<Task<T>> @do, CancellationToken cancellationToken)
+        {
+            _Do = @do;
+            _Source = new TaskCompletionSource<T>();
+            cancellationToken.Register(Cancel);
         }
 
         public Task<T> Task => _Source.Task;

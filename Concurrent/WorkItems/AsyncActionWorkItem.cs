@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Concurrent.WorkItems
@@ -7,6 +8,11 @@ namespace Concurrent.WorkItems
     {
         public AsyncActionWorkItem(Func<Task> @do)
             : base(async () => { await @do(); return null; })
+        {
+        }
+
+        public AsyncActionWorkItem(Func<Task> @do, CancellationToken cancellationToken)
+            : base(async () => { await @do(); return null;}, cancellationToken)
         {
         }
     }
