@@ -101,5 +101,45 @@ namespace Concurrent.Test.Fibers
             await tester.StressTask();
             tester.Count.Should().Be(tester.MaxThreads);
         }
+
+        [Fact]
+        public async Task Enqueue_Task_T_With_Cancellation_Imediatelly_Cancel_Tasks_Enqueued()
+        {
+            var tester = new TaskEnqueueWithCancellationTester(_SynchronizationContextFiber);
+
+            await tester.RunAndCancelTask_T();
+
+            tester.TimeSpentToCancellTask.Should().BeLessThan(TimeSpan.FromSeconds(0.5));
+        }
+
+        [Fact]
+        public async Task Enqueue_Task_T_With_Cancellation_Do_Not_Run_Task_Cancelled_Enqueued()
+        {
+            var tester = new TaskEnqueueWithCancellationTester(_SynchronizationContextFiber);
+
+            await tester.RunAndCancelTask_T();
+
+            tester.CancelledTaskHasBeenExcecuted.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task Enqueue_Task_With_Cancellation_Imediatelly_Cancel_Tasks_Enqueued()
+        {
+            var tester = new TaskEnqueueWithCancellationTester(_SynchronizationContextFiber);
+
+            await tester.RunAndCancelTask();
+
+            tester.TimeSpentToCancellTask.Should().BeLessThan(TimeSpan.FromSeconds(0.5));
+        }
+
+        [Fact]
+        public async Task Enqueue_Task_With_Cancellation_Do_Not_Run_Task_Cancelled_Enqueued()
+        {
+            var tester = new TaskEnqueueWithCancellationTester(_SynchronizationContextFiber);
+
+            await tester.RunAndCancelTask();
+
+            tester.CancelledTaskHasBeenExcecuted.Should().BeFalse();
+        }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Tasks;
 using Concurrent.WorkItems;
 
 namespace Concurrent.Dispatchers
 {
-    internal class TaskSchedulderDispatcher : IDispatcher
+    internal class TaskSchedulderDispatcher : ICancellableDispatcher
     {
         internal TaskScheduler TaskScheduler { get; }
 
@@ -56,24 +57,42 @@ namespace Concurrent.Dispatchers
             return Safe(() => _TaskFactory.StartNew(action));
         }
 
-        public Task Enqueue(Func<Task> action)
+        private Task Enqueue(AsyncActionWorkItem workItem)
         {
             return Safe(() =>
             {
-                var workItem = new AsyncActionWorkItem(action);
                 _TaskFactory.StartNew(workItem.Do);
                 return workItem.Task;
             });
         }
 
-        public Task<T> Enqueue<T>(Func<Task<T>> action)
+        private Task<T> Enqueue<T>(AsyncWorkItem<T> workItem)
         {
             return Safe(() =>
             {
-                var workItem = new AsyncWorkItem<T>(action);
                 _TaskFactory.StartNew(workItem.Do);
                 return workItem.Task;
             });
+        }
+
+        public Task Enqueue(Func<Task> action)
+        {
+            return Enqueue(new AsyncActionWorkItem(action));
+        }
+
+        public Task<T> Enqueue<T>(Func<Task<T>> action)
+        {
+            return Enqueue(new AsyncWorkItem<T>(action));
+        }
+
+        public Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
+        {
+            return Enqueue(new AsyncActionWorkItem(action, cancellationToken));
+        }
+
+        public Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
+        {
+            return Enqueue(new AsyncWorkItem<T>(action, cancellationToken));
         }
     }
 }

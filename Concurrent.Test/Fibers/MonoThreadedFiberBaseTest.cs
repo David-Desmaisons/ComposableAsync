@@ -123,45 +123,22 @@ namespace Concurrent.Test.Fibers
         public async Task Enqueue_Task_With_Cancellation_Imediatelly_Cancel_Tasks_Enqueued()
         {
             var target = GetSafeFiber();
-            var cancellationTokenSource = new CancellationTokenSource();
-            var watch = Stopwatch.StartNew();
+            var tester = new TaskEnqueueWithCancellationTester(target);
 
-            var taskEnqueued = target.Enqueue(() => TaskFactory(2));
-            var newTask = target.Enqueue(() => TaskFactory(), cancellationTokenSource.Token);
+            await tester.RunAndCancelTask();
 
-            cancellationTokenSource.Cancel();
-
-            await AwaitForCancellation(newTask);
-           
-            var time = watch.Elapsed;
-
-            await taskEnqueued;
-
-            time.Should().BeLessThan(TimeSpan.FromSeconds(1));
+            tester.TimeSpentToCancellTask.Should().BeLessThan(TimeSpan.FromSeconds(0.5));
         }
 
         [Fact]
         public async Task Enqueue_Task_With_Cancellation_Do_Not_Run_Task_Cancelled_Enqueued()
         {
             var target = GetSafeFiber();
-            var cancellationTokenSource = new CancellationTokenSource();
-            var taskHasbeenCalled = false;
+            var tester = new TaskEnqueueWithCancellationTester(target);
 
-            var taskEnqueued = target.Enqueue(() => TaskFactory(2));
-            var newTask = target.Enqueue(() => {
-                taskHasbeenCalled = true;
-                return TaskBuilder.Completed;
-            }, cancellationTokenSource.Token);
+            await tester.RunAndCancelTask();
 
-            cancellationTokenSource.Cancel();
-
-            await AwaitForCancellation(newTask);
-
-            await taskEnqueued;
-
-            await Task.Delay(200);
-
-            taskHasbeenCalled.Should().BeFalse();
+            tester.CancelledTaskHasBeenExcecuted.Should().BeFalse();
         }
 
         [Fact]
@@ -303,21 +280,22 @@ namespace Concurrent.Test.Fibers
         public async Task Enqueue_Task_T_With_Cancellation_Imediatelly_Cancel_Tasks_Enqueued()
         {
             var target = GetSafeFiber();
-            var cancellationTokenSource = new CancellationTokenSource();
-            var watch = Stopwatch.StartNew();
+            var tester = new TaskEnqueueWithCancellationTester(target);
 
-            var taskEnqueued = target.Enqueue(() => TaskFactory<int>(12, 2));
-            var newTask = target.Enqueue(() => TaskFactory<int>(12), cancellationTokenSource.Token);
+            await tester.RunAndCancelTask_T();
 
-            cancellationTokenSource.Cancel();
+            tester.TimeSpentToCancellTask.Should().BeLessThan(TimeSpan.FromSeconds(0.5));
+        }
 
-            await AwaitForCancellation(newTask);
+        [Fact]
+        public async Task Enqueue_Task_T_With_Cancellation_Do_Not_Run_Task_Cancelled_Enqueued()
+        {
+            var target = GetSafeFiber();
+            var tester = new TaskEnqueueWithCancellationTester(target);
 
-            var time = watch.Elapsed;
+            await tester.RunAndCancelTask_T();
 
-            await taskEnqueued;
-          
-            time.Should().BeLessThan(TimeSpan.FromSeconds(1));
+            tester.CancelledTaskHasBeenExcecuted.Should().BeFalse();
         }
 
         [Theory, AutoData]

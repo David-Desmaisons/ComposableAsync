@@ -5,7 +5,7 @@ using Concurrent.WorkItems;
 
 namespace Concurrent.Fibers
 {
-    internal sealed class SynchronizationContextFiber : IFiber
+    internal sealed class SynchronizationContextFiber : IFiber, ICancellableDispatcher
     {
         public bool IsAlive => true;
         public SynchronizationContext SynchronizationContext => _Context;
@@ -33,6 +33,20 @@ namespace Concurrent.Fibers
         public Task<T> Enqueue<T>(Func<Task<T>> action)
         {
             var workitem = new AsyncWorkItem<T>(action);
+            _Context.Post(_SendOrPostWorkItem, workitem);
+            return workitem.Task;
+        }
+
+        public Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
+        {
+            var workitem = new AsyncActionWorkItem(action, cancellationToken);
+            _Context.Post(_SendOrPostWorkItem, workitem);
+            return workitem.Task;
+        }
+
+        public Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
+        {
+            var workitem = new AsyncWorkItem<T>(action, cancellationToken);
             _Context.Post(_SendOrPostWorkItem, workitem);
             return workitem.Task;
         }
