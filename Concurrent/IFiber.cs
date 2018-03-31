@@ -2,7 +2,7 @@
 
 namespace Concurrent
 {
-    public interface IFiber : IDispatcher
+    public interface IFiber : ICancellableDispatcher
     {
         bool IsAlive { get; }
 

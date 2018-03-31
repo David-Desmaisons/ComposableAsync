@@ -2,7 +2,7 @@
 
 namespace Concurrent
 {
-    public interface IStopableFiber : IFiber, ICancellableDispatcher, IAsyncDisposable
+    public interface IStopableFiber : IFiber, IAsyncDisposable
     {
     }
 }
