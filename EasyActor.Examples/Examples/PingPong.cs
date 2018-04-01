@@ -100,7 +100,7 @@ namespace EasyActor.Examples
 
             var watch = Stopwatch.StartNew();
 
-            actor1.Ping();
+            await actor1.Ping();
             Thread.Sleep(10000);
 
             await fact.DisposeAsync();

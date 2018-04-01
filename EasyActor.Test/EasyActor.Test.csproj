@@ -96,6 +96,7 @@
     <Compile Include="TaskPoolActorFactoryTest.cs" />
     <Compile Include="ActorFactoryBuilderTest.cs" />
     <Compile Include="ActorFactoryTest.cs" />
+    <Compile Include="TestInfra\DummyClass\CancellableInterface.cs" />
     <Compile Include="TestInfra\DummyClass\DummyCircularReferenceClass.cs" />
     <Compile Include="TestInfra\DummyClass\DummyClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="TestInfra\DummyClass\IDummyInterface3.cs" />
     <Compile Include="TestInfra\DummyClass\IDummyInterface2.cs" />
     <Compile Include="TestInfra\DummyClass\IDummyInterface1.cs" />
+    <Compile Include="TestInfra\DummyClass\ICancellableInterface.cs" />
     <Compile Include="TestInfra\DummyClass\IGenericInterface.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -142,6 +142,32 @@ namespace Concurrent.Test.Fibers
         }
 
         [Fact]
+        public async Task Enqueue_Task_With_Cancellation_Do_Not_Cancel_Running_Task()
+        {
+            var target = GetSafeFiber();
+            var tester = new TaskEnqueueWithCancellationTester(target);
+
+            var returnedTask = tester.CancelNotCancellableRunningTask();
+            await returnedTask;
+
+            returnedTask.Status.Should().Be(TaskStatus.RanToCompletion);
+        }
+
+        [Fact]
+        public async Task Enqueue_Task_With_Cancellation_Interpret_CanceledOperationException_As_Cancelled_Task()
+        {
+            var target = GetSafeFiber();
+            var tester = new TaskEnqueueWithCancellationTester(target);
+
+            var cancelledTask = tester.CancelCancellableRunningTask_T();
+            var expection = await TaskEnqueueWithCancellationTester.AwaitForException(cancelledTask);
+
+            expection.Should().NotBeNull();
+            expection.Should().BeAssignableTo<TaskCanceledException>();
+            cancelledTask.Status.Should().Be(TaskStatus.Canceled);
+        }
+
+        [Fact]
         public async Task Enqueue_after_await_does_not_continue_on_actor_thread()
         {
             //arrange
@@ -296,6 +322,31 @@ namespace Concurrent.Test.Fibers
             await tester.RunAndCancelTask_T();
 
             tester.CancelledTaskHasBeenExcecuted.Should().BeFalse();
+        }
+
+        [Theory, AutoData]
+        public async Task Enqueue_Task_T_With_Cancellation_Do_Not_Cancel_Running_Task(int value)
+        {
+            var target = GetSafeFiber();
+            var tester = new TaskEnqueueWithCancellationTester(target);
+
+            var result = await tester.CancelNotCancellableRunningTask_T(value);
+
+            result.Should().Be(value);
+        }
+
+        [Fact]
+        public async Task Enqueue_Task_T_With_Cancellation_Interpret_CanceledOperationException_As_Cancelled_Task()
+        {
+            var target = GetSafeFiber();
+            var tester = new TaskEnqueueWithCancellationTester(target);
+
+            var cancelledTask = tester.CancelCancellableRunningTask_T();
+            var expection = await TaskEnqueueWithCancellationTester.AwaitForException(cancelledTask);
+
+            expection.Should().NotBeNull();
+            expection.Should().BeAssignableTo<TaskCanceledException>();
+            cancelledTask.Status.Should().Be(TaskStatus.Canceled);
         }
 
         [Theory, AutoData]

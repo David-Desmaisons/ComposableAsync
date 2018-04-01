@@ -45,7 +45,7 @@ namespace Concurrent.Test.TestHelper
             _Stopwatch = Stopwatch.StartNew();
 
             var taskEnqueued = _CancellableDispatcher.Enqueue(() => TaskFactory_T(sleep: 2));
-            var newTask = _CancellableDispatcher.Enqueue(() => TaskFactory_T(() => CancelledTaskHasBeenExcecuted = true), cancellationTokenSource.Token);
+            var newTask = _CancellableDispatcher.Enqueue(() => TaskFactory_T(0, () => CancelledTaskHasBeenExcecuted = true), cancellationTokenSource.Token);
 
             cancellationTokenSource.Cancel();
 
@@ -58,12 +58,61 @@ namespace Concurrent.Test.TestHelper
             await Task.Delay(200);
         }
 
+        public async Task CancelCancellableRunningTask()
+        {
+            var cancellationTokenSource = new CancellationTokenSource();
 
-        private Task<int> TaskFactory_T(Action @do = null, int sleep = 0)
+            var taskEnqueued = _CancellableDispatcher.Enqueue(() => TaskFactory(cancellationTokenSource.Token, () => CancelledTaskHasBeenExcecuted = true, sleep: 1),
+                                    cancellationTokenSource.Token);
+
+            await Task.Delay(200);
+            cancellationTokenSource.Cancel();
+
+            await taskEnqueued;
+        }
+
+        public async Task<int> CancelCancellableRunningTask_T()
+        {
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            var taskEnqueued = _CancellableDispatcher.Enqueue(() => TaskFactory_T(cancellationTokenSource.Token, () => CancelledTaskHasBeenExcecuted = true, sleep: 1),
+                cancellationTokenSource.Token);
+
+            await Task.Delay(200);
+            cancellationTokenSource.Cancel();
+
+            return await taskEnqueued;
+        }
+
+        public async Task CancelNotCancellableRunningTask()
+        {
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            var taskEnqueued = _CancellableDispatcher.Enqueue(() => TaskFactory(() => CancelledTaskHasBeenExcecuted = true, sleep: 1), cancellationTokenSource.Token);
+
+            await Task.Delay(200);
+            cancellationTokenSource.Cancel();
+
+            await taskEnqueued;
+        }
+
+        public async Task<int> CancelNotCancellableRunningTask_T(int value)
+        {
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            var taskEnqueued = _CancellableDispatcher.Enqueue(() => TaskFactory_T(value: value, sleep: 1), cancellationTokenSource.Token);
+
+            await Task.Delay(200);
+            cancellationTokenSource.Cancel();
+
+            return await taskEnqueued;
+        }
+
+        private Task<int> TaskFactory_T(int value = 0, Action @do = null, int sleep = 0)
         {
             @do?.Invoke();
             Thread.Sleep(sleep * 1000);
-            return Task.FromResult(0);
+            return Task.FromResult(value);
         }
 
         private Task TaskFactory(Action @do = null, int sleep = 0)
@@ -73,18 +122,40 @@ namespace Concurrent.Test.TestHelper
             return TaskBuilder.Completed;
         }
 
-        private static async Task AwaitForCancellation(Task toBeCancelled)
+        private Task<int> TaskFactory_T(CancellationToken cancellationToken, Action @do = null, int sleep = 0)
         {
-            var cancelled = false;
+            @do?.Invoke();
+            Thread.Sleep(sleep * 1000);
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult(0);
+        }
+
+        private Task TaskFactory(CancellationToken cancellationToken, Action @do = null, int sleep = 0)
+        {
+            @do?.Invoke();
+            Thread.Sleep(sleep * 1000);
+            cancellationToken.ThrowIfCancellationRequested();
+            return TaskBuilder.Completed;
+        }
+
+        internal static async Task<Exception> AwaitForException(Task toBeCancelled)
+        {
             try
             {
                 await toBeCancelled;
+                return null;
             }
-            catch (TaskCanceledException)
+            catch (Exception exception)
             {
-                cancelled = true;
+                return exception;
             }
-            cancelled.Should().BeTrue();
+        }
+
+        private static async Task AwaitForCancellation(Task toBeCancelled)
+        {
+
+            var exception = await AwaitForException(toBeCancelled);
+            exception.Should().BeAssignableTo<TaskCanceledException>();
         }
     }
 }
