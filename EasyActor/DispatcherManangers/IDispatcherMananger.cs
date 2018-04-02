@@ -10,6 +10,6 @@ namespace EasyActor.DispatcherManangers
 
         ActorFactorType Type { get; }
 
-        IDispatcher GetDispatcher();
+        ICancellableDispatcher GetDispatcher();
     }
 }

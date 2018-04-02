@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Concurrent.WorkItems
 {
+    [DebuggerNonUserCode]
     public sealed class AsyncActionWorkItem : AsyncWorkItem<object>
     {
         public AsyncActionWorkItem(Func<Task> @do)

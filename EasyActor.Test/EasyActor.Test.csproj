@@ -96,7 +96,7 @@
     <Compile Include="TaskPoolActorFactoryTest.cs" />
     <Compile Include="ActorFactoryBuilderTest.cs" />
     <Compile Include="ActorFactoryTest.cs" />
-    <Compile Include="TestInfra\DummyClass\CancellableInterface.cs" />
+    <Compile Include="TestInfra\DummyClass\CancellableImplementation.cs" />
     <Compile Include="TestInfra\DummyClass\DummyCircularReferenceClass.cs" />
     <Compile Include="TestInfra\DummyClass\DummyClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

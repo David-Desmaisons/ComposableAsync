@@ -110,6 +110,35 @@ namespace EasyActor.Examples
             Output($"Operation/ms:{(one.Count + two.Count) / watch.ElapsedMilliseconds}");
         }
 
+
+
+        [Theory]
+        [MemberData(nameof(GetFactories))]
+        public async Task TestTask_T_CancellationToken(IActorFactory fact)
+        {
+            Output(fact.Type.ToString());
+
+            var one = new PingPongerAsyncCancellable("Noa");
+            var actor1 = fact.Build<IPingPongerAsyncCancellable>(one);
+
+            var two = new PingPongerAsyncCancellable("Wilander");
+            var actor2 = fact.Build<IPingPongerAsyncCancellable>(two);
+
+            one.PongerAsync = actor2;
+            two.PongerAsync = actor1;
+
+            var watch = Stopwatch.StartNew();
+
+            await actor1.Ping(CancellationToken.None);
+            Thread.Sleep(10000);
+
+            await fact.DisposeAsync();
+            watch.Stop();
+
+            Output($"Total Ping:{one.Count}, Total Pong:{two.Count} Total Time: {watch.ElapsedMilliseconds} ms");
+            Output($"Operation/ms:{(one.Count + two.Count) / watch.ElapsedMilliseconds}");
+        }
+
         private void Output(string message)
         {
             Console.WriteLine(message);

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Concurrent.WorkItems
 {
+    [DebuggerNonUserCode]
     public class AsyncWorkItem<T> : IWorkItem
     {
         private readonly TaskCompletionSource<T> _Source;

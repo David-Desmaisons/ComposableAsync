@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 
 namespace Concurrent.SynchronizationContexts
 {
+    [DebuggerNonUserCode]
     internal sealed class MonoThreadedFiberSynchronizationContext : SynchronizationContext
     {
         private readonly IMonoThreadFiber _Dispatcher;

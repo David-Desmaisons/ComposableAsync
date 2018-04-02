@@ -8,5 +8,7 @@ namespace EasyActor.Test.TestInfra.DummyClass
         Task<int> GetIntResult(int delay, CancellationToken cancellationToken);
 
         Task Do(int delay, CancellationToken cancellationToken);
+
+        Task<TOther> GetResult<TOther>(int delay, TOther other, CancellationToken cancellationToken);
     }
 }

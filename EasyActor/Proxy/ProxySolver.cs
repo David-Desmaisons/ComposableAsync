@@ -1,5 +1,8 @@
-﻿namespace EasyActor.Proxy 
+﻿using System.Diagnostics;
+
+namespace EasyActor.Proxy 
 {
+    [DebuggerNonUserCode]
     internal struct ProxyFiberSolver 
     {
         public bool Continue { get; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.SynchronizationContexts;
@@ -8,6 +9,7 @@ using Concurrent.WorkItems;
 
 namespace Concurrent.Fibers
 {
+    [DebuggerNonUserCode]
     internal sealed class ThreadPoolFiber : IMonoThreadFiber
     {
         public bool IsAlive => !_EndFiber.Task.IsCompleted;

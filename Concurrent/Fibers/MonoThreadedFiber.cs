@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.SynchronizationContexts;
@@ -8,16 +9,16 @@ using Concurrent.WorkItems;
 
 namespace Concurrent.Fibers
 {
+    [DebuggerNonUserCode]
     internal sealed class MonoThreadedFiber : IMonoThreadFiber
     {
         private static int _Count = 0;
 
-        private SynchronizationContext _SynchronizationContext;
         public SynchronizationContext SynchronizationContext =>
             _SynchronizationContext ?? (_SynchronizationContext = new MonoThreadedFiberSynchronizationContext(this));
-
         public bool IsAlive => _Current.IsAlive;
 
+        private SynchronizationContext _SynchronizationContext;
         private readonly BlockingCollection<IWorkItem> _TaskQueue = new BlockingCollection<IWorkItem>();
         private readonly Thread _Current;
         private readonly CancellationTokenSource _Cts;

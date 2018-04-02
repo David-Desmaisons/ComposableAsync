@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Threading;
 using Concurrent.Tasks;
+using Concurrent.Test.TestHelper;
 using EasyActor.Options;
 using FluentAssertions;
 using EasyActor.Test.TestInfra.DummyClass;
@@ -9,7 +11,7 @@ using Ploeh.AutoFixture.Xunit2;
 using Xunit;
 
 namespace EasyActor.Test
-{  
+{
     public class ActorFactoryTest : IAsyncLifetime
     {
         private readonly IActorFactory _Factory;
@@ -64,14 +66,16 @@ namespace EasyActor.Test
             //arrange
             var target1 = new DummyClass();
             var target2 = new DummyClass();
-            var actor = _Factory.Build<IDummyInterface2>(target1);
-            actor = _Factory.Build<IDummyInterface2>(target2);
+            var actor1 = _Factory.Build<IDummyInterface2>(target1);
+            var actor2 = _Factory.Build<IDummyInterface2>(target2);
 
             //act
-            await actor.DoAsync();
-            await actor.DoAsync();
+            await actor1.DoAsync();
+            await actor2.DoAsync();
 
             //assert
+            target1.CallingThread.Should().NotBeNull();
+            target2.CallingThread.Should().NotBeNull();
             target1.CallingThread.Should().NotBe(target2.CallingThread);
         }
 
@@ -84,6 +88,106 @@ namespace EasyActor.Test
             var res = await actor.DoAnRedoAsync();
 
             res.Item1.Should().Be(res.Item2);
+        }
+
+        [Fact]
+        public async Task Method_Task_Should_Be_Cancelled_As_Soon_As_Possible()
+        {
+            var target = new CancellableImplementation();
+            var actor = _Factory.Build<ICancellableInterface>(target);
+
+            var longRunningTask = actor.Do(1, CancellationToken.None);
+
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            var stopWatch = Stopwatch.StartNew();
+            var taskToBeCancelled = actor.Do(1, cancellationTokenSource.Token);
+            cancellationTokenSource.Cancel();
+            stopWatch.Stop();
+
+            var exception = await TaskEnqueueWithCancellationTester.AwaitForException(taskToBeCancelled);
+            var delay = stopWatch.Elapsed;
+
+            await _Factory.DisposeAsync();
+            try
+            {
+                await longRunningTask;
+            }
+            catch
+            {
+                // ignored
+            }
+
+            exception.Should().NotBeNull();
+            exception.Should().BeAssignableTo<TaskCanceledException>();
+            delay.Should().BeLessThan(TimeSpan.FromSeconds(0.5));
+        }
+
+        [Fact]
+        public async Task Method_Task_T_Should_Be_Cancelled_As_Soon_As_Possible()
+        {
+            var target = new CancellableImplementation();
+            var actor = _Factory.Build<ICancellableInterface>(target);
+
+            var longRunningTask = actor.GetIntResult(1, CancellationToken.None);
+
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            var stopWatch = Stopwatch.StartNew();
+            var taskToBeCancelled = actor.GetIntResult(1, cancellationTokenSource.Token);
+            cancellationTokenSource.Cancel();
+            stopWatch.Stop();
+
+            var exception = await TaskEnqueueWithCancellationTester.AwaitForException(taskToBeCancelled);
+            var delay = stopWatch.Elapsed;
+
+            await _Factory.DisposeAsync();
+            try
+            {
+                await longRunningTask;
+            }
+            catch
+            {
+                // ignored
+            }
+
+            exception.Should().NotBeNull();
+            exception.Should().BeAssignableTo<TaskCanceledException>();
+            delay.Should().BeLessThan(TimeSpan.FromSeconds(0.5));
+        }
+
+
+        [Fact]
+        public async Task Method_Task_T_Generic_Should_Be_Cancelled_As_Soon_As_Possible()
+        {
+            var target = new CancellableImplementation();
+            var actor = _Factory.Build<ICancellableInterface>(target);
+
+            var longRunningTask = actor.GetResult(1, string.Empty, CancellationToken.None);
+
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            var stopWatch = Stopwatch.StartNew();
+            var taskToBeCancelled = actor.GetResult(1, string.Empty, cancellationTokenSource.Token);
+            cancellationTokenSource.Cancel();
+            stopWatch.Stop();
+
+            var exception = await TaskEnqueueWithCancellationTester.AwaitForException(taskToBeCancelled);
+            var delay = stopWatch.Elapsed;
+
+            await _Factory.DisposeAsync();
+            try
+            {
+                await longRunningTask;
+            }
+            catch
+            {
+                // ignored
+            }
+
+            exception.Should().NotBeNull();
+            exception.Should().BeAssignableTo<TaskCanceledException>();
+            delay.Should().BeLessThan(TimeSpan.FromSeconds(0.5));
         }
 
         [Theory]
@@ -138,7 +242,7 @@ namespace EasyActor.Test
         public async Task Build_Should_Throw_Exception_IsSamePOCO_HasBeenUsedWithOtherFactory()
         {
             var target = new DummyClass();
-            var sharedFactory = _FactoryBuilder.GetFactory(shared:true);
+            var sharedFactory = _FactoryBuilder.GetFactory(shared: true);
             var actor = sharedFactory.Build<IDummyInterface2>(target);
 
             Action Do = () => _Factory.Build<IDummyInterface2>(target);
@@ -212,7 +316,7 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Call_Proxified_Class_On_IAsyncDisposable_Case_2() 
+        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Call_Proxified_Class_On_IAsyncDisposable_Case_2()
         {
             //arrange
             var dispclass = new DisposableClass();
@@ -224,7 +328,7 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Call_Proxified_Class_On_ActorThread_Case_2() 
+        public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Call_Proxified_Class_On_ActorThread_Case_2()
         {
             //arrange
             var testThread = Thread.CurrentThread;

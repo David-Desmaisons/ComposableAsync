@@ -10,7 +10,7 @@ namespace EasyActor.DispatcherManangers
         public ActorFactorType Type => ActorFactorType.TaskPool;
         public bool DisposeDispatcher => true;
 
-        public IDispatcher GetDispatcher() => Fiber.GetTaskBasedFiber();
+        public ICancellableDispatcher GetDispatcher() => Fiber.GetTaskBasedFiber();
 
         public Task DisposeAsync() => TaskBuilder.Completed;
     }

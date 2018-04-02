@@ -1,7 +1,9 @@
-﻿using Castle.DynamicProxy;
+﻿using System.Diagnostics;
+using Castle.DynamicProxy;
 
 namespace EasyActor.Proxy
 {
+    [DebuggerNonUserCode]
     public static class InvocationExtension
     {
         public static void Call(this IInvocation @this)

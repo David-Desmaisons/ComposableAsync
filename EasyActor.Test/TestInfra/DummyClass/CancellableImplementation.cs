@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace EasyActor.Test.TestInfra.DummyClass
 {
-    public class CancellableInterface: ICancellableInterface
+    public class CancellableImplementation: ICancellableInterface
     {
         public Task<int> GetIntResult(int delay, CancellationToken cancellationToken)
         {
@@ -15,6 +15,12 @@ namespace EasyActor.Test.TestInfra.DummyClass
         {
             Thread.Sleep(delay * 1000);
             return Task.FromResult(delay);
+        }
+
+        public Task<TOther> GetResult<TOther>(int delay, TOther other, CancellationToken cancellationToken)
+        {
+            Thread.Sleep(delay * 1000);
+            return Task.FromResult(other);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using Concurrent;
@@ -72,7 +71,7 @@ namespace EasyActor.Factories
             return (res.ActorProxy) as T;
         }
 
-        private T Create<T>(T concrete, IDispatcher dispatcher) where T : class
+        private T Create<T>(T concrete, ICancellableDispatcher dispatcher) where T : class
         {
             var interceptors = new IInterceptor[] { new DispatcherInterceptor<T>(dispatcher) };
             var options = new ProxyGenerationOptions();
@@ -83,7 +82,7 @@ namespace EasyActor.Factories
             return Register(concrete, res, dispatcher);
         }
 
-        private IDispatcher GetDispatcher()
+        private ICancellableDispatcher GetDispatcher()
         {
             var dispatcher = _DispatcherMananger.GetDispatcher();
             if (_DispatcherMananger.DisposeDispatcher)

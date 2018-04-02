@@ -18,7 +18,7 @@ namespace EasyActor.DispatcherManangers
             _OnCreate = onCreate;
         }
 
-        public IDispatcher GetDispatcher() => Fiber.CreateMonoThreadedFiber(_OnCreate);
+        public ICancellableDispatcher GetDispatcher() => Fiber.CreateMonoThreadedFiber(_OnCreate);
 
         public Task DisposeAsync() => TaskBuilder.Completed;
     }

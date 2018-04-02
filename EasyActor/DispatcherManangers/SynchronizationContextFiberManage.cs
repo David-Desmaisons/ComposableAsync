@@ -24,7 +24,7 @@ namespace EasyActor.DispatcherManangers
             _Fiber = Fiber.GetFiberFromSynchronizationContext(synchronizationContext);
         }
 
-        public IDispatcher GetDispatcher() => _Fiber;
+        public ICancellableDispatcher GetDispatcher() => _Fiber;
 
         public Task DisposeAsync() => TaskBuilder.Completed;
     }

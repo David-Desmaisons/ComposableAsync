@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using Castle.DynamicProxy;
 using Concurrent.Tasks;
 
 namespace EasyActor.Proxy
 {
+    [DebuggerNonUserCode]
     internal static class FiberBehaviourCacherDispatcher<T>
     {
         private static readonly Dictionary<MethodInfo, ProxyFiberSolver> _Cache = new Dictionary<MethodInfo, ProxyFiberSolver>();
@@ -47,13 +49,17 @@ namespace EasyActor.Proxy
                     return new ProxyFiberSolver(DispatcherBehaviour.DispatchFunction, false);
 
                 case TaskType.Task:
-                    return new ProxyFiberSolver(DispatcherBehaviour.EnqueueFunction, false);
+                    var invocationOnDispatcher = DispatcherBehaviour.GetInvocationOnDispatcherForTask(method);
+                    return new ProxyFiberSolver(invocationOnDispatcher, false);
 
                 case TaskType.GenericTask:
                     if (td.Type.IsGenericParameter)
-                        return new ProxyFiberSolver(DispatcherBehaviour.DynamicEnqueueFunction, false);
+                    {
+                        var dynamicInvocationOnDispatcher = DispatcherBehaviour.GetDynamicInvocationOnDispatcher(method);
+                        return new ProxyFiberSolver(dynamicInvocationOnDispatcher, false);
+                    }                     
 
-                    var function = DispatcherBehaviour.BuildDynamic(td.Type);
+                    var function = DispatcherBehaviour.GetInvocationOnDispatcherForGenericTask(td.Type, method);
                     return new ProxyFiberSolver(function, false);
             }
 

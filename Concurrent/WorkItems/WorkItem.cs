@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace Concurrent.WorkItems
 {
+    [DebuggerNonUserCode]
     public class WorkItem<T> : IWorkItem
     {
         private readonly TaskCompletionSource<T> _Source;
@@ -22,7 +23,6 @@ namespace Concurrent.WorkItems
             _Source.TrySetCanceled();
         }
 
-        [DebuggerNonUserCode]
         public void Do()
         {
             try

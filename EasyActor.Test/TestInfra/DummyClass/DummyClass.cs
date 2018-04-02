@@ -30,7 +30,8 @@ namespace EasyActor.Test.TestInfra.DummyClass
             return TaskBuilder.Completed;
         }
 
-        public Task DoAsync(IProgress<int> Progress) {
+        public Task DoAsync(IProgress<int> Progress)
+        {
             DoAsyncCount++;
             CallingThread = Thread.CurrentThread;
             Done = true;
@@ -48,7 +49,7 @@ namespace EasyActor.Test.TestInfra.DummyClass
             await Task.Run(() => { Thread.Sleep(1000); });
 
             Done = true;
-            return new Tuple<Thread, Thread>(one, CallingThread);
+            return new Tuple<Thread, Thread>(one, Thread.CurrentThread);
         }
 
         public void Do()
@@ -81,7 +82,7 @@ namespace EasyActor.Test.TestInfra.DummyClass
         public Task<decimal> ComputeAndWaitAsync(decimal value)
         {
             CallingThread = Thread.CurrentThread;
-            Thread.Sleep( TimeSpan.FromMilliseconds((double)(value * 1000)));
+            Thread.Sleep(TimeSpan.FromMilliseconds((double)(value * 1000)));
             Done = true;
             return Task.FromResult<decimal>(value);
         }

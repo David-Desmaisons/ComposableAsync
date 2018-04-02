@@ -138,7 +138,7 @@ namespace Concurrent.Test.TestHelper
             return TaskBuilder.Completed;
         }
 
-        internal static async Task<Exception> AwaitForException(Task toBeCancelled)
+        public static async Task<Exception> AwaitForException(Task toBeCancelled)
         {
             try
             {

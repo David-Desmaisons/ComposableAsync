@@ -9,14 +9,14 @@ namespace EasyActor.DispatcherManangers
     {
         public ActorFactorType Type => ActorFactorType.FromFiber;
         public bool DisposeDispatcher => false;
-        private readonly IDispatcher _Dispatcher;
+        private readonly ICancellableDispatcher _Dispatcher;
 
-        public DispatcherMananger(IDispatcher dispatcher)
+        public DispatcherMananger(ICancellableDispatcher dispatcher)
         {
            _Dispatcher = dispatcher;
         }
 
-        public IDispatcher GetDispatcher() => _Dispatcher;
+        public ICancellableDispatcher GetDispatcher() => _Dispatcher;
 
         public Task DisposeAsync() => TaskBuilder.Completed;
     }

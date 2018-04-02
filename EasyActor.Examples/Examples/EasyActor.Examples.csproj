@@ -75,6 +75,7 @@
     <Compile Include="ConcurencyTest.cs" />
     <Compile Include="IDoStuff.cs" />
     <Compile Include="IPingPongerAsync.cs" />
+    <Compile Include="PingPongerAsyncCancellable.cs" />
     <Compile Include="PingPongerBoolAsync.cs" />
     <Compile Include="PingPongerSimple.cs" />
     <Compile Include="PingPong.cs" />

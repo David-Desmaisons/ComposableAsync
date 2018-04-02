@@ -1,13 +1,15 @@
-﻿using Castle.DynamicProxy;
+﻿using System.Diagnostics;
+using Castle.DynamicProxy;
 using Concurrent;
 
 namespace EasyActor.Proxy 
 {
+    [DebuggerNonUserCode]
     internal class DispatcherInterceptor<T> : IInterceptor
     {
-        private readonly IDispatcher _Dispatcher;
+        private readonly ICancellableDispatcher _Dispatcher;
 
-        public DispatcherInterceptor(IDispatcher dispatcher)
+        public DispatcherInterceptor(ICancellableDispatcher dispatcher)
         {
             _Dispatcher = dispatcher;
         }

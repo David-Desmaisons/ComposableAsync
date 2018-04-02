@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Concurrent.WorkItems
 {
+    [DebuggerNonUserCode]
     public sealed class DispatchItem : IWorkItem
     {
         private readonly Action _Do;
