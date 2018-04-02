@@ -243,7 +243,7 @@ namespace EasyActor.Test
         {
             var target = new DummyClass();
             var sharedFactory = _FactoryBuilder.GetFactory(shared: true);
-            var actor = sharedFactory.Build<IDummyInterface2>(target);
+            sharedFactory.Build<IDummyInterface2>(target);
 
             Action Do = () => _Factory.Build<IDummyInterface2>(target);
 
