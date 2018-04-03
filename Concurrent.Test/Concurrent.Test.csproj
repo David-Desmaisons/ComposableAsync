@@ -48,6 +48,10 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="RateLimiter, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RateLimiter.1.1.0\lib\net45\RateLimiter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -83,6 +87,7 @@
   <ItemGroup>
     <Compile Include="Dispatchers\NullDispatcherTest.cs" />
     <Compile Include="DispatcherExtensionTest.cs" />
+    <Compile Include="Dispatchers\RateLimiterDispatcherTests.cs" />
     <Compile Include="Fibers\TaskSchedulerFiberTest.cs" />
     <Compile Include="Fibers\SynchronizationContextFiberTest.cs" />
     <Compile Include="FiberTest.cs" />

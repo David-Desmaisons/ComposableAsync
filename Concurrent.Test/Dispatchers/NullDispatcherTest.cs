@@ -10,18 +10,18 @@ namespace Concurrent.Test.Dispatchers
 {
     public class NullDispatcherTest
     {
-        private readonly IDispatcher _NullDispatcherTest;
+        private readonly IDispatcher _NullDispatcher;
 
         public NullDispatcherTest()
         {
-            _NullDispatcherTest = NullDispatcher.Instance;
+            _NullDispatcher = NullDispatcher.Instance;
         }
 
         [Fact]
         public async Task Dispatch_Runs_On_Current_Thread()
         {
             var tcs = new TaskCompletionSource<Thread>();
-            _NullDispatcherTest.Dispatch(() => tcs.TrySetResult(Thread.CurrentThread));
+            _NullDispatcher.Dispatch(() => tcs.TrySetResult(Thread.CurrentThread));
             var thread = await tcs.Task;
             thread.Should().Be(Thread.CurrentThread);
         }
@@ -30,14 +30,14 @@ namespace Concurrent.Test.Dispatchers
         public async Task Enqueue_Action_Runs_On_Current_Thread()
         {
             var thread = default(Thread);
-            await _NullDispatcherTest.Enqueue(() => { thread = Thread.CurrentThread; });
+            await _NullDispatcher.Enqueue(() => { thread = Thread.CurrentThread; });
             thread.Should().Be(Thread.CurrentThread);
         }
 
         [Fact]
         public async Task Enqueue_Func_T_Runs_On_UI_Thread()
         {
-            var thread = await _NullDispatcherTest.Enqueue(() => Thread.CurrentThread);
+            var thread = await _NullDispatcher.Enqueue(() => Thread.CurrentThread);
             thread.Should().Be(Thread.CurrentThread);
         }
 
@@ -45,7 +45,7 @@ namespace Concurrent.Test.Dispatchers
         public async Task Enqueue_Func_Task_Runs_On_UI_Thread()
         {
             var thread = default(Thread);
-            await _NullDispatcherTest.Enqueue(() =>
+            await _NullDispatcher.Enqueue(() =>
             {
                 thread = Thread.CurrentThread;
                 return TaskBuilder.Completed;
@@ -56,14 +56,14 @@ namespace Concurrent.Test.Dispatchers
         [Fact]
         public async Task Enqueue_Func_Task_T_Runs_On_UI_Thread()
         {
-            var thread = await _NullDispatcherTest.Enqueue(() => Task.FromResult(Thread.CurrentThread));
+            var thread = await _NullDispatcher.Enqueue(() => Task.FromResult(Thread.CurrentThread));
             thread.Should().Be(Thread.CurrentThread);
         }
 
         [Fact(Skip = "Machine dependant")]
         public async Task Enqueue_Action_Does_Not_Run_Actions_Sequencially()
         {
-            var tester = new SequenceTester(_NullDispatcherTest);
+            var tester = new SequenceTester(_NullDispatcher);
             await tester.Stress();
             tester.Count.Should().BeLessThan(tester.MaxThreads);
         }
@@ -71,7 +71,7 @@ namespace Concurrent.Test.Dispatchers
         [Fact(Skip = "Machine dependant")]
         public async Task Enqueue_Task_Does_Not_Run_Actions_Sequencially_after_await()
         {
-            var tester = new SequenceTester(_NullDispatcherTest);
+            var tester = new SequenceTester(_NullDispatcher);
             await tester.StressTask();
             tester.Count.Should().BeLessThan(tester.MaxThreads);
         }

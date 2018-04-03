@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="RateLimiter, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RateLimiter.1.1.0\lib\net45\RateLimiter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dispatchers\NullDispatcher.cs" />
+    <Compile Include="Dispatchers\RateLimiterDispatcher.cs" />
     <Compile Include="Disposable\ComposableAsyncDisposable.cs" />
     <Compile Include="Disposable\IAsyncDisposable.cs" />
     <Compile Include="Fiber.cs" />
@@ -69,7 +74,9 @@
     <Compile Include="WorkItems\IWorkItem.cs" />
     <Compile Include="WorkItems\WorkItem.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
