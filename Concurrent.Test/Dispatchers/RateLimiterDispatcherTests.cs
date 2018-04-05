@@ -42,11 +42,12 @@ namespace Concurrent.Test.Dispatchers
             }
             stopWatch.Stop();
 
-            var numberOfCall = (int) (Math.Truncate((decimal)stopWatch.ElapsedMilliseconds / Interval));
+            var maxNumberOfCall = (int) (Math.Truncate((decimal)stopWatch.ElapsedMilliseconds / Interval));
+            var minNumberOfCall = 1;
 
             _TestOutput.WriteLine($"Ended: {DateTime.Now:O}");
             _TestOutput.WriteLine($"Count:{count}, Time spend: {stopWatch.Elapsed}");
-            count.Should().Be(numberOfCall);
+            count.Should().BeInRange(minNumberOfCall, maxNumberOfCall);
         }
     }
 }
