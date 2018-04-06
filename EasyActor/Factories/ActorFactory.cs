@@ -22,6 +22,19 @@ namespace EasyActor.Factories
             _DispatcherMananger = _ComposableAsyncDisposable.Add(dispatcherMananger);
         }
 
+        public T Build<T>(T concrete) where T : class
+        {
+            return Create<T>(concrete, GetDispatcher());
+        }
+
+        public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
+        {
+            var fiber = GetDispatcher();
+            return fiber.Enqueue(() => Create<T>(concrete(), fiber));
+        }
+
+        public Task DisposeAsync() => _ComposableAsyncDisposable.DisposeAsync();
+
         private T Create<T>(T concrete, ICancellableDispatcher dispatcher) where T : class
         {
             var interceptors = new IInterceptor[] { new DispatcherInterceptor<T>(dispatcher) };
@@ -49,18 +62,5 @@ namespace EasyActor.Factories
             }
             return dispatcher;
         }
-
-        public T Build<T>(T concrete) where T : class
-        {
-            return Create<T>(concrete, GetDispatcher());
-        }
-
-        public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
-        {
-            var fiber = GetDispatcher();
-            return fiber.Enqueue(() => Create<T>(concrete(), fiber));
-        }
-
-        public Task DisposeAsync() => _ComposableAsyncDisposable.DisposeAsync();
     }
 }

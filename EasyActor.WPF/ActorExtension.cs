@@ -1,6 +1,7 @@
 ﻿using System.Windows.Threading;
 using Concurrent.Dispatchers;
 using Concurrent.WPF.Internal;
+using EasyActor;
 
 namespace Concurrent.WPF
 {
@@ -8,7 +9,7 @@ namespace Concurrent.WPF
     {
         public static IFiber GetAssociatedFiber(this object @object)
         {
-            var fiber = EasyActor.ActorExtension.GetAssociatedFiber(@object);
+            var fiber = (@object as IFiberProvider)?.Fiber;
             if (fiber != null)
                 return fiber;
 
@@ -18,7 +19,7 @@ namespace Concurrent.WPF
 
         public static IDispatcher GetAssociatedDispatcher(this object @object)
         {
-            return (IDispatcher)@object.GetAssociatedFiber() ?? NullDispatcher.Instance;
+            return @object.GetAssociatedFiber() ?? NullDispatcher.Instance;
         }
     }
 }
