@@ -96,6 +96,7 @@
     <Compile Include="Fibers\MonoThreadedFiberTest.cs" />
     <Compile Include="Fibers\ThreadPoolFiberTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskSchedulers\FiberTaskSchedulerTest.cs" />
     <Compile Include="Tasks\TaskBuilderTest.cs" />
     <Compile Include="Tasks\TypeExtensionTest.cs" />
     <Compile Include="TestHelper\SequenceTester.cs" />

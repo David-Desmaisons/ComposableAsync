@@ -75,6 +75,24 @@ namespace Concurrent.Dispatchers
             });
         }
 
+        private Task Enqueue(AsyncActionWorkItem workItem, CancellationToken cancellationToken)
+        {
+            return Safe(() =>
+            {
+                _TaskFactory.StartNew(workItem.Do, cancellationToken);
+                return workItem.Task;
+            });
+        }
+
+        private Task<T> Enqueue<T>(AsyncWorkItem<T> workItem, CancellationToken cancellationToken)
+        {
+            return Safe(() =>
+            {
+                _TaskFactory.StartNew(workItem.Do, cancellationToken);
+                return workItem.Task;
+            });
+        }
+
         public Task Enqueue(Func<Task> action)
         {
             return Enqueue(new AsyncActionWorkItem(action));
@@ -87,12 +105,12 @@ namespace Concurrent.Dispatchers
 
         public Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
-            return Enqueue(new AsyncActionWorkItem(action, cancellationToken));
+            return Enqueue(new AsyncActionWorkItem(action, cancellationToken), cancellationToken);
         }
 
         public Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
         {
-            return Enqueue(new AsyncWorkItem<T>(action, cancellationToken));
+            return Enqueue(new AsyncWorkItem<T>(action, cancellationToken), cancellationToken);
         }
     }
 }

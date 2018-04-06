@@ -5,7 +5,7 @@ using Concurrent.WorkItems;
 
 namespace Concurrent.Fibers
 {
-    internal sealed class SynchronizationContextFiber : IFiber, ICancellableDispatcher
+    internal sealed class SynchronizationContextFiber : IFiber
     {
         public bool IsAlive => true;
         public SynchronizationContext SynchronizationContext => _Context;

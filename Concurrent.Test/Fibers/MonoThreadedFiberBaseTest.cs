@@ -89,6 +89,19 @@ namespace Concurrent.Test.Fibers
         }
 
         [Fact]
+        public async Task Thread_Returns_Running_Thread()
+        {
+            //arrange
+            var target = GetSafeFiber();
+
+            //act
+            await target.Enqueue(() => TaskFactory());
+
+            target.Thread.Should().Be(RunningThread);
+        }
+
+
+        [Fact]
         public async Task Enqueue_Task_With_Cancellation_Should_Run_OnSameThread()
         {
             //arrange

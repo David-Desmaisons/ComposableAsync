@@ -13,11 +13,11 @@ namespace Concurrent.Fibers
     internal sealed class ThreadPoolFiber : IMonoThreadFiber
     {
         public bool IsAlive => !_EndFiber.Task.IsCompleted;
-
-        private SynchronizationContext _SynchronizationContext;
         public SynchronizationContext SynchronizationContext =>
             _SynchronizationContext ?? (_SynchronizationContext = new MonoThreadedFiberSynchronizationContext(this));
+        public Thread Thread => _Current;
 
+        private SynchronizationContext _SynchronizationContext;
         private readonly BlockingCollection<IWorkItem> _TaskQueue = new BlockingCollection<IWorkItem>();
         private readonly CancellationTokenSource _Cts = new CancellationTokenSource();
         private Thread _Current;

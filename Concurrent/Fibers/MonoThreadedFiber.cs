@@ -17,6 +17,7 @@ namespace Concurrent.Fibers
         public SynchronizationContext SynchronizationContext =>
             _SynchronizationContext ?? (_SynchronizationContext = new MonoThreadedFiberSynchronizationContext(this));
         public bool IsAlive => _Current.IsAlive;
+        public Thread Thread => _Current;
 
         private SynchronizationContext _SynchronizationContext;
         private readonly BlockingCollection<IWorkItem> _TaskQueue = new BlockingCollection<IWorkItem>();

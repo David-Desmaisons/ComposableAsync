@@ -50,6 +50,7 @@
     <Compile Include="Disposable\IAsyncDisposable.cs" />
     <Compile Include="Fiber.cs" />
     <Compile Include="DispatcherExtension.cs" />
+    <Compile Include="FiberExtension.cs" />
     <Compile Include="Fibers\MonoThreadedFiber.cs" />
     <Compile Include="Fibers\SynchronizationContextFiber.cs" />
     <Compile Include="Fibers\ThreadPoolFiber.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SynchronizationContexts\MonoThreadSynchronizationContext.cs" />
     <Compile Include="SynchronizationContexts\TaskSchedulerSynchronizationContext.cs" />
+    <Compile Include="TaskSchedulers\FiberTaskScheduler.cs" />
     <Compile Include="Tasks\TaskType.cs" />
     <Compile Include="Tasks\TaskBuilder.cs" />
     <Compile Include="Tasks\TaskDescription.cs" />
