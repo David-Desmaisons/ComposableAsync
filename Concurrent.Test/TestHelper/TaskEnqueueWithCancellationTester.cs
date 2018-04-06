@@ -65,7 +65,6 @@ namespace Concurrent.Test.TestHelper
             var taskEnqueued = _CancellableDispatcher.Enqueue(() => TaskFactory(cancellationTokenSource.Token, () => CancelledTaskHasBeenExcecuted = true, sleep: 1),
                                     cancellationTokenSource.Token);
 
-            await Task.Delay(200);
             cancellationTokenSource.Cancel();
 
             await taskEnqueued;
@@ -78,7 +77,6 @@ namespace Concurrent.Test.TestHelper
             var taskEnqueued = _CancellableDispatcher.Enqueue(() => TaskFactory_T(cancellationTokenSource.Token, () => CancelledTaskHasBeenExcecuted = true, sleep: 1),
                 cancellationTokenSource.Token);
 
-            await Task.Delay(200);
             cancellationTokenSource.Cancel();
 
             return await taskEnqueued;
