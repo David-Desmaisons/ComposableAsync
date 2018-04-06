@@ -229,30 +229,6 @@ namespace EasyActor.Test
         }
 
         [Fact]
-        public void Build_Should_CreateSameInterface_ForSamePOCO()
-        {
-            var target = new DummyClass();
-            var actor = _Factory.Build<IDummyInterface2>(target);
-            var intface2 = _Factory.Build<IDummyInterface2>(target);
-
-            actor.Should().BeSameAs(intface2);
-        }
-
-        [Fact]
-        public async Task Build_Should_Throw_Exception_IsSamePOCO_HasBeenUsedWithOtherFactory()
-        {
-            var target = new DummyClass();
-            var sharedFactory = _FactoryBuilder.GetFactory(shared: true);
-            sharedFactory.Build<IDummyInterface2>(target);
-
-            Action Do = () => _Factory.Build<IDummyInterface2>(target);
-
-            Do.Should().Throw<ArgumentException>().And.Message.Should().Contain("Shared");
-
-            await sharedFactory.DisposeAsync();
-        }
-
-        [Fact]
         public async Task Task_returned_By_Method_Should_Be_Awaited()
         {
             var target = new DummyClass();
