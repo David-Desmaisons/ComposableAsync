@@ -63,7 +63,7 @@ namespace Concurrent.Test.Dispatchers
         [Fact(Skip = "Machine dependant")]
         public async Task Enqueue_Action_Does_Not_Run_Actions_Sequencially()
         {
-            var tester = new SequenceTester(_NullDispatcher);
+            var tester = new SequenceTester(_NullDispatcher, null);
             await tester.Stress();
             tester.Count.Should().BeLessThan(tester.MaxThreads);
         }
@@ -71,7 +71,7 @@ namespace Concurrent.Test.Dispatchers
         [Fact(Skip = "Machine dependant")]
         public async Task Enqueue_Task_Does_Not_Run_Actions_Sequencially_after_await()
         {
-            var tester = new SequenceTester(_NullDispatcher);
+            var tester = new SequenceTester(_NullDispatcher, null);
             await tester.StressTask();
             tester.Count.Should().BeLessThan(tester.MaxThreads);
         }

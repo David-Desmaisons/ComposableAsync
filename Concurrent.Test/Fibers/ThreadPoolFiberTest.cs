@@ -4,11 +4,16 @@ using System.Threading.Tasks;
 using Concurrent.Fibers;
 using FluentAssertions;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Concurrent.Test.Fibers
 {
     public class ThreadPoolFiberTest : MonoThreadedFiberBaseTest
     {
+        public ThreadPoolFiberTest(ITestOutputHelper testOutputHelper) : base(testOutputHelper)
+        {
+        }
+
         protected override IMonoThreadFiber GetFiber(Action<Thread> onCreate = null) => new ThreadPoolFiber();
 
         [Fact]

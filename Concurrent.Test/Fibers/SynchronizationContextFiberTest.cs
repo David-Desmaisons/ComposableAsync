@@ -6,6 +6,7 @@ using Concurrent.Tasks;
 using Concurrent.Test.TestHelper;
 using FluentAssertions;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Concurrent.Test.Fibers
 {
@@ -14,9 +15,11 @@ namespace Concurrent.Test.Fibers
         private readonly WpfThreadingHelper _UiMessageLoop;
         private readonly SynchronizationContext _SynchronizationContext;
         private readonly SynchronizationContextFiber _SynchronizationContextFiber;
+        private readonly ITestOutputHelper _TestOutputHelper;
 
-        public SynchronizationContextFiberTest()
+        public SynchronizationContextFiberTest(ITestOutputHelper testOutputHelper)
         {
+            _TestOutputHelper = testOutputHelper;
             _UiMessageLoop = new WpfThreadingHelper();
             _UiMessageLoop.Start().Wait();
             _SynchronizationContext = _UiMessageLoop.Dispatcher.Invoke(() => SynchronizationContext.Current);
@@ -89,7 +92,7 @@ namespace Concurrent.Test.Fibers
         [Fact]
         public async Task Enqueue_Action_Runs_Actions_Sequencially()
         {
-            var tester = new SequenceTester(_SynchronizationContextFiber);
+            var tester = new SequenceTester(_SynchronizationContextFiber, _TestOutputHelper);
             await tester.Stress();
             tester.Count.Should().Be(tester.MaxThreads);
         }
@@ -97,7 +100,7 @@ namespace Concurrent.Test.Fibers
         [Fact]
         public async Task Enqueue_Task_Runs_Actions_Sequencially_after_await()
         {
-            var tester = new SequenceTester(_SynchronizationContextFiber);
+            var tester = new SequenceTester(_SynchronizationContextFiber, _TestOutputHelper);
             await tester.StressTask();
             tester.Count.Should().Be(tester.MaxThreads);
         }

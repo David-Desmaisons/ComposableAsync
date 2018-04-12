@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Xunit.Abstractions;
 
 namespace Concurrent.Test.TestHelper
 {
@@ -9,10 +11,12 @@ namespace Concurrent.Test.TestHelper
         public int Count { get; private set; } = 0;
         public int MaxThreads { get; set; } = 500;
         private readonly IDispatcher _Dispatcher;
+        private readonly ITestOutputHelper _TestOutputHelper;
 
-        public SequenceTester(IDispatcher dispatcher)
+        public SequenceTester(IDispatcher dispatcher, ITestOutputHelper testOutputHelper)
         {
             _Dispatcher = dispatcher;
+            _TestOutputHelper = testOutputHelper;
         }
 
         public async Task Stress()
@@ -42,7 +46,12 @@ namespace Concurrent.Test.TestHelper
                 }).ContinueWith(_ => completion?.TrySetResult(0));
             };
 
+ 
+            var stoptWatch = Stopwatch.StartNew();
             await PrivateStress(safeAction);
+
+            stoptWatch.Stop();
+            _TestOutputHelper?.WriteLine($"Time to run {MaxThreads} Enqueues in parrallel tasks: {stoptWatch.Elapsed}");
         }
 
         private async Task PrivateStress(ParameterizedThreadStart safeAction)

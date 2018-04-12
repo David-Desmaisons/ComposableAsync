@@ -7,15 +7,18 @@ using Concurrent.Tasks;
 using Concurrent.Test.TestHelper;
 using FluentAssertions;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Concurrent.Test.Fibers
 {
     public class TaskSchedulerFiberTest : IAsyncLifetime
     {
         private readonly TaskSchedulerFiber _TaskSchedulerFiber;
+        private readonly ITestOutputHelper _TestOutputHelper;
 
-        public TaskSchedulerFiberTest()
+        public TaskSchedulerFiberTest(ITestOutputHelper testOutputHelper)
         {
+            _TestOutputHelper = testOutputHelper;
             _TaskSchedulerFiber = new TaskSchedulerFiber();
         }
 
@@ -108,7 +111,7 @@ namespace Concurrent.Test.Fibers
         [Fact]
         public async Task Enqueue_Action_Runs_Actions_Sequencially()
         {
-            var tester = new SequenceTester(_TaskSchedulerFiber);
+            var tester = new SequenceTester(_TaskSchedulerFiber, _TestOutputHelper);
             await tester.Stress();
             tester.Count.Should().Be(tester.MaxThreads);
         }
@@ -116,7 +119,7 @@ namespace Concurrent.Test.Fibers
         [Fact]
         public async Task Enqueue_Task_Runs_Actions_Sequencially_after_await()
         {
-            var tester = new SequenceTester(_TaskSchedulerFiber);
+            var tester = new SequenceTester(_TaskSchedulerFiber, _TestOutputHelper);
             await tester.StressTask();
             tester.Count.Should().Be(tester.MaxThreads);
         }

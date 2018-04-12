@@ -7,6 +7,8 @@ using Concurrent.Test.TestHelper;
 using FluentAssertions;
 using Ploeh.AutoFixture.Xunit2;
 using Xunit;
+using Xunit.Abstractions;
+
 
 namespace Concurrent.Test.Fibers
 {
@@ -14,9 +16,11 @@ namespace Concurrent.Test.Fibers
     {
         protected Thread RunningThread;
         private readonly ComposableAsyncDisposable _Disposables = new ComposableAsyncDisposable();
+        private readonly ITestOutputHelper _TestOutputHelper;
 
-        protected MonoThreadedFiberBaseTest()
+        protected MonoThreadedFiberBaseTest(ITestOutputHelper testOutputHelper)
         {
+            _TestOutputHelper = testOutputHelper;
             RunningThread = null;
         }
 
@@ -668,7 +672,7 @@ namespace Concurrent.Test.Fibers
         public async Task Enqueue_Action_Runs_Actions_Sequencially()
         {
             var target = GetSafeFiber();
-            var tester = new SequenceTester(target);
+            var tester = new SequenceTester(target, _TestOutputHelper);
             await tester.Stress();
             tester.Count.Should().Be(tester.MaxThreads);
         }
@@ -677,7 +681,7 @@ namespace Concurrent.Test.Fibers
         public async Task Enqueue_Task_Runs_Actions_Sequencially_after_await()
         {
             var target = GetSafeFiber();
-            var tester = new SequenceTester(target);
+            var tester = new SequenceTester(target, _TestOutputHelper);
             await tester.StressTask();
             tester.Count.Should().Be(tester.MaxThreads);
         }
