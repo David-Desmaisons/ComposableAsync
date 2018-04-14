@@ -107,12 +107,17 @@ namespace Concurrent.Fibers
             return Enqueue(new AsyncWorkItem<T>(action));
         }
 
-        private void Consume()
+        private void Consume() 
+        {
+            using (new SynchronizationContextSwapper(SynchronizationContext)) 
+            {
+                ConsumeInContext();
+            }
+        }
+
+        private void ConsumeInContext()
         {
             _Current = Thread.CurrentThread;
-            var currentContext = SynchronizationContext.Current;
-            SynchronizationContext.SetSynchronizationContext(this.SynchronizationContext);
-
             try
             {
                 foreach (var action in _TaskQueue.GetConsumingEnumerable(_Cts.Token))
@@ -130,7 +135,6 @@ namespace Concurrent.Fibers
             }
             _TaskQueue.Dispose();
             _EndFiber.TrySetResult(0);
-            SynchronizationContext.SetSynchronizationContext(currentContext);
         }
 
         private void StopQueueing()

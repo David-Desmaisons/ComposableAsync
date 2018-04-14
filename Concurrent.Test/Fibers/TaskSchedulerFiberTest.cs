@@ -124,7 +124,6 @@ namespace Concurrent.Test.Fibers
             tester.Count.Should().Be(tester.MaxThreads);
         }
 
-
         [Fact]
         public async Task Enqueue_Task_T_With_Cancellation_Imediatelly_Cancel_Tasks_Enqueued()
         {
