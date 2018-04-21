@@ -2,6 +2,8 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Concurrent.Collections;
+using Concurrent.WorkItems;
 using EasyActor;
 
 namespace PingPongConsole
@@ -17,7 +19,10 @@ namespace PingPongConsole
         {
             var pingPong = new PingPong();
 
-            await OnEveryFactory("Task Bool Cancellatiion", pingPong.TestTask_T_CancellationToken);
+            Console.WriteLine("Testing queues");
+            await OnEveryQueueTestPerform(pingPong);
+
+            await OnEveryFactory("Task Bool Cancellation", pingPong.TestTask_T_CancellationToken);
 
             await OnEveryFactory("Task Bool", pingPong.TestTask_T);
 
@@ -27,6 +32,15 @@ namespace PingPongConsole
 
             Console.ReadLine();
         }
+
+        private static async Task OnEveryQueueTestPerform(PingPong pingPong)
+        {
+            foreach (var queue in PingPong.GetQueues().Select(o => o[0] as IMpScQueue<IWorkItem>))
+            {
+                await pingPong.Test_Queue_Performance(queue);
+                Console.WriteLine("============================================");
+            }
+        }   
 
         private static async Task OnEveryFactory(string title, Func<IActorFactory, Task> doOnActor)
         {

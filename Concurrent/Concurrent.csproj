@@ -44,6 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\StandardMpscQueue.cs" />
+    <Compile Include="Collections\IMpScQueue.cs" />
+    <Compile Include="Collections\BlockingMpscQueue.cs" />
+    <Compile Include="Collections\SpinningMpscQueue.cs" />
+    <Compile Include="Collections\QueueNode.cs" />
     <Compile Include="Dispatchers\NullDispatcher.cs" />
     <Compile Include="Dispatchers\RateLimiterDispatcher.cs" />
     <Compile Include="Disposable\ComposableAsyncDisposable.cs" />
@@ -62,6 +67,8 @@
     <Compile Include="IStopableFiber.cs" />
     <Compile Include="Fibers\TaskSchedulerFiber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Signals\SimplifiedEventCount.cs" />
+    <Compile Include="Signals\WaitHandleExtension.cs" />
     <Compile Include="SynchronizationContexts\MonoThreadSynchronizationContext.cs" />
     <Compile Include="SynchronizationContexts\SynchronizationContextSwapper.cs" />
     <Compile Include="SynchronizationContexts\TaskSchedulerSynchronizationContext.cs" />

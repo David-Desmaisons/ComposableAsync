@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using Concurrent;
+using Concurrent.Collections;
+using Concurrent.Fibers;
+using Concurrent.WorkItems;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -81,6 +85,27 @@ namespace EasyActor.Examples
 
             Output($"Total Ping:{one.Count}, Total Pong:{two.Count} Total Time: {watch.ElapsedMilliseconds} ms");
             Output($"Operation/ms:{(one.Count + two.Count) / watch.ElapsedMilliseconds}");
+        }
+
+        public static IEnumerable<object[]> GetQueues() 
+        {
+            yield return new object[] { new BlockingMpscQueue<IWorkItem>() };
+            yield return new object[] { new SpinningMpscQueue<IWorkItem>() };
+            yield return new object[] { new StandardMpscQueue<IWorkItem>() };
+        }
+
+        [Theory]
+        [MemberData(nameof(GetQueues))]
+        public async Task Test_Queue_Performance(IMpScQueue<IWorkItem> queueWorkItem)
+        {
+            Output(queueWorkItem.GetType().Name);
+
+            var fiber = new MonoThreadedFiber(null, queueWorkItem);
+            var factory = _FactoryBuilder.GetFactoryForFiber(fiber);
+
+            await TestNoTask(factory);
+
+            await fiber.DisposeAsync();
         }
 
         [Theory]

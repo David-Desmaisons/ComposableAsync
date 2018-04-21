@@ -24,7 +24,7 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("Concurrent.Test")]
 [assembly: InternalsVisibleTo("EasyActor.Test")]
-
+[assembly: InternalsVisibleTo("EasyActor.Examples")]
 
 // Version information for an assembly consists of the following four values:
 //

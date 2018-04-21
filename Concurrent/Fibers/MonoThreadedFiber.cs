@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Concurrent.Collections;
 using Concurrent.SynchronizationContexts;
 using Concurrent.Tasks;
 using Concurrent.WorkItems;
@@ -20,15 +20,13 @@ namespace Concurrent.Fibers
         public Thread Thread => _Current;
 
         private SynchronizationContext _SynchronizationContext;
-        private readonly BlockingCollection<IWorkItem> _TaskQueue = new BlockingCollection<IWorkItem>();
+        private readonly IMpScQueue<IWorkItem> _TaskQueue;
         private readonly Thread _Current;
-        private readonly CancellationTokenSource _Cts;
         private readonly TaskCompletionSource<int> _EndFiber = new TaskCompletionSource<int>();
 
-        public MonoThreadedFiber(Action<Thread> onCreate = null)
+        public MonoThreadedFiber(Action<Thread> onCreate = null, IMpScQueue<IWorkItem> queue = null)
         {
-            _Cts = new CancellationTokenSource();
-
+            _TaskQueue = queue?? new BlockingMpscQueue<IWorkItem>();
             _Current = new Thread(Consume)
             {
                 IsBackground = true,
@@ -54,7 +52,7 @@ namespace Concurrent.Fibers
         {
             try
             {
-                _TaskQueue.Add(workitem);
+                _TaskQueue.Enqueue(workitem);
                 return workitem.Task;
             }
             catch (Exception)
@@ -67,7 +65,7 @@ namespace Concurrent.Fibers
         {
             try
             {
-                _TaskQueue.Add(workitem);
+                _TaskQueue.Enqueue(workitem);
                 return workitem.Task;
             }
             catch (Exception)
@@ -81,7 +79,7 @@ namespace Concurrent.Fibers
             var workitem = new WorkItem<T>(action);
             try
             {
-                _TaskQueue.Add(workitem);
+                _TaskQueue.Enqueue(workitem);
                 return workitem.Task;
             }
             catch (Exception)
@@ -95,7 +93,7 @@ namespace Concurrent.Fibers
             try
             {
                 var workitem = new DispatchItem(action);
-                _TaskQueue.Add(workitem);
+                _TaskQueue.Enqueue(workitem);
             }
             catch (Exception)
             {
@@ -124,26 +122,23 @@ namespace Concurrent.Fibers
 
             try
             {
-                foreach (var action in _TaskQueue.GetConsumingEnumerable(_Cts.Token))
-                {
-                    action.Do();
-                }
+                _TaskQueue.OnElements(action => action.Do());
             }
             catch (OperationCanceledException)
-            {
-                _TaskQueue.CompleteAdding();
-                foreach (var action in _TaskQueue.GetConsumingEnumerable())
-                {
-                    action.Cancel();
-                }
+            {          
             }
+
+            foreach (var action in _TaskQueue.GetUnsafeQueue())
+            {
+                action.Cancel();
+            }
+
             _TaskQueue.Dispose();
             _EndFiber.TrySetResult(0);
         }
 
         private void StopQueueing()
         {
-            _Cts.Cancel();
             _TaskQueue.CompleteAdding();
         }
 
