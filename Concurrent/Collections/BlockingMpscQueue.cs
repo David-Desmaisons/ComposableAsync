@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using Concurrent.Signals;
 
@@ -13,6 +12,7 @@ namespace Concurrent.Collections
     {
         private readonly SimplifiedEventCount _SimplifiedEventCount = new SimplifiedEventCount();
         private readonly CancellationTokenSource _CancellationTokenSource = new CancellationTokenSource();
+        private readonly CancellationToken _CancellationToken;
 
         private Node<T> _Head;
         private Node<T> _Tail;
@@ -22,11 +22,12 @@ namespace Concurrent.Collections
             var empty = new Node<T>();
             _Head = empty;
             _Tail = empty;
+            _CancellationToken = _CancellationTokenSource.Token;
         }
 
         public void Enqueue(T item)
         {
-            ThrowIfCanceled();
+            _CancellationToken.ThrowIfCancellationRequested();
 
             var newItem = new Node<T>(item);
             var prev = Interlocked.Exchange(ref _Head, newItem);
@@ -84,15 +85,8 @@ namespace Concurrent.Collections
                     return _Tail.Value;
                 }
 
-                _SimplifiedEventCount.Wait(_CancellationTokenSource.Token);
-                ThrowIfCanceled();
+                _SimplifiedEventCount.Wait(_CancellationToken);
             }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void ThrowIfCanceled()
-        {
-            _CancellationTokenSource.Token.ThrowIfCancellationRequested();
         }
 
         public void Dispose()

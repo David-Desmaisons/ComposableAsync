@@ -89,9 +89,9 @@ namespace EasyActor.Examples
 
         public static IEnumerable<object[]> GetQueues() 
         {
-            yield return new object[] { new BlockingMpscQueue<IWorkItem>() };
             yield return new object[] { new SpinningMpscQueue<IWorkItem>() };
             yield return new object[] { new StandardMpscQueue<IWorkItem>() };
+            yield return new object[] { new BlockingMpscQueue<IWorkItem>() };      
         }
 
         [Theory]

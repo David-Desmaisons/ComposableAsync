@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading;
 
 //Inspired by and adapted from http://www.1024cores.net/
@@ -23,21 +22,22 @@ namespace Concurrent.Signals
             if (_Spurious) 
             {
                 _Spurious = false;
-                var res = _Semaphore.WaitOne(0);
-                Debug.Assert(res == true);
+                _Semaphore.WaitOne();
             }
             _InWait = true;
             _EpochStarted = _Epoch;
             Thread.MemoryBarrier();
         }
 
-        public bool Wait(CancellationToken cancellationToken) 
+        public void Wait(CancellationToken cancellationToken) 
         {
             if (_EpochStarted == _Epoch)
-                return _Semaphore.WaitOne(cancellationToken);
+            {
+                _Semaphore.WaitOne(cancellationToken);
+                return;
+            }              
             
             RetireWait();
-            return true;
         }
 
         public void RetireWait() 
@@ -49,13 +49,13 @@ namespace Concurrent.Signals
 
             lock (_Lock)
             {
-                if (_InWait) 
-                {
-                    // successfully removed from waitset,
-                    // so there will be no spurious wakeup
-                    _InWait = false;
-                    _Spurious = false;
-                }
+                if (!_InWait)
+                    return;
+
+                // successfully removed from waitset,
+                // so there will be no spurious wakeup
+                _InWait = false;
+                _Spurious = false;
             }
         }
 
@@ -70,6 +70,9 @@ namespace Concurrent.Signals
 
             lock (_Lock) 
             {
+                if (!_InWait)
+                    return;
+
                 _Epoch += 1;
                 _InWait = false;
             }
