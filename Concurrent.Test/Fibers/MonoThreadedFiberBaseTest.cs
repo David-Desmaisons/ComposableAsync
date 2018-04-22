@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Concurrent.Collections;
 using Concurrent.Disposable;
+using Concurrent.Fibers;
 using Concurrent.Tasks;
 using Concurrent.Test.TestHelper;
+using Concurrent.WorkItems;
 using FluentAssertions;
 using Ploeh.AutoFixture.Xunit2;
 using Xunit;
@@ -30,9 +34,17 @@ namespace Concurrent.Test.Fibers
 
         protected abstract IMonoThreadFiber GetFiber(Action<Thread> onCreate = null);
 
+        protected abstract IMonoThreadFiber GetFiber(IMpScQueue<IWorkItem> queue);
+
         protected IMonoThreadFiber GetSafeFiber(Action<Thread> onCreate = null)
         {
             var fiber = GetFiber(onCreate);
+            return _Disposables.Add(fiber);
+        }
+
+        protected IMonoThreadFiber GetSafeFiber(IMpScQueue<IWorkItem> queue)
+        {
+            var fiber = GetFiber(queue);
             return _Disposables.Add(fiber);
         }
 
@@ -686,18 +698,44 @@ namespace Concurrent.Test.Fibers
             tester.Count.Should().Be(tester.MaxThreads);
         }
 
-        private static async Task AwaitForCancellation(Task toBeCancelled)
+        public static IEnumerable<object[]> GetQueues() 
         {
-            var cancelled = false;
-            try
+            yield return new object[] { new SpinningMpscQueue<IWorkItem>() };
+            yield return new object[] { new StandardMpscQueue<IWorkItem>() };
+            yield return new object[] { new BlockingMpscQueue<IWorkItem>() };
+        }
+
+        private PerfTimer GetPerfTimer(int operation) => new PerfTimer(operation, _TestOutputHelper);
+
+        [Theory]
+        [MemberData(nameof(GetQueues))]
+        public async Task Test_Queue_Performance(IMpScQueue<IWorkItem> queueWorkItem) 
+        {
+            _TestOutputHelper.WriteLine(queueWorkItem.GetType().Name);
+
+            var fiber = GetSafeFiber(queueWorkItem);
+            var reset = new AutoResetEvent(false);
+            const int max = 5000000;
+
+            Action<int> @do = (count) =>
             {
-                await toBeCancelled;
-            }
-            catch (TaskCanceledException)
+                if (count == max)
+                {
+                    reset.Set();
+                }
+            };
+
+            using (GetPerfTimer(max))
             {
-                cancelled = true;
+                for (var i = 0; i <= max; i++)
+                {
+                    var i1 = i;
+                    fiber.Dispatch(() => @do(i1));
+                }
+                reset.WaitOne(30000, false).Should().BeTrue();
             }
-            cancelled.Should().BeTrue();
+
+            await fiber.DisposeAsync();
         }
     }
 }

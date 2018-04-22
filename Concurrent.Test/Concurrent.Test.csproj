@@ -108,6 +108,7 @@
     <Compile Include="TaskSchedulers\FiberTaskSchedulerTest.cs" />
     <Compile Include="Tasks\TaskBuilderTest.cs" />
     <Compile Include="Tasks\TypeExtensionTest.cs" />
+    <Compile Include="TestHelper\PerfTimer.cs" />
     <Compile Include="TestHelper\SequenceTester.cs" />
     <Compile Include="TestHelper\TaskEnqueueWithCancellationTester.cs" />
     <Compile Include="TestHelper\WPFThreadingHelper.cs" />
