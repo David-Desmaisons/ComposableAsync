@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Concurrent.Tasks;
 
 namespace EasyActor.Examples
 {
@@ -19,7 +18,7 @@ namespace EasyActor.Examples
         {
              Count++;
             PongerAsync?.Ping();
-            return TaskBuilder.Completed;
+            return Task.CompletedTask;
         }
     }
 }

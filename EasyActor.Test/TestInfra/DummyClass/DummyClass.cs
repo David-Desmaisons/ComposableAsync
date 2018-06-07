@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Concurrent.Tasks;
 
 namespace EasyActor.Test.TestInfra.DummyClass
 {
@@ -27,7 +26,7 @@ namespace EasyActor.Test.TestInfra.DummyClass
             CallingThread = Thread.CurrentThread;
             Done = true;
             Thread.Sleep(200);
-            return TaskBuilder.Completed;
+            return Task.CompletedTask;
         }
 
         public Task DoAsync(IProgress<int> Progress)
@@ -38,7 +37,7 @@ namespace EasyActor.Test.TestInfra.DummyClass
             Progress.Report(10);
             Thread.Sleep(200);
             Progress.Report(95);
-            return TaskBuilder.Completed;
+            return Task.CompletedTask;
         }
 
         public async Task<Tuple<Thread, Thread>> DoAnRedoAsync()
@@ -68,7 +67,7 @@ namespace EasyActor.Test.TestInfra.DummyClass
             Thread.Sleep(1000);
             Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
             Done = true;
-            return TaskBuilder.Completed;
+            return Task.CompletedTask;
         }
 
         public Task<int> ComputeAsync(int value)

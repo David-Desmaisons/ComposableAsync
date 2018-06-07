@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Concurrent;
-using Concurrent.Tasks;
 using EasyActor.Options;
 
 namespace EasyActor.DispatcherManangers
@@ -12,6 +11,6 @@ namespace EasyActor.DispatcherManangers
 
         public ICancellableDispatcher GetDispatcher() => Fiber.GetTaskBasedFiber();
 
-        public Task DisposeAsync() => TaskBuilder.Completed;
+        public Task DisposeAsync() => Task.CompletedTask;
     }
 }

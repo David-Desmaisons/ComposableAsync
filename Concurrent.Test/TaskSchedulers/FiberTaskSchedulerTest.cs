@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Fibers;
-using Concurrent.Tasks;
 using Concurrent.TaskSchedulers;
 using FluentAssertions;
 using Xunit;
@@ -23,7 +18,7 @@ namespace Concurrent.Test.TaskSchedulers
             _FiberTaskScheduler = new FiberTaskScheduler(_MonoThreadedFiber);
         }
 
-        public Task InitializeAsync() => TaskBuilder.Completed;
+        public Task InitializeAsync() => Task.CompletedTask;
 
         public Task DisposeAsync() => _MonoThreadedFiber.DisposeAsync();
 

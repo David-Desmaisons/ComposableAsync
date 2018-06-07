@@ -4,8 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Collections;
 using Concurrent.SynchronizationContexts;
-using Concurrent.Tasks;
-using Concurrent.WorkItems;
+using Concurrent.Tasks;using Concurrent.WorkItems;
 
 namespace Concurrent.Fibers
 {
@@ -150,7 +149,7 @@ namespace Concurrent.Fibers
             }
             catch
             {
-                return TaskBuilder.Completed;
+                return Task.CompletedTask;
             }
         }
 

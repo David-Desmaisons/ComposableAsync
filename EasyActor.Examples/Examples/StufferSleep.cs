@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Concurrent.Tasks;
 
 namespace EasyActor.Examples
 {
@@ -14,7 +13,7 @@ namespace EasyActor.Examples
             var c = _Count;
             Thread.Sleep(5);
             _Count = c + 1;
-            return TaskBuilder.Completed;
+            return Task.CompletedTask;
         }
 
         public Task<int> GetCount()

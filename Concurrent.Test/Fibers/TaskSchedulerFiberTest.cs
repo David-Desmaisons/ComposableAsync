@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Fibers;
 using Concurrent.SynchronizationContexts;
-using Concurrent.Tasks;
 using Concurrent.Test.TestHelper;
 using FluentAssertions;
 using Xunit;
@@ -22,7 +21,7 @@ namespace Concurrent.Test.Fibers
             _TaskSchedulerFiber = new TaskSchedulerFiber();
         }
 
-        public Task InitializeAsync() => TaskBuilder.Completed;
+        public Task InitializeAsync() => Task.CompletedTask;
 
         public Task DisposeAsync()
         {
@@ -85,7 +84,7 @@ namespace Concurrent.Test.Fibers
             await _TaskSchedulerFiber.Enqueue(() =>
             {
                 thread = Thread.CurrentThread;
-                return TaskBuilder.Completed;
+                return Task.CompletedTask;
             });
             thread.IsThreadPoolThread.Should().BeTrue();
         }

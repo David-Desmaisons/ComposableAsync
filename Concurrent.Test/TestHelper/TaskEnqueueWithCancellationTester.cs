@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using Concurrent.Tasks;
 using FluentAssertions;
 
 namespace Concurrent.Test.TestHelper
@@ -117,7 +116,7 @@ namespace Concurrent.Test.TestHelper
         {
             @do?.Invoke();
             Thread.Sleep(sleep * 1000);
-            return TaskBuilder.Completed;
+            return Task.CompletedTask;
         }
 
         private Task<int> TaskFactory_T(CancellationToken cancellationToken, Action @do = null, int sleep = 0)
@@ -133,7 +132,7 @@ namespace Concurrent.Test.TestHelper
             @do?.Invoke();
             Thread.Sleep(sleep * 1000);
             cancellationToken.ThrowIfCancellationRequested();
-            return TaskBuilder.Completed;
+            return Task.CompletedTask;
         }
 
         public static async Task<Exception> AwaitForException(Task toBeCancelled)

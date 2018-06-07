@@ -4,8 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Collections;
 using Concurrent.Disposable;
-using Concurrent.Fibers;
-using Concurrent.Tasks;
 using Concurrent.Test.TestHelper;
 using Concurrent.WorkItems;
 using FluentAssertions;
@@ -28,7 +26,7 @@ namespace Concurrent.Test.Fibers
             RunningThread = null;
         }
 
-        public Task InitializeAsync() => TaskBuilder.Completed;
+        public Task InitializeAsync() => Task.CompletedTask;
 
         public Task DisposeAsync() => _Disposables.DisposeAsync();
 
@@ -52,7 +50,7 @@ namespace Concurrent.Test.Fibers
         {
             RunningThread = Thread.CurrentThread;
             Thread.Sleep(sleep * 1000);
-            return TaskBuilder.Completed;
+            return Task.CompletedTask;
         }
 
         protected Task<T> TaskFactory<T>(T result, int sleep = 1)

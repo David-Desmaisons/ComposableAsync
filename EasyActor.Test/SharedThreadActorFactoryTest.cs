@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
-using Concurrent.Tasks;
 using EasyActor.Options;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
@@ -19,7 +18,7 @@ namespace EasyActor.Test
             _Factory = new FactoryBuilder().GetFactory(true);
         }
 
-        public Task InitializeAsync() => TaskBuilder.Completed;
+        public Task InitializeAsync() => Task.CompletedTask;
 
         public async Task DisposeAsync()
         {

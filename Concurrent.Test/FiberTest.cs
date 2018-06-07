@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Dispatchers;
 using Concurrent.Fibers;
-using Concurrent.Tasks;
 using FluentAssertions;
 using Xunit;
 
@@ -14,11 +12,11 @@ namespace Concurrent.Test
     {
         private IStopableFiber _Fiber;
 
-        public Task InitializeAsync() => TaskBuilder.Completed;
+        public Task InitializeAsync() => Task.CompletedTask;
 
         public Task DisposeAsync()
         {
-            return _Fiber?.DisposeAsync() ?? TaskBuilder.Completed;
+            return _Fiber?.DisposeAsync() ?? Task.CompletedTask;
         }
 
         [Fact]

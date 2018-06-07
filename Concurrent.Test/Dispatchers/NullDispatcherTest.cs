@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Dispatchers;
-using Concurrent.Tasks;
 using Concurrent.Test.TestHelper;
 using FluentAssertions;
 using Xunit;
@@ -48,7 +47,7 @@ namespace Concurrent.Test.Dispatchers
             await _NullDispatcher.Enqueue(() =>
             {
                 thread = Thread.CurrentThread;
-                return TaskBuilder.Completed;
+                return Task.CompletedTask;
             });
             thread.Should().Be(Thread.CurrentThread);
         }

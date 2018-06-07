@@ -77,7 +77,7 @@ namespace Concurrent.Test.Fibers
             await _SynchronizationContextFiber.Enqueue(() =>
             {
                 thread = Thread.CurrentThread;
-                return TaskBuilder.Completed;
+                return Task.CompletedTask;
             });
             thread.Should().Be(_UiMessageLoop.UiThread);
         }

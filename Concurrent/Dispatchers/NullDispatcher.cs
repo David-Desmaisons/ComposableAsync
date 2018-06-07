@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Concurrent.Tasks;
 
 namespace Concurrent.Dispatchers
 {
@@ -18,7 +17,7 @@ namespace Concurrent.Dispatchers
         public Task Enqueue(Action action)
         {
             action();
-            return TaskBuilder.Completed;
+            return Task.CompletedTask;
         }
 
         public Task<T> Enqueue<T>(Func<T> action)

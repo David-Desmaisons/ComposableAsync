@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Threading;
-using Concurrent.Tasks;
 using Concurrent.Test.TestHelper;
 using EasyActor.Options;
 using FluentAssertions;
@@ -21,7 +20,7 @@ namespace EasyActor.Test
             _Factory = new FactoryBuilder().GetFactory();
         }
 
-        public Task InitializeAsync() => TaskBuilder.Completed;
+        public Task InitializeAsync() => Task.CompletedTask;
 
         public Task DisposeAsync() => _Factory.DisposeAsync();
 

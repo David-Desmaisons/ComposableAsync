@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Fibers;
 using Concurrent.SynchronizationContexts;
-using Concurrent.Tasks;
 using FluentAssertions;
 using Xunit;
 
@@ -21,7 +20,7 @@ namespace Concurrent.Test.SynchronizationContexts
             _Dispatcher = new MonoThreadedFiberSynchronizationContext(_Fiber);
         }
 
-        public Task InitializeAsync() => TaskBuilder.Completed;
+        public Task InitializeAsync() => Task.CompletedTask;
         public Task DisposeAsync() => _Fiber.DisposeAsync();
 
         [Fact]

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Concurrent.Tasks;
 
 namespace EasyActor.Test.TestInfra.DummyClass
 {
@@ -35,7 +34,7 @@ namespace EasyActor.Test.TestInfra.DummyClass
         public Task DisposeAsync()
         {
             Dispose();
-            return TaskBuilder.Completed;
+            return Task.CompletedTask;
         }
 
         public void Dispose()
