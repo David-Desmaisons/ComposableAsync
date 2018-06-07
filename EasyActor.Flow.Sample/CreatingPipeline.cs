@@ -14,9 +14,9 @@ namespace EasyActor.Flow.Sample
 
         private class Transformer : ITransformProcessor<double, string, int>
         {
-            public async Task<string> Transform(double message,  IProgress<int> progress, CancellationToken cancelationToken)
+            public Task<string> Transform(double message,  IProgress<int> progress, CancellationToken cancelationToken)
             {
-                return message.ToString(CultureInfo.InvariantCulture);
+                return Task.FromResult(message.ToString(CultureInfo.InvariantCulture));
             }
         }
 
@@ -35,10 +35,10 @@ namespace EasyActor.Flow.Sample
         private class Counter : IProcessorFinalizer<bool, int, int>
         {
             private int _count = 0;
-            public async Task<bool> Process(int message, IProgress<int> progress, CancellationToken cancelationToken)
+            public Task<bool> Process(int message, IProgress<int> progress, CancellationToken cancelationToken)
             {
                 _count += message;
-                return _count % 2 ==0;
+                return Task.FromResult(_count % 2 == 0);
             }
         }
 

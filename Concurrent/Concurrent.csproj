@@ -1,98 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4F2F8E53-87BA-42CE-B230-9AA6F4A56413}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Concurrent</RootNamespace>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Concurrent</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <RootNamespace>Concurrent</RootNamespace>
+    <Authors>David Desmaisons</Authors>
+    <Version>1.0.0</Version>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl>https://github.com/David-Desmaisons/EasyActor</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/David-Desmaisons/EasyActor/blob/master/LICENSE</PackageLicenseUrl>
+    <Description></Description>
+    <PackageId>Concurrent</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageTags>Actor Model, Asynchronous</PackageTags>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="RateLimiter, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RateLimiter.1.1.0\lib\net45\RateLimiter.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="RateLimiter" Version="1.1.1" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Collections\StandardMpscQueue.cs" />
-    <Compile Include="Collections\IMpScQueue.cs" />
-    <Compile Include="Collections\BlockingMpscQueue.cs" />
-    <Compile Include="Collections\SpinningMpscQueue.cs" />
-    <Compile Include="Collections\QueueNode.cs" />
-    <Compile Include="Dispatchers\NullDispatcher.cs" />
-    <Compile Include="Dispatchers\RateLimiterDispatcher.cs" />
-    <Compile Include="Disposable\ComposableAsyncDisposable.cs" />
-    <Compile Include="Disposable\IAsyncDisposable.cs" />
-    <Compile Include="Fiber.cs" />
-    <Compile Include="DispatcherExtension.cs" />
-    <Compile Include="FiberExtension.cs" />
-    <Compile Include="Fibers\MonoThreadedFiber.cs" />
-    <Compile Include="Fibers\SynchronizationContextFiber.cs" />
-    <Compile Include="Fibers\ThreadPoolFiber.cs" />
-    <Compile Include="ICancellableDispatcher.cs" />
-    <Compile Include="IDispatcher.cs" />
-    <Compile Include="Dispatchers\TaskSchedulderDispatcher.cs" />
-    <Compile Include="IFiber.cs" />
-    <Compile Include="IMonoThreadFiber.cs" />
-    <Compile Include="IStopableFiber.cs" />
-    <Compile Include="Fibers\TaskSchedulerFiber.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Signals\SimplifiedEventCount.cs" />
-    <Compile Include="Signals\WaitHandleExtension.cs" />
-    <Compile Include="SynchronizationContexts\MonoThreadSynchronizationContext.cs" />
-    <Compile Include="SynchronizationContexts\SynchronizationContextSwapper.cs" />
-    <Compile Include="SynchronizationContexts\TaskSchedulerSynchronizationContext.cs" />
-    <Compile Include="TaskSchedulers\FiberTaskScheduler.cs" />
-    <Compile Include="Tasks\TaskType.cs" />
-    <Compile Include="Tasks\TaskBuilder.cs" />
-    <Compile Include="Tasks\TaskDescription.cs" />
-    <Compile Include="Tasks\TypeExtension.cs" />
-    <Compile Include="WorkItems\ActionWorkItem.cs" />
-    <Compile Include="WorkItems\AsyncActionWorkItem.cs" />
-    <Compile Include="WorkItems\AsyncWorkItem.cs" />
-    <Compile Include="WorkItems\DispatchItem.cs" />
-    <Compile Include="WorkItems\IWorkItem.cs" />
-    <Compile Include="WorkItems\WorkItem.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

@@ -117,7 +117,6 @@ namespace EasyActor.FlowTest
             _BackBone.Dispose();
             var disp =  _BackBone.Connect(_SingleValue);
 
-            disp.Should().Be(Disposable.Empty);
             await _StringProcessor.DidNotReceive().Process("Value", _BackBone, Arg.Any<NullProgess<int>>(), Arg.Any<CancellationToken>());
         }
 

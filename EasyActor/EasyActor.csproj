@@ -1,88 +1,32 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{487FAEA3-4503-4E5B-B10B-48B689DBF174}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EasyActor</RootNamespace>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>EasyActor</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <RootNamespace>EasyActor</RootNamespace>
+    <Authors>David Desmaisons</Authors>
+    <Version>1.0.0</Version>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl>https://github.com/David-Desmaisons/EasyActor</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/David-Desmaisons/EasyActor/blob/master/LICENSE</PackageLicenseUrl>
+    <Description>EasyActor provides a factory that transforms POCOs in actors that are then seen trougth an interface. Actor guarantees that all calls to the actor interface will occur in a separated thread, sequencially.
+
+In order to work, The target interface should only expose methods returning Task or Task. If this not the case, an exception will be raised at runtime when calling a none compliant method. Make also sure that all method parameters and return values are immutable to avoid concurrency problems.</Description>
+    <PackageId>EasyActor</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageTags>Actor Model, Asynchronous</PackageTags>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <PackageReleaseNotes>Update to .NET Standard</PackageReleaseNotes>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Castle.Core" Version="4.2.1" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="FiberProviderExtension.cs" />
-    <Compile Include="DispatcherManangers\DispatcherMananger.cs" />
-    <Compile Include="Factories\ActorFactory.cs" />
-    <Compile Include="DispatcherManangers\IDispatcherMananger.cs" />
-    <Compile Include="DispatcherManangers\SynchronizationContextFiberManage.cs" />
-    <Compile Include="DispatcherManangers\SharedThreadFiberManager.cs" />
-    <Compile Include="DispatcherManangers\TaskPoolFiberManager.cs" />
-    <Compile Include="DispatcherManangers\TheadPoolFiberManager.cs" />
-    <Compile Include="DispatcherManangers\StandardFiberManager.cs" />
-    <Compile Include="IFiberProvider.cs" />
-    <Compile Include="Options\ActorFactorType.cs" />
-    <Compile Include="FactoryBuilder.cs" />
-    <Compile Include="IFactoryBuilder.cs" />
-    <Compile Include="Factories\ActorDescription.cs" />
-    <Compile Include="Proxy\DispatcherBehaviour.cs" />
-    <Compile Include="Proxy\DispatcherBehaviourCacher.cs" />
-    <Compile Include="Proxy\FiberProvider.cs" />
-    <Compile Include="IActorFactory.cs" />
-    <Compile Include="Proxy\InvocationExtension.cs" />
-    <Compile Include="Proxy\DispatcherInterceptor.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proxy\InvocationOnDispatcher.cs" />
-    <Compile Include="Proxy\ProxySolver.cs" />
+    <ProjectReference Include="..\Concurrent\Concurrent.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Concurrent\Concurrent.csproj">
-      <Project>{4f2f8e53-87ba-42ce-b230-9aa6f4a56413}</Project>
-      <Name>Concurrent</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>
