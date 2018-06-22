@@ -24,8 +24,7 @@ namespace EasyActor.Flow.Sample
         {
             public async Task<bool> Process(string message, IBackbone<bool, int> backbone, IProgress<int> progress, CancellationToken cancelationToken)
             {
-                int res;
-                if (!int.TryParse(message, out res))
+                if (!int.TryParse(message, out var res))
                     return false;
 
                 return await backbone.Process(res, progress, cancelationToken);
@@ -46,10 +45,10 @@ namespace EasyActor.Flow.Sample
 
         public CreatingPipeline()
         {
-            var builder = new BackBoneBuilder<bool, int>();
-            builder.Register(new Transformer());
-            builder.Register(new Parser());
-            builder.Register(new Counter());
+            var builder = new BackBoneBuilder<bool, int>()
+                                .Register(new Transformer())
+                                .Register(new Parser())
+                                .Register(new Counter());
             _BackBone = builder.GetBackBone();
         }
 
