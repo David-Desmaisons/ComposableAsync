@@ -32,9 +32,8 @@ namespace EasyActor.Proxy
 
         public static ProxyFiberSolver GetTransformFunction(IInvocation invocation)
         {
-            ProxyFiberSolver res;
             var registeredMethodInfo = invocation.Method.IsGenericMethod ? invocation.Method.GetGenericMethodDefinition() : invocation.Method;
-            if (_Cache.TryGetValue(registeredMethodInfo, out res))
+            if (_Cache.TryGetValue(registeredMethodInfo, out var res))
                 return res;
 
             return new ProxyFiberSolver(null, true);
