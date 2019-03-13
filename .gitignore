@@ -195,3 +195,5 @@ ModelManifest.xml
 /.nunit
 *.nunit
 /.vs/EasyActor/v15/Server/sqlite3
+
+\.vs/EasyActor/DesignTimeBuild/
