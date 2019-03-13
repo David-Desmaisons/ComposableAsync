@@ -13,10 +13,7 @@ namespace Concurrent.TaskSchedulers
 
         public FiberTaskScheduler(IFiber fiber)
         {
-            if (fiber == null)
-                throw new ArgumentNullException(nameof(fiber), "fiber can not be null");
-
-            _Fiber = fiber;
+            _Fiber = fiber ?? throw new ArgumentNullException(nameof(fiber), "fiber can not be null");
         }
 
         [SecurityCritical]

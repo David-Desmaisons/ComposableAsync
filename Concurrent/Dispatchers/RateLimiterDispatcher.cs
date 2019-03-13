@@ -5,6 +5,9 @@ using RateLimiter;
 
 namespace Concurrent.Dispatchers
 {
+    /// <summary>
+    /// Dispatcher using rate limiting
+    /// </summary>
     public class RateLimiterDispatcher: ICancellableDispatcher
     {
         private readonly IAwaitableConstraint _AwaitableConstraint;

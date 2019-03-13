@@ -12,13 +12,6 @@ namespace Concurrent.Tasks
         }
 
         public static Task Cancelled { get; }
-
-        private static Task<T> PrivateGetCancelled<T>()
-        {
-            var tcs = new TaskCompletionSource<T>();
-            tcs.SetCanceled();
-            return tcs.Task;
-        }
     }
 
     public static class TaskBuilder<T>

@@ -11,11 +11,7 @@ namespace Concurrent.SynchronizationContexts
 
         public MonoThreadedFiberSynchronizationContext(IMonoThreadFiber dispatcher)
         {
-            if (dispatcher == null)
-                throw new ArgumentNullException(nameof(dispatcher));
-
-            _Dispatcher = dispatcher;
-
+            _Dispatcher = dispatcher ?? throw new ArgumentNullException(nameof(dispatcher));
             SetWaitNotificationRequired();
         }
 

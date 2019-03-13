@@ -3,6 +3,10 @@ using System.Threading.Tasks;
 
 namespace Concurrent
 {
+    /// <summary>
+    /// Dispatcher executes an action or a function
+    /// on its own context
+    /// </summary>
     public interface IDispatcher
     {
         /// <summary>
