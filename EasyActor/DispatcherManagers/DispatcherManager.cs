@@ -2,15 +2,15 @@
 using Concurrent;
 using EasyActor.Options;
 
-namespace EasyActor.DispatcherManangers
+namespace EasyActor.DispatcherManagers
 {
-    internal class DispatcherMananger : IDispatcherMananger
+    internal class DispatcherManager : IDispatcherManager
     {
         public ActorFactorType Type => ActorFactorType.FromFiber;
         public bool DisposeDispatcher => false;
         private readonly ICancellableDispatcher _Dispatcher;
 
-        public DispatcherMananger(ICancellableDispatcher dispatcher)
+        public DispatcherManager(ICancellableDispatcher dispatcher)
         {
            _Dispatcher = dispatcher;
         }

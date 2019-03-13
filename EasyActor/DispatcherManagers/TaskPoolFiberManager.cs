@@ -2,9 +2,9 @@
 using Concurrent;
 using EasyActor.Options;
 
-namespace EasyActor.DispatcherManangers
+namespace EasyActor.DispatcherManagers
 {
-    internal class TaskPoolFiberManager : IDispatcherMananger
+    internal class TaskPoolFiberManager : IDispatcherManager
     {
         public ActorFactorType Type => ActorFactorType.TaskPool;
         public bool DisposeDispatcher => true;

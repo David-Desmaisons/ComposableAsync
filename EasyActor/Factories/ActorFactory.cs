@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using Concurrent;
 using Concurrent.Disposable;
-using EasyActor.DispatcherManangers;
+using EasyActor.DispatcherManagers;
 using EasyActor.Options;
 using EasyActor.Proxy;
 
@@ -13,13 +13,13 @@ namespace EasyActor.Factories
     {
         public ActorFactorType Type => _DispatcherMananger.Type;
 
-        private readonly IDispatcherMananger _DispatcherMananger;
+        private readonly IDispatcherManager _DispatcherMananger;
         private readonly ComposableAsyncDisposable _ComposableAsyncDisposable = new ComposableAsyncDisposable();
         private readonly ProxyGenerator _Generator = new ProxyGenerator();
 
-        public ActorFactory(IDispatcherMananger dispatcherMananger)
+        public ActorFactory(IDispatcherManager dispatcherManager)
         {
-            _DispatcherMananger = _ComposableAsyncDisposable.Add(dispatcherMananger);
+            _DispatcherMananger = _ComposableAsyncDisposable.Add(dispatcherManager);
         }
 
         public T Build<T>(T concrete) where T : class

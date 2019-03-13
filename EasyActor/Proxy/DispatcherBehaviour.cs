@@ -28,8 +28,8 @@ namespace EasyActor.Proxy
                 return _EnqueueFunction;
 
             var parameterIndex = cancellationParameter.Position;
-            InvocationOnDispatcher res = (dispatcher, invocation) => Enqueue(dispatcher, invocation, parameterIndex);
-            return res;
+            object Res(ICancellableDispatcher dispatcher, IInvocation invocation) => Enqueue(dispatcher, invocation, parameterIndex);
+            return Res;
         }
 
         internal static InvocationOnDispatcher GetInvocationOnDispatcherForGenericTask(Type targetType, MethodInfo method)

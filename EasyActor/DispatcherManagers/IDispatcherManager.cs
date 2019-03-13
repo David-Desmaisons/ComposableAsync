@@ -2,9 +2,9 @@
 using Concurrent;
 using EasyActor.Options;
 
-namespace EasyActor.DispatcherManangers
+namespace EasyActor.DispatcherManagers
 {
-    public interface IDispatcherMananger : IAsyncDisposable
+    public interface IDispatcherManager : IAsyncDisposable
     {
         bool DisposeDispatcher { get; }
 

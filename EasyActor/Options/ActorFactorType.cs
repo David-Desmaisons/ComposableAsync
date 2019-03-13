@@ -11,7 +11,7 @@
         Standard,
 
         /// <summary>
-        /// Task Pool factory, actors will be executed sequencially on thread pool.
+        /// Task Pool factory, actors will be executed sequentially on thread pool.
         /// </summary>
         TaskPool,
 

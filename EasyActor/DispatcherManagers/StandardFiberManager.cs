@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Concurrent;
 using EasyActor.Options;
 
-namespace EasyActor.DispatcherManangers
+namespace EasyActor.DispatcherManagers
 {
-    internal class StandardFiberManager : IDispatcherMananger
+    internal class StandardFiberManager : IDispatcherManager
     {
         public ActorFactorType Type => ActorFactorType.Standard;
         public bool DisposeDispatcher => true;
