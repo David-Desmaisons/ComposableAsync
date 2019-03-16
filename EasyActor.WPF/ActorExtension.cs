@@ -13,8 +13,7 @@ namespace Concurrent.WPF
             if (fiber != null)
                 return fiber;
 
-            var dispactch = @object as DispatcherObject;
-            return (dispactch != null) ? Fiber.GetFiberFromSynchronizationContext(dispactch.Dispatcher.GetSynchronizationContext()) : null;
+            return (@object is DispatcherObject dispatch) ? Fiber.GetFiberFromSynchronizationContext(dispatch.Dispatcher.GetSynchronizationContext()) : null;
         }
 
         public static IDispatcher GetAssociatedDispatcher(this object @object)
