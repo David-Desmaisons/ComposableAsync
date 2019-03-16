@@ -23,7 +23,7 @@ In order to work, The target interface should only expose methods returning Task
 
   <ItemGroup>
     <PackageReference Include="System.Interactive.Async" Version="3.1.1" />
-    <PackageReference Include="System.Reactive" Version="4.0.0" />
+    <PackageReference Include="System.Reactive" Version="4.1.3" />
     <PackageReference Include="System.Reactive.Providers" Version="4.0.0" />
   </ItemGroup>
 

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoFixture.Xunit2;
 using Concurrent.Collections;
 using Concurrent.Disposable;
 using Concurrent.Test.TestHelper;
 using Concurrent.WorkItems;
 using FluentAssertions;
-using Ploeh.AutoFixture.Xunit2;
 using Xunit;
 using Xunit.Abstractions;
 
