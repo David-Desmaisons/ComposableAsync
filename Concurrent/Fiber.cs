@@ -5,6 +5,9 @@ using Concurrent.Fibers;
 
 namespace Concurrent
 {
+    /// <summary>
+    /// <see cref="IFiber"/> factory
+    /// </summary>
     public static class Fiber
     {
         public static IMonoThreadFiber CreateMonoThreadedFiber(Action<Thread> onCreate = null)
@@ -17,7 +20,7 @@ namespace Concurrent
             return new ThreadPoolFiber();
         }
 
-        public static IStopableFiber GetTaskBasedFiber()
+        public static IStoppableFiber GetTaskBasedFiber()
         {
             return new TaskSchedulerFiber();
         }

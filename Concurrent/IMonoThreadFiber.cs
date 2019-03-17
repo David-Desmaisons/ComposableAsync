@@ -6,7 +6,7 @@ namespace Concurrent
     /// <summary>
     /// Mono threaded fiber
     /// </summary>
-    public interface IMonoThreadFiber : IStopableFiber
+    public interface IMonoThreadFiber : IStoppableFiber
     {
         /// <summary>
         /// Thread Fiber

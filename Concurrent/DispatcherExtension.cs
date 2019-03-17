@@ -4,6 +4,9 @@ using System.Security;
 
 namespace Concurrent
 {
+    /// <summary>
+    /// <see cref="IDispatcher"/> extension methods provider
+    /// </summary>
     public static class DispatcherExtension
     {
         public struct FiberAwaiter : INotifyCompletion

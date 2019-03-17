@@ -10,7 +10,7 @@ namespace Concurrent.Test
 {
     public class FiberTest : IAsyncLifetime
     {
-        private IStopableFiber _Fiber;
+        private IStoppableFiber _Fiber;
 
         public Task InitializeAsync() => Task.CompletedTask;
 

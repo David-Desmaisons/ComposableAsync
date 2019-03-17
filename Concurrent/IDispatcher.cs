@@ -35,7 +35,7 @@ namespace Concurrent
 
         /// <summary>
         /// Enqueue the task and return a task corresponding to
-        /// the comletion of the task
+        /// the completion of the task
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>

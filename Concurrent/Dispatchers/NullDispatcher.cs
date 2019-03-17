@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 
 namespace Concurrent.Dispatchers
 {
+    /// <summary>
+    /// <see cref="IDispatcher"/> that run actions synchronously
+    /// </summary>
     public sealed class NullDispatcher: IDispatcher
     {
         private NullDispatcher() { }
