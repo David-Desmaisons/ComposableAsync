@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Fibers;
 using Concurrent.SynchronizationContexts;
-using Concurrent.Test.TestHelper;
+using Concurrent.Test.Helper;
 using FluentAssertions;
 using Xunit;
 using Xunit.Abstractions;

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoFixture.Xunit2;
 using Concurrent.Collections;
 using Concurrent.Disposable;
-using Concurrent.Test.TestHelper;
+using Concurrent.Test.Helper;
 using Concurrent.WorkItems;
 using FluentAssertions;
 using Xunit;

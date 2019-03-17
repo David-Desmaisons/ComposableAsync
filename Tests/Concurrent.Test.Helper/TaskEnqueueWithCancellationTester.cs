@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 
-namespace Concurrent.Test.TestHelper
+namespace Concurrent.Test.Helper
 {
     public class TaskEnqueueWithCancellationTester
     {

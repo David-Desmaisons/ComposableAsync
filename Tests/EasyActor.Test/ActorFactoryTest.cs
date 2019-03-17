@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Threading;
 using AutoFixture.Xunit2;
-using Concurrent.Test.TestHelper;
+using Concurrent.Test.Helper;
 using EasyActor.Options;
 using FluentAssertions;
 using EasyActor.Test.TestInfra.DummyClass;

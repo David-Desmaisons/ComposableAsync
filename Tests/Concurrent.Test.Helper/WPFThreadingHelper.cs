@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace Concurrent.Test.TestHelper
+namespace Concurrent.Test.Helper
 {
     public static class DispatcherHelper
     {
@@ -40,7 +40,7 @@ namespace Concurrent.Test.TestHelper
     
         public Task Start()
         {
-            TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
+            var tcs = new TaskCompletionSource<object>();
             UiThread = new Thread(InitUIinSta) { Name = "Simulated UI Thread" };
             UiThread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
             UiThread.Start(tcs);

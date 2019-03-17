@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
-using Concurrent.Test.TestHelper;
+using Concurrent.Test.Helper;
 using EasyActor.Options;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;

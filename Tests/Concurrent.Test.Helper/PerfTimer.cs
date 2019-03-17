@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Xunit.Abstractions;
 
-namespace Concurrent.Test.TestHelper
+namespace Concurrent.Test.Helper
 {
     public class PerfTimer : IDisposable
     {

@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EasyActor.Test</RootNamespace>
     <AssemblyName>EasyActor.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -111,14 +111,9 @@
     <Compile Include="TestInfra\DummyClass\IGenericInterface.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Concurrent.Test\Concurrent.Test.csproj">
-      <Project>{F6E7547D-130A-43BD-9E42-0004A46465A2}</Project>
-      <Name>Concurrent.Test</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Concurrent\Concurrent.csproj">
       <Project>{4f2f8e53-87ba-42ce-b230-9aa6f4a56413}</Project>
       <Name>Concurrent</Name>
@@ -126,6 +121,10 @@
     <ProjectReference Include="..\..\EasyActor\EasyActor.csproj">
       <Project>{487faea3-4503-4e5b-b10b-48b689dbf174}</Project>
       <Name>EasyActor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Concurrent.Test.Helper\Concurrent.Test.Helper.csproj">
+      <Project>{c4015566-e81f-4bb3-abd5-47ccf8a628b1}</Project>
+      <Name>Concurrent.Test.Helper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

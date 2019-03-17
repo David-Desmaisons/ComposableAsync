@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit.Abstractions;
 
-namespace Concurrent.Test.TestHelper
+namespace Concurrent.Test.Helper
 {
     public class SequenceTester
     {
@@ -21,34 +21,36 @@ namespace Concurrent.Test.TestHelper
 
         public async Task Stress()
         {
-            ParameterizedThreadStart safeAction = ctx =>
+            void SafeAction(object ctx)
             {
                 var completion = ctx as TaskCompletionSource<int>;
                 _Dispatcher.Enqueue(() =>
-                {
-                    Thread.Sleep(2);
-                    Count++;
-                }).ContinueWith(_ => completion?.TrySetResult(0));
-            };
+                    {
+                        Thread.Sleep(2);
+                        Count++;
+                    })
+                    .ContinueWith(_ => completion?.TrySetResult(0));
+            }
 
-            await PrivateStress(safeAction);
+            await PrivateStress(SafeAction);
         }
 
         public async Task StressTask()
         {
-            ParameterizedThreadStart safeAction = ctx =>
+            void SafeAction(object ctx)
             {
                 var completion = ctx as TaskCompletionSource<int>;
                 _Dispatcher.Enqueue(async () =>
-                {
-                    await Task.Delay(2);
-                    Count++;
-                }).ContinueWith(_ => completion?.TrySetResult(0));
-            };
+                    {
+                        await Task.Delay(2);
+                        Count++;
+                    })
+                    .ContinueWith(_ => completion?.TrySetResult(0));
+            }
 
- 
+
             var stoptWatch = Stopwatch.StartNew();
-            await PrivateStress(safeAction);
+            await PrivateStress(SafeAction);
 
             stoptWatch.Stop();
             _TestOutputHelper?.WriteLine($"Time to run {MaxThreads} Enqueues in parrallel tasks: {stoptWatch.Elapsed}");

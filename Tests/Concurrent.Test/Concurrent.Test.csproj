@@ -12,7 +12,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Concurrent.Test</RootNamespace>
     <AssemblyName>Concurrent.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
@@ -37,6 +37,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoFixture, Version=4.8.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
@@ -112,16 +115,6 @@
     <Compile Include="TaskSchedulers\FiberTaskSchedulerTest.cs" />
     <Compile Include="Tasks\TaskBuilderTest.cs" />
     <Compile Include="Tasks\TypeExtensionTest.cs" />
-    <Compile Include="TestHelper\PerfTimer.cs" />
-    <Compile Include="TestHelper\SequenceTester.cs" />
-    <Compile Include="TestHelper\TaskEnqueueWithCancellationTester.cs" />
-    <Compile Include="TestHelper\WPFThreadingHelper.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Concurrent\Concurrent.csproj">
-      <Project>{4f2f8e53-87ba-42ce-b230-9aa6f4a56413}</Project>
-      <Name>Concurrent</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -131,6 +124,16 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Concurrent\Concurrent.csproj">
+      <Project>{4f2f8e53-87ba-42ce-b230-9aa6f4a56413}</Project>
+      <Name>Concurrent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Concurrent.Test.Helper\Concurrent.Test.Helper.csproj">
+      <Project>{c4015566-e81f-4bb3-abd5-47ccf8a628b1}</Project>
+      <Name>Concurrent.Test.Helper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

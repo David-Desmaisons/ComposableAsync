@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Dispatchers;
-using Concurrent.Test.TestHelper;
+using Concurrent.Test.Helper;
 using FluentAssertions;
 using Xunit;
 
