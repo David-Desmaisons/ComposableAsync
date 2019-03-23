@@ -6,13 +6,16 @@ using Concurrent.WorkItems;
 
 namespace Concurrent.Dispatchers
 {
-    internal class TaskSchedulderDispatcher : ICancellableDispatcher
+    /// <summary>
+    /// Dispatcher using a <see cref="TaskScheduler"/>
+    /// </summary>
+    internal class TaskSchedulerDispatcher : ICancellableDispatcher
     {
         internal TaskScheduler TaskScheduler { get; }
 
         private readonly TaskFactory _TaskFactory;
 
-        public TaskSchedulderDispatcher(TaskScheduler taskScheduler)
+        public TaskSchedulerDispatcher(TaskScheduler taskScheduler)
         {
             TaskScheduler = taskScheduler;
             _TaskFactory = new TaskFactory(taskScheduler);

@@ -6,7 +6,7 @@ using Concurrent.SynchronizationContexts;
 
 namespace Concurrent.Fibers
 {
-    internal sealed class TaskSchedulerFiber : TaskSchedulderDispatcher, IStoppableFiber
+    internal sealed class TaskSchedulerFiber : TaskSchedulerDispatcher, IStoppableFiber
     {
         public bool IsAlive { get; private set; } = true;
         public SynchronizationContext SynchronizationContext { get; }

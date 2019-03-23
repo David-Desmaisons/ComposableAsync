@@ -6,7 +6,7 @@ using EasyActor.Options;
 
 namespace EasyActor.DispatcherManagers
 {
-    internal class StandardFiberManager : IDispatcherManager
+    internal sealed class StandardFiberManager : IDispatcherManager
     {
         public ActorFactorType Type => ActorFactorType.Standard;
         public bool DisposeDispatcher => true;

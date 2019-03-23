@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Concurrent
 {
     /// <summary>
-    /// Cancellable Fiber
+    /// Dispatcher that can dispatch cancellable action
     /// </summary>
     public interface ICancellableDispatcher : IDispatcher
     {

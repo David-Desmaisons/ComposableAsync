@@ -9,7 +9,7 @@ namespace EasyActor.Proxy
     {
         private readonly ICancellableDispatcher _Dispatcher;
 
-        public DispatcherInterceptor(ICancellableDispatcher dispatcher)
+        internal DispatcherInterceptor(ICancellableDispatcher dispatcher)
         {
             _Dispatcher = dispatcher;
         }

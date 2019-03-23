@@ -6,7 +6,7 @@ using EasyActor.Options;
 
 namespace EasyActor.DispatcherManagers
 {
-    internal class SharedThreadFiberManager : IDispatcherManager
+    internal sealed class SharedThreadFiberManager : IDispatcherManager
     {
         public ActorFactorType Type => ActorFactorType.Shared;
         public bool DisposeDispatcher => false;

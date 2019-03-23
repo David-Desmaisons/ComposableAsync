@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Threading;
 using Concurrent.Signals;
 
-//Inspired by and adapted from http://www.1024cores.net/
-//Ref: http://www.1024cores.net/home/lock-free-algorithms/queues/non-intrusive-mpsc-node-based-queue
-
 namespace Concurrent.Collections
 {
+    /// <summary>
+    /// Blocking implementation of <see cref="IMpScQueue<typeparam name="T"></typeparam>"/>
+    /// Inspired by and adapted from http://www.1024cores.net/
+    /// Ref: http://www.1024cores.net/home/lock-free-algorithms/queues/non-intrusive-mpsc-node-based-queue
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class BlockingMpscQueue<T> : IMpScQueue<T> where T: class
     {
         private readonly SimplifiedEventCount _SimplifiedEventCount = new SimplifiedEventCount();

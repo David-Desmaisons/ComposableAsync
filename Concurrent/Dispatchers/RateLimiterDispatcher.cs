@@ -8,10 +8,14 @@ namespace Concurrent.Dispatchers
     /// <summary>
     /// Dispatcher using rate limiting
     /// </summary>
-    public class RateLimiterDispatcher: ICancellableDispatcher
+    public sealed class RateLimiterDispatcher: ICancellableDispatcher
     {
         private readonly IAwaitableConstraint _AwaitableConstraint;
 
+        /// <summary>
+        /// Construct an RateLimiterDispatcher from an <see cref="IAwaitableConstraint"/>
+        /// </summary>
+        /// <param name="awaitableConstraint"></param>
         public RateLimiterDispatcher(IAwaitableConstraint awaitableConstraint)
         {
             _AwaitableConstraint = awaitableConstraint;

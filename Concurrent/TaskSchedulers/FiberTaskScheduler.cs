@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Concurrent.TaskSchedulers
 {
+    /// <summary>
+    /// Task scheduler based on fiber
+    /// </summary>
     internal sealed class FiberTaskScheduler : TaskScheduler
     {
         private readonly IFiber _Fiber;

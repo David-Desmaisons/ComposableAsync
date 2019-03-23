@@ -15,30 +15,29 @@ namespace Concurrent.Fibers
 
         public SynchronizationContext SynchronizationContext =>
             _SynchronizationContext ?? (_SynchronizationContext = new MonoThreadedFiberSynchronizationContext(this));
-        public bool IsAlive => _Current.IsAlive;
-        public Thread Thread => _Current;
+        public bool IsAlive => Thread.IsAlive;
+        public Thread Thread { get; }
 
         private SynchronizationContext _SynchronizationContext;
         private readonly IMpScQueue<IWorkItem> _TaskQueue;
-        private readonly Thread _Current;
         private readonly TaskCompletionSource<int> _EndFiber = new TaskCompletionSource<int>();
 
         public MonoThreadedFiber(Action<Thread> onCreate = null, IMpScQueue<IWorkItem> queue = null)
         {
             _TaskQueue = queue?? new BlockingMpscQueue<IWorkItem>();
-            _Current = new Thread(Consume)
+            Thread = new Thread(Consume)
             {
                 IsBackground = true,
                 Name = $"MonoThreadedQueue-{_Count++}"
             };
 
-            onCreate?.Invoke(_Current);
-            _Current.Start();
+            onCreate?.Invoke(Thread);
+            Thread.Start();
         }
 
         public void Send(Action action)
         {
-            if (Thread.CurrentThread == _Current)
+            if (Thread.CurrentThread == Thread)
             {
                 action();
                 return;
@@ -47,12 +46,12 @@ namespace Concurrent.Fibers
             Enqueue(action).Wait();
         }
 
-        private Task Enqueue(ActionWorkItem workitem)
+        private Task Enqueue(ActionWorkItem workItem)
         {
             try
             {
-                _TaskQueue.Enqueue(workitem);
-                return workitem.Task;
+                _TaskQueue.Enqueue(workItem);
+                return workItem.Task;
             }
             catch (Exception)
             {
@@ -60,12 +59,12 @@ namespace Concurrent.Fibers
             }
         }
 
-        private Task<T> Enqueue<T>(AsyncWorkItem<T> workitem)
+        private Task<T> Enqueue<T>(AsyncWorkItem<T> workItem)
         {
             try
             {
-                _TaskQueue.Enqueue(workitem);
-                return workitem.Task;
+                _TaskQueue.Enqueue(workItem);
+                return workItem.Task;
             }
             catch (Exception)
             {
@@ -75,11 +74,11 @@ namespace Concurrent.Fibers
 
         public Task<T> Enqueue<T>(Func<T> action)
         {
-            var workitem = new WorkItem<T>(action);
+            var workItem = new WorkItem<T>(action);
             try
             {
-                _TaskQueue.Enqueue(workitem);
-                return workitem.Task;
+                _TaskQueue.Enqueue(workItem);
+                return workItem.Task;
             }
             catch (Exception)
             {
@@ -91,8 +90,8 @@ namespace Concurrent.Fibers
         {
             try
             {
-                var workitem = new DispatchItem(action);
-                _TaskQueue.Enqueue(workitem);
+                var workItem = new DispatchItem(action);
+                _TaskQueue.Enqueue(workItem);
             }
             catch (Exception)
             {

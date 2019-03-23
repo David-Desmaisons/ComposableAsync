@@ -6,7 +6,7 @@ using EasyActor.Options;
 
 namespace EasyActor.DispatcherManagers
 {
-    internal class SynchronizationContextFiberManage : IDispatcherManager
+    internal sealed class SynchronizationContextFiberManage : IDispatcherManager
     {
         public ActorFactorType Type => ActorFactorType.InCurrentContext;
         public bool DisposeDispatcher => false;

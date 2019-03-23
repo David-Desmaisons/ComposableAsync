@@ -11,7 +11,7 @@ using Concurrent.Tasks;
 namespace EasyActor.Proxy
 {
     [DebuggerNonUserCode]
-    public static class DispatcherBehaviour
+    internal static class DispatcherBehaviour
     {
         internal static readonly InvocationOnDispatcher DispatchFunction = Dispatch;
 

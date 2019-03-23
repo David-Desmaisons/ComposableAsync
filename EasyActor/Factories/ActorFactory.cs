@@ -9,6 +9,9 @@ using EasyActor.Proxy;
 
 namespace EasyActor.Factories
 {
+    /// <summary>
+    /// Actor factory
+    /// </summary>
     public sealed class ActorFactory : IActorFactory
     {
         public ActorFactorType Type => _DispatcherMananger.Type;

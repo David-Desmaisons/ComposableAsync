@@ -4,6 +4,10 @@ using System.Threading;
 
 namespace Concurrent.Collections
 {
+    /// <summary>
+    /// Spinning implementation of see cref="IMpScQueue<typeparam name="T"></typeparam>"/>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class SpinningMpscQueue<T> : IMpScQueue<T> where T: class
     {
         private readonly CancellationTokenSource _CancellationTokenSource = new CancellationTokenSource();

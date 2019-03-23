@@ -42,7 +42,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActorExtension.cs" />
+    <Compile Include="FiberExtension.cs" />
     <Compile Include="Internal\DispatcherExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

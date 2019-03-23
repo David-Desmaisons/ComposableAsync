@@ -2,7 +2,7 @@
 
 namespace Concurrent.WPF.Internal
 {
-    public static class DispatcherExtension
+    internal static class DispatcherExtension
     {
         internal static SynchronizationContext GetSynchronizationContext(this System.Windows.Threading.Dispatcher dispatcher)
         {

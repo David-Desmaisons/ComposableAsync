@@ -5,6 +5,11 @@ using System.Threading;
 
 namespace Concurrent.Collections
 {
+    /// <summary>
+    /// Implementation of <see cref="IMpScQueue<typeparam name="T"></typeparam>"/> relying
+    /// on .Net BlockingCollection
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class StandardMpscQueue<T> : IMpScQueue<T> where T: class
     {
         private readonly BlockingCollection<T> _Queue = new BlockingCollection<T>();

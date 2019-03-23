@@ -4,7 +4,7 @@ namespace EasyActor.Proxy
 {
     internal class FiberProvider: IFiberProvider
     {
-        public FiberProvider(IFiber fiber)
+        internal FiberProvider(IFiber fiber)
         {
             Fiber = fiber;
         }

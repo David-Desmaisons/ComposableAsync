@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading;
 
-//Inspired by and adapted from http://www.1024cores.net/
-//Ref: http://www.1024cores.net/home/lock-free-algorithms/eventcounts
-
 namespace Concurrent.Signals 
 {
+    /// <summary>
+    /// EventCount Inspired by and adapted from http://www.1024cores.net/
+    /// Ref: http://www.1024cores.net/home/lock-free-algorithms/eventcounts
+    /// </summary>
     internal class SimplifiedEventCount: IDisposable
     {
         private readonly Semaphore _Semaphore = new Semaphore(0, 2);

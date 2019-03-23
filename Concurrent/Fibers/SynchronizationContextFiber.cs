@@ -8,59 +8,58 @@ namespace Concurrent.Fibers
     internal sealed class SynchronizationContextFiber : IFiber
     {
         public bool IsAlive => true;
-        public SynchronizationContext SynchronizationContext => _Context;
+        public SynchronizationContext SynchronizationContext { get; }
 
-        private readonly SynchronizationContext _Context;
         public SynchronizationContextFiber(SynchronizationContext synchronizationContext)
         {
-            _Context = synchronizationContext;
+            SynchronizationContext = synchronizationContext;
         }
 
         public Task<T> Enqueue<T>(Func<T> action)
         {
-            var workitem = new WorkItem<T>(action);
-            _Context.Post(_SendOrPostWorkItem, workitem);
-            return workitem.Task;
+            var workItem = new WorkItem<T>(action);
+            SynchronizationContext.Post(_SendOrPostWorkItem, workItem);
+            return workItem.Task;
         }
 
         public Task Enqueue(Func<Task> action)
         {
-            var workitem = new AsyncActionWorkItem(action);
-            _Context.Post(_SendOrPostWorkItem, workitem);
-            return workitem.Task;
+            var workItem = new AsyncActionWorkItem(action);
+            SynchronizationContext.Post(_SendOrPostWorkItem, workItem);
+            return workItem.Task;
         }
 
         public Task<T> Enqueue<T>(Func<Task<T>> action)
         {
-            var workitem = new AsyncWorkItem<T>(action);
-            _Context.Post(_SendOrPostWorkItem, workitem);
-            return workitem.Task;
+            var workItem = new AsyncWorkItem<T>(action);
+            SynchronizationContext.Post(_SendOrPostWorkItem, workItem);
+            return workItem.Task;
         }
 
         public Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
-            var workitem = new AsyncActionWorkItem(action, cancellationToken);
-            _Context.Post(_SendOrPostWorkItem, workitem);
-            return workitem.Task;
+            var workItem = new AsyncActionWorkItem(action, cancellationToken);
+            SynchronizationContext.Post(_SendOrPostWorkItem, workItem);
+            return workItem.Task;
         }
 
         public Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
         {
-            var workitem = new AsyncWorkItem<T>(action, cancellationToken);
-            _Context.Post(_SendOrPostWorkItem, workitem);
-            return workitem.Task;
+            var workItem = new AsyncWorkItem<T>(action, cancellationToken);
+            SynchronizationContext.Post(_SendOrPostWorkItem, workItem);
+            return workItem.Task;
         }
 
         public void Dispatch(Action action)
         {
-            _Context.Post(_SendOrPostAction, action);
+            SynchronizationContext.Post(_SendOrPostAction, action);
         }
 
         public Task Enqueue(Action action) 
         {
-            var workitem = new ActionWorkItem(action);
-            _Context.Post(_SendOrPostWorkItem, workitem);
-            return workitem.Task;
+            var workItem = new ActionWorkItem(action);
+            SynchronizationContext.Post(_SendOrPostWorkItem, workItem);
+            return workItem.Task;
         }
 
         private static readonly SendOrPostCallback _SendOrPostWorkItem = DoWorkItem;

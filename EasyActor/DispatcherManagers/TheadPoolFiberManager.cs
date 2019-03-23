@@ -4,7 +4,7 @@ using EasyActor.Options;
 
 namespace EasyActor.DispatcherManagers
 {
-    internal class TheadPoolFiberManager : IDispatcherManager
+    internal sealed class TheadPoolFiberManager : IDispatcherManager
     {
         public ActorFactorType Type => ActorFactorType.ThreadPool;
         public bool DisposeDispatcher => true;

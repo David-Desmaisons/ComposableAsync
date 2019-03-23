@@ -9,40 +9,52 @@ namespace Concurrent
     /// </summary>
     public static class DispatcherExtension
     {
-        public struct FiberAwaiter : INotifyCompletion
+        /// <summary>
+        /// Dispatcher awaiter
+        /// </summary>
+        public struct DispatcherAwaiter : INotifyCompletion
         {
             public bool IsCompleted => false;
 
-            private readonly IDispatcher _Fiber;
+            private readonly IDispatcher _Dispatcher;
 
-            public FiberAwaiter(IDispatcher fiber)
+            public DispatcherAwaiter(IDispatcher dispatcher)
             {
-                _Fiber = fiber;
+                _Dispatcher = dispatcher;
             }
 
             [SecuritySafeCritical]
             public void OnCompleted(Action continuation)
             {
-                _Fiber.Dispatch(continuation);
+                _Dispatcher.Dispatch(continuation);
             }
 
             public void GetResult() { }
         }
 
+        /// <summary>
+        /// DispatcherAwaiter provider
+        /// </summary>
         public struct DispatcherAwaiterProvider
         {
-            private readonly FiberAwaiter _Awaiter;
+            private readonly DispatcherAwaiter _Awaiter;
             public DispatcherAwaiterProvider(IDispatcher fiber)
             {
-                _Awaiter = new FiberAwaiter(fiber);
+                _Awaiter = new DispatcherAwaiter(fiber);
             }
 
-            public FiberAwaiter GetAwaiter() => _Awaiter;
+            public DispatcherAwaiter GetAwaiter() => _Awaiter;
         }
 
-        public static DispatcherAwaiterProvider SwitchToContext(this IDispatcher fiber)
+        /// <summary>
+        /// Returns awaitable to enter in the dispatcher context
+        /// Useful to await a dispatcher
+        /// </summary>
+        /// <param name="dispatcher"></param>
+        /// <returns></returns>
+        public static DispatcherAwaiterProvider SwitchToContext(this IDispatcher dispatcher)
         {
-            return new DispatcherAwaiterProvider(fiber);
+            return new DispatcherAwaiterProvider(dispatcher);
         }
     }
 }

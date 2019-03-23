@@ -3,12 +3,20 @@ using System.Threading.Tasks;
 
 namespace Concurrent.Tasks
 {
+    /// <summary>
+    /// Type extensions
+    /// </summary>
     public static class TypeExtension
     {
         private static readonly Type _TaskType = typeof(Task);
         private static readonly Type _GenericTaskType = typeof(Task<>);
         private static readonly Type _VoidType = typeof(void);
 
+        /// <summary>
+        /// Returns task type linked to a type
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
         public static TaskDescription GetTaskType(this Type @this)
         {
             if (@this == _VoidType)

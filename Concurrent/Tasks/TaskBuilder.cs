@@ -2,6 +2,9 @@
 
 namespace Concurrent.Tasks 
 {
+    /// <summary>
+    /// Task utility
+    /// </summary>
     public static class TaskBuilder
     {
         static TaskBuilder()
@@ -11,9 +14,16 @@ namespace Concurrent.Tasks
             Cancelled = tcs.Task;
         }
 
+        /// <summary>
+        /// Returns a cancelled task
+        /// </summary>
         public static Task Cancelled { get; }
     }
 
+    /// <summary>
+    /// Task utility
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public static class TaskBuilder<T>
     {
         static TaskBuilder()
@@ -23,6 +33,9 @@ namespace Concurrent.Tasks
             Cancelled = tcs.Task;
         }
 
+        /// <summary>
+        /// Returns a cancelled Task
+        /// </summary>
         public static Task<T> Cancelled { get; }
     }
 }

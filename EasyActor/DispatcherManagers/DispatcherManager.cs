@@ -4,7 +4,7 @@ using EasyActor.Options;
 
 namespace EasyActor.DispatcherManagers
 {
-    internal class DispatcherManager : IDispatcherManager
+    internal sealed class DispatcherManager : IDispatcherManager
     {
         public ActorFactorType Type => ActorFactorType.FromFiber;
         public bool DisposeDispatcher => false;

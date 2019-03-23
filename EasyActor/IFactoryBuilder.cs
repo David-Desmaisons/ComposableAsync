@@ -15,23 +15,23 @@ namespace EasyActor
         /// if true all the actors created by this factory will use the same thread. 
         /// </param>
         /// <param name="onCreate">
-        /// Delegate called on every new created thread. 
+        /// Delegate called on each new created thread. 
         /// </param>
         /// </summary>
         IActorFactory GetFactory(bool shared = false, Action<Thread> onCreate = null);
 
         /// <summary>
-        /// Returns an actor factory corresponding to the given ActorFactorType
+        /// Returns an actor factory using Thread Pool as Fiber implementation
         /// </summary>
         IActorFactory GetThreadPoolFactory();
 
         /// <summary>
-        /// Returns an actor factory corresponding to the given ActorFactorType
+        /// Returns an actor factory using Task Pool as Fiber implementation
         /// </summary>
         IActorFactory GetTaskBasedFactory();
 
         /// <summary>
-        /// Returns an actor factory corresponding to the current threading context
+        /// Returns an actor factory using the current synchronization context
         /// </summary>
         IActorFactory GetInContextFactory();
 
