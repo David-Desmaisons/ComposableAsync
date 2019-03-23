@@ -14,15 +14,15 @@ namespace EasyActor.Factories
     /// </summary>
     public sealed class ActorFactory : IActorFactory
     {
-        public ActorFactorType Type => _DispatcherMananger.Type;
+        public ActorFactorType Type => _DispatcherManager.Type;
 
-        private readonly IDispatcherManager _DispatcherMananger;
+        private readonly IDispatcherManager _DispatcherManager;
         private readonly ComposableAsyncDisposable _ComposableAsyncDisposable = new ComposableAsyncDisposable();
         private readonly ProxyGenerator _Generator = new ProxyGenerator();
 
         public ActorFactory(IDispatcherManager dispatcherManager)
         {
-            _DispatcherMananger = _ComposableAsyncDisposable.Add(dispatcherManager);
+            _DispatcherManager = _ComposableAsyncDisposable.Add(dispatcherManager);
         }
 
         public T Build<T>(T concrete) where T : class
@@ -58,8 +58,8 @@ namespace EasyActor.Factories
 
         private ICancellableDispatcher GetDispatcher()
         {
-            var dispatcher = _DispatcherMananger.GetDispatcher();
-            if (_DispatcherMananger.DisposeDispatcher)
+            var dispatcher = _DispatcherManager.GetDispatcher();
+            if (_DispatcherManager.DisposeDispatcher)
             {
                 _ComposableAsyncDisposable.Add(dispatcher as IAsyncDisposable);
             }
