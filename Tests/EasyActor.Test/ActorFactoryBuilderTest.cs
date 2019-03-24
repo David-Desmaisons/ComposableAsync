@@ -11,11 +11,11 @@ namespace EasyActor.Test
 
     public class ActorFactoryBuilderTest : IDisposable
     {
-        private readonly FactoryBuilder _ActorFactoryBuilder;
+        private readonly ActorFactoryBuilder _ActorFactoryBuilder;
 
         public ActorFactoryBuilderTest()
         {
-            _ActorFactoryBuilder = new FactoryBuilder();
+            _ActorFactoryBuilder = new ActorFactoryBuilder();
         }
 
         public void Dispose()

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using Concurrent;
 using Concurrent.Collections;
 using Concurrent.Fibers;
 using Concurrent.WorkItems;
@@ -22,19 +21,19 @@ namespace EasyActor.Examples
             _Output = output;
         }
 
-        private static readonly FactoryBuilder _FactoryBuilder = new FactoryBuilder();
+        private static readonly ActorFactoryBuilder _ActorFactoryBuilder = new ActorFactoryBuilder();
 
         public static IEnumerable<object[]> GetFactories()
         {
-            yield return new object[] { "Not shared", _FactoryBuilder.GetFactory() };
-            yield return new object[] { "Shared", _FactoryBuilder.GetFactory(shared:true) };
-            yield return new object[] { "TaskBased", _FactoryBuilder.GetTaskBasedFactory() };
-            yield return new object[] { "ThreadPool",  _FactoryBuilder.GetThreadPoolFactory() };        
+            yield return new object[] { "Not shared", _ActorFactoryBuilder.GetFactory() };
+            yield return new object[] { "Shared", _ActorFactoryBuilder.GetFactory(shared:true) };
+            yield return new object[] { "TaskBased", _ActorFactoryBuilder.GetTaskBasedFactory() };
+            yield return new object[] { "ThreadPool",  _ActorFactoryBuilder.GetThreadPoolFactory() };        
         }
 
         [Theory]
         [MemberData(nameof(GetFactories))]
-        public async Task TestTask(string name, IActorFactory fact)
+        public async Task TestTask(string name, IProxyFactory fact)
         {
             Output(name);
 
@@ -62,7 +61,7 @@ namespace EasyActor.Examples
 
         [Theory]
         [MemberData(nameof(GetFactories))]
-        public async Task TestNoTask(string name, IActorFactory fact)
+        public async Task TestNoTask(string name, IProxyFactory fact)
         {
             Output(name);
 
@@ -101,7 +100,7 @@ namespace EasyActor.Examples
             Output(queueWorkItem.GetType().Name);
 
             var fiber = new MonoThreadedFiber(null, queueWorkItem);
-            var factory = _FactoryBuilder.GetFactoryForFiber(fiber);
+            var factory = _ActorFactoryBuilder.GetFactoryForFiber(fiber);
 
             await TestNoTask("Fiber", factory);
 
@@ -110,7 +109,7 @@ namespace EasyActor.Examples
 
         [Theory]
         [MemberData(nameof(GetFactories))]
-        public async Task TestTask_T(string name, IActorFactory fact)
+        public async Task TestTask_T(string name, IProxyFactory fact)
         {
             Output(name);
 
@@ -139,7 +138,7 @@ namespace EasyActor.Examples
 
         [Theory]
         [MemberData(nameof(GetFactories))]
-        public async Task TestTask_T_CancellationToken(string name, IActorFactory fact)
+        public async Task TestTask_T_CancellationToken(string name, IProxyFactory fact)
         {
             Output(name);
 

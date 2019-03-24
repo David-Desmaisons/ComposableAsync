@@ -10,11 +10,11 @@ namespace EasyActor.Test
 {     
     public class TaskPoolActorFactoryTest
     {
-        private readonly IActorFactory _TaskPoolActorFactory;
+        private readonly IProxyFactory _TaskPoolActorFactory;
 
         public TaskPoolActorFactoryTest()
         {
-            _TaskPoolActorFactory = new FactoryBuilder().GetTaskBasedFactory();
+            _TaskPoolActorFactory = new ActorFactoryBuilder().GetTaskBasedFactory();
         }
 
         [Fact]
@@ -141,6 +141,6 @@ namespace EasyActor.Test
             takenqueued.IsCompleted.Should().BeTrue();
         }
 
-        private IFiber GetFiber<T>(T actor) => (actor as IFiberProvider)?.Fiber;
+        private ICancellableDispatcher GetFiber<T>(T actor) => (actor as ICancellableDispatcherProvider)?.Dispatcher;
     }
 }

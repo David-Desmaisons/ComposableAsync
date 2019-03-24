@@ -49,24 +49,24 @@ namespace EasyActor.Examples
                 await factory.DisposeAsync();
         }
 
-        private static object[] BuildTestData(IActorFactory factory, IDoStuff stuffer) 
+        private static object[] BuildTestData(IProxyFactory factory, IDoStuff stuffer) 
         {
             return new object[] { factory, factory.Build(stuffer), true };
         }
 
-        private static IEnumerable<object[]> GetOkTestData(IEnumerable<Func<IActorFactory>> factories, IEnumerable<Func<IDoStuff>> stuffers) 
+        private static IEnumerable<object[]> GetOkTestData(IEnumerable<Func<IProxyFactory>> factories, IEnumerable<Func<IDoStuff>> stuffers) 
         {
             return factories.SelectMany(f => stuffers, (f, s) => BuildTestData(f(), s()));
         }
 
-        private static readonly FactoryBuilder _FactoryBuilder = new FactoryBuilder();
+        private static readonly ActorFactoryBuilder _ActorFactoryBuilder = new ActorFactoryBuilder();
 
-        private static IEnumerable<Func<IActorFactory>> Factories 
+        private static IEnumerable<Func<IProxyFactory>> Factories 
         {
             get 
             {
-                yield return () => _FactoryBuilder.GetFactory();
-                yield return () => _FactoryBuilder.GetTaskBasedFactory();
+                yield return () => _ActorFactoryBuilder.GetFactory();
+                yield return () => _ActorFactoryBuilder.GetTaskBasedFactory();
             }
         }
 

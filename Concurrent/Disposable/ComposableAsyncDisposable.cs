@@ -51,7 +51,7 @@ namespace Concurrent.Disposable
         /// <returns></returns>
         public Task DisposeAsync()
         {
-            var tasks = _Disposables.ToArray().Select(disp => disp.DisposeAsync()).ToArray();
+            var tasks = _Disposables.ToArray().Select(disposable => disposable.DisposeAsync()).ToArray();
             return Task.WhenAll(tasks);
         }
     }

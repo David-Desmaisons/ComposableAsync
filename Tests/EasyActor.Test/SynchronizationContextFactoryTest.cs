@@ -12,14 +12,14 @@ namespace EasyActor.Test
     public class SynchronizationContextFactoryTest : IDisposable
     {
         private readonly WpfThreadingHelper _UiMessageLoop;
-        private readonly IActorFactory _Factory;
+        private readonly IProxyFactory _Factory;
 
         public SynchronizationContextFactoryTest()
         {
             _UiMessageLoop = new WpfThreadingHelper();
             _UiMessageLoop.Start().Wait();
 
-            _Factory = _UiMessageLoop.Dispatcher.Invoke(() => _FactoryBuilder.GetInContextFactory());
+            _Factory = _UiMessageLoop.Dispatcher.Invoke(() => _ActorFactoryBuilder.GetInContextFactory());
         }
 
         public void Dispose()
@@ -27,14 +27,14 @@ namespace EasyActor.Test
             _UiMessageLoop.Dispose();
         }
 
-        private static readonly FactoryBuilder _FactoryBuilder = new FactoryBuilder();
+        private static readonly ActorFactoryBuilder _ActorFactoryBuilder = new ActorFactoryBuilder();
 
         [Fact]
         public void Creating_SynchronizationContextFactory_WithoutContext_ThrowException() 
         {
             SynchronizationContext.SetSynchronizationContext(null);
-            IActorFactory res = null;
-            Action Do = () => res = _FactoryBuilder.GetInContextFactory();
+            IProxyFactory res = null;
+            Action Do = () => res = _ActorFactoryBuilder.GetInContextFactory();
             Do.Should().Throw<ArgumentNullException>();
         }
 

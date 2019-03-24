@@ -12,11 +12,11 @@ namespace EasyActor.Test
 {
     public class ActorFactoryTest : IAsyncLifetime
     {
-        private readonly IActorFactory _Factory;
+        private readonly IProxyFactory _Factory;
 
         public ActorFactoryTest()
         {
-            _Factory = new FactoryBuilder().GetFactory();
+            _Factory = new ActorFactoryBuilder().GetFactory();
         }
 
         public Task InitializeAsync() => Task.CompletedTask;
@@ -267,16 +267,16 @@ namespace EasyActor.Test
         public void Actor_Should_Implement_IFiberProvider()
         {
             var actor = _Factory.Build<IDummyInterface2>(new DummyClass());
-            actor.Should().BeAssignableTo<IFiberProvider>();
+            actor.Should().BeAssignableTo<ICancellableDispatcherProvider>();
         }
 
         [Fact]
         public void Actor_Should_Returns_Fiber()
         {
             var actor = _Factory.Build<IDummyInterface2>(new DummyClass());
-            var fp = actor as IFiberProvider;
+            var fp = actor as ICancellableDispatcherProvider;
 
-            var fiber = fp?.Fiber;
+            var fiber = fp?.Dispatcher;
 
             fiber.Should().NotBeNull();
         }

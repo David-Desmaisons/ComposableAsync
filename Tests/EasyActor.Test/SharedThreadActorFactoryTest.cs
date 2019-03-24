@@ -8,13 +8,13 @@ namespace EasyActor.Test
 {     
     public class SharedThreadActorFactoryTest : IAsyncLifetime
     {
-        private readonly IActorFactory _Factory;
+        private readonly IProxyFactory _Factory;
         private IDummyInterface2 _Actor1;
         private IDummyInterface2 _Actor2;
 
         public SharedThreadActorFactoryTest()
         {
-            _Factory = new FactoryBuilder().GetFactory(true);
+            _Factory = new ActorFactoryBuilder().GetFactory(true);
         }
 
         public Task InitializeAsync() => Task.CompletedTask;

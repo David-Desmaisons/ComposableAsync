@@ -5,9 +5,9 @@ using Concurrent;
 namespace EasyActor
 {
     /// <summary>
-    /// IActorFactory and ILoadBalancerFactory factory
+    /// IProxyFactory and ILoadBalancerFactory factory
     /// </summary>
-    public interface IFactoryBuilder
+    public interface IActorFactoryBuilder
     {
         /// <summary>
         /// Returns an actor factory 
@@ -18,31 +18,31 @@ namespace EasyActor
         /// Delegate called on each new created thread. 
         /// </param>
         /// </summary>
-        IActorFactory GetFactory(bool shared = false, Action<Thread> onCreate = null);
+        IProxyFactory GetFactory(bool shared = false, Action<Thread> onCreate = null);
 
         /// <summary>
         /// Returns an actor factory using Thread Pool as Fiber implementation
         /// </summary>
-        IActorFactory GetThreadPoolFactory();
+        IProxyFactory GetThreadPoolFactory();
 
         /// <summary>
         /// Returns an actor factory using Task Pool as Fiber implementation
         /// </summary>
-        IActorFactory GetTaskBasedFactory();
+        IProxyFactory GetTaskBasedFactory();
 
         /// <summary>
         /// Returns an actor factory using the current synchronization context
         /// </summary>
-        IActorFactory GetInContextFactory();
+        IProxyFactory GetInContextFactory();
 
         /// <summary>
         /// Returns an actor factory using the provided synchronizationContext 
         /// </summary>
-        IActorFactory GetInContextFactory(SynchronizationContext synchronizationContext);
+        IProxyFactory GetInContextFactory(SynchronizationContext synchronizationContext);
 
         /// <summary>
         /// Returns an actor factory using the provided fiber 
         /// </summary>
-        IActorFactory GetFactoryForFiber(IFiber dispatcher);
+        IProxyFactory GetFactoryForFiber(IFiber dispatcher);
     }
 }

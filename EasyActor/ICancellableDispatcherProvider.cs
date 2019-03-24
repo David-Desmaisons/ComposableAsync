@@ -5,11 +5,11 @@ namespace EasyActor
     /// <summary>
     /// Returns the fiber associated with an actor
     /// </summary>
-    public interface IFiberProvider
+    public interface ICancellableDispatcherProvider
     {
         /// <summary>
-        /// Returns the corresponding <see cref="IFiber"/>
+        /// Returns the corresponding <see cref="ICancellableDispatcher"/>
         /// </summary>
-        IFiber Fiber { get; }
+        ICancellableDispatcher Dispatcher { get; }
     }
 }

@@ -4,18 +4,18 @@ using Concurrent.Dispatchers;
 namespace EasyActor
 {
     /// <summary>
-    /// <see cref="IFiberProvider"/> extension
+    /// <see cref="ICancellableDispatcherProvider"/> extension
     /// </summary>
     public static class FiberProviderExtension
     {
         /// <summary>
         /// Returns the underlying <see cref="IDispatcher"/>
         /// </summary>
-        /// <param name="fiberProvider"></param>
+        /// <param name="cancellableDispatcherProvider"></param>
         /// <returns></returns>
-        public static IDispatcher GetAssociatedDispatcher(this IFiberProvider fiberProvider)
+        public static IDispatcher GetAssociatedDispatcher(this ICancellableDispatcherProvider cancellableDispatcherProvider)
         {
-            return fiberProvider?.Fiber ?? NullDispatcher.Instance;
+            return cancellableDispatcherProvider?.Dispatcher ?? NullDispatcher.Instance;
         }
     }
 }
