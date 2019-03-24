@@ -21,9 +21,19 @@ namespace Concurrent.Dispatchers
             _AwaitableConstraint = awaitableConstraint;
         }
 
-        public async void Dispatch(Action action)
+        public void Dispatch(Action action)
         {
-            await Enqueue(action);
+            Enqueue(action);
+        }
+
+        public Task Enqueue(Func<Task> action)
+        {
+            return Enqueue(action, CancellationToken.None);
+        }
+
+        public Task<T> Enqueue<T>(Func<Task<T>> action)
+        {
+            return Enqueue(action, CancellationToken.None);
         }
 
         public async Task Enqueue(Action action)
@@ -40,16 +50,6 @@ namespace Concurrent.Dispatchers
             {
                 return action();
             }
-        }
-
-        public Task Enqueue(Func<Task> action)
-        {
-            return Enqueue(action, CancellationToken.None);
-        }
-
-        public Task<T> Enqueue<T>(Func<Task<T>> action)
-        {
-            return Enqueue(action, CancellationToken.None);
         }
 
         public async Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
