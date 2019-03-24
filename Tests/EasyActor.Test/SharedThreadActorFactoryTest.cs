@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
-using EasyActor.Options;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
 
@@ -23,12 +22,6 @@ namespace EasyActor.Test
         public async Task DisposeAsync()
         {
             await _Factory.DisposeAsync();
-        }
-
-        [Fact]
-        public void Type_Should_Be_Shared()
-        {
-            _Factory.Type.Should().Be(ActorFactorType.Shared);
         }
 
         [Fact]

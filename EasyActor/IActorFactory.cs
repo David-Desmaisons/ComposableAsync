@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EasyActor.Options;
 
 namespace EasyActor
 {
@@ -9,11 +8,6 @@ namespace EasyActor
     /// </summary>
     public interface IActorFactory : IAsyncDisposable
     {
-        /// <summary>
-        ///  Returns the type of the factory.
-        /// </summary>
-        ActorFactorType Type { get; }
-
         /// <summary>
         ///  Build an actor from a POCO
         ///  T should an interface through which the actor will be seen

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Threading;
 using AutoFixture.Xunit2;
 using Concurrent.Test.Helper;
-using EasyActor.Options;
 using FluentAssertions;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
@@ -23,14 +22,6 @@ namespace EasyActor.Test
         public Task InitializeAsync() => Task.CompletedTask;
 
         public Task DisposeAsync() => _Factory.DisposeAsync();
-
-        private static readonly FactoryBuilder _FactoryBuilder = new FactoryBuilder();
-
-        [Fact]
-        public void Type_Should_Be_Standard()
-        {
-            _Factory.Type.Should().Be(ActorFactorType.Standard);
-        }
 
         [Fact]
         public async Task Method_Should_Run_On_Separated_Thread()
@@ -294,12 +285,12 @@ namespace EasyActor.Test
         public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Call_Proxified_Class_On_IAsyncDisposable_Case_2()
         {
             //arrange
-            var dispclass = new DisposableClass();
-            var actor = _Factory.Build<IDummyInterface4>(dispclass);
+            var disposableClass = new DisposableClass();
+            var actor = _Factory.Build<IDummyInterface4>(disposableClass);
 
             await actor.DisposeAsync();
             //assert
-            dispclass.IsDisposed.Should().BeTrue();
+            disposableClass.IsDisposed.Should().BeTrue();
         }
 
         [Fact]
@@ -308,17 +299,17 @@ namespace EasyActor.Test
             //arrange
             var testThread = Thread.CurrentThread;
 
-            var dispclass = new DisposableClass();
-            var actor = _Factory.Build<IDummyInterface4>(dispclass);
+            var disposableClass = new DisposableClass();
+            var actor = _Factory.Build<IDummyInterface4>(disposableClass);
 
             await actor.DoAsync();
 
-            var thread = dispclass.LastCallingThread;
+            var thread = disposableClass.LastCallingThread;
             //act
 
             await actor.DisposeAsync();
             //assert
-            var disposableThread = dispclass.LastCallingThread;
+            var disposableThread = disposableClass.LastCallingThread;
 
             disposableThread.Should().NotBe(testThread);
             disposableThread.Should().Be(thread);

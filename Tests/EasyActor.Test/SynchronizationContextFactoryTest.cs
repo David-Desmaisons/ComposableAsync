@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
 using Concurrent.Test.Helper;
-using EasyActor.Options;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
 
@@ -29,12 +28,6 @@ namespace EasyActor.Test
         }
 
         private static readonly FactoryBuilder _FactoryBuilder = new FactoryBuilder();
-
-        [Fact]
-        public void Type_Should_Be_InCurrentContext()
-        {
-            _Factory.Type.Should().Be(ActorFactorType.InCurrentContext);
-        }
 
         [Fact]
         public void Creating_SynchronizationContextFactory_WithoutContext_ThrowException() 

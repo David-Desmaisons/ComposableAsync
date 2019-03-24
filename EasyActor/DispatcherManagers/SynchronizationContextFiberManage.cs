@@ -2,13 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Concurrent;
-using EasyActor.Options;
 
 namespace EasyActor.DispatcherManagers
 {
     internal sealed class SynchronizationContextFiberManage : IDispatcherManager
     {
-        public ActorFactorType Type => ActorFactorType.InCurrentContext;
         public bool DisposeDispatcher => false;
         private readonly IFiber _Fiber;
 

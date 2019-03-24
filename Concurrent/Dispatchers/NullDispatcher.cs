@@ -10,6 +10,9 @@ namespace Concurrent.Dispatchers
     {
         private NullDispatcher() { }
 
+        /// <summary>
+        /// Returns a static null dispatcher
+        /// </summary>
         public static IDispatcher Instance { get; } = new NullDispatcher();
 
         public void Dispatch(Action action)

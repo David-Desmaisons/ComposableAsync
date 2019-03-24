@@ -23,10 +23,7 @@ namespace Concurrent.Dispatchers
 
         public async void Dispatch(Action action)
         {
-            using(await _AwaitableConstraint.WaitForReadiness(CancellationToken.None))
-            {
-                action();
-            }
+            await Enqueue(action);
         }
 
         public async Task Enqueue(Action action)
@@ -45,20 +42,14 @@ namespace Concurrent.Dispatchers
             }
         }
 
-        public async Task Enqueue(Func<Task> action)
+        public Task Enqueue(Func<Task> action)
         {
-            using (await _AwaitableConstraint.WaitForReadiness(CancellationToken.None))
-            {
-                await action();
-            }
+            return Enqueue(action, CancellationToken.None);
         }
 
-        public async Task<T> Enqueue<T>(Func<Task<T>> action)
+        public Task<T> Enqueue<T>(Func<Task<T>> action)
         {
-            using (await _AwaitableConstraint.WaitForReadiness(CancellationToken.None))
-            {
-                return await action();
-            }
+            return Enqueue(action, CancellationToken.None);
         }
 
         public async Task Enqueue(Func<Task> action, CancellationToken cancellationToken)

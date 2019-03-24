@@ -26,17 +26,17 @@ namespace EasyActor.Examples
 
         public static IEnumerable<object[]> GetFactories()
         {
-            yield return new object[] { _FactoryBuilder.GetFactory() };
-            yield return new object[] { _FactoryBuilder.GetFactory(shared:true) };
-            yield return new object[] { _FactoryBuilder.GetTaskBasedFactory() };
-            yield return new object[] { _FactoryBuilder.GetThreadPoolFactory() };        
+            yield return new object[] { "Not shared", _FactoryBuilder.GetFactory() };
+            yield return new object[] { "Shared", _FactoryBuilder.GetFactory(shared:true) };
+            yield return new object[] { "TaskBased", _FactoryBuilder.GetTaskBasedFactory() };
+            yield return new object[] { "ThreadPool",  _FactoryBuilder.GetThreadPoolFactory() };        
         }
 
         [Theory]
         [MemberData(nameof(GetFactories))]
-        public async Task TestTask(IActorFactory fact)
+        public async Task TestTask(string name, IActorFactory fact)
         {
-            Output(fact.Type.ToString());
+            Output(name);
 
             var one = new PingPongerAsync("Bjorg");
             var actor1 = fact.Build<IPingPongerAsync>(one);
@@ -62,9 +62,9 @@ namespace EasyActor.Examples
 
         [Theory]
         [MemberData(nameof(GetFactories))]
-        public async Task TestNoTask(IActorFactory fact)
+        public async Task TestNoTask(string name, IActorFactory fact)
         {
-            Output(fact.Type.ToString());
+            Output(name);
 
             var one = new PingPongerSimple("Bjorg");
             var actor1 = fact.Build<IPingPonger>(one);
@@ -103,16 +103,16 @@ namespace EasyActor.Examples
             var fiber = new MonoThreadedFiber(null, queueWorkItem);
             var factory = _FactoryBuilder.GetFactoryForFiber(fiber);
 
-            await TestNoTask(factory);
+            await TestNoTask("Fiber", factory);
 
             await fiber.DisposeAsync();
         }
 
         [Theory]
         [MemberData(nameof(GetFactories))]
-        public async Task TestTask_T(IActorFactory fact)
+        public async Task TestTask_T(string name, IActorFactory fact)
         {
-            Output(fact.Type.ToString());
+            Output(name);
 
             var one = new PingPongerBoolAsync("Bjorg");
             var actor1 = fact.Build<IPingPongerBoolAsync>(one);
@@ -139,9 +139,9 @@ namespace EasyActor.Examples
 
         [Theory]
         [MemberData(nameof(GetFactories))]
-        public async Task TestTask_T_CancellationToken(IActorFactory fact)
+        public async Task TestTask_T_CancellationToken(string name, IActorFactory fact)
         {
-            Output(fact.Type.ToString());
+            Output(name);
 
             var one = new PingPongerAsyncCancellable("Noa");
             var actor1 = fact.Build<IPingPongerAsyncCancellable>(one);
