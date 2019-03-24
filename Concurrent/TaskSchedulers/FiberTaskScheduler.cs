@@ -32,15 +32,7 @@ namespace Concurrent.TaskSchedulers
         }
 
         [SecurityCritical]
-        protected override IEnumerable<Task> GetScheduledTasks()
-        {
-            return null;
-        }
-
-        public IEnumerable<Task> GetScheduledTasksEnumerable()
-        {
-            return GetScheduledTasks();
-        }
+        protected override IEnumerable<Task> GetScheduledTasks() => null;
 
         public override int MaximumConcurrencyLevel => 1;
     }
