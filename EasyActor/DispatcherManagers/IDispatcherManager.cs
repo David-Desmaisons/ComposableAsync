@@ -15,7 +15,7 @@ namespace EasyActor.DispatcherManagers
         bool DisposeDispatcher { get; }
 
         /// <summary>
-        /// Actor factory typr
+        /// Actor factory type
         /// </summary>
         ActorFactorType Type { get; }
 

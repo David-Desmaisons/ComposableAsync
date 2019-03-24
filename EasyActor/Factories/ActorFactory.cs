@@ -48,8 +48,7 @@ namespace EasyActor.Factories
         private ProxyGenerationOptions GetProxyGenerationOptions(ICancellableDispatcher dispatcher)
         {
             var options = new ProxyGenerationOptions();
-            var fiber = dispatcher as IFiber;
-            if (fiber == null)
+            if (!(dispatcher is IFiber fiber))
                 return options;
 
             options.AddMixinInstance(new FiberProvider(fiber));
