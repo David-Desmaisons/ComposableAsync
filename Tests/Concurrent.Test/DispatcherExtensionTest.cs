@@ -29,21 +29,21 @@ namespace Concurrent.Test
         }
 
         [Fact]
-        public async Task SwitchToContext_After_Await_Switch_To_Fiber_Context()
+        public async Task GetAwaiter_After_Await_Switch_To_Fiber_Context()
         {
             var thread = Thread.CurrentThread;
             thread.Should().NotBeSameAs(_FiberThread);
 
-            await _Fiber.SwitchToContext();
+            await _Fiber;
 
             thread = Thread.CurrentThread;
             thread.Should().BeSameAs(_FiberThread);
         }
 
         [Fact]
-        public async Task SwitchToContext_Context_Is_Propagated()
+        public async Task GetAwaiter_Context_Is_Propagated()
         {
-            await _Fiber.SwitchToContext();
+            await _Fiber;
 
             await Task.Yield();
 
@@ -52,17 +52,17 @@ namespace Concurrent.Test
         }
 
         [Fact]
-        public void SwitchToContext_GetAwaibale_IsComplete_Is_False()
+        public void GetAwaiter_IsComplete_Is_False()
         {
-            var awaitable = _Dispatcher.SwitchToContext().GetAwaiter();
+            var awaitable = _Dispatcher.GetAwaiter();
             awaitable.IsCompleted.Should().BeFalse();
         }
 
         [Fact]
-        public void SwitchToContext_GetAwaibale_Dispatch_Action()
+        public void GetAwaiter_Dispatch_Action()
         {
             var action = Substitute.For<Action>();
-            var awaitable = _Dispatcher.SwitchToContext().GetAwaiter();
+            var awaitable = _Dispatcher.GetAwaiter();
             awaitable.OnCompleted(action);
 
 

@@ -143,7 +143,7 @@ namespace Concurrent.Test.Dispatchers
             _TestOutput.WriteLine($"Start: {DateTime.Now:O}");
             while (!cancellationTokenSource.IsCancellationRequested)
             {
-                await rateLimiterDispatcher.SwitchToContext();
+                await rateLimiterDispatcher;
 
                 if (cancellationTokenSource.IsCancellationRequested)
                     break;

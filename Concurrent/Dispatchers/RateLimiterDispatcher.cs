@@ -21,21 +21,40 @@ namespace Concurrent.Dispatchers
             _AwaitableConstraint = awaitableConstraint;
         }
 
+        /// <summary>
+        /// Dispatch the action respecting the awaitable constraint
+        /// </summary>
+        /// <param name="action"></param>
         public void Dispatch(Action action)
         {
             Enqueue(action);
         }
 
+        /// <summary>
+        /// Enqueue the action respecting the awaitable constraint
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
         public Task Enqueue(Func<Task> action)
         {
             return Enqueue(action, CancellationToken.None);
         }
 
+        /// <summary>
+        /// Enqueue the function respecting the awaitable constraint
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
         public Task<T> Enqueue<T>(Func<Task<T>> action)
         {
             return Enqueue(action, CancellationToken.None);
         }
 
+        /// <summary>
+        /// Enqueue the action respecting the awaitable constraint
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
         public async Task Enqueue(Action action)
         {
             using (await _AwaitableConstraint.WaitForReadiness(CancellationToken.None))
@@ -44,6 +63,11 @@ namespace Concurrent.Dispatchers
             }
         }
 
+        /// <summary>
+        /// Enqueue the function respecting the awaitable constraint
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
         public async Task<T> Enqueue<T>(Func<T> action)
         {
             using (await _AwaitableConstraint.WaitForReadiness(CancellationToken.None))
@@ -52,6 +76,11 @@ namespace Concurrent.Dispatchers
             }
         }
 
+        /// <summary>
+        /// Enqueue the action respecting the awaitable constraint
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
         public async Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
             using (await _AwaitableConstraint.WaitForReadiness(cancellationToken))
@@ -60,6 +89,11 @@ namespace Concurrent.Dispatchers
             }
         }
 
+        /// <summary>
+        /// Enqueue the action respecting the awaitable constraint
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
         public async Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
         {
             using (await _AwaitableConstraint.WaitForReadiness(cancellationToken))
