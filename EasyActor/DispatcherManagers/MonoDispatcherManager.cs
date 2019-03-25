@@ -3,12 +3,12 @@ using Concurrent;
 
 namespace EasyActor.DispatcherManagers
 {
-    internal sealed class DispatcherManager : IDispatcherManager
+    internal sealed class MonoDispatcherManager : IDispatcherManager
     {
         public bool DisposeDispatcher => false;
         private readonly ICancellableDispatcher _Dispatcher;
 
-        public DispatcherManager(ICancellableDispatcher dispatcher)
+        public MonoDispatcherManager(ICancellableDispatcher dispatcher)
         {
            _Dispatcher = dispatcher;
         }

@@ -62,7 +62,7 @@ namespace EasyActor
         /// </summary>
         public IProxyFactory GetFactoryForFiber(IFiber fiber)
         {
-            return new ProxyFactory(new DispatcherManager(fiber));
+            return new ProxyFactory(new MonoDispatcherManager(fiber));
         }
     }
 }
