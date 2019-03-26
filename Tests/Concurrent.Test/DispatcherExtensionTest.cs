@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Concurrent.Dispatchers;
+using Concurrent.Test.Dispatchers;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
@@ -68,6 +70,23 @@ namespace Concurrent.Test
 
             _Dispatcher.Received(1).Dispatch(Arg.Any<Action>());
             _Dispatcher.Received().Dispatch(action);
+        }
+
+        [Fact]
+        public void Then_Returns_A_ComposedDispatcher()
+        {
+            var then = Substitute.For<IDispatcher>();
+            var composed = _Dispatcher.Then(then);
+            composed.Should().BeOfType<ComposedDispatcher>();
+        }
+
+        [Fact]
+        public void Then_ICancellableDispatcher_Returns_A_ComposedCancellableDispatcher()
+        {
+            var first = Substitute.For<ICancellableDispatcher>();
+            var then = Substitute.For<ICancellableDispatcher>();
+            var composed = first.Then(then);
+            composed.Should().BeOfType<ComposedCancellableDispatcher>();
         }
     }
 }

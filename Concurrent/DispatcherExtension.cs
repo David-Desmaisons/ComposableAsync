@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Security;
+using Concurrent.Dispatchers;
 
 namespace Concurrent
 {
@@ -55,6 +56,30 @@ namespace Concurrent
         public static DispatcherAwaiter GetAwaiter(this IDispatcher dispatcher)
         {
             return new DispatcherAwaiter(dispatcher);
+        }
+
+        /// <summary>
+        /// Returns a composed dispatcher applying the given dispatcher
+        /// after the first one
+        /// </summary>
+        /// <param name="dispatcher"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public static IDispatcher Then(this IDispatcher dispatcher, IDispatcher other)
+        {
+            return new ComposedDispatcher(dispatcher, other);
+        }
+
+        /// <summary>
+        /// Returns a composed dispatcher applying the given dispatcher
+        /// after the first one
+        /// </summary>
+        /// <param name="dispatcher"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public static ICancellableDispatcher Then(this ICancellableDispatcher dispatcher, ICancellableDispatcher other)
+        {
+            return new ComposedCancellableDispatcher(dispatcher, other);
         }
     }
 }
