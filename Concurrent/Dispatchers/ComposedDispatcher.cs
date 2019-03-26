@@ -16,27 +16,27 @@ namespace Concurrent.Dispatchers
 
         public void Dispatch(Action action)
         {
-            throw new NotImplementedException();
+            _First.Dispatch(() => _Second.Dispatch(action));
         }
 
-        public Task Enqueue(Action action)
+        public async Task Enqueue(Action action)
         {
-            throw new NotImplementedException();
+            await _First.Enqueue(() => _Second.Enqueue(action));
         }
 
-        public Task<T> Enqueue<T>(Func<T> action)
+        public async Task<T> Enqueue<T>(Func<T> action)
         {
-            throw new NotImplementedException();
+            return await _First.Enqueue(() => _Second.Enqueue(action));
         }
 
-        public Task Enqueue(Func<Task> action)
+        public async Task Enqueue(Func<Task> action)
         {
-            throw new NotImplementedException();
+            await _First.Enqueue(() => _Second.Enqueue(action));
         }
 
-        public Task<T> Enqueue<T>(Func<Task<T>> action)
+        public async Task<T> Enqueue<T>(Func<Task<T>> action)
         {
-            throw new NotImplementedException();
+            return await _First.Enqueue(() => _Second.Enqueue(action));
         }
     }
 }

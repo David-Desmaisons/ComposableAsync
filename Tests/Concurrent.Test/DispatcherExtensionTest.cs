@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Dispatchers;
-using Concurrent.Test.Dispatchers;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;

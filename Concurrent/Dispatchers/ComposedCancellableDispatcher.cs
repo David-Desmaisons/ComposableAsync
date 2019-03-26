@@ -4,50 +4,26 @@ using System.Threading.Tasks;
 
 namespace Concurrent.Dispatchers
 {
-    internal class ComposedCancellableDispatcher : ICancellableDispatcher
+    internal sealed class ComposedCancellableDispatcher : ComposedDispatcher, ICancellableDispatcher
     {
         private readonly ICancellableDispatcher _First;
         private readonly ICancellableDispatcher _Second;
 
-        public ComposedCancellableDispatcher(ICancellableDispatcher first, ICancellableDispatcher second)
+        public ComposedCancellableDispatcher(ICancellableDispatcher first, ICancellableDispatcher second):
+            base(first, second)
         {
             _First = first;
             _Second = second;
         }
 
-        public void Dispatch(Action action)
+        public async Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _First.Enqueue(() => _Second.Enqueue(action, cancellationToken), cancellationToken);
         }
 
-        public Task Enqueue(Action action)
+        public async Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> Enqueue<T>(Func<T> action)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Enqueue(Func<Task> action)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> Enqueue<T>(Func<Task<T>> action)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
+            return await _First.Enqueue(() => _Second.Enqueue(action, cancellationToken), cancellationToken);
         }
     }
 }
