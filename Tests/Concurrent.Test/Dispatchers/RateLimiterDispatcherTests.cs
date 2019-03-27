@@ -136,7 +136,6 @@ namespace Concurrent.Test.Dispatchers
             var limiter = new CountByIntervalAwaitableConstraint(1, TimeSpan.FromMilliseconds(Interval));
             var rateLimiterDispatcher = new RateLimiterDispatcher(limiter);
 
-
             var count = 0;
             var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMilliseconds(700));
             var stopWatch = Stopwatch.StartNew();

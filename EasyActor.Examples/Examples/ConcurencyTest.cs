@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
+using Concurrent;
+using Concurrent.Dispatchers;
+using RateLimiter;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace EasyActor.Examples
 {
@@ -12,10 +17,12 @@ namespace EasyActor.Examples
     {
         private readonly List<Thread> _Threads;
         private readonly int _ThreadCount = 100;
+        private readonly ITestOutputHelper _TestOutput;
         private IDoStuff _IActor;
 
-        public ConcurencyTest()
+        public ConcurencyTest(ITestOutputHelper testOutput)
         {
+            _TestOutput = testOutput;
             _Threads = Enumerable.Range(0, _ThreadCount).Select(_ => new Thread(() => { Thread.Sleep(5); TestActor().Wait(); })).ToList();
         }
 
@@ -47,6 +54,37 @@ namespace EasyActor.Examples
 
             if (factory!=null)
                 await factory.DisposeAsync();
+        }
+
+        [Fact]
+        public async Task Dispatcher_Can_Be_Combined()
+        {
+            _TestOutput.WriteLine($"starting Test on Thread {Thread.CurrentThread.ManagedThreadId}");
+                
+            var limiter = new CountByIntervalAwaitableConstraint(1, TimeSpan.FromMilliseconds(100));
+            var rateLimiter = new RateLimiterDispatcher(limiter);
+
+            var fiber = Fiber.CreateMonoThreadedFiber(t => _TestOutput.WriteLine($"starting actor Thread {t.ManagedThreadId}"));
+
+            var composed = rateLimiter.Then(fiber);
+
+            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMilliseconds(800));
+            var stopWatch = Stopwatch.StartNew();
+            _TestOutput.WriteLine($"Start: {DateTime.Now:O} on Thread: {Thread.CurrentThread.ManagedThreadId}");
+            while (!cancellationTokenSource.IsCancellationRequested)
+            {
+                await composed;
+
+                if (cancellationTokenSource.IsCancellationRequested)
+                    break;
+
+                _TestOutput.WriteLine($"Doing: {DateTime.Now:O} on Thread: {Thread.CurrentThread.ManagedThreadId}");
+            }
+
+            await fiber.DisposeAsync();
+
+            stopWatch.Stop();
+            _TestOutput.WriteLine($"Ended: {DateTime.Now:O}");
         }
 
         private static object[] BuildTestData(IProxyFactory factory, IDoStuff stuffer) 
