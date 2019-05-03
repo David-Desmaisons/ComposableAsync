@@ -29,14 +29,14 @@ namespace EasyActor.Test.TestInfra.DummyClass
             return Task.CompletedTask;
         }
 
-        public Task DoAsync(IProgress<int> Progress)
+        public Task DoAsync(IProgress<int> progress)
         {
             DoAsyncCount++;
             CallingThread = Thread.CurrentThread;
             Done = true;
-            Progress.Report(10);
+            progress.Report(10);
             Thread.Sleep(200);
-            Progress.Report(95);
+            progress.Report(95);
             return Task.CompletedTask;
         }
 

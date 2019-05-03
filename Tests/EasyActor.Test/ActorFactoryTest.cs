@@ -146,7 +146,6 @@ namespace EasyActor.Test
             delay.Should().BeLessThan(TimeSpan.FromSeconds(0.5));
         }
 
-
         [Fact]
         public async Task Method_Task_T_Generic_Should_Be_Cancelled_As_Soon_As_Possible()
         {

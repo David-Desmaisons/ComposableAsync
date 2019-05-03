@@ -23,7 +23,7 @@ namespace EasyActor.Proxy
                 return;
             }
 
-            invocation.ReturnValue = proxyFiberSolver.Transform.Invoke(_Dispatcher, invocation);
+            invocation.ReturnValue = proxyFiberSolver.Invoke(_Dispatcher, invocation);
         }
     }
 }

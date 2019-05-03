@@ -81,7 +81,7 @@ namespace EasyActor.Examples
                 _TestOutput.WriteLine($"Doing: {DateTime.Now:O} on Thread: {Thread.CurrentThread.ManagedThreadId}");
             }
 
-            await fiber.DisposeAsync();
+            fiber.DisposeAsync();
 
             stopWatch.Stop();
             _TestOutput.WriteLine($"Ended: {DateTime.Now:O}");
