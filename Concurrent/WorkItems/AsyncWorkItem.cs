@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -54,10 +53,6 @@ namespace Concurrent.WorkItems
                     _Source.TrySetCanceled();
                 else
                     _Source.TrySetException(operationCanceledException);
-            }
-            catch (TargetInvocationException targetException)
-            {
-                _Source.TrySetException(targetException.InnerException ?? targetException);
             }
             catch (Exception e)
             {

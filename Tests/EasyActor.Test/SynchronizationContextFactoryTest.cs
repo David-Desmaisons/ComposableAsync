@@ -33,8 +33,7 @@ namespace EasyActor.Test
         public void Creating_SynchronizationContextFactory_WithoutContext_ThrowException() 
         {
             SynchronizationContext.SetSynchronizationContext(null);
-            IProxyFactory res = null;
-            Action Do = () => res = _ActorFactoryBuilder.GetInContextFactory();
+            Action Do = () => _ActorFactoryBuilder.GetInContextFactory();
             Do.Should().Throw<ArgumentNullException>();
         }
 
