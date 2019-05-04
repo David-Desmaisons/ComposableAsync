@@ -65,11 +65,11 @@ namespace Concurrent.Fibers
 
         public Task<T> Enqueue<T>(Func<T> action)
         {
-            var workitem = new WorkItem<T>(action);
+            var workItem = new WorkItem<T>(action);
             try
             {
-                _TaskQueue.Enqueue(workitem);
-                return workitem.Task;
+                _TaskQueue.Enqueue(workItem);
+                return workItem.Task;
             }
             catch (Exception)
             {
