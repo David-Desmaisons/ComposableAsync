@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -48,10 +49,15 @@ namespace Concurrent.WorkItems
             }
             catch (OperationCanceledException operationCanceledException)
             {
-                if ((_CancellationToken.IsCancellationRequested) && (operationCanceledException.CancellationToken == _CancellationToken))
+                if ((_CancellationToken.IsCancellationRequested) &&
+                    (operationCanceledException.CancellationToken == _CancellationToken))
                     _Source.TrySetCanceled();
                 else
                     _Source.TrySetException(operationCanceledException);
+            }
+            catch (TargetInvocationException targetException)
+            {
+                _Source.TrySetException(targetException.InnerException ?? targetException);
             }
             catch (Exception e)
             {

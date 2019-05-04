@@ -14,6 +14,16 @@ namespace Concurrent.WorkItems
 
         public void Cancel() { }
 
-        public void Do() => _Do();
+        public void Do()
+        {
+            try
+            {
+                _Do();
+            }
+            catch
+            {
+                // ignored
+            }
+        }
     }
 }

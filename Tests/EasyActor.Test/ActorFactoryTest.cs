@@ -1,11 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Threading;
-using AutoFixture.Xunit2;
+﻿using AutoFixture.Xunit2;
 using Concurrent.Test.Helper;
-using FluentAssertions;
 using EasyActor.Test.TestInfra.DummyClass;
+using FluentAssertions;
+using System;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace EasyActor.Test
@@ -44,6 +44,63 @@ namespace EasyActor.Test
             await actor.DoAsync();
 
             var thread = target.CallingThread;
+
+            await actor.DoAsync();
+
+            target.CallingThread.Should().Be(thread);
+        }
+
+        [Fact]
+        public async Task ThrownAsync_Exception_Should_Be_Passed_To_The_Caller()
+        {
+            var target = new DummyClass();
+            var actor = _Factory.Build<IDummyInterface2>(target);
+            var newException = new BadImageFormatException();
+
+            Func<Task> @throw = async () => await actor.ThrowAsync(newException);
+            var exceptionAssertion = await @throw.Should().ThrowAsync<BadImageFormatException>();
+            exceptionAssertion.Where(actual => actual == newException);
+        }
+
+        [Fact]
+        public async Task ThrownAsync_Exception_Should_Be_Passed_To_The_Caller_2()
+        {
+            var target = new DummyClass();
+            var actor = _Factory.Build<IDummyInterface2>(target);
+            var newException = new BadImageFormatException();
+
+            Func<Task> @throw = async () => await actor.ThrowAsyncWithResult(newException);
+            var exceptionAssertion = await @throw.Should().ThrowAsync<BadImageFormatException>();
+            exceptionAssertion.Where(actual => actual == newException);
+        }
+
+        [Fact]
+        public void Thrown_Sync_Exception_Should_Be_Internally_Catched()
+        {
+            var target = new DummyClass();
+            var actor = _Factory.Build<IDummyInterface2>(target);
+
+            Action @throw = () => actor.Throw();
+            @throw.Should().NotThrow();
+        }
+
+        [Fact]
+        public async Task Throwing_Exception_Should_Not_Kill_Actor_Thread()
+        {
+            var target = new DummyClass();
+            var actor = _Factory.Build<IDummyInterface2>(target);
+            await actor.DoAsync();
+
+            var thread = target.CallingThread;
+
+            try
+            {
+                await actor.ThrowAsync();
+            }
+            catch
+            {
+                // ignored
+            }
 
             await actor.DoAsync();
 

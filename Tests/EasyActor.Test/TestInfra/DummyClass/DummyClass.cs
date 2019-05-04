@@ -55,9 +55,22 @@ namespace EasyActor.Test.TestInfra.DummyClass
         {
         }
 
-        public Task Throw()
+        public Task ThrowAsync(Exception exception = null)
         {
-            throw new Exception();
+            exception = exception ?? new Exception();
+            throw exception;
+        }
+
+        public Task<int> ThrowAsyncWithResult(Exception exception = null)
+        {
+            exception = exception ?? new Exception();
+            throw exception;
+        }
+
+        public void Throw(Exception exception = null)
+        {
+            exception = exception ?? new Exception();
+            throw exception;
         }
 
         public Task SlowDoAsync()

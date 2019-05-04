@@ -16,6 +16,10 @@ namespace EasyActor.Test.TestInfra.DummyClass
 
         void Do();
 
-        Task Throw();
+        Task ThrowAsync(Exception exception = null);
+
+        Task<int> ThrowAsyncWithResult(Exception exception = null);
+
+        void Throw(Exception exception = null);
     }
 }
