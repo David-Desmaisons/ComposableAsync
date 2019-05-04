@@ -80,6 +80,7 @@ namespace Concurrent.Dispatchers
         /// Enqueue the action respecting the awaitable constraint
         /// </summary>
         /// <param name="action"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
@@ -93,6 +94,7 @@ namespace Concurrent.Dispatchers
         /// Enqueue the action respecting the awaitable constraint
         /// </summary>
         /// <param name="action"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
         {
