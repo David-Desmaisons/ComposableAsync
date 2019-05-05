@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Security;
 using Concurrent.Dispatchers;
+using RateLimiter;
 
 namespace Concurrent
 {
@@ -77,9 +78,33 @@ namespace Concurrent
         /// <param name="dispatcher"></param>
         /// <param name="other"></param>
         /// <returns></returns>
-        public static ICancellableDispatcher Then(this ICancellableDispatcher dispatcher, ICancellableDispatcher other)
+        public static ICancellableDisposableDispatcher Then(this ICancellableDispatcher dispatcher, ICancellableDispatcher other)
         {
             return new ComposedCancellableDispatcher(dispatcher, other);
+        }
+
+        /// <summary>
+        /// Returns a composed dispatcher applying the given dispatcher
+        /// after the first one
+        /// </summary>
+        /// <param name="constraint"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public static ICancellableDisposableDispatcher Then(this IAwaitableConstraint constraint, ICancellableDispatcher other)
+        {
+            return new ComposedCancellableDispatcher(constraint.ToDispatcher(), other);
+        }
+
+        /// <summary>
+        /// Returns a composed dispatcher applying the given dispatcher
+        /// after the first one
+        /// </summary>
+        /// <param name="dispatcher"></param>
+        /// <param name="constraint"></param>
+        /// <returns></returns>
+        public static ICancellableDisposableDispatcher Then(this ICancellableDispatcher dispatcher, IAwaitableConstraint constraint)
+        {
+            return new ComposedCancellableDispatcher(dispatcher, constraint.ToDispatcher());
         }
     }
 }

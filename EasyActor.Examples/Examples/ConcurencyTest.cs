@@ -59,32 +59,48 @@ namespace EasyActor.Examples
         [Fact]
         public async Task Dispatcher_Can_Be_Combined()
         {
-            _TestOutput.WriteLine($"starting Test on Thread {Thread.CurrentThread.ManagedThreadId}");
+            LogWithThread($"starting Test");
                 
-            var limiter = new CountByIntervalAwaitableConstraint(1, TimeSpan.FromMilliseconds(100));
-            var rateLimiter = new RateLimiterDispatcher(limiter);
-
-            var fiber = Fiber.CreateMonoThreadedFiber(t => _TestOutput.WriteLine($"starting actor Thread {t.ManagedThreadId}"));
-
-            var composed = rateLimiter.Then(fiber);
+            var composed = new CountByIntervalAwaitableConstraint(1, TimeSpan.FromMilliseconds(100))
+                .Then(Fiber.CreateMonoThreadedFiber(t => LogWithThread("starting actor Thread")));
 
             var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMilliseconds(800));
             var stopWatch = Stopwatch.StartNew();
-            _TestOutput.WriteLine($"Start: {DateTime.Now:O} on Thread: {Thread.CurrentThread.ManagedThreadId}");
+            LogWithThread("Start");
             while (!cancellationTokenSource.IsCancellationRequested)
             {
+                SynchronizationContext.SetSynchronizationContext(null);
+                await Task.Yield();
+
+                LogWithThread("Loop");
+
                 await composed;
 
                 if (cancellationTokenSource.IsCancellationRequested)
                     break;
 
-                _TestOutput.WriteLine($"Doing: {DateTime.Now:O} on Thread: {Thread.CurrentThread.ManagedThreadId}");
+                LogWithThreadAndTime("Doing");
             }
 
-            fiber.DisposeAsync();
+            await composed.DisposeAsync();           
 
             stopWatch.Stop();
-            _TestOutput.WriteLine($"Ended: {DateTime.Now:O}");
+            LogWithThread("Ended");
+        }
+
+        private void LogWithThreadAndTime(string message)
+        {
+            WriteLine($"{message}: {DateTime.Now:O} on Thread {Thread.CurrentThread.ManagedThreadId}");
+        }
+
+        private void LogWithThread(string message)
+        {
+            WriteLine($"{message}: on Thread {Thread.CurrentThread.ManagedThreadId}");
+        }
+
+        private void WriteLine(string message)
+        {
+            _TestOutput.WriteLine(message);
         }
 
         private static object[] BuildTestData(IProxyFactory factory, IDoStuff stuffer) 
