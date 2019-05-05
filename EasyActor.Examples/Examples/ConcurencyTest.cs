@@ -64,7 +64,6 @@ namespace EasyActor.Examples
                 .Then(Fiber.CreateMonoThreadedFiber(t => LogWithThread("starting actor Thread")));
 
             var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMilliseconds(800));
-            var stopWatch = Stopwatch.StartNew();
             LogWithThread("Start");
             while (!cancellationTokenSource.IsCancellationRequested)
             {
@@ -78,8 +77,6 @@ namespace EasyActor.Examples
             }
 
             await composed.DisposeAsync();
-
-            stopWatch.Stop();
             LogWithThread("Ended");
         }
 
