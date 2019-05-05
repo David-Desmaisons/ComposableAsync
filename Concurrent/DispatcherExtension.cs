@@ -90,7 +90,7 @@ namespace Concurrent
         /// <param name="constraint"></param>
         /// <param name="other"></param>
         /// <returns></returns>
-        public static ICancellableDisposableDispatcher Then(this IAwaitableConstraint constraint, ICancellableDispatcher other)
+        public static ICancellableDisposableDispatcher Then(this IRateLimiter constraint, ICancellableDispatcher other)
         {
             return new ComposedCancellableDispatcher(constraint.ToDispatcher(), other);
         }
@@ -102,7 +102,7 @@ namespace Concurrent
         /// <param name="dispatcher"></param>
         /// <param name="constraint"></param>
         /// <returns></returns>
-        public static ICancellableDisposableDispatcher Then(this ICancellableDispatcher dispatcher, IAwaitableConstraint constraint)
+        public static ICancellableDisposableDispatcher Then(this ICancellableDispatcher dispatcher, IRateLimiter constraint)
         {
             return new ComposedCancellableDispatcher(dispatcher, constraint.ToDispatcher());
         }

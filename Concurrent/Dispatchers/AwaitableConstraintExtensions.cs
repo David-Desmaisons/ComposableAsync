@@ -8,11 +8,11 @@ namespace Concurrent.Dispatchers
     public static class AwaitableConstraintExtensions
     {
         /// <summary>
-        /// Transform a <see cref="IAwaitableConstraint"/> into a <see cref="ICancellableDispatcher"/>
+        /// Transform a <see cref="IRateLimiter"/> into a <see cref="ICancellableDispatcher"/>
         /// </summary>
-        /// <param name="awaitableConstraint"></param>
+        /// <param name="rateLimiter"></param>
         /// <returns></returns>
-        public static ICancellableDispatcher ToDispatcher(this IAwaitableConstraint awaitableConstraint) 
-            => new RateLimiterDispatcher(awaitableConstraint);
+        public static ICancellableDispatcher ToDispatcher(this IRateLimiter rateLimiter) 
+            => new RateLimiterDispatcher(rateLimiter);
     }
 }

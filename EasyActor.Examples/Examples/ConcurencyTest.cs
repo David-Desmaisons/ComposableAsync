@@ -60,7 +60,7 @@ namespace EasyActor.Examples
         {
             LogWithThread($"starting Test");
 
-            var composed = new CountByIntervalAwaitableConstraint(1, TimeSpan.FromMilliseconds(100))
+            var composed = TimeLimiter.GetFromMaxCountByInterval(1, TimeSpan.FromMilliseconds(100))
                 .Then(Fiber.CreateMonoThreadedFiber(t => LogWithThread("starting actor Thread")));
 
             var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMilliseconds(800));

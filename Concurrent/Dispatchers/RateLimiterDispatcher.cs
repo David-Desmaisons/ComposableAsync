@@ -10,15 +10,15 @@ namespace Concurrent.Dispatchers
     /// </summary>
     public sealed class RateLimiterDispatcher: ICancellableDispatcher
     {
-        private readonly IAwaitableConstraint _AwaitableConstraint;
+        private readonly IRateLimiter _RateLimiter;
 
         /// <summary>
         /// Construct an RateLimiterDispatcher from an <see cref="IAwaitableConstraint"/>
         /// </summary>
-        /// <param name="awaitableConstraint"></param>
-        public RateLimiterDispatcher(IAwaitableConstraint awaitableConstraint)
+        /// <param name="rateLimiter"></param>
+        public RateLimiterDispatcher(IRateLimiter rateLimiter)
         {
-            _AwaitableConstraint = awaitableConstraint;
+            _RateLimiter = rateLimiter;
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Concurrent.Dispatchers
         /// <param name="action"></param>
         public void Dispatch(Action action)
         {
-            Enqueue(action);
+            _RateLimiter.Perform(action);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Concurrent.Dispatchers
         /// <returns></returns>
         public Task Enqueue(Func<Task> action)
         {
-            return Enqueue(action, CancellationToken.None);
+            return _RateLimiter.Perform(action);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Concurrent.Dispatchers
         /// <returns></returns>
         public Task<T> Enqueue<T>(Func<Task<T>> action)
         {
-            return Enqueue(action, CancellationToken.None);
+            return _RateLimiter.Perform(action);
         }
 
         /// <summary>
@@ -55,12 +55,9 @@ namespace Concurrent.Dispatchers
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public async Task Enqueue(Action action)
+        public Task Enqueue(Action action)
         {
-            using (await _AwaitableConstraint.WaitForReadiness(CancellationToken.None))
-            {
-                action();
-            }
+            return _RateLimiter.Perform(action);
         }
 
         /// <summary>
@@ -68,12 +65,9 @@ namespace Concurrent.Dispatchers
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public async Task<T> Enqueue<T>(Func<T> action)
+        public Task<T> Enqueue<T>(Func<T> action)
         {
-            using (await _AwaitableConstraint.WaitForReadiness(CancellationToken.None))
-            {
-                return action();
-            }
+            return _RateLimiter.Perform(action);
         }
 
         /// <summary>
@@ -82,12 +76,9 @@ namespace Concurrent.Dispatchers
         /// <param name="action"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
+        public Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
-            using (await _AwaitableConstraint.WaitForReadiness(cancellationToken))
-            {
-                await action();
-            }
+            return _RateLimiter.Perform(action, cancellationToken);
         }
 
         /// <summary>
@@ -96,12 +87,9 @@ namespace Concurrent.Dispatchers
         /// <param name="action"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
+        public Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
         {
-            using (await _AwaitableConstraint.WaitForReadiness(cancellationToken))
-            {
-                return await action();
-            }
+            return _RateLimiter.Perform(action, cancellationToken);
         }
     }
 }

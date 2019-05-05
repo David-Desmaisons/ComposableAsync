@@ -1,12 +1,12 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoFixture.Xunit2;
+﻿using AutoFixture.Xunit2;
 using Concurrent.Dispatchers;
 using FluentAssertions;
 using NSubstitute;
 using RateLimiter;
+using System;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -16,8 +16,7 @@ namespace Concurrent.Test.Dispatchers
     {
         private readonly RateLimiterDispatcher _RateLimiterDispatcher;
         private readonly ITestOutputHelper _TestOutput;
-        private readonly IAwaitableConstraint _AwaitableConstraint;
-        private readonly IDisposable _Disposable;
+        private readonly IRateLimiter _RateLimiter;
         private readonly Action _Action;
         private readonly Func<int> _Function;
         private readonly Func<Task> _FunctionTask;
@@ -28,112 +27,113 @@ namespace Concurrent.Test.Dispatchers
         public RateLimiterDispatcherTests(ITestOutputHelper testOutput)
         {
             _TestOutput = testOutput;
-            _AwaitableConstraint = Substitute.For<IAwaitableConstraint>();
-            _Disposable = Substitute.For<IDisposable>();
-            _AwaitableConstraint.WaitForReadiness(Arg.Any<CancellationToken>())
-                .Returns(Task.FromResult(_Disposable));
+            _RateLimiter = Substitute.For<IRateLimiter>();
             _Action = Substitute.For<Action>();
             _Function = Substitute.For<Func<int>>();
             _FunctionTask = Substitute.For<Func<Task>>();
             _FunctionTask().Returns(Task.CompletedTask);
             _FunctionTaskInt = Substitute.For<Func<Task<int>>>();
 
-            _RateLimiterDispatcher = new RateLimiterDispatcher(_AwaitableConstraint);
+            _RateLimiterDispatcher = new RateLimiterDispatcher(_RateLimiter);
         }
 
         [Fact]
-        public void Dispatch_Calls_WaitForReadiness_And_Action()
+        public async Task Dispatch_Calls_Perform()
         {
             _RateLimiterDispatcher.Dispatch(_Action);
-            CheckSequence(_Action);
+
+            await _RateLimiter.Received(1).Perform(Arg.Any<Action>());
+            await _RateLimiter.Received().Perform(_Action);
         }
 
         [Fact]
-        public async Task Enqueue_Action_Calls_WaitForReadiness_And_Action()
+        public async Task Enqueue_Action_Perform()
         {
             await _RateLimiterDispatcher.Enqueue(_Action);
-            CheckSequence(_Action);
+
+            await _RateLimiter.Received(1).Perform(Arg.Any<Action>());
+            await _RateLimiter.Received().Perform(_Action);
         }
 
         [Fact]
-        public async Task Enqueue_Func_Calls_WaitForReadiness_And_Action()
+        public async Task Enqueue_Func_Calls_Perform()
         {
             await _RateLimiterDispatcher.Enqueue(_Function);
-            CheckSequence(() => _Function());
+
+            await _RateLimiter.Received(1).Perform(Arg.Any<Func<int>>());
+            await _RateLimiter.Received().Perform(_Function);
         }
 
         [Theory, AutoData]
-        public async Task Enqueue_Func_Returns_Value_From_Function(int value)
+        public async Task Enqueue_Func_Returns_Value_From_RateLimiter(int value)
         {
-            _Function().Returns(value);
+            _RateLimiter.Perform(_Function).Returns(Task.FromResult(value));
+
             var res = await _RateLimiterDispatcher.Enqueue(_Function);
             res.Should().Be(value);
         }
 
         [Fact]
-        public async Task Enqueue_Func_Task_Calls_WaitForReadiness_And_Function()
+        public async Task Enqueue_Func_Task_Calls_Perform()
         {
             await _RateLimiterDispatcher.Enqueue(_FunctionTask);
-            CheckSequence(() => _FunctionTask());
+
+            await _RateLimiter.Received(1).Perform(Arg.Any<Func<Task>>());
+            await _RateLimiter.Received().Perform(_FunctionTask);
         }
 
         [Fact]
-        public async Task Enqueue_Func_Task_Cancellation_Calls_WaitForReadiness_And_Function()
+        public async Task Enqueue_Func_Task_Cancellation_Calls_Perform()
         {
             var cancellation = new CancellationToken(false);
             await _RateLimiterDispatcher.Enqueue(_FunctionTask, cancellation);
-            CheckSequence(() => _FunctionTask(), cancellation);
+
+            await _RateLimiter.Received(1).Perform(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>());
+            await _RateLimiter.Received().Perform(_FunctionTask, cancellation);
         }
 
-        [Theory, AutoData]
-        public async Task Enqueue_Func_Task_Result_Calls_WaitForReadiness_And_Function(int value)
+        [Fact]
+        public async Task Enqueue_Func_Task_Result_Calls_Perform()
         {
-            _FunctionTaskInt().Returns(Task.FromResult(value));
             await _RateLimiterDispatcher.Enqueue(_FunctionTaskInt);
-            CheckSequence(() => _FunctionTaskInt());
+
+            await _RateLimiter.Received(1).Perform(Arg.Any<Func<Task<int>>>());
+            await _RateLimiter.Received().Perform(_FunctionTaskInt);
         }
 
         [Theory, AutoData]
         public async Task Enqueue_Func_Task_Result_Returns_Value_from_Task(int value)
         {
-            _FunctionTaskInt().Returns(Task.FromResult(value));
-            var res =await _RateLimiterDispatcher.Enqueue(_FunctionTaskInt);
+            _RateLimiter.Perform(_FunctionTaskInt).Returns(Task.FromResult(value));
+
+            var res = await _RateLimiterDispatcher.Enqueue(_FunctionTaskInt);
             res.Should().Be(value);
         }
 
-        [Theory, AutoData]
-        public async Task Enqueue_Func_Task_Result_Cancellation_Calls_WaitForReadiness_And_Function(int value)
+        [Fact]
+        public async Task Enqueue_Func_Task_Result_Cancellation_Calls_Perform()
         {
             var cancellation = new CancellationToken(false);
-            _FunctionTaskInt().Returns(Task.FromResult(value));
             await _RateLimiterDispatcher.Enqueue(_FunctionTaskInt, cancellation);
-            CheckSequence(() => _FunctionTaskInt(), cancellation);
+
+            await _RateLimiter.Received(1).Perform(Arg.Any<Func<Task<int>>>(), Arg.Any<CancellationToken>());
+            await _RateLimiter.Received().Perform(_FunctionTaskInt, cancellation);
         }
 
         [Theory, AutoData]
         public async Task Enqueue_Func_Task_Result_Cancellation_Returns_Value_from_Task(int value)
         {
             var cancellation = new CancellationToken(false);
-            _FunctionTaskInt().Returns(Task.FromResult(value));
+            _RateLimiter.Perform(_FunctionTaskInt, cancellation).Returns(Task.FromResult(value));
+
             var res = await _RateLimiterDispatcher.Enqueue(_FunctionTaskInt, cancellation);
             res.Should().Be(value);
-        }
-
-        private void CheckSequence(Action mainAction, CancellationToken? token = null)
-        {
-            var realToken = token ?? CancellationToken.None;
-            Received.InOrder(() =>
-            {
-                _AwaitableConstraint.WaitForReadiness(realToken);
-                mainAction();
-                _Disposable.Dispose();
-            });
         }
 
         [Fact]
         public async Task Dispatcher_Limit_Number_Of_Call()
         {
-            var limiter = new CountByIntervalAwaitableConstraint(1, TimeSpan.FromMilliseconds(Interval));
+            var limiter = TimeLimiter.GetFromMaxCountByInterval(1, TimeSpan.FromMilliseconds(Interval));
             var rateLimiterDispatcher = new RateLimiterDispatcher(limiter);
 
             var count = 0;
@@ -152,7 +152,7 @@ namespace Concurrent.Test.Dispatchers
             }
             stopWatch.Stop();
 
-            var maxNumberOfCall = (int) (Math.Truncate((decimal)stopWatch.ElapsedMilliseconds / Interval));
+            var maxNumberOfCall = (int)(Math.Truncate((decimal)stopWatch.ElapsedMilliseconds / Interval));
             var minNumberOfCall = 1;
 
             _TestOutput.WriteLine($"Ended: {DateTime.Now:O}");
