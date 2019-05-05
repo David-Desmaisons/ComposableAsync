@@ -5,7 +5,7 @@ namespace Concurrent.Dispatchers
     /// <summary>
     /// Extension methods for <see cref="IAwaitableConstraint"/> 
     /// </summary>
-    public static class AwaitableConstraintExtensions
+    public static class RateLimiterExtensions
     {
         /// <summary>
         /// Transform a <see cref="IRateLimiter"/> into a <see cref="ICancellableDispatcher"/>
