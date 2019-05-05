@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Concurrent;
+using FluentAssertions;
+using RateLimiter;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using FluentAssertions;
 using System.Threading;
-using Concurrent;
-using Concurrent.Dispatchers;
-using RateLimiter;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -48,11 +47,11 @@ namespace EasyActor.Examples
             //assert
             var res = await stuffer.GetCount();
             if (safe)
-                res.Should().Be(_ThreadCount); 
+                res.Should().Be(_ThreadCount);
             else
                 res.Should().NotBe(_ThreadCount);
 
-            if (factory!=null)
+            if (factory != null)
                 await factory.DisposeAsync();
         }
 
@@ -60,7 +59,7 @@ namespace EasyActor.Examples
         public async Task Dispatcher_Can_Be_Combined()
         {
             LogWithThread($"starting Test");
-                
+
             var composed = new CountByIntervalAwaitableConstraint(1, TimeSpan.FromMilliseconds(100))
                 .Then(Fiber.CreateMonoThreadedFiber(t => LogWithThread("starting actor Thread")));
 
@@ -69,20 +68,16 @@ namespace EasyActor.Examples
             LogWithThread("Start");
             while (!cancellationTokenSource.IsCancellationRequested)
             {
+                //Necessary to wait on a different thread
                 SynchronizationContext.SetSynchronizationContext(null);
                 await Task.Yield();
-
                 LogWithThread("Loop");
 
                 await composed;
-
-                if (cancellationTokenSource.IsCancellationRequested)
-                    break;
-
                 LogWithThreadAndTime("Doing");
             }
 
-            await composed.DisposeAsync();           
+            await composed.DisposeAsync();
 
             stopWatch.Stop();
             LogWithThread("Ended");
@@ -103,30 +98,30 @@ namespace EasyActor.Examples
             _TestOutput.WriteLine(message);
         }
 
-        private static object[] BuildTestData(IProxyFactory factory, IDoStuff stuffer) 
+        private static object[] BuildTestData(IProxyFactory factory, IDoStuff stuffer)
         {
             return new object[] { factory, factory.Build(stuffer), true };
         }
 
-        private static IEnumerable<object[]> GetOkTestData(IEnumerable<Func<IProxyFactory>> factories, IEnumerable<Func<IDoStuff>> stuffers) 
+        private static IEnumerable<object[]> GetOkTestData(IEnumerable<Func<IProxyFactory>> factories, IEnumerable<Func<IDoStuff>> stuffers)
         {
             return factories.SelectMany(f => stuffers, (f, s) => BuildTestData(f(), s()));
         }
 
         private static readonly ActorFactoryBuilder _ActorFactoryBuilder = new ActorFactoryBuilder();
 
-        private static IEnumerable<Func<IProxyFactory>> Factories 
+        private static IEnumerable<Func<IProxyFactory>> Factories
         {
-            get 
+            get
             {
                 yield return () => _ActorFactoryBuilder.GetFactory();
                 yield return () => _ActorFactoryBuilder.GetTaskBasedFactory();
             }
         }
 
-        private static IEnumerable<Func<IDoStuff>> Stuffers 
+        private static IEnumerable<Func<IDoStuff>> Stuffers
         {
-            get 
+            get
             {
                 yield return () => new StufferSleep();
                 yield return () => new StufferAwait();
@@ -135,12 +130,12 @@ namespace EasyActor.Examples
 
         public static IEnumerable<object[]> TestCases
         {
-            get 
+            get
             {
                 yield return new object[] { null, new StufferSleep(), false };
                 yield return new object[] { null, new StufferAwait(), false };
 
-                foreach (var td in GetOkTestData(Factories, Stuffers)) 
+                foreach (var td in GetOkTestData(Factories, Stuffers))
                 {
                     yield return td;
                 }
