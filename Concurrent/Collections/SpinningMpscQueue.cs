@@ -16,6 +16,9 @@ namespace Concurrent.Collections
 
         private CancellationToken CancellationToken => _CancellationTokenSource.Token;
 
+        /// <summary>
+        /// Create an empty instance of the queue
+        /// </summary>
         public SpinningMpscQueue()
         {
             var empty = new Node<T>();
@@ -23,6 +26,7 @@ namespace Concurrent.Collections
             _Tail = empty;
         }
 
+        /// <inheritdoc />
         public void Enqueue(T item) 
         {
             CancellationToken.ThrowIfCancellationRequested();
@@ -32,11 +36,13 @@ namespace Concurrent.Collections
             prev.Next = newItem;
         }
 
+        /// <inheritdoc />
         public void CompleteAdding()
         {
             _CancellationTokenSource.Cancel();       
         }
 
+        /// <inheritdoc />
         public IEnumerable<T> GetUnsafeQueue()
         {
             var node = _Tail.Next;
@@ -47,6 +53,7 @@ namespace Concurrent.Collections
             }
         }
 
+        /// <inheritdoc />
         public void OnElements(Action<T> onItem) 
         {
             while (true)
@@ -58,6 +65,7 @@ namespace Concurrent.Collections
             }
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
         }
