@@ -36,14 +36,12 @@ namespace EasyActor.Channel.Test
                 channel1.OnNext(50);
             });
 
-            //await Task.WhenAll(new[] {t1, t2});
-
             await WatchChannel(channel1, CancellationToken.None);
         }
 
         private async Task WatchChannel(IOutChannel<int> channel, CancellationToken token)
         {
-            var channel2 = channel.Transform(o => o.Select(v => (v * 2).ToString()));
+            var channel2 = channel.Transform(v => (v * 2).ToString());
             using (var enumerator = channel2.GetMessages())
             {
                 while (await enumerator.MoveNext(token))
@@ -52,6 +50,7 @@ namespace EasyActor.Channel.Test
                     _TestOutputHelper.WriteLine(item);
                 }
             }
+            _TestOutputHelper.WriteLine("Ended");
         }
     }
 }

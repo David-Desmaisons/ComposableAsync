@@ -8,5 +8,7 @@ namespace EasyActor.Channel
         IAsyncEnumerator<T> GetMessages();
 
         IOutChannel<TNew> Transform<TNew>(Func<IObservable<T>, IObservable<TNew>> transform);
+
+        IOutChannel<TNew> Transform<TNew>(Func<T, TNew> transform);
     }
 }
