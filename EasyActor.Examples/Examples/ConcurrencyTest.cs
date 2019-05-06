@@ -3,23 +3,26 @@ using FluentAssertions;
 using RateLimiter;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Concurrent.Dispatchers;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace EasyActor.Examples
 {
-    public class ConcurencyTest : IDisposable
+    public class ConcurrencyTest : IDisposable
     {
         private readonly List<Thread> _Threads;
         private readonly int _ThreadCount = 100;
         private readonly ITestOutputHelper _TestOutput;
         private IDoStuff _IActor;
 
-        public ConcurencyTest(ITestOutputHelper testOutput)
+        private static readonly IProxyFactoryBuilder _ProxyFactoryBuilder = new ProxyFactoryBuilder();
+
+        public ConcurrencyTest(ITestOutputHelper testOutput)
         {
             _TestOutput = testOutput;
             _Threads = Enumerable.Range(0, _ThreadCount).Select(_ => new Thread(() => { Thread.Sleep(5); TestActor().Wait(); })).ToList();
@@ -67,9 +70,7 @@ namespace EasyActor.Examples
             LogWithThread("Start");
             while (!cancellationTokenSource.IsCancellationRequested)
             {
-                //Necessary to wait on a different thread
-                SynchronizationContext.SetSynchronizationContext(null);
-                await Task.Yield();
+                await SwitchThread();
                 LogWithThread("Loop");
 
                 await composed;
@@ -78,6 +79,37 @@ namespace EasyActor.Examples
 
             await composed.DisposeAsync();
             LogWithThread("Ended");
+        }
+
+        [Fact]
+        public async Task Dispatcher_Can_Be_Combined_To_Form_Proxy()
+        {
+            LogWithThread($"starting Test");
+
+            var proxyBuilder = _ProxyFactoryBuilder.GetManagedProxyFactory(
+                TimeLimiter.GetFromMaxCountByInterval(1, TimeSpan.FromMilliseconds(100)).ToDispatcher(),
+                Fiber.CreateMonoThreadedFiber(t => LogWithThread("starting actor Thread"))
+            );
+            var proxyStuffer = proxyBuilder.Build<IDoStuff>(new StufferLog(_TestOutput));
+
+            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMilliseconds(800));
+            LogWithThread("Start");
+            while (!cancellationTokenSource.IsCancellationRequested)
+            {
+                await SwitchThread();
+                LogWithThread("Loop");
+
+                await proxyStuffer.DoStuff();
+            }
+
+            await proxyBuilder.DisposeAsync();
+            LogWithThread("Ended");
+        }
+
+        private static YieldAwaitable SwitchThread()
+        {
+            SynchronizationContext.SetSynchronizationContext(null);
+            return Task.Yield();
         }
 
         private void LogWithThreadAndTime(string message)
@@ -105,18 +137,16 @@ namespace EasyActor.Examples
             return factories.SelectMany(f => stuffers, (f, s) => BuildTestData(f(), s()));
         }
 
-        private static readonly ActorFactoryBuilder _ActorFactoryBuilder = new ActorFactoryBuilder();
-
         private static IEnumerable<Func<IProxyFactory>> Factories
         {
             get
             {
-                yield return () => _ActorFactoryBuilder.GetFactory();
-                yield return () => _ActorFactoryBuilder.GetTaskBasedFactory();
+                yield return () => _ProxyFactoryBuilder.GetActorFactory();
+                yield return () => _ProxyFactoryBuilder.GetTaskBasedActorFactory();
             }
         }
 
-        private static IEnumerable<Func<IDoStuff>> Stuffers
+        private static IEnumerable<Func<IDoStuff>> StuffDoers
         {
             get
             {
@@ -132,7 +162,7 @@ namespace EasyActor.Examples
                 yield return new object[] { null, new StufferSleep(), false };
                 yield return new object[] { null, new StufferAwait(), false };
 
-                foreach (var td in GetOkTestData(Factories, Stuffers))
+                foreach (var td in GetOkTestData(Factories, StuffDoers))
                 {
                     yield return td;
                 }

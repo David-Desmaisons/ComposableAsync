@@ -14,8 +14,8 @@ namespace EasyActor.Ninject
 
         private static void RegisterDependency(IKernel standardKernel)
         {
-            var factoryBuilder = new ActorFactoryBuilder();
-            var actorFactory = factoryBuilder.GetFactory();
+            var factoryBuilder = new ProxyFactoryBuilder();
+            var actorFactory = factoryBuilder.GetActorFactory();
             BindAsActor<IActor, Actor>(standardKernel, actorFactory).InSingletonScope();
         }
 

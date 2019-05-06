@@ -19,7 +19,7 @@ namespace EasyActor.Test
             _UiMessageLoop = new WpfThreadingHelper();
             _UiMessageLoop.Start().Wait();
 
-            _Factory = _UiMessageLoop.Dispatcher.Invoke(() => _ActorFactoryBuilder.GetInContextFactory());
+            _Factory = _UiMessageLoop.Dispatcher.Invoke(() => _ProxyFactoryBuilder.GetInContextActorFactory());
         }
 
         public void Dispose()
@@ -27,13 +27,13 @@ namespace EasyActor.Test
             _UiMessageLoop.Dispose();
         }
 
-        private static readonly ActorFactoryBuilder _ActorFactoryBuilder = new ActorFactoryBuilder();
+        private static readonly ProxyFactoryBuilder _ProxyFactoryBuilder = new ProxyFactoryBuilder();
 
         [Fact]
         public void Creating_SynchronizationContextFactory_WithoutContext_ThrowException() 
         {
             SynchronizationContext.SetSynchronizationContext(null);
-            Action Do = () => _ActorFactoryBuilder.GetInContextFactory();
+            Action Do = () => _ProxyFactoryBuilder.GetInContextActorFactory();
             Do.Should().Throw<ArgumentNullException>();
         }
 

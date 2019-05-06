@@ -18,7 +18,7 @@ namespace EasyActor.Examples
 
         public Task<int> GetCount()
         {
-            return Task.FromResult<int>(_Count);
+            return Task.FromResult(_Count);
         }
     }
 }

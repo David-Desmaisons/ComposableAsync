@@ -9,13 +9,13 @@ using EasyActor.Test.TestInfra.DummyClass;
 namespace EasyActor.Test
 {
 
-    public class ActorFactoryBuilderTest : IDisposable
+    public class ProxyFactoryBuilderTest : IDisposable
     {
-        private readonly ActorFactoryBuilder _ActorFactoryBuilder;
+        private readonly ProxyFactoryBuilder _ProxyFactoryBuilder;
 
-        public ActorFactoryBuilderTest()
+        public ProxyFactoryBuilderTest()
         {
-            _ActorFactoryBuilder = new ActorFactoryBuilder();
+            _ProxyFactoryBuilder = new ProxyFactoryBuilder();
         }
 
         public void Dispose()
@@ -29,7 +29,7 @@ namespace EasyActor.Test
             var fiber = Fiber.CreateMonoThreadedFiber();
             var fiberThread = await fiber.Enqueue(() => Thread.CurrentThread);
 
-            var factory = _ActorFactoryBuilder.GetFactoryForFiber(fiber);
+            var factory = _ProxyFactoryBuilder.GetActorFactoryFrom(fiber);
 
             var target = new DummyClass();
             var actor = factory.Build<IDummyInterface2>(target);

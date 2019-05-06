@@ -92,7 +92,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="TaskPoolActorFactoryTest.cs" />
-    <Compile Include="ActorFactoryBuilderTest.cs" />
+    <Compile Include="ProxyFactoryBuilderTest.cs" />
     <Compile Include="ActorFactoryTest.cs" />
     <Compile Include="TestInfra\DummyClass\CancellableImplementation.cs" />
     <Compile Include="TestInfra\DummyClass\DummyCircularReferenceClass.cs" />

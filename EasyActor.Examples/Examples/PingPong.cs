@@ -21,14 +21,14 @@ namespace EasyActor.Examples
             _Output = output;
         }
 
-        private static readonly ActorFactoryBuilder _ActorFactoryBuilder = new ActorFactoryBuilder();
+        private static readonly ProxyFactoryBuilder _ProxyFactoryBuilder = new ProxyFactoryBuilder();
 
         public static IEnumerable<object[]> GetFactories()
         {
-            yield return new object[] { "Not shared", _ActorFactoryBuilder.GetFactory() };
-            yield return new object[] { "Shared", _ActorFactoryBuilder.GetFactory(shared:true) };
-            yield return new object[] { "TaskBased", _ActorFactoryBuilder.GetTaskBasedFactory() };
-            yield return new object[] { "ThreadPool",  _ActorFactoryBuilder.GetThreadPoolFactory() };        
+            yield return new object[] { "Not shared", _ProxyFactoryBuilder.GetActorFactory() };
+            yield return new object[] { "Shared", _ProxyFactoryBuilder.GetActorFactory(shared:true) };
+            yield return new object[] { "TaskBased", _ProxyFactoryBuilder.GetTaskBasedActorFactory() };
+            yield return new object[] { "ThreadPool",  _ProxyFactoryBuilder.GetThreadPoolBasedActorFactory() };        
         }
 
         [Theory]
@@ -100,7 +100,7 @@ namespace EasyActor.Examples
             Output(queueWorkItem.GetType().Name);
 
             var fiber = new MonoThreadedFiber(null, queueWorkItem);
-            var factory = _ActorFactoryBuilder.GetFactoryForFiber(fiber);
+            var factory = _ProxyFactoryBuilder.GetActorFactoryFrom(fiber);
 
             await TestNoTask("Fiber", factory);
 

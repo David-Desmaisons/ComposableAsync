@@ -14,7 +14,7 @@ namespace EasyActor.Test
 
         public TaskPoolActorFactoryTest()
         {
-            _TaskPoolActorFactory = new ActorFactoryBuilder().GetTaskBasedFactory();
+            _TaskPoolActorFactory = new ProxyFactoryBuilder().GetTaskBasedActorFactory();
         }
 
         [Fact]

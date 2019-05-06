@@ -14,7 +14,7 @@ namespace EasyActor.Test
 
         public SharedThreadActorFactoryTest()
         {
-            _Factory = new ActorFactoryBuilder().GetFactory(true);
+            _Factory = new ProxyFactoryBuilder().GetActorFactory(true);
         }
 
         public Task InitializeAsync() => Task.CompletedTask;
