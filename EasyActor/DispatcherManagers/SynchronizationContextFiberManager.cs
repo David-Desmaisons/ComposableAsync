@@ -5,16 +5,16 @@ using Concurrent;
 
 namespace EasyActor.DispatcherManagers
 {
-    internal sealed class SynchronizationContextFiberManage : IDispatcherManager
+    internal sealed class SynchronizationContextFiberManager : IDispatcherManager
     {
         public bool DisposeDispatcher => false;
         private readonly IFiber _Fiber;
 
-        public SynchronizationContextFiberManage() : this(SynchronizationContext.Current)
+        public SynchronizationContextFiberManager() : this(SynchronizationContext.Current)
         {
         }
 
-        public SynchronizationContextFiberManage(SynchronizationContext synchronizationContext)
+        public SynchronizationContextFiberManager(SynchronizationContext synchronizationContext)
         {
             if (synchronizationContext == null)
                 throw new ArgumentNullException(nameof(synchronizationContext), "synchronizationContext can not be null");

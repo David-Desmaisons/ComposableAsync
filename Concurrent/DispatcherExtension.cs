@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Concurrent.Dispatchers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security;
-using Concurrent.Dispatchers;
 
 namespace Concurrent
 {
@@ -82,13 +82,11 @@ namespace Concurrent
         public static ICancellableDispatcher Then(this ICancellableDispatcher dispatcher, ICancellableDispatcher other)
         {
             if (dispatcher == null)
-            {
-                throw  new ArgumentNullException(nameof(dispatcher));
-            }
+                throw new ArgumentNullException(nameof(dispatcher));
+
             if (other == null)
-            {
                 throw new ArgumentNullException(nameof(other));
-            }
+
             return new ComposedCancellableDispatcher(dispatcher, other);
         }
 
@@ -112,13 +110,11 @@ namespace Concurrent
         public static ICancellableDispatcher Then(this ICancellableDispatcher dispatcher, IEnumerable<ICancellableDispatcher> others)
         {
             if (dispatcher == null)
-            {
                 throw new ArgumentNullException(nameof(dispatcher));
-            }
+
             if (others == null)
-            {
                 throw new ArgumentNullException(nameof(others));
-            }
+
             return others.Aggregate(dispatcher, (cum, val) => cum.Then(val));
         }
     }

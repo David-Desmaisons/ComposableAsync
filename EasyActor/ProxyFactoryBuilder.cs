@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Concurrent;
+using EasyActor.DispatcherManagers;
+using System;
 using System.Linq;
 using System.Threading;
-using Concurrent;
-using EasyActor.DispatcherManagers;
 
 namespace EasyActor
 {
@@ -14,7 +14,7 @@ namespace EasyActor
         /// <inheritdoc />
         public IProxyFactory GetActorFactory(bool shared = false, Action<Thread> onCreate = null)
         {
-            return shared ? new ProxyFactory(new SharedThreadFiberManager(onCreate)) : 
+            return shared ? new ProxyFactory(new SharedThreadFiberManager(onCreate)) :
                             new ProxyFactory(new StandardFiberManager(onCreate));
         }
 
@@ -27,7 +27,7 @@ namespace EasyActor
         /// <inheritdoc />
         public IProxyFactory GetInContextActorFactory()
         {
-            return new ProxyFactory(new SynchronizationContextFiberManage());
+            return new ProxyFactory(new SynchronizationContextFiberManager());
         }
 
         /// <inheritdoc />
@@ -39,7 +39,7 @@ namespace EasyActor
         /// <inheritdoc />
         public IProxyFactory GetInContextActorFactory(SynchronizationContext synchronizationContext)
         {
-            return new ProxyFactory(new SynchronizationContextFiberManage(synchronizationContext));
+            return new ProxyFactory(new SynchronizationContextFiberManager(synchronizationContext));
         }
 
         /// <inheritdoc />
@@ -90,15 +90,10 @@ namespace EasyActor
 
         private static ICancellableDispatcher Build(ICancellableDispatcher[] dispatchers)
         {
-            switch (dispatchers.Length)
-            {
-                case 0:
-                    throw new ArgumentException(nameof(dispatchers));
-                case 1:
-                    return dispatchers[0];
-                default:
-                    return dispatchers[0].Then(dispatchers.Skip(1));
-            }
+            if (dispatchers.Length == 0)
+                throw new ArgumentException(nameof(dispatchers));
+
+            return dispatchers[0].Then(dispatchers.Skip(1));
         }
     }
 }
