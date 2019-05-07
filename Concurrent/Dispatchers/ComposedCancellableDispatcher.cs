@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Concurrent.Dispatchers
 {
-    internal sealed class ComposedCancellableDispatcher : ComposedDispatcher, ICancellableDisposableDispatcher
+    internal sealed class ComposedCancellableDispatcher : ComposedDispatcher, ICancellableDispatcher
     {
         private readonly ICancellableDispatcher _First;
         private readonly ICancellableDispatcher _Second;

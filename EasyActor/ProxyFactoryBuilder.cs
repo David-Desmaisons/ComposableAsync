@@ -97,7 +97,7 @@ namespace EasyActor
                 case 1:
                     return dispatchers[0];
                 default:
-                    return dispatchers.Skip(1).Aggregate(dispatchers[0], (cum, val) => cum.Then(val));
+                    return dispatchers[0].Then(dispatchers.Skip(1));
             }
         }
     }

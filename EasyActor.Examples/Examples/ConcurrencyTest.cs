@@ -63,7 +63,7 @@ namespace EasyActor.Examples
         {
             LogWithThread($"starting Test");
 
-            var composed = TimeLimiter.GetFromMaxCountByInterval(1, TimeSpan.FromMilliseconds(100))
+            var composed = TimeLimiter.GetFromMaxCountByInterval(1, TimeSpan.FromMilliseconds(100)).ToDispatcher()
                 .Then(Fiber.CreateMonoThreadedFiber(t => LogWithThread("starting actor Thread")));
 
             var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMilliseconds(800));
@@ -77,7 +77,9 @@ namespace EasyActor.Examples
                 LogWithThreadAndTime("Doing");
             }
 
-            await composed.DisposeAsync();
+
+            var task = (composed as IAsyncDisposable)?.DisposeAsync()?? Task.CompletedTask;
+            await task;
             LogWithThread("Ended");
         }
 
