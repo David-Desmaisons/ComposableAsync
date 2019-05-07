@@ -1,9 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Concurrent.Dispatchers;
+﻿using Concurrent.Dispatchers;
 using FluentAssertions;
 using NSubstitute;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Concurrent.Test
@@ -86,6 +87,99 @@ namespace Concurrent.Test
             var then = Substitute.For<ICancellableDispatcher>();
             var composed = first.Then(then);
             composed.Should().BeOfType<ComposedCancellableDispatcher>();
+        }
+
+        [Fact]
+        public void Then_ICancellableDispatcher_Throws_Exception_When_Other_Is_null()
+        {
+            var first = Substitute.For<ICancellableDispatcher>();
+            var then = default(ICancellableDispatcher);
+            Action @do = () => first.Then(then);
+            @do.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void Then_ICancellableDispatcher_Throws_Exception_When_This_Is_null()
+        {
+            var first = default(ICancellableDispatcher);
+            var then = Substitute.For<ICancellableDispatcher>();
+            Action @do = () => first.Then(then);
+            @do.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void Then_ICancellableDispatcher_Array_Returns_This_When_Array_Is_Empty()
+        {
+            var first = Substitute.For<ICancellableDispatcher>();
+            var then = new ICancellableDispatcher[0];
+            var composed = first.Then(then);
+            composed.Should().Be(first);
+        }
+
+        [Fact]
+        public void Then_ICancellableDispatcher_Array_Returns_A_ComposedCancellableDispatcher()
+        {
+            var first = Substitute.For<ICancellableDispatcher>();
+            var then = Substitute.For<ICancellableDispatcher>();
+            var composed = first.Then(then);
+            composed.Should().BeOfType<ComposedCancellableDispatcher>();
+        }
+
+        [Fact]
+        public void Then_ICancellableDispatcher_Array_Throws_Exception_When_Other_Is_null()
+        {
+            var first = Substitute.For<ICancellableDispatcher>();
+            var then = default(ICancellableDispatcher[]);
+            Action @do = () => first.Then(then);
+            @do.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void Then_ICancellableDispatcher_Array_Throws_Exception_When_This_Is_null()
+        {
+            var first = default(ICancellableDispatcher); ;
+            var then = new ICancellableDispatcher[0];
+            Action @do = () => first.Then(then);
+            @do.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void Then_ICancellableDispatcher_Enumerable_Returns_This_When_Array_Is_Empty()
+        {
+            var first = Substitute.For<ICancellableDispatcher>();
+            var then = new List<ICancellableDispatcher>();
+            var composed = first.Then(then);
+            composed.Should().Be(first);
+        }
+
+        [Fact]
+        public void Then_ICancellableDispatcher_Enumerable_Returns_A_ComposedCancellableDispatcher()
+        {
+            var first = Substitute.For<ICancellableDispatcher>();
+            var then = new List<ICancellableDispatcher>()
+            {
+                Substitute.For<ICancellableDispatcher>()
+            };
+            var composed = first.Then(then);
+            composed.Should().BeOfType<ComposedCancellableDispatcher>();
+        }
+
+        [Fact]
+        public void Then_ICancellableDispatcher_Enumerable_Throws_Exception_When_Other_Is_null()
+        {
+            var first = Substitute.For<ICancellableDispatcher>();
+            var then = default(IEnumerable<ICancellableDispatcher>);
+            Action @do = () => first.Then(then);
+            @do.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void Then_ICancellableDispatcher_Enumerable_Throws_Exception_When_This_Is_null()
+        {
+            var first = default(ICancellableDispatcher);
+            var then = new List<ICancellableDispatcher>();
+            Action @do = () => first.Then(then);
+            @do.Should().Throw<ArgumentNullException>();
         }
     }
 }

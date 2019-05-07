@@ -1,4 +1,5 @@
-﻿using Concurrent;
+﻿using System;
+using Concurrent;
 using System.Threading.Tasks;
 
 namespace EasyActor.DispatcherManagers
@@ -7,7 +8,11 @@ namespace EasyActor.DispatcherManagers
     {
         public bool DisposeDispatcher { get; }
         public ICancellableDispatcher GetDispatcher() => _Dispatcher;
-        public Task DisposeAsync() => Task.CompletedTask;
+        public Task DisposeAsync()
+        {
+            return DisposeDispatcher && (_Dispatcher is IAsyncDisposable disposable) ?
+                disposable.DisposeAsync() : Task.CompletedTask;
+        }
 
         private readonly ICancellableDispatcher _Dispatcher;
 
