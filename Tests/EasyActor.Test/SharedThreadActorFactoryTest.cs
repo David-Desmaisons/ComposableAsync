@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
-using EasyActor.Options;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
 
@@ -9,13 +8,13 @@ namespace EasyActor.Test
 {     
     public class SharedThreadActorFactoryTest : IAsyncLifetime
     {
-        private readonly IActorFactory _Factory;
+        private readonly IProxyFactory _Factory;
         private IDummyInterface2 _Actor1;
         private IDummyInterface2 _Actor2;
 
         public SharedThreadActorFactoryTest()
         {
-            _Factory = new FactoryBuilder().GetFactory(true);
+            _Factory = new ProxyFactoryBuilder().GetActorFactory(true);
         }
 
         public Task InitializeAsync() => Task.CompletedTask;
@@ -23,12 +22,6 @@ namespace EasyActor.Test
         public async Task DisposeAsync()
         {
             await _Factory.DisposeAsync();
-        }
-
-        [Fact]
-        public void Type_Should_Be_Shared()
-        {
-            _Factory.Type.Should().Be(ActorFactorType.Shared);
         }
 
         [Fact]

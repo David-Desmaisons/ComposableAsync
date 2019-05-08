@@ -4,38 +4,55 @@ using Castle.DynamicProxy;
 using Concurrent;
 using Concurrent.Disposable;
 using EasyActor.DispatcherManagers;
-using EasyActor.Options;
 using EasyActor.Proxy;
 
-namespace EasyActor.Factories
+namespace EasyActor
 {
     /// <summary>
-    /// Actor factory
+    /// Proxy factory
     /// </summary>
-    public sealed class ActorFactory : IActorFactory
+    public sealed class ProxyFactory : IProxyFactory
     {
-        public ActorFactorType Type => _DispatcherManager.Type;
-
         private readonly IDispatcherManager _DispatcherManager;
         private readonly ComposableAsyncDisposable _ComposableAsyncDisposable = new ComposableAsyncDisposable();
         private readonly ProxyGenerator _Generator = new ProxyGenerator();
 
-        public ActorFactory(IDispatcherManager dispatcherManager)
+        /// <summary>
+        /// Create a proxy builder using the provided <see cref="IDispatcherManager"/>
+        /// </summary>
+        /// <param name="dispatcherManager"></param>
+        public ProxyFactory(IDispatcherManager dispatcherManager)
         {
             _DispatcherManager = _ComposableAsyncDisposable.Add(dispatcherManager);
         }
 
+        /// <summary>
+        /// Create the proxy
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="concrete"></param>
+        /// <returns></returns>
         public T Build<T>(T concrete) where T : class
         {
             return Create<T>(concrete, GetDispatcher());
         }
 
+        /// <summary>
+        /// Creates the proxy using the dispatcher context
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="concrete"></param>
+        /// <returns></returns>
         public Task<T> BuildAsync<T>(Func<T> concrete) where T : class
         {
             var fiber = GetDispatcher();
             return fiber.Enqueue(() => Create<T>(concrete(), fiber));
         }
 
+        /// <summary>
+        /// Dispose all the resources asynchronously
+        /// </summary>
+        /// <returns></returns>
         public Task DisposeAsync() => _ComposableAsyncDisposable.DisposeAsync();
 
         private T Create<T>(T concrete, ICancellableDispatcher dispatcher) where T : class
@@ -48,10 +65,7 @@ namespace EasyActor.Factories
         private ProxyGenerationOptions GetProxyGenerationOptions(ICancellableDispatcher dispatcher)
         {
             var options = new ProxyGenerationOptions();
-            if (!(dispatcher is IFiber fiber))
-                return options;
-
-            options.AddMixinInstance(new FiberProvider(fiber));
+            options.AddMixinInstance(new CancellableDispatcherProvider(dispatcher));
             return options;
         }
 

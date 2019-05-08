@@ -29,14 +29,14 @@ namespace EasyActor.Test.TestInfra.DummyClass
             return Task.CompletedTask;
         }
 
-        public Task DoAsync(IProgress<int> Progress)
+        public Task DoAsync(IProgress<int> progress)
         {
             DoAsyncCount++;
             CallingThread = Thread.CurrentThread;
             Done = true;
-            Progress.Report(10);
+            progress.Report(10);
             Thread.Sleep(200);
-            Progress.Report(95);
+            progress.Report(95);
             return Task.CompletedTask;
         }
 
@@ -55,9 +55,22 @@ namespace EasyActor.Test.TestInfra.DummyClass
         {
         }
 
-        public Task Throw()
+        public Task ThrowAsync(Exception exception = null)
         {
-            throw new Exception();
+            exception = exception ?? new Exception();
+            throw exception;
+        }
+
+        public Task<int> ThrowAsyncWithResult(Exception exception = null)
+        {
+            exception = exception ?? new Exception();
+            throw exception;
+        }
+
+        public void Throw(Exception exception = null)
+        {
+            exception = exception ?? new Exception();
+            throw exception;
         }
 
         public Task SlowDoAsync()

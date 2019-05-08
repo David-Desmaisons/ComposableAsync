@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 namespace Concurrent.WorkItems
 {
     [DebuggerNonUserCode]
-    public class WorkItem<T> : IWorkItem
+    internal class WorkItem<T> : IWorkItem
     {
         private readonly TaskCompletionSource<T> _Source;
         private readonly Func<T> _Do;
 
-        public WorkItem(Func<T> @do)
+        internal WorkItem(Func<T> @do)
         {
             _Do = @do;
             _Source = new TaskCompletionSource<T>();

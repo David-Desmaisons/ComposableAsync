@@ -42,12 +42,15 @@ namespace PingPongConsole
             }
         }   
 
-        private static async Task OnEveryFactory(string title, Func<IActorFactory, Task> doOnActor)
+        private static async Task OnEveryFactory(string title, Func<string, IProxyFactory, Task> doOnActor)
         {
-            foreach (var fact in PingPong.GetFactories().Select(o => o[0] as IActorFactory))
+            foreach (var fact in PingPong.GetFactories().Select(o => new
+            {
+                Name = o[0] as string, Factory = o[1] as IProxyFactory
+            }))
             {
                 Console.WriteLine(title);
-                await doOnActor(fact);
+                await doOnActor(fact.Name, fact.Factory);
                 Console.WriteLine("=================");
             }
         }

@@ -1,36 +1,27 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Threading;
-using AutoFixture.Xunit2;
+﻿using AutoFixture.Xunit2;
 using Concurrent.Test.Helper;
-using EasyActor.Options;
-using FluentAssertions;
 using EasyActor.Test.TestInfra.DummyClass;
+using FluentAssertions;
+using System;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace EasyActor.Test
 {
     public class ActorFactoryTest : IAsyncLifetime
     {
-        private readonly IActorFactory _Factory;
+        private readonly IProxyFactory _Factory;
 
         public ActorFactoryTest()
         {
-            _Factory = new FactoryBuilder().GetFactory();
+            _Factory = new ProxyFactoryBuilder().GetActorFactory();
         }
 
         public Task InitializeAsync() => Task.CompletedTask;
 
         public Task DisposeAsync() => _Factory.DisposeAsync();
-
-        private static readonly FactoryBuilder _FactoryBuilder = new FactoryBuilder();
-
-        [Fact]
-        public void Type_Should_Be_Standard()
-        {
-            _Factory.Type.Should().Be(ActorFactorType.Standard);
-        }
 
         [Fact]
         public async Task Method_Should_Run_On_Separated_Thread()
@@ -53,6 +44,63 @@ namespace EasyActor.Test
             await actor.DoAsync();
 
             var thread = target.CallingThread;
+
+            await actor.DoAsync();
+
+            target.CallingThread.Should().Be(thread);
+        }
+
+        [Fact]
+        public async Task ThrownAsync_Exception_Should_Be_Passed_To_The_Caller()
+        {
+            var target = new DummyClass();
+            var actor = _Factory.Build<IDummyInterface2>(target);
+            var newException = new BadImageFormatException();
+
+            Func<Task> @throw = async () => await actor.ThrowAsync(newException);
+            var exceptionAssertion = await @throw.Should().ThrowAsync<BadImageFormatException>();
+            exceptionAssertion.Where(actual => actual == newException);
+        }
+
+        [Fact]
+        public async Task ThrownAsync_Exception_Should_Be_Passed_To_The_Caller_2()
+        {
+            var target = new DummyClass();
+            var actor = _Factory.Build<IDummyInterface2>(target);
+            var newException = new BadImageFormatException();
+
+            Func<Task> @throw = async () => await actor.ThrowAsyncWithResult(newException);
+            var exceptionAssertion = await @throw.Should().ThrowAsync<BadImageFormatException>();
+            exceptionAssertion.Where(actual => actual == newException);
+        }
+
+        [Fact]
+        public void Thrown_Sync_Exception_Should_Be_Internally_Catched()
+        {
+            var target = new DummyClass();
+            var actor = _Factory.Build<IDummyInterface2>(target);
+
+            Action @throw = () => actor.Throw();
+            @throw.Should().NotThrow();
+        }
+
+        [Fact]
+        public async Task Throwing_Exception_Should_Not_Kill_Actor_Thread()
+        {
+            var target = new DummyClass();
+            var actor = _Factory.Build<IDummyInterface2>(target);
+            await actor.DoAsync();
+
+            var thread = target.CallingThread;
+
+            try
+            {
+                await actor.ThrowAsync();
+            }
+            catch
+            {
+                // ignored
+            }
 
             await actor.DoAsync();
 
@@ -154,7 +202,6 @@ namespace EasyActor.Test
             exception.Should().BeAssignableTo<TaskCanceledException>();
             delay.Should().BeLessThan(TimeSpan.FromSeconds(0.5));
         }
-
 
         [Fact]
         public async Task Method_Task_T_Generic_Should_Be_Cancelled_As_Soon_As_Possible()
@@ -276,16 +323,16 @@ namespace EasyActor.Test
         public void Actor_Should_Implement_IFiberProvider()
         {
             var actor = _Factory.Build<IDummyInterface2>(new DummyClass());
-            actor.Should().BeAssignableTo<IFiberProvider>();
+            actor.Should().BeAssignableTo<ICancellableDispatcherProvider>();
         }
 
         [Fact]
         public void Actor_Should_Returns_Fiber()
         {
             var actor = _Factory.Build<IDummyInterface2>(new DummyClass());
-            var fp = actor as IFiberProvider;
+            var fp = actor as ICancellableDispatcherProvider;
 
-            var fiber = fp?.Fiber;
+            var fiber = fp?.Dispatcher;
 
             fiber.Should().NotBeNull();
         }
@@ -294,12 +341,12 @@ namespace EasyActor.Test
         public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Call_Proxified_Class_On_IAsyncDisposable_Case_2()
         {
             //arrange
-            var dispclass = new DisposableClass();
-            var actor = _Factory.Build<IDummyInterface4>(dispclass);
+            var disposableClass = new DisposableClass();
+            var actor = _Factory.Build<IDummyInterface4>(disposableClass);
 
             await actor.DisposeAsync();
             //assert
-            dispclass.IsDisposed.Should().BeTrue();
+            disposableClass.IsDisposed.Should().BeTrue();
         }
 
         [Fact]
@@ -308,17 +355,17 @@ namespace EasyActor.Test
             //arrange
             var testThread = Thread.CurrentThread;
 
-            var dispclass = new DisposableClass();
-            var actor = _Factory.Build<IDummyInterface4>(dispclass);
+            var disposableClass = new DisposableClass();
+            var actor = _Factory.Build<IDummyInterface4>(disposableClass);
 
             await actor.DoAsync();
 
-            var thread = dispclass.LastCallingThread;
+            var thread = disposableClass.LastCallingThread;
             //act
 
             await actor.DisposeAsync();
             //assert
-            var disposableThread = dispclass.LastCallingThread;
+            var disposableThread = disposableClass.LastCallingThread;
 
             disposableThread.Should().NotBe(testThread);
             disposableThread.Should().Be(thread);

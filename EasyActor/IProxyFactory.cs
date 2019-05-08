@@ -1,28 +1,22 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EasyActor.Options;
 
 namespace EasyActor
 {
     /// <summary>
-    ///  Factory to create actor from POCO
+    ///  Factory to create proxy from POCO
     /// </summary>
-    public interface IActorFactory : IAsyncDisposable
+    public interface IProxyFactory : IAsyncDisposable
     {
         /// <summary>
-        ///  Returns the type of the factory.
-        /// </summary>
-        ActorFactorType Type { get; }
-
-        /// <summary>
-        ///  Build an actor from a POCO
+        ///  Build an proxy from a POCO
         ///  T should an interface through which the actor will be seen
         /// </summary>
         T Build<T>(T concrete) where T : class;
 
         /// <summary>
-        ///  Build asynchronously an actor from a POCO
-        ///  using the actor thread to call the function creating the POCO.
+        ///  Build asynchronously an proxy from a POCO
+        ///  using the factory context to call the function creating the POCO.
         ///  T should an interface through which the actor will be seen
         /// </summary>
         Task<T> BuildAsync<T>(Func<T> concrete) where T : class;

@@ -20,6 +20,9 @@ namespace Concurrent.Collections
         private Node<T> _Head;
         private Node<T> _Tail;
         
+        /// <summary>
+        /// Create an empty instance of the queue
+        /// </summary>
         public BlockingMpscQueue()
         {
             var empty = new Node<T>();
@@ -28,6 +31,7 @@ namespace Concurrent.Collections
             _CancellationToken = _CancellationTokenSource.Token;
         }
 
+        /// <inheritdoc />
         public void Enqueue(T item)
         {
             _CancellationToken.ThrowIfCancellationRequested();
@@ -39,11 +43,13 @@ namespace Concurrent.Collections
             _SimplifiedEventCount.NotifyOne();
         }
 
+        /// <inheritdoc />
         public void CompleteAdding()
         {
             _CancellationTokenSource.Cancel();
         }
 
+        /// <inheritdoc />
         public IEnumerable<T> GetUnsafeQueue()
         {
             var node = _Tail.Next;
@@ -54,6 +60,7 @@ namespace Concurrent.Collections
             }
         }
 
+        /// <inheritdoc />
         public void OnElements(Action<T> onItem) 
         {
             while (true)
@@ -92,6 +99,7 @@ namespace Concurrent.Collections
             }
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             _CancellationTokenSource.Dispose();

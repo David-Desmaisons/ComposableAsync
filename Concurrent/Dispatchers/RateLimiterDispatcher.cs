@@ -10,71 +10,86 @@ namespace Concurrent.Dispatchers
     /// </summary>
     public sealed class RateLimiterDispatcher: ICancellableDispatcher
     {
-        private readonly IAwaitableConstraint _AwaitableConstraint;
+        private readonly IRateLimiter _RateLimiter;
 
         /// <summary>
         /// Construct an RateLimiterDispatcher from an <see cref="IAwaitableConstraint"/>
         /// </summary>
-        /// <param name="awaitableConstraint"></param>
-        public RateLimiterDispatcher(IAwaitableConstraint awaitableConstraint)
+        /// <param name="rateLimiter"></param>
+        public RateLimiterDispatcher(IRateLimiter rateLimiter)
         {
-            _AwaitableConstraint = awaitableConstraint;
+            _RateLimiter = rateLimiter;
         }
 
-        public async void Dispatch(Action action)
+        /// <summary>
+        /// Dispatch the action respecting the awaitable constraint
+        /// </summary>
+        /// <param name="action"></param>
+        public void Dispatch(Action action)
         {
-            using(await _AwaitableConstraint.WaitForReadiness(CancellationToken.None))
-            {
-                action();
-            }
+            _RateLimiter.Perform(action);
         }
 
-        public async Task Enqueue(Action action)
+        /// <summary>
+        /// Enqueue the action respecting the awaitable constraint
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public Task Enqueue(Func<Task> action)
         {
-            using (await _AwaitableConstraint.WaitForReadiness(CancellationToken.None))
-            {
-                action();
-            }
+            return _RateLimiter.Perform(action);
         }
 
-        public async Task<T> Enqueue<T>(Func<T> action)
+        /// <summary>
+        /// Enqueue the function respecting the awaitable constraint
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public Task<T> Enqueue<T>(Func<Task<T>> action)
         {
-            using (await _AwaitableConstraint.WaitForReadiness(CancellationToken.None))
-            {
-                return action();
-            }
+            return _RateLimiter.Perform(action);
         }
 
-        public async Task Enqueue(Func<Task> action)
+        /// <summary>
+        /// Enqueue the action respecting the awaitable constraint
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public Task Enqueue(Action action)
         {
-            using (await _AwaitableConstraint.WaitForReadiness(CancellationToken.None))
-            {
-                await action();
-            }
+            return _RateLimiter.Perform(action);
         }
 
-        public async Task<T> Enqueue<T>(Func<Task<T>> action)
+        /// <summary>
+        /// Enqueue the function respecting the awaitable constraint
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public Task<T> Enqueue<T>(Func<T> action)
         {
-            using (await _AwaitableConstraint.WaitForReadiness(CancellationToken.None))
-            {
-                return await action();
-            }
+            return _RateLimiter.Perform(action);
         }
 
-        public async Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
+        /// <summary>
+        /// Enqueue the action respecting the awaitable constraint
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
-            using (await _AwaitableConstraint.WaitForReadiness(cancellationToken))
-            {
-                await action();
-            }
+            return _RateLimiter.Perform(action, cancellationToken);
         }
 
-        public async Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
+        /// <summary>
+        /// Enqueue the action respecting the awaitable constraint
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
         {
-            using (await _AwaitableConstraint.WaitForReadiness(cancellationToken))
-            {
-                return await action();
-            }
+            return _RateLimiter.Perform(action, cancellationToken);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 
 namespace EasyActor.Channel
 {
@@ -20,6 +21,11 @@ namespace EasyActor.Channel
         public IAsyncEnumerator<T> GetMessages()
         {
             return Observable.ToAsyncEnumerable().GetEnumerator();
+        }
+
+        public IOutChannel<TNew> Transform<TNew>(Func<T, TNew> transform)
+        {
+            return new Channel<TNew>(Observable.Select(transform));
         }
     }
 }

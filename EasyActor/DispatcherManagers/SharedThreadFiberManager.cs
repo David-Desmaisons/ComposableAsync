@@ -2,13 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Concurrent;
-using EasyActor.Options;
 
 namespace EasyActor.DispatcherManagers
 {
     internal sealed class SharedThreadFiberManager : IDispatcherManager
     {
-        public ActorFactorType Type => ActorFactorType.Shared;
         public bool DisposeDispatcher => false;
         private readonly IMonoThreadFiber _Fiber;
 

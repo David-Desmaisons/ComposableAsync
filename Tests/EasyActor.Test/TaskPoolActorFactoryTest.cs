@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
-using EasyActor.Options;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
 using Concurrent;
@@ -11,17 +10,11 @@ namespace EasyActor.Test
 {     
     public class TaskPoolActorFactoryTest
     {
-        private readonly IActorFactory _TaskPoolActorFactory;
+        private readonly IProxyFactory _TaskPoolActorFactory;
 
         public TaskPoolActorFactoryTest()
         {
-            _TaskPoolActorFactory = new FactoryBuilder().GetTaskBasedFactory();
-        }
-
-        [Fact]
-        public void Type_Should_Be_Standard()
-        {
-            _TaskPoolActorFactory.Type.Should().Be(ActorFactorType.TaskPool);
+            _TaskPoolActorFactory = new ProxyFactoryBuilder().GetTaskBasedActorFactory();
         }
 
         [Fact]
@@ -29,8 +22,8 @@ namespace EasyActor.Test
         {
             var current = Thread.CurrentThread;
             var target = new DummyClass();
-            var intface = _TaskPoolActorFactory.Build<IDummyInterface2>(target);
-            await intface.DoAsync();
+            var @interface = _TaskPoolActorFactory.Build<IDummyInterface2>(target);
+            await @interface.DoAsync();
 
             target.Done.Should().BeTrue();
             target.CallingThread.Should().NotBeNull();
@@ -43,8 +36,8 @@ namespace EasyActor.Test
         {
             var current = Thread.CurrentThread;
             var target = new DummyClass();
-            var intface = _TaskPoolActorFactory.Build<IDummyInterface2>(target);
-            var res = await intface.ComputeAsync(2);
+            var @interface = _TaskPoolActorFactory.Build<IDummyInterface2>(target);
+            var res = await @interface.ComputeAsync(2);
 
             res.Should().Be(2);
             target.CallingThread.Should().NotBeNull();
@@ -57,12 +50,12 @@ namespace EasyActor.Test
         {
             var current = Thread.CurrentThread;
             var target = new DummyClass();
-            var intface = _TaskPoolActorFactory.Build<IDummyInterface2>(target);
-            await intface.DoAsync();
+            var @interface = _TaskPoolActorFactory.Build<IDummyInterface2>(target);
+            await @interface.DoAsync();
 
             var thread = target.CallingThread;
 
-            await intface.DoAsync();
+            await @interface.DoAsync();
             target.CallingThread.IsThreadPoolThread.Should().BeTrue();
             target.CallingThread.Should().NotBe(current);
         }
@@ -73,11 +66,11 @@ namespace EasyActor.Test
             //arrange
             var target1 = new DummyClass();
             var target2 = new DummyClass();
-            var intface1 = _TaskPoolActorFactory.Build<IDummyInterface2>(target1);
-            var intface2 = _TaskPoolActorFactory.Build<IDummyInterface2>(target2);
+            var @interface1 = _TaskPoolActorFactory.Build<IDummyInterface2>(target1);
+            var @interface2 = _TaskPoolActorFactory.Build<IDummyInterface2>(target2);
 
             //act
-            await Task.WhenAll(intface1.SlowDoAsync(), intface2.SlowDoAsync());
+            await Task.WhenAll(@interface1.SlowDoAsync(), @interface2.SlowDoAsync());
 
             //assert
             target1.CallingThread.Should().NotBe(target2.CallingThread);
@@ -88,8 +81,8 @@ namespace EasyActor.Test
         {
             var current = Thread.CurrentThread;
             DummyClass target = null;
-            var intface = await _TaskPoolActorFactory.BuildAsync<IDummyInterface2>(() => { target = new DummyClass(); return target; });
-            await intface.DoAsync();
+            var @interface = await _TaskPoolActorFactory.BuildAsync<IDummyInterface2>(() => { target = new DummyClass(); return target; });
+            await @interface.DoAsync();
 
             target.Done.Should().BeTrue();
             target.CallingConstructorThread.Should().NotBe(current);
@@ -100,22 +93,22 @@ namespace EasyActor.Test
         public async Task Actor_Should_Return_Cancelled_Task_On_Any_Method_AfterCalling_IAsyncDisposable_DisposeAsync()
         {
             //arrange
-            var dispclass = new DisposableClass();
-            var intface = _TaskPoolActorFactory.Build<IDummyInterface1>(dispclass);
+            var disposableClass = new DisposableClass();
+            var @interface = _TaskPoolActorFactory.Build<IDummyInterface1>(disposableClass);
 
             //act
-            var task = intface.DoAsync();
+            var task = @interface.DoAsync();
 
-            var disp = GetFiber(intface) as IAsyncDisposable;
+            var disposable = GetFiber(@interface) as IAsyncDisposable;
 
-            await disp.DisposeAsync();
+            await disposable.DisposeAsync();
 
             TaskCanceledException error = null;
-            Task canc = null;
+            Task cancellable = null;
             try
             {
-                canc = intface.DoAsync();
-                await canc;
+                cancellable = @interface.DoAsync();
+                await cancellable;
             }
             catch (TaskCanceledException e)
             {
@@ -125,29 +118,29 @@ namespace EasyActor.Test
             //assert
             error.Should().NotBeNull();
             task.IsCompleted.Should().BeTrue();
-            canc.IsCanceled.Should().BeTrue();
+            cancellable.IsCanceled.Should().BeTrue();
         }
 
         [Fact]
         public async Task Actor_IAsyncDisposable_DisposeAsync_Should_Not_Cancel_Enqueued_Task()
         {
             //arrange
-            var dispclass = new DisposableClass();
-            var intface = _TaskPoolActorFactory.Build<IDummyInterface1>(dispclass);
+            var disposable = new DisposableClass();
+            var @interface = _TaskPoolActorFactory.Build<IDummyInterface1>(disposable);
 
-            Task taskrunning = intface.DoAsync();
-            var takenqueued = intface.DoAsync();
+            Task taskrunning = @interface.DoAsync();
+            var takenqueued = @interface.DoAsync();
             Thread.Sleep(100);
             //act
-            var disp = GetFiber(intface) as IAsyncDisposable;
+            var disposable2 = GetFiber(@interface) as IAsyncDisposable;
 
-            await disp.DisposeAsync();
+            await disposable2.DisposeAsync();
             await takenqueued;
 
             //assert
             takenqueued.IsCompleted.Should().BeTrue();
         }
 
-        private IFiber GetFiber<T>(T actor) => (actor as IFiberProvider)?.Fiber;
+        private ICancellableDispatcher GetFiber<T>(T actor) => (actor as ICancellableDispatcherProvider)?.Dispatcher;
     }
 }

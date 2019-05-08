@@ -29,5 +29,11 @@ namespace Concurrent.Test.TaskSchedulers
 
             _MonoThreadedFiber.Thread.Should().Be(thread);
         }
+
+        [Fact]
+        public void MaximumConcurrencyLevel_Is_One()
+        {
+            _FiberTaskScheduler.MaximumConcurrencyLevel.Should().Be(1);
+        }
     }
 }

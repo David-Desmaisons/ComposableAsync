@@ -14,12 +14,12 @@ namespace EasyActor.Ninject
 
         private static void RegisterDependency(IKernel standardKernel)
         {
-            var factoryBuilder = new FactoryBuilder();
-            var actorFactory = factoryBuilder.GetFactory();
+            var factoryBuilder = new ProxyFactoryBuilder();
+            var actorFactory = factoryBuilder.GetActorFactory();
             BindAsActor<IActor, Actor>(standardKernel, actorFactory).InSingletonScope();
         }
 
-        private static IBindingWhenInNamedWithOrOnSyntax<TInterface> BindAsActor<TInterface, T>(IKernel standardKernel, IActorFactory factory) 
+        private static IBindingWhenInNamedWithOrOnSyntax<TInterface> BindAsActor<TInterface, T>(IKernel standardKernel, IProxyFactory factory) 
             where T: TInterface
             where TInterface: class
         {

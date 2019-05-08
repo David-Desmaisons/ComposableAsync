@@ -10,6 +10,11 @@ namespace Concurrent.WPF
     /// </summary>
     public static class FiberExtension
     {
+        private static ICancellableDispatcher GetRawDispatcher(this object @object)
+        {
+           return (@object as ICancellableDispatcherProvider)?.Dispatcher;
+        }
+
         /// <summary>
         /// Returns the fiber associated with an object
         /// This will returns fiber for both actors and <see cref="DispatcherObject"/>
@@ -18,8 +23,8 @@ namespace Concurrent.WPF
         /// <returns></returns>
         public static IFiber GetAssociatedFiber(this object @object)
         {
-            var fiber = (@object as IFiberProvider)?.Fiber;
-            if (fiber != null)
+            var dispatcher = @object.GetRawDispatcher();
+            if (dispatcher is IFiber fiber)
                 return fiber;
 
             return (@object is DispatcherObject dispatch) ? Fiber.GetFiberFromSynchronizationContext(dispatch.Dispatcher.GetSynchronizationContext()) : null;
@@ -33,7 +38,7 @@ namespace Concurrent.WPF
         /// <returns></returns>
         public static IDispatcher GetAssociatedDispatcher(this object @object)
         {
-            return @object.GetAssociatedFiber() ?? NullDispatcher.Instance;
+            return @object.GetRawDispatcher() ?? NullDispatcher.Instance;
         }
     }
 }

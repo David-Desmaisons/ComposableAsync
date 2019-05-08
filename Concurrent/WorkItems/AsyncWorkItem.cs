@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 namespace Concurrent.WorkItems
 {
     [DebuggerNonUserCode]
-    public class AsyncWorkItem<T> : IWorkItem
+    internal class AsyncWorkItem<T> : IWorkItem
     {
         private readonly TaskCompletionSource<T> _Source;
         private readonly Func<Task<T>> _Do;
         private readonly CancellationToken _CancellationToken;
         private CancellationTokenRegistration _CancellationTokenRegistration;
 
-        public AsyncWorkItem(Func<Task<T>> @do)
+        internal AsyncWorkItem(Func<Task<T>> @do)
         {
             _Do = @do;
             _Source = new TaskCompletionSource<T>();
             _CancellationToken = CancellationToken.None;
         }
 
-        public AsyncWorkItem(Func<Task<T>> @do, CancellationToken cancellationToken)
+        internal AsyncWorkItem(Func<Task<T>> @do, CancellationToken cancellationToken)
         {
             _Do = @do;
             _Source = new TaskCompletionSource<T>();
@@ -48,7 +48,8 @@ namespace Concurrent.WorkItems
             }
             catch (OperationCanceledException operationCanceledException)
             {
-                if ((_CancellationToken.IsCancellationRequested) && (operationCanceledException.CancellationToken == _CancellationToken))
+                if ((_CancellationToken.IsCancellationRequested) &&
+                    (operationCanceledException.CancellationToken == _CancellationToken))
                     _Source.TrySetCanceled();
                 else
                     _Source.TrySetException(operationCanceledException);

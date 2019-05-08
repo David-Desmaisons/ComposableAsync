@@ -4,7 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Collections;
 using Concurrent.SynchronizationContexts;
-using Concurrent.Tasks;using Concurrent.WorkItems;
+using Concurrent.Tasks;
+using Concurrent.WorkItems;
 
 namespace Concurrent.Fibers
 {
@@ -37,12 +38,12 @@ namespace Concurrent.Fibers
             Enqueue(action).Wait();
         }
 
-        private Task Enqueue(ActionWorkItem workitem)
+        private Task Enqueue(ActionWorkItem workItem)
         {
             try
             {
-                _TaskQueue.Enqueue(workitem);
-                return workitem.Task;
+                _TaskQueue.Enqueue(workItem);
+                return workItem.Task;
             }
             catch (Exception)
             {
@@ -50,12 +51,12 @@ namespace Concurrent.Fibers
             }
         }
 
-        private Task<T> Enqueue<T>(AsyncWorkItem<T> workitem)
+        private Task<T> Enqueue<T>(AsyncWorkItem<T> workItem)
         {
             try
             {
-                _TaskQueue.Enqueue(workitem);
-                return workitem.Task;
+                _TaskQueue.Enqueue(workItem);
+                return workItem.Task;
             }
             catch (Exception)
             {
@@ -65,11 +66,11 @@ namespace Concurrent.Fibers
 
         public Task<T> Enqueue<T>(Func<T> action)
         {
-            var workitem = new WorkItem<T>(action);
+            var workItem = new WorkItem<T>(action);
             try
             {
-                _TaskQueue.Enqueue(workitem);
-                return workitem.Task;
+                _TaskQueue.Enqueue(workItem);
+                return workItem.Task;
             }
             catch (Exception)
             {
@@ -81,8 +82,8 @@ namespace Concurrent.Fibers
         {
             try
             {
-                var workitem = new DispatchItem(action);
-                _TaskQueue.Enqueue(workitem);
+                var workItem = new DispatchItem(action);
+                _TaskQueue.Enqueue(workItem);
             }
             catch (Exception)
             {

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
 using Concurrent.Test.Helper;
-using EasyActor.Options;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
 
@@ -13,14 +12,14 @@ namespace EasyActor.Test
     public class SynchronizationContextFactoryTest : IDisposable
     {
         private readonly WpfThreadingHelper _UiMessageLoop;
-        private readonly IActorFactory _Factory;
+        private readonly IProxyFactory _Factory;
 
         public SynchronizationContextFactoryTest()
         {
             _UiMessageLoop = new WpfThreadingHelper();
             _UiMessageLoop.Start().Wait();
 
-            _Factory = _UiMessageLoop.Dispatcher.Invoke(() => _FactoryBuilder.GetInContextFactory());
+            _Factory = _UiMessageLoop.Dispatcher.Invoke(() => _ProxyFactoryBuilder.GetInContextActorFactory());
         }
 
         public void Dispose()
@@ -28,20 +27,13 @@ namespace EasyActor.Test
             _UiMessageLoop.Dispose();
         }
 
-        private static readonly FactoryBuilder _FactoryBuilder = new FactoryBuilder();
-
-        [Fact]
-        public void Type_Should_Be_InCurrentContext()
-        {
-            _Factory.Type.Should().Be(ActorFactorType.InCurrentContext);
-        }
+        private static readonly ProxyFactoryBuilder _ProxyFactoryBuilder = new ProxyFactoryBuilder();
 
         [Fact]
         public void Creating_SynchronizationContextFactory_WithoutContext_ThrowException() 
         {
             SynchronizationContext.SetSynchronizationContext(null);
-            IActorFactory res = null;
-            Action Do = () => res = _FactoryBuilder.GetInContextFactory();
+            Action Do = () => _ProxyFactoryBuilder.GetInContextActorFactory();
             Do.Should().Throw<ArgumentNullException>();
         }
 
