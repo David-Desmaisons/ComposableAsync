@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Reactive.Subjects;
 
-namespace EasyActor.Channel
+namespace Concurrent.Channel
 {
-    public sealed class InChannel<T> : Channel<T>, IInChannel<T>
+    public sealed class Channel<T> : OutChannel<T>, IInChannel<T>
     {
         private readonly Subject<T> _Subject;
-        public InChannel() : base(new Subject<T>())
+        public Channel() : base(new Subject<T>())
         {
             _Subject = (Subject<T>)Observable;
         }

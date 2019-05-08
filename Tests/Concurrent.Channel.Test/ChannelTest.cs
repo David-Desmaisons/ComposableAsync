@@ -1,10 +1,9 @@
-﻿using System.Reactive.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EasyActor.Channel.Test
+namespace Concurrent.Channel.Test
 {
     public class ChannelTest
     {
@@ -17,7 +16,7 @@ namespace EasyActor.Channel.Test
         [Fact]
         public async Task Fact()
         {
-            var channel1 = new InChannel<int>();
+            var channel1 = new Channel<int>();
 
             var t1 = Task.Run(() =>
             {

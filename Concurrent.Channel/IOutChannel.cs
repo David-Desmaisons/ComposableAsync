@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EasyActor.Channel
+namespace Concurrent.Channel
 {
     public interface IOutChannel<out T>
     {

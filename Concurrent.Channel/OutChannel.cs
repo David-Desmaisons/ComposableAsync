@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 
-namespace EasyActor.Channel
+namespace Concurrent.Channel
 {
-    public class Channel<T> : IOutChannel<T>
+    public class OutChannel<T> : IOutChannel<T>
     {
         protected readonly IObservable<T> Observable;
-        public Channel(IObservable<T> observable)
+        public OutChannel(IObservable<T> observable)
         {
             Observable = observable;
         }
 
         public IOutChannel<TNew> Transform<TNew>(Func<IObservable<T>, IObservable<TNew>> transform)
         {
-            return new Channel<TNew>(transform(Observable));
+            return new OutChannel<TNew>(transform(Observable));
         }
 
         public IAsyncEnumerator<T> GetMessages()
@@ -25,7 +25,7 @@ namespace EasyActor.Channel
 
         public IOutChannel<TNew> Transform<TNew>(Func<T, TNew> transform)
         {
-            return new Channel<TNew>(Observable.Select(transform));
+            return new OutChannel<TNew>(Observable.Select(transform));
         }
     }
 }
