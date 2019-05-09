@@ -40,7 +40,7 @@ namespace Concurrent.Channel.Test
 
         private async Task WatchChannel(IOutChannel<int> channel, CancellationToken token)
         {
-            var channel2 = channel.Transform(v => (v * 2).ToString());
+            var channel2 = channel.Map(v => (v * 2).ToString());
             using (var enumerator = channel2.GetMessages())
             {
                 while (await enumerator.MoveNext(token))
