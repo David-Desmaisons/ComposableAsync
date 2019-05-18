@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Concurrent.Collections;
 using Concurrent.SynchronizationContexts;
-using Concurrent.Tasks;
 using Concurrent.WorkItems;
 
 namespace Concurrent.Fibers
@@ -54,9 +53,9 @@ namespace Concurrent.Fibers
                 _TaskQueue.Enqueue(workItem);
                 return workItem.Task;
             }
-            catch (Exception)
+            catch (OperationCanceledException operationCanceledException)
             {
-                return TaskBuilder.Cancelled;
+                return Task.FromCanceled(operationCanceledException.CancellationToken);
             }
         }
 
@@ -67,9 +66,9 @@ namespace Concurrent.Fibers
                 _TaskQueue.Enqueue(workItem);
                 return workItem.Task;
             }
-            catch (Exception)
+            catch (OperationCanceledException operationCanceledException)
             {
-                return TaskBuilder<T>.Cancelled;
+                return Task.FromCanceled<T>(operationCanceledException.CancellationToken);
             }
         }
 
@@ -81,9 +80,9 @@ namespace Concurrent.Fibers
                 _TaskQueue.Enqueue(workItem);
                 return workItem.Task;
             }
-            catch (Exception)
+            catch (OperationCanceledException operationCanceledException)
             {
-                return TaskBuilder<T>.Cancelled;
+                return Task.FromCanceled<T>(operationCanceledException.CancellationToken);
             }
         }
 

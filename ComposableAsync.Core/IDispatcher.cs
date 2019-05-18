@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Concurrent
+namespace ComposableAsync
 {
     /// <summary>
     /// Dispatcher executes an action or a function

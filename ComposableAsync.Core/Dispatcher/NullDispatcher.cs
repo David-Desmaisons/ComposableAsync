@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Concurrent.Dispatchers
+namespace ComposableAsync
 {
     /// <summary>
     /// <see cref="IDispatcher"/> that run actions synchronously

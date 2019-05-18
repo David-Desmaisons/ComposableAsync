@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Concurrent
+namespace ComposableAsync
 {
     /// <summary>
     /// Dispatcher that can dispatch cancellable action

@@ -3,6 +3,7 @@ using EasyActor.DispatcherManagers;
 using System;
 using System.Linq;
 using System.Threading;
+using ComposableAsync;
 
 namespace EasyActor
 {

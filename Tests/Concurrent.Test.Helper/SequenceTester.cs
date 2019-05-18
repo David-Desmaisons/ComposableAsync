@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ComposableAsync;
 using Xunit.Abstractions;
 
 namespace Concurrent.Test.Helper

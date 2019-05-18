@@ -5,6 +5,7 @@ using NSubstitute;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using ComposableAsync;
 using Xunit;
 
 namespace EasyActor.Test

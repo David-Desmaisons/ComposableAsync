@@ -1,7 +1,6 @@
 ﻿using System;
-using Concurrent;
 
-namespace EasyActor.DispatcherManagers
+namespace ComposableAsync
 {
     /// <summary>
     /// Dispatcher manager

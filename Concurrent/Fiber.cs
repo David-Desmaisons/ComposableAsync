@@ -1,7 +1,7 @@
-﻿using Concurrent.Dispatchers;
-using Concurrent.Fibers;
+﻿using Concurrent.Fibers;
 using System;
 using System.Threading;
+using ComposableAsync;
 
 namespace Concurrent
 {

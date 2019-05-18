@@ -1,11 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Concurrent.Dispatchers;
 using Concurrent.Test.Helper;
 using FluentAssertions;
 using Xunit;
 
-namespace Concurrent.Test.Dispatchers
+namespace ComposableAsync.Core.Test.Dispatchers
 {
     public class NullDispatcherTest
     {

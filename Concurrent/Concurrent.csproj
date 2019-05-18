@@ -23,4 +23,8 @@
     <PackageReference Include="RateLimiter" Version="1.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ComposableAsync.Core\ComposableAsync.Core.csproj" />
+  </ItemGroup>
+
 </Project>

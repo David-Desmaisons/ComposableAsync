@@ -47,6 +47,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ComposableAsync.Core\ComposableAsync.Core.csproj">
+      <Project>{daaf47a6-6be1-491f-9b81-482ba7a4550b}</Project>
+      <Name>ComposableAsync.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Concurrent\Concurrent.csproj">
       <Project>{4F2F8E53-87BA-42CE-B230-9AA6F4A56413}</Project>
       <Name>Concurrent</Name>

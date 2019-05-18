@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using System.Threading;
+using ComposableAsync;
 using EasyActor.Test.TestInfra.DummyClass;
 using Xunit;
-using Concurrent;
 
 namespace EasyActor.Test
 {     
@@ -128,17 +128,17 @@ namespace EasyActor.Test
             var disposable = new DisposableClass();
             var @interface = _TaskPoolActorFactory.Build<IDummyInterface1>(disposable);
 
-            Task taskrunning = @interface.DoAsync();
-            var takenqueued = @interface.DoAsync();
+            Task taskRunning = @interface.DoAsync();
+            var taskEnqueued = @interface.DoAsync();
             Thread.Sleep(100);
             //act
             var disposable2 = GetFiber(@interface) as IAsyncDisposable;
 
             await disposable2.DisposeAsync();
-            await takenqueued;
+            await taskEnqueued;
 
             //assert
-            takenqueued.IsCompleted.Should().BeTrue();
+            taskEnqueued.IsCompleted.Should().BeTrue();
         }
 
         private ICancellableDispatcher GetFiber<T>(T actor) => (actor as ICancellableDispatcherProvider)?.Dispatcher;

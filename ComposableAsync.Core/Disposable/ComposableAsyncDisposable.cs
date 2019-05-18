@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Concurrent.Disposable
+namespace ComposableAsync
 {
     /// <summary>
     /// <see cref="IAsyncDisposable"/> 

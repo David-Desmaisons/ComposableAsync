@@ -1,6 +1,4 @@
-﻿using Concurrent;
-
-namespace EasyActor
+﻿namespace ComposableAsync
 {
     /// <summary>
     /// Returns the fiber associated with an actor

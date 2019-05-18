@@ -1,10 +1,9 @@
-﻿using Concurrent.Dispatchers;
-using NSubstitute;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using NSubstitute;
 using Xunit;
 
-namespace Concurrent.Test.Dispatchers
+namespace ComposableAsync.Core.Test.Dispatchers
 {
     public class ComposedDispatcherTest
     {

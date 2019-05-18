@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Concurrent.Tasks;
+using ComposableAsync;
 using Concurrent.WorkItems;
 
 namespace Concurrent.Dispatchers
@@ -27,9 +27,9 @@ namespace Concurrent.Dispatchers
             {
                 return compute();
             }
-            catch
+            catch (TaskSchedulerException)
             {
-                return TaskBuilder<T>.Cancelled;
+                return Task.FromCanceled<T>(new CancellationToken(true));
             }
         }
 
@@ -39,9 +39,9 @@ namespace Concurrent.Dispatchers
             {
                 return compute();
             }
-            catch
+            catch (TaskSchedulerException)
             {
-                return TaskBuilder.Cancelled;
+                return Task.FromCanceled(new CancellationToken(true));
             }
         }
 

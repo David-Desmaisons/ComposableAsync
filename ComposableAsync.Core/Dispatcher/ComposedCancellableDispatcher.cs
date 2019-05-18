@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Concurrent.Dispatchers
+namespace ComposableAsync
 {
     internal sealed class ComposedCancellableDispatcher : ComposedDispatcher, ICancellableDispatcher, IAsyncDisposable
     {

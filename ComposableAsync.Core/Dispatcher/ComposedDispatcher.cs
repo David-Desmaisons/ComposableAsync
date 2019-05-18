@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Concurrent.Dispatchers
+namespace ComposableAsync
 {
     internal class ComposedDispatcher : IDispatcher
     {

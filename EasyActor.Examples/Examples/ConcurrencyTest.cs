@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using ComposableAsync;
 using Concurrent.Dispatchers;
 using Xunit;
 using Xunit.Abstractions;

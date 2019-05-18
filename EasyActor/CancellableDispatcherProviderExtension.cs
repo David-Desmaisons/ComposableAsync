@@ -1,12 +1,11 @@
-﻿using Concurrent;
-using Concurrent.Dispatchers;
+﻿using ComposableAsync;
 
 namespace EasyActor
 {
     /// <summary>
     /// <see cref="ICancellableDispatcherProvider"/> extension
     /// </summary>
-    public static class FiberProviderExtension
+    public static class CancellableDispatcherProviderExtension
     {
         /// <summary>
         /// Returns the underlying <see cref="IDispatcher"/>

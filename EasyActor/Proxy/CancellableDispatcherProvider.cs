@@ -1,4 +1,4 @@
-﻿using Concurrent;
+﻿using ComposableAsync;
 
 namespace EasyActor.Proxy
 {

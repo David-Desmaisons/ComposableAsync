@@ -1,7 +1,6 @@
 ﻿using System.Windows.Threading;
-using Concurrent.Dispatchers;
+using ComposableAsync;
 using Concurrent.WPF.Internal;
-using EasyActor;
 
 namespace Concurrent.WPF
 {

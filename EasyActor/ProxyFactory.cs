@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
-using Concurrent;
-using Concurrent.Disposable;
-using EasyActor.DispatcherManagers;
+using ComposableAsync;
 using EasyActor.Proxy;
 
 namespace EasyActor

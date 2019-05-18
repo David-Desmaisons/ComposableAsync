@@ -1,13 +1,13 @@
-﻿using Concurrent.Dispatchers;
-using FluentAssertions;
-using NSubstitute;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Concurrent;
+using FluentAssertions;
+using NSubstitute;
 using Xunit;
 
-namespace Concurrent.Test
+namespace ComposableAsync.Core.Test
 {
     public class DispatcherExtensionTest : IAsyncLifetime
     {

@@ -1,10 +1,9 @@
 ﻿using System;
-using Concurrent;
 using System.Threading.Tasks;
 
-namespace EasyActor.DispatcherManagers
+namespace ComposableAsync
 {
-    internal sealed class MonoDispatcherManager : IDispatcherManager
+    public sealed class MonoDispatcherManager : IDispatcherManager
     {
         public bool DisposeDispatcher { get; }
         public ICancellableDispatcher GetDispatcher() => _Dispatcher;

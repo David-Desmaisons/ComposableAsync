@@ -1,11 +1,10 @@
-﻿using Concurrent.Dispatchers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security;
 
-namespace Concurrent
+namespace ComposableAsync
 {
     /// <summary>
     /// <see cref="IDispatcher"/> extension methods provider
