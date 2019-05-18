@@ -74,10 +74,6 @@
       <Project>{DAAF47A6-6BE1-491F-9B81-482BA7A4550B}</Project>
       <Name>ComposableAsync.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Concurrent\Concurrent.csproj">
-      <Project>{4f2f8e53-87ba-42ce-b230-9aa6f4a56413}</Project>
-      <Name>Concurrent</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

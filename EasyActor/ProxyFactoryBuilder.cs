@@ -1,9 +1,9 @@
-﻿using Concurrent;
-using EasyActor.DispatcherManagers;
+﻿using EasyActor.DispatcherManagers;
 using System;
 using System.Linq;
 using System.Threading;
 using ComposableAsync;
+using ComposableAsync.Concurrent;
 
 namespace EasyActor
 {

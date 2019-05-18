@@ -1,5 +1,6 @@
 ﻿using System.Windows.Threading;
 using ComposableAsync;
+using ComposableAsync.Concurrent;
 using Concurrent.WPF.Internal;
 
 namespace Concurrent.WPF

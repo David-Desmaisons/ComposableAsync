@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using ComposableAsync;
-using Concurrent;
+using ComposableAsync.Concurrent;
 
 namespace EasyActor
 {

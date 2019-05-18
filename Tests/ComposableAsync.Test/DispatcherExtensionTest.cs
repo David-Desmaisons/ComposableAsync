@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Concurrent;
+using ComposableAsync.Concurrent;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;

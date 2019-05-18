@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using ComposableAsync;
-using Concurrent.Tasks;
+using ComposableAsync.Concurrent;
 
 namespace EasyActor.Proxy
 {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using Concurrent.Collections;
-using Concurrent.Fibers;
-using Concurrent.WorkItems;
+using ComposableAsync.Concurrent.Collections;
+using ComposableAsync.Concurrent.Fibers;
+using ComposableAsync.Concurrent.WorkItems;
 using Xunit;
 using Xunit.Abstractions;
 

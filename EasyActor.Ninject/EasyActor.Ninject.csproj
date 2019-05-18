@@ -62,10 +62,6 @@
       <Project>{daaf47a6-6be1-491f-9b81-482ba7a4550b}</Project>
       <Name>ComposableAsync.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Concurrent\Concurrent.csproj">
-      <Project>{4f2f8e53-87ba-42ce-b230-9aa6f4a56413}</Project>
-      <Name>Concurrent</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EasyActor\EasyActor.csproj">
       <Project>{487faea3-4503-4e5b-b10b-48b689dbf174}</Project>
       <Name>EasyActor</Name>

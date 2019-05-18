@@ -1,11 +1,11 @@
-﻿using Concurrent;
-using EasyActor.Test.TestInfra.DummyClass;
+﻿using EasyActor.Test.TestInfra.DummyClass;
 using FluentAssertions;
 using NSubstitute;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using ComposableAsync;
+using ComposableAsync.Concurrent;
 using Xunit;
 
 namespace EasyActor.Test

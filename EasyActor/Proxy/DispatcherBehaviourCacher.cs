@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using Castle.DynamicProxy;
-using Concurrent.Tasks;
+using ComposableAsync.Concurrent;
 
 namespace EasyActor.Proxy
 {

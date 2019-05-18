@@ -1,5 +1,4 @@
-﻿using Concurrent;
-using FluentAssertions;
+﻿using FluentAssertions;
 using RateLimiter;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,8 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using ComposableAsync;
-using Concurrent.Dispatchers;
+using ComposableAsync.Concurrent;
+using ComposableAsync.Concurrent.Dispatchers;
 using Xunit;
 using Xunit.Abstractions;
 

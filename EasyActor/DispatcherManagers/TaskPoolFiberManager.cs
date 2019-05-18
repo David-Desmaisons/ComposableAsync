@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ComposableAsync;
-using Concurrent;
+using ComposableAsync.Concurrent;
 
 namespace EasyActor.DispatcherManagers
 {

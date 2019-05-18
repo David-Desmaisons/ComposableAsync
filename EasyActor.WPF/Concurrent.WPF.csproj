@@ -47,13 +47,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ComposableAsync.Concurrent\ComposableAsync.Concurrent.csproj">
+      <Project>{7f9f56f4-85a8-4193-9ca2-027187319d91}</Project>
+      <Name>ComposableAsync.Concurrent</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ComposableAsync.Core\ComposableAsync.Core.csproj">
       <Project>{daaf47a6-6be1-491f-9b81-482ba7a4550b}</Project>
       <Name>ComposableAsync.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Concurrent\Concurrent.csproj">
-      <Project>{4F2F8E53-87BA-42CE-B230-9AA6F4A56413}</Project>
-      <Name>Concurrent</Name>
     </ProjectReference>
     <ProjectReference Include="..\EasyActor\EasyActor.csproj">
       <Project>{487faea3-4503-4e5b-b10b-48b689dbf174}</Project>
