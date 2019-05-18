@@ -33,11 +33,11 @@ namespace EasyActor.Flow.Sample
 
         private class Counter : IProcessorFinalizer<bool, int, int>
         {
-            private int _count = 0;
+            private int _Count = 0;
             public Task<bool> Process(int message, IProgress<int> progress, CancellationToken cancelationToken)
             {
-                _count += message;
-                return Task.FromResult(_count % 2 == 0);
+                _Count += message;
+                return Task.FromResult(_Count % 2 == 0);
             }
         }
 
