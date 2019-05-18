@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace Concurrent.WPF.Internal
+namespace ComposableAsync.WPF
 {
     internal static class DispatcherExtension
     {
