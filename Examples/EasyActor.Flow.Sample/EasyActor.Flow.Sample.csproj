@@ -72,10 +72,6 @@
       <Project>{0ea7f2b2-6b70-41ae-9769-096e8a67cc8d}</Project>
       <Name>EasyActor.Flow</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\EasyActor\EasyActor.csproj">
-      <Project>{487faea3-4503-4e5b-b10b-48b689dbf174}</Project>
-      <Name>EasyActor</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

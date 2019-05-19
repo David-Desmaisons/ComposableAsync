@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ComposableAsync.Concurrent.Collections;
 using ComposableAsync.Concurrent.WorkItems;
-using EasyActor;
+using ComposableAsync.Factory;
 
 namespace PingPongConsole
 {

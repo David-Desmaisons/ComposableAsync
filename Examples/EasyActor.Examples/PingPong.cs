@@ -6,6 +6,7 @@ using System.Diagnostics;
 using ComposableAsync.Concurrent.Collections;
 using ComposableAsync.Concurrent.Fibers;
 using ComposableAsync.Concurrent.WorkItems;
+using ComposableAsync.Factory;
 using Xunit;
 using Xunit.Abstractions;
 

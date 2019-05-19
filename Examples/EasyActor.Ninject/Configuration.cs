@@ -1,4 +1,5 @@
-﻿using Ninject;
+﻿using ComposableAsync.Factory;
+using Ninject;
 using Ninject.Syntax;
 
 namespace EasyActor.Ninject

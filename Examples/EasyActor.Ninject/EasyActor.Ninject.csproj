@@ -62,9 +62,9 @@
       <Project>{daaf47a6-6be1-491f-9b81-482ba7a4550b}</Project>
       <Name>ComposableAsync.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\EasyActor\EasyActor.csproj">
-      <Project>{487faea3-4503-4e5b-b10b-48b689dbf174}</Project>
-      <Name>EasyActor</Name>
+    <ProjectReference Include="..\..\ComposableAsync.Factory\ComposableAsync.Factory.csproj">
+      <Project>{a09de200-03a9-4d32-a2fd-95f133c77f49}</Project>
+      <Name>ComposableAsync.Factory</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

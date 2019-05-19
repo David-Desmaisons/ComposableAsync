@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using ComposableAsync;
 using ComposableAsync.Concurrent;
 using ComposableAsync.Concurrent.Dispatchers;
+using ComposableAsync.Factory;
 using Xunit;
 using Xunit.Abstractions;
 

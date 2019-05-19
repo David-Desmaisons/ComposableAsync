@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyName>Concurrent.Channel</AssemblyName>
-    <RootNamespace>Concurrent.Channel</RootNamespace>
+    <AssemblyName>ComposableAsync.Factory</AssemblyName>
+    <RootNamespace>ComposableAsync.Factory</RootNamespace>
     <Authors>David Desmaisons</Authors>
     <Version>1.0.0</Version>
     <PackageProjectUrl></PackageProjectUrl>
@@ -13,7 +13,7 @@
     <Description>EasyActor provides a factory that transforms POCOs in actors that are then seen trougth an interface. Actor guarantees that all calls to the actor interface will occur in a separated thread, sequencially.
 
 In order to work, The target interface should only expose methods returning Task or Task. If this not the case, an exception will be raised at runtime when calling a none compliant method. Make also sure that all method parameters and return values are immutable to avoid concurrency problems.</Description>
-    <PackageId>Concurrent.Channel</PackageId>
+    <PackageId>EasyActor</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>Actor Model, Asynchronous</PackageTags>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -22,17 +22,12 @@ In order to work, The target interface should only expose methods returning Task
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Interactive.Async" Version="3.2.0" />
-    <PackageReference Include="System.Reactive" Version="4.1.3" />
-    <PackageReference Include="System.Reactive.Providers" Version="4.1.3" />
+    <PackageReference Include="Castle.Core" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ComposableAsync.Factory\ComposableAsync.Factory.csproj" />
+    <ProjectReference Include="..\ComposableAsync.Concurrent\ComposableAsync.Concurrent.csproj" />
+    <ProjectReference Include="..\ComposableAsync.Core\ComposableAsync.Core.csproj" />
   </ItemGroup>
 
 </Project>
