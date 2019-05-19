@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ComposableAsync.Concurrent.Fibers;
 using ComposableAsync.Concurrent.SynchronizationContexts;
+using ComposableAsync.Test.Helper;
 using Concurrent.Test.Helper;
 using FluentAssertions;
 using Xunit;
@@ -130,7 +131,7 @@ namespace ComposableAsync.Concurrent.Test.Fibers
 
             await tester.RunAndCancelTask_T();
 
-            tester.TimeSpentToCancellTask.Should().BeLessThan(TimeSpan.FromSeconds(0.5));
+            tester.TimeSpentToCancelTask.Should().BeLessThan(TimeSpan.FromSeconds(0.5));
         }
 
         [Fact]
@@ -140,7 +141,7 @@ namespace ComposableAsync.Concurrent.Test.Fibers
 
             await tester.RunAndCancelTask_T();
 
-            tester.CancelledTaskHasBeenExcecuted.Should().BeFalse();
+            tester.CancelledTaskHasBeenExecuted.Should().BeFalse();
         }
 
         [Fact]
@@ -150,7 +151,7 @@ namespace ComposableAsync.Concurrent.Test.Fibers
 
             await tester.RunAndCancelTask();
 
-            tester.TimeSpentToCancellTask.Should().BeLessThan(TimeSpan.FromSeconds(0.5));
+            tester.TimeSpentToCancelTask.Should().BeLessThan(TimeSpan.FromSeconds(0.5));
         }
 
         [Fact]
@@ -160,7 +161,7 @@ namespace ComposableAsync.Concurrent.Test.Fibers
 
             await tester.RunAndCancelTask();
 
-            tester.CancelledTaskHasBeenExcecuted.Should().BeFalse();
+            tester.CancelledTaskHasBeenExecuted.Should().BeFalse();
         }
     }
 }

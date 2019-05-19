@@ -1,10 +1,10 @@
-﻿using EasyActor.Examples;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ComposableAsync.Concurrent.Collections;
 using ComposableAsync.Concurrent.WorkItems;
 using ComposableAsync.Factory;
+using ComposableAsync.Factory.Examples;
 
 namespace PingPongConsole
 {

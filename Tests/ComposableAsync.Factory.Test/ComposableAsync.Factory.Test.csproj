@@ -136,9 +136,9 @@
       <Project>{a09de200-03a9-4d32-a2fd-95f133c77f49}</Project>
       <Name>ComposableAsync.Factory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Concurrent.Test.Helper\Concurrent.Test.Helper.csproj">
+    <ProjectReference Include="..\ComposableAsync.Test.Helper\ComposableAsync.Test.Helper.csproj">
       <Project>{c4015566-e81f-4bb3-abd5-47ccf8a628b1}</Project>
-      <Name>Concurrent.Test.Helper</Name>
+      <Name>ComposableAsync.Test.Helper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

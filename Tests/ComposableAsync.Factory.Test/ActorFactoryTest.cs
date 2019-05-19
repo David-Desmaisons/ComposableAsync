@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture.Xunit2;
 using ComposableAsync.Factory.Test.TestInfra.DummyClass;
-using Concurrent.Test.Helper;
+using ComposableAsync.Test.Helper;
 using FluentAssertions;
 using Xunit;
 

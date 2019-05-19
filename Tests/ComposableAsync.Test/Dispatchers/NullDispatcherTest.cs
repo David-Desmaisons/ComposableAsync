@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using ComposableAsync.Test.Helper;
 using Concurrent.Test.Helper;
 using FluentAssertions;
 using Xunit;

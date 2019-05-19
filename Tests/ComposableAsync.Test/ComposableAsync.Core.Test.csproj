@@ -90,9 +90,9 @@
       <Project>{daaf47a6-6be1-491f-9b81-482ba7a4550b}</Project>
       <Name>ComposableAsync.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Concurrent.Test.Helper\Concurrent.Test.Helper.csproj">
-      <Project>{C4015566-E81F-4BB3-ABD5-47CCF8A628B1}</Project>
-      <Name>Concurrent.Test.Helper</Name>
+    <ProjectReference Include="..\ComposableAsync.Test.Helper\ComposableAsync.Test.Helper.csproj">
+      <Project>{c4015566-e81f-4bb3-abd5-47ccf8a628b1}</Project>
+      <Name>ComposableAsync.Test.Helper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
