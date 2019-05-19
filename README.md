@@ -1,13 +1,13 @@
-EasyActor
-=========
+Composable Async
+================
 
 [![build](https://img.shields.io/appveyor/ci/David-Desmaisons/EasyActor.svg)](https://ci.appveyor.com/project/David-Desmaisons/EasyActor)
 [![NuGet Badge](https://buildstats.info/nuget/EasyActor)](https://www.nuget.org/packages/EasyActor/)
 [![MIT License](https://img.shields.io/github/license/David-Desmaisons/EasyActor.svg)](https://github.com/David-Desmaisons/EasyActor/blob/master/LICENSE)
 
-EasyActor implements a subset of [Actor pattern](https://en.wikipedia.org/wiki/Actor_model) for the .Net platform.
+Composable Async implements a subset of [Actor pattern](https://en.wikipedia.org/wiki/Actor_model) for the .Net platform.
 
-EasyActor is a lightweigth, fast, easy to use framework that transform POCO in actors. 
+Composable Async is a lightweight, fast, easy to use framework that transform POCO in actors. 
 
 If you are looking for a complete Actor solution including remoting, resiliency and monitoring take a look at [akka.net](http://getakka.net/).
 
@@ -15,9 +15,9 @@ If you are looking for a complete Actor solution including remoting, resiliency 
 Motivation
 --------------
 
-* Simplify concurent programing getting rid of manual lock hell.
-* Use actor concept: actor leaves in their own thread and comunicate with immutable message.
-* Leverage C# 5.0 ansychroneous API (Task, async , await): actors comunicate with other component with Task
+* Simplify concurrent programing getting rid of manual lock hell.
+* Use actor concept: actor leaves in their own thread and communicate with immutable message.
+* Leverage C# 5.0 asynchronous API (Task, async , await): actors communicate with other component with Task
 * Receive return from actor with Task<T>
 * Transparent for consumer: EasyActor actors can be any C# interface returning Task.
 * Fast: performance overhead should be minimum
@@ -25,8 +25,8 @@ Motivation
 Features
 --------
 
-EasyActor provide a factory allowing the transformation of POCO in actor that are then seen trougth an interface.
-Actor guarantees that all calls to the actor interface will occur in a separated thread, sequencially.
+Composable.Async provide a factory allowing the transformation of POCO in actor that are then seen through an interface.
+Actor guarantees that all calls to the actor interface will occur in a separated thread, sequentially.
 
 In order to work, The target interface should only expose methods returning Task or Task<T>.
 If this not the case, an exception will be raised at runtime when calling a none compliant method.
@@ -61,13 +61,14 @@ To create an actor:
 	}
 ```
 
-3) Use an EasyActor fatory to create an actor from the POCO
+3) Use an ComposableAsync.Factory factory to create an actor from the POCO
 
 ```CSharp
-	// Instanciate actor facory
-	var fact = new ActorFactory();
+	// Instantiate actor factory
+	var builder = new ProxyFactoryBuilder();
+  var factory = builder.GetActorFactory();
 		
-	// Instanciate an actor from a POCO
+	// Instantiate an actor from a POCO
 	IFoo fooActor = fact.Build<IFoo>( new ConcreteFoo());
 ```	
 4) Use the actor: all method call will be executed on a dedicated thread
@@ -78,23 +79,23 @@ To create an actor:
 ```		
 ### Actor factories
 
-EasyActor provide currently two Actor factories. An actor factory implements the IActorFactory
+ComposableAsync provide currently two Actor factories. An actor factory implements the IActorFactory
 
 ```CSharp
 	// Factory to create actor from POCO
 	public interface IActorFactory
 	{
-            /// Returns the type of the factory.
-            ActorFactorType Type { get; }
+    /// Returns the type of the factory.
+    ActorFactorType Type { get; }
             
-            // Build an actor from a POCO
-            // T should an interface througth which the actor will be seen
-            T Build<T>(T concrete) where T : class;
+    // Build an actor from a POCO
+    // T should an interface through which the actor will be seen
+    T Build<T>(T concrete) where T : class;
             
-            ///  Build asynchroneously an actor from a POCO
-            ///  using the actor thread to call the function creating the POCO.
-            ///  T should an interface througth which the actor will be seen
-            Task<T> BuildAsync<T>(Func<T> concrete) where T : class;
+    ///  Build asynchronously an actor from a POCO
+    ///  using the actor thread to call the function creating the POCO.
+    ///  T should an interface through which the actor will be seen
+    Task<T> BuildAsync<T>(Func<T> concrete) where T : class;
 	}
 ```
 
@@ -126,11 +127,11 @@ This factory creates actors that will share the same thread:
 	var factory = FactoryBuilder.GetFactory(true, t => t.Priority= Priority.Normal);
 ```
 
-This option may be helpfull if you have to create a lot of actors which have to perform short lived methods and you do not want to create a thread for each one. Same as ActorFactory, an Action<Thread> can be furnished to initialize the thread.
+This option may be helpful if you have to create a lot of actors which have to perform short lived methods and you do not want to create a thread for each one. Same as ActorFactory, an Action<Thread> can be furnished to initialize the thread.
 
 ####  TaskPoolActorFactory 
 
-This factory creates actors that will be called on thread pool tasks using [ConcurrentExclusiveSchedulerPair](https://msdn.microsoft.com/en-us/library/system.threading.tasks.concurrentexclusiveschedulerpair(v=vs.110).aspx). Note that in this case, whereas none concurency of method calls is garanteed, actor methods may run on different threads other time. Usage:
+This factory creates actors that will be called on thread pool tasks using [ConcurrentExclusiveSchedulerPair](https://msdn.microsoft.com/en-us/library/system.threading.tasks.concurrentexclusiveschedulerpair(v=vs.110).aspx). Note that in this case, whereas none concurrency of method calls is guaranteed, actor methods may run on different threads other time. Usage:
 
 ```CSharp
 	var factory = new TaskPoolActorFactory();
@@ -138,11 +139,11 @@ This factory creates actors that will be called on thread pool tasks using [Conc
 	var factory = FactoryBuilder.GetTaskBasedFactory(); 
 ```
 
-This option may be helpfull if you want no concurrency for given actors but don't want to allocate a dedicated thread for them.
+This option may be helpful if you want no concurrency for given actors but don't want to allocate a dedicated thread for them.
 
 ####  SynchronizationContextFactory 
 
-SynchronizationContextFactory factory instanciate actors that will use the current synchronization context as the threading context. This means that if you instanciate a SynchronizationContextFactory in an UI thread (WPF or Windows Form), all the calls of the corresponding actors will happens in the same UI thread.
+SynchronizationContextFactory factory instantiate actors that will use the current synchronization context as the threading context. This means that if you instantiate a SynchronizationContextFactory in an UI thread (WPF or Windows Form), all the calls of the corresponding actors will happens in the same UI thread.
 
 ```CSharp
 	var factory = new SynchronizationContextFactory();
@@ -205,13 +206,13 @@ IActorLifeCycle has two methods:
 	- Call IAsyncDisposable.DisposeAsync on the proxified actor(s) if implemented
 	- Terminate actor thread 	
 	
-[IAsyncDisposable](https://github.com/dotnet/roslyn/issues/114) is the asynchroneous version of IDisposable:
+[IAsyncDisposable](https://github.com/dotnet/roslyn/issues/114) is the asynchronous version of IDisposable:
 
 ```CSharp
 	public interface IAsyncDisposable : IDisposable
 	{
 		/// <summary>
-		///  Performs asyncronesouly application-defined tasks associated with freeing,
+		///  Performs asynchronously application-defined tasks associated with freeing,
 		///  releasing, or resetting unmanaged resources.
 		/// </summary>
 		Task DisposeAsync();
@@ -224,7 +225,7 @@ Comparaison with other frameworks
 ---------------------------------
 
 - [Akka.net](http://getakka.net/) is a very complete actor solution: use it if you need a solution that includes remoting, resiliency and monitoring. Use EasyActor if you need small-footprint, fast, in process actor model. 
-- [n-act](https://code.google.com/p/n-act/) is similar to EasyActor, providing the same philosophy and similar API. That said, EasyActor provides more lifecycle options (via factories and IActorLifeCycle) and is faster than N-act (8x faster on the pingpong example).
+- [n-act](https://code.google.com/p/n-act/) is similar to EasyActor, providing the same philosophy and similar API. That said, EasyActor provides more lifecycle options (via factories and IActorLifeCycle) and is faster than N-act (8x faster on the ping-pong example).
 
 Code coverage
 -------------
@@ -233,7 +234,7 @@ Code coverage
 
 How it works
 ------------
-Internally, EasyActor use [Castle Core DynamicProxy](https://github.com/castleproject/Core) to instaciate a proxy for the corresponding interface.
+Internally, EasyActor use [Castle Core DynamicProxy](https://github.com/castleproject/Core) to instantiate a proxy for the corresponding interface.
 All calls to the interface methods are intercepted and then redirected to run on the actor Threads.
 
 Nuget
