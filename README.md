@@ -5,9 +5,28 @@ Composable Async
 [![NuGet Badge](https://buildstats.info/nuget/EasyActor)](https://www.nuget.org/packages/EasyActor/)
 [![MIT License](https://img.shields.io/github/license/David-Desmaisons/EasyActor.svg)](https://github.com/David-Desmaisons/EasyActor/blob/master/LICENSE)
 
-Composable Async is a library which aims at simplifying asynchronous programming in C# by providing:
+## Goal
 
-- An abstraction:  `IDispatcher` that take an Action or Function and replay it in a different context.
+Create and compose complex asynchronous behavior in .Net.
+
+Re-use these building blocks using [aspect oriented programming](https://www.wikiwand.com/en/Aspect-oriented_programming).
+
+Composable Async first appears to provide a lightweight way to transform POCOs in [actors](https://en.wikipedia.org/wiki/Actor_model) and then evolves to become generic.
+
+
+Motivation
+----------
+
+* Leverage C# 5.0 asynchronous API (Task, async , await)
+* Simplify concurrent programing getting using Actor model.
+* Transparent for consumer: factories transform any POCO by adding behaviors and return user defined interface.
+* Fast: performance overhead should be minimum
+
+## Features
+
+Composable Async provides:
+
+1. `IDispatcher` abstraction that take an Action or Function and replay it in a different context.
 
 ```CSharp
 public interface IDispatcher
@@ -25,52 +44,37 @@ public interface IDispatcher
 	/// the result of the function
 	/// </summary>
 	Task<T> Enqueue<T>(Func<T> action);
-
 }
 ```
 
-- Some pre-built `IDispatchers` such as:
+2. Pre-built `IDispatchers` such as:
 	- Rate limiting
 	- Fiber implementation to build object that uses [Actor pattern](https://en.wikipedia.org/wiki/Actor_model).
 	- Circuit-breaker (incoming)
 
-- Extension methods to compose and await `IDispatcher`
+3. Extension methods to compose and await `IDispatcher`
 
-- A factory to add `IDispatcher` behaviors to [plain old CLR Objects](https://www.wikipedia.org//wiki/Plain_old_CLR_object)
-
-
-This library notably can be used as a lightweight, fast, easy to use framework that transform POCO in actors. 
-
-If you are looking for a complete Actor solution including remoting, resiliency and monitoring take a look at [akka.net](http://getakka.net/).
+4. Factories to add `IDispatcher` behaviors to [plain old CLR Objects](https://www.wikipedia.org//wiki/Plain_old_CLR_object)
 
 
-Motivation
-----------
+## Usage - Example
 
-* Simplify concurrent programing getting rid of manual lock hell.
-* Use actor concept: actor leaves in their own thread and communicate with immutable message.
-* Leverage C# 5.0 asynchronous API (Task, async , await): actors communicate with other component with Task
-* Receive return from actor with Task<T>
-* Transparent for consumer: EasyActor actors can be any C# interface returning Task.
-* Fast: performance overhead should be minimum
+### Actor
 
-Features
---------
+This library notably can be used as a way that transform POCO in actors. 
+
+Actor leaves in their own thread and communicate with immutable message. They communicate with other objects asynchronously using Task and Task<T>.
 
 Composable.Async provide a factory allowing the transformation of POCO in actor that are then seen through an interface.
 Actor guarantees that all calls to the actor interface will occur in a separated thread, sequentially.
 
-In order to work, The target interface should only expose methods returning Task or Task<T>.
+The target interface should only expose methods returning Task or Task<T>.
 If this not the case, an exception will be raised at runtime when calling a none compliant method.
 Make also sure that all method parameters and return values are immutable to avoid concurrency problems.
 
-
-Usage - Example
---------------
-
 To create an actor:
 
-1) Create an interface
+1) Define an interface
 
 ```CSharp
 	// IFoo definition
@@ -101,9 +105,9 @@ To create an actor:
 	var factory = builder.GetActorFactory();
 		
 	// Instantiate an actor from a POCO
-	var fooActor = fact.Build<IFoo>( new ConcreteFoo());
+	var fooActor = fact.Build<IFoo>(new ConcreteFoo());
 ```	
-4) Use the actor: all method call will be executed on a dedicated thread
+4) Use the actor: all methods call will be executed on a dedicated thread
 
 ```CSharp
 	//This will call ConcreteFoo Bar in its own thread
