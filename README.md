@@ -59,6 +59,19 @@ public interface IDispatcher
 
 ## Usage - Example
 
+### Dispatchers
+
+1) Create a dispatcher
+
+
+2)
+
+
+
+3) 
+
+Note that Composable Async library provides simplified API to create an actor. See below.
+
 ### Actor
 
 This library notably can be used as a way that transform POCO in actors. 
