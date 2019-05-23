@@ -61,15 +61,31 @@ public interface IDispatcher
 
 ### Dispatchers
 
-1) Create a dispatcher
+1) Create a dispatcher:
+```CSharp
+  var fiberDispatcher = Fiber.CreateMonoThreadedFiber();
+```
 
+2) Await a dispatcher:
 
-2)
+```CSharp
+  await fiberDispatcher;
+  // After the await, the code executes in the dispatcher context
+  // In this case the code will execute on the fiber thread
+  Console.WriteLine($"This is fiber thread {Thread.CurrentThread.ManagedThreadId}"); 
+```
 
+3) Compose two dispatcher:
 
+```CSharp
+  var composed = dispatcher1.Then(dispatcher2);
+```
 
-3) 
-
+4) Use a dispatcher to create a proxy:
+```CSharp
+  var proxyBuilder = _ProxyFactoryBuilder.GetManagedProxyFactory(dispatcher);
+  var proxyObject = proxyBuilder.Build<IBusinessObject>(new BusinessObject());
+```
 Note that Composable Async library provides simplified API to create an actor. See below.
 
 ### Actor
