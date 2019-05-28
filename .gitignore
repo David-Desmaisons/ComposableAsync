@@ -198,3 +198,5 @@ ModelManifest.xml
 
 \.vs/EasyActor/DesignTimeBuild/
 /.vs/ComposableAsync/v15/Server/sqlite3
+
+\.vs/ComposableAsync/DesignTimeBuild/\.dtbcache
