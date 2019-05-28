@@ -32,5 +32,15 @@ namespace ComposableAsync
         {
             return await _First.Enqueue(() => _Second.Enqueue(action, cancellationToken), cancellationToken);
         }
+
+        public async Task<T> Enqueue<T>(Func<T> action, CancellationToken cancellationToken)
+        {
+           return await _First.Enqueue(() => _Second.Enqueue(action, cancellationToken), cancellationToken);
+        }
+
+        public async Task Enqueue(Action action, CancellationToken cancellationToken)
+        {
+            await _First.Enqueue(() => _Second.Enqueue(action, cancellationToken), cancellationToken);
+        }
     }
 }

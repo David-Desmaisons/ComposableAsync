@@ -10,6 +10,26 @@ namespace ComposableAsync
     public interface ICancellableDispatcher : IDispatcher
     {
         /// <summary>
+        /// Enqueue the fucntion and return a task corresponding
+        /// to the execution of the task
+        /// /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="action"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<T> Enqueue<T>(Func<T> action, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Enqueue the action and return a task corresponding
+        /// to the execution of the task
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task Enqueue(Action action, CancellationToken cancellationToken);
+
+
+        /// <summary>
         /// Enqueue the task and return a task corresponding
         /// to the execution of the task
         /// </summary>

@@ -17,37 +17,37 @@ namespace ComposableAsync.Concurrent.Fibers
 
         public Task<T> Enqueue<T>(Func<T> action)
         {
-            var workItem = new WorkItem<T>(action);
-            SynchronizationContext.Post(_SendOrPostWorkItem, workItem);
-            return workItem.Task;
+            return PrivateEnqueue(new WorkItem<T>(action));
+        }
+
+        public Task<T> Enqueue<T>(Func<T> action, CancellationToken cancellationToken)
+        {
+            return PrivateEnqueue(new CancellableWorkItem<T>(action, cancellationToken));
+        }
+
+        public Task Enqueue(Action action, CancellationToken cancellationToken)
+        {
+            return PrivateEnqueue(new ActionCancellableWorkItem(action, cancellationToken));
         }
 
         public Task Enqueue(Func<Task> action)
         {
-            var workItem = new AsyncActionWorkItem(action);
-            SynchronizationContext.Post(_SendOrPostWorkItem, workItem);
-            return workItem.Task;
+            return PrivateEnqueue(new AsyncActionWorkItem(action));
         }
 
         public Task<T> Enqueue<T>(Func<Task<T>> action)
         {
-            var workItem = new AsyncWorkItem<T>(action);
-            SynchronizationContext.Post(_SendOrPostWorkItem, workItem);
-            return workItem.Task;
+            return PrivateEnqueue(new AsyncWorkItem<T>(action));
         }
 
         public Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
-            var workItem = new AsyncActionWorkItem(action, cancellationToken);
-            SynchronizationContext.Post(_SendOrPostWorkItem, workItem);
-            return workItem.Task;
+            return PrivateEnqueue(new AsyncActionCancellableWorkItem(action, cancellationToken));
         }
 
         public Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
         {
-            var workItem = new AsyncWorkItem<T>(action, cancellationToken);
-            SynchronizationContext.Post(_SendOrPostWorkItem, workItem);
-            return workItem.Task;
+            return PrivateEnqueue(new AsyncCancellableWorkItem<T>(action, cancellationToken));
         }
 
         public void Dispatch(Action action)
@@ -57,7 +57,17 @@ namespace ComposableAsync.Concurrent.Fibers
 
         public Task Enqueue(Action action) 
         {
-            var workItem = new ActionWorkItem(action);
+            return PrivateEnqueue(new ActionWorkItem(action));
+        }
+
+        private Task PrivateEnqueue(ITraceableWorkItem workItem)
+        {
+            SynchronizationContext.Post(_SendOrPostWorkItem, workItem);
+            return workItem.Task;
+        }
+
+        private Task<T> PrivateEnqueue<T>(ITraceableWorkItem<T> workItem)
+        {
             SynchronizationContext.Post(_SendOrPostWorkItem, workItem);
             return workItem.Task;
         }

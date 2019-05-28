@@ -37,7 +37,7 @@ namespace ComposableAsync.Concurrent.Fibers
             Enqueue(action).Wait();
         }
 
-        private Task Enqueue(ActionWorkItem workItem)
+        private Task PrivateEnqueue(ITraceableWorkItem workItem)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace ComposableAsync.Concurrent.Fibers
             }
         }
 
-        private Task<T> Enqueue<T>(AsyncWorkItem<T> workItem)
+        private Task<T> PrivateEnqueue<T>(ITraceableWorkItem<T> workItem)
         {
             try
             {
@@ -61,20 +61,11 @@ namespace ComposableAsync.Concurrent.Fibers
             {
                 return Task.FromCanceled<T>(operationCanceledException.CancellationToken);
             }
-        }
+        }   
 
         public Task<T> Enqueue<T>(Func<T> action)
         {
-            var workItem = new WorkItem<T>(action);
-            try
-            {
-                _TaskQueue.Enqueue(workItem);
-                return workItem.Task;
-            }
-            catch (OperationCanceledException operationCanceledException)
-            {
-                return Task.FromCanceled<T>(operationCanceledException.CancellationToken);
-            }
+            return PrivateEnqueue(new WorkItem<T>(action));
         }
 
         public void Dispatch(Action action)
@@ -92,17 +83,17 @@ namespace ComposableAsync.Concurrent.Fibers
 
         public Task Enqueue(Action action)
         {
-            return Enqueue(new ActionWorkItem(action));
+            return PrivateEnqueue(new ActionWorkItem(action));
         }
 
         public Task Enqueue(Func<Task> action)
         {
-            return Enqueue(new AsyncActionWorkItem(action));
+            return PrivateEnqueue(new AsyncActionWorkItem(action));
         }
 
         public Task<T> Enqueue<T>(Func<Task<T>> action)
         {
-            return Enqueue(new AsyncWorkItem<T>(action));
+            return PrivateEnqueue(new AsyncWorkItem<T>(action));
         }
 
         private void Consume() 
@@ -160,12 +151,22 @@ namespace ComposableAsync.Concurrent.Fibers
 
         public Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
-            return Enqueue(new AsyncActionWorkItem(action, cancellationToken));
+            return PrivateEnqueue(new AsyncActionCancellableWorkItem(action, cancellationToken));
         }
 
         public Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
         {
-            return Enqueue(new AsyncWorkItem<T>(action, cancellationToken));
+            return PrivateEnqueue(new AsyncCancellableWorkItem<T>(action, cancellationToken));
+        }
+
+        public Task<T> Enqueue<T>(Func<T> action, CancellationToken cancellationToken)
+        {
+            return PrivateEnqueue(new CancellableWorkItem<T>(action, cancellationToken));
+        }
+
+        public Task Enqueue(Action action, CancellationToken cancellationToken)
+        {
+            return PrivateEnqueue(new ActionCancellableWorkItem(action, cancellationToken));
         }
     }
 }

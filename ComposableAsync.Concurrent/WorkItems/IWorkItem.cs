@@ -1,7 +1,9 @@
-﻿namespace ComposableAsync.Concurrent.WorkItems
+﻿using System.Threading.Tasks;
+
+namespace ComposableAsync.Concurrent.WorkItems
 {
     /// <summary>
-    /// work item
+    /// work item abstraction
     /// </summary>
     public interface IWorkItem
     {

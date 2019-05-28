@@ -46,7 +46,7 @@ namespace ComposableAsync.Concurrent.Fibers
             Enqueue(action).Wait();
         }
 
-        private Task Enqueue(ActionWorkItem workItem)
+        private Task Enqueue(ITraceableWorkItem workItem)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace ComposableAsync.Concurrent.Fibers
             }
         }
 
-        private Task<T> Enqueue<T>(AsyncWorkItem<T> workItem)
+        private Task<T> Enqueue<T>(ITraceableWorkItem<T> workItem)
         {
             try
             {
@@ -74,16 +74,7 @@ namespace ComposableAsync.Concurrent.Fibers
 
         public Task<T> Enqueue<T>(Func<T> action)
         {
-            var workItem = new WorkItem<T>(action);
-            try
-            {
-                _TaskQueue.Enqueue(workItem);
-                return workItem.Task;
-            }
-            catch (OperationCanceledException operationCanceledException)
-            {
-                return Task.FromCanceled<T>(operationCanceledException.CancellationToken);
-            }
+            return Enqueue<T>(new WorkItem<T>(action));    
         }
 
         public void Dispatch(Action action)
@@ -156,12 +147,22 @@ namespace ComposableAsync.Concurrent.Fibers
 
         public Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
-            return Enqueue(new AsyncActionWorkItem(action, cancellationToken));
+            return Enqueue(new AsyncActionCancellableWorkItem(action, cancellationToken));
         }
 
         public Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
         {
-            return Enqueue(new AsyncWorkItem<T>(action, cancellationToken));
+            return Enqueue(new AsyncCancellableWorkItem<T>(action, cancellationToken));
+        }
+
+        public Task<T> Enqueue<T>(Func<T> action, CancellationToken cancellationToken)
+        {
+            return Enqueue(new CancellableWorkItem<T>(action, cancellationToken));
+        }
+
+        public Task Enqueue(Action action, CancellationToken cancellationToken)
+        {
+            return Enqueue(new ActionCancellableWorkItem(action, cancellationToken));
         }
 
         ~MonoThreadedFiber()

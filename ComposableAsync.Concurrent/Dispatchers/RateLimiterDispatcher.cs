@@ -91,5 +91,27 @@ namespace ComposableAsync.Concurrent.Dispatchers
         {
             return _RateLimiter.Perform(action, cancellationToken);
         }
+
+        /// <summary>
+        /// Enqueue the action respecting the awaitable constraint
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<T> Enqueue<T>(Func<T> action, CancellationToken cancellationToken)
+        {
+            return _RateLimiter.Perform(action, cancellationToken);
+        }
+
+        /// <summary>
+        /// Enqueue the action respecting the awaitable constraint
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task Enqueue(Action action, CancellationToken cancellationToken)
+        {
+            return _RateLimiter.Perform(action, cancellationToken);
+        }
     }
 }

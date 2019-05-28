@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace ComposableAsync.Concurrent.WorkItems
@@ -10,11 +9,6 @@ namespace ComposableAsync.Concurrent.WorkItems
     {
         internal AsyncActionWorkItem(Func<Task> @do)
             : base(async () => { await @do(); return null; })
-        {
-        }
-
-        internal AsyncActionWorkItem(Func<Task> @do, CancellationToken cancellationToken)
-            : base(async () => { await @do(); return null;}, cancellationToken)
         {
         }
     }

@@ -59,7 +59,7 @@ namespace ComposableAsync.Concurrent.Dispatchers
             return Safe(() => _TaskFactory.StartNew(action));
         }
 
-        private Task Enqueue(AsyncActionWorkItem workItem)
+        private Task Enqueue(ITraceableWorkItem workItem)
         {
             return Safe(() =>
             {
@@ -68,7 +68,7 @@ namespace ComposableAsync.Concurrent.Dispatchers
             });
         }
 
-        private Task<T> Enqueue<T>(AsyncWorkItem<T> workItem)
+        private Task<T> Enqueue<T>(ITraceableWorkItem<T> workItem)
         {
             return Safe(() =>
             {
@@ -77,7 +77,7 @@ namespace ComposableAsync.Concurrent.Dispatchers
             });
         }
 
-        private Task Enqueue(AsyncActionWorkItem workItem, CancellationToken cancellationToken)
+        private Task Enqueue(ITraceableWorkItem workItem, CancellationToken cancellationToken)
         {
             return Safe(() =>
             {
@@ -86,7 +86,7 @@ namespace ComposableAsync.Concurrent.Dispatchers
             });
         }
 
-        private Task<T> Enqueue<T>(AsyncWorkItem<T> workItem, CancellationToken cancellationToken)
+        private Task<T> Enqueue<T>(ITraceableWorkItem<T> workItem, CancellationToken cancellationToken)
         {
             return Safe(() =>
             {
@@ -107,12 +107,22 @@ namespace ComposableAsync.Concurrent.Dispatchers
 
         public Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
-            return Enqueue(new AsyncActionWorkItem(action, cancellationToken), cancellationToken);
+            return Enqueue(new AsyncActionCancellableWorkItem(action, cancellationToken), cancellationToken);
         }
 
         public Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
         {
-            return Enqueue(new AsyncWorkItem<T>(action, cancellationToken), cancellationToken);
+            return Enqueue(new AsyncCancellableWorkItem<T>(action, cancellationToken), cancellationToken);
+        }
+
+        public Task<T> Enqueue<T>(Func<T> action, CancellationToken cancellationToken)
+        {
+            return Enqueue(new CancellableWorkItem<T>(action, cancellationToken), cancellationToken);
+        }
+
+        public Task Enqueue(Action action, CancellationToken cancellationToken)
+        {
+            return Enqueue(new ActionCancellableWorkItem(action, cancellationToken), cancellationToken);
         }
     }
 }
