@@ -13,6 +13,8 @@ namespace ComposableAsync.Core.Test
     {
         private readonly IMonoThreadFiber _Fiber;
         private readonly IDispatcher _Dispatcher = Substitute.For<IDispatcher>();
+        private readonly ICancellableDispatcher _CancellableDispatcher = Substitute.For<ICancellableDispatcher>();
+
         private Thread _FiberThread;
 
         public DispatcherExtensionTest()
@@ -56,20 +58,40 @@ namespace ComposableAsync.Core.Test
         [Fact]
         public void GetAwaiter_IsComplete_Is_False()
         {
-            var awaitable = _Dispatcher.GetAwaiter();
-            awaitable.IsCompleted.Should().BeFalse();
+            var awaiter = _Dispatcher.GetAwaiter();
+            awaiter.IsCompleted.Should().BeFalse();
         }
 
         [Fact]
         public void GetAwaiter_Dispatch_Action()
         {
             var action = Substitute.For<Action>();
-            var awaitable = _Dispatcher.GetAwaiter();
-            awaitable.OnCompleted(action);
-
+            var awaiter = _Dispatcher.GetAwaiter();
+            awaiter.OnCompleted(action);
 
             _Dispatcher.Received(1).Dispatch(Arg.Any<Action>());
             _Dispatcher.Received().Dispatch(action);
+        }
+
+        [Fact]
+        public void ConfigureAwait_IsComplete_Is_False()
+        {
+            var awaitable = _CancellableDispatcher.ConfigureAwait(CancellationToken.None);
+            var awaiter = awaitable.GetAwaiter();
+            awaiter.IsCompleted.Should().BeFalse();
+        }
+
+        [Fact]
+        public void ConfigureAwait_Dispatch_Action()
+        {
+            var action = Substitute.For<Action>();
+            var token = new CancellationToken();
+            var awaitable = _CancellableDispatcher.ConfigureAwait(token);
+            var awaiter = awaitable.GetAwaiter();
+            awaiter.OnCompleted(action);
+
+            _CancellableDispatcher.Received(1).Enqueue(Arg.Any<Action>(), Arg.Any<CancellationToken>());
+            _CancellableDispatcher.Received().Enqueue(action, token);
         }
 
         [Fact]
