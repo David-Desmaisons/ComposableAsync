@@ -5,11 +5,11 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using ComposableAsync.Concurrent;
-using ComposableAsync.Concurrent.Dispatchers;
 using FluentAssertions;
-using RateLimiter;
 using Xunit;
 using Xunit.Abstractions;
+//using ComposableAsync.Concurrent.Dispatchers;
+//using RateLimiter;
 
 namespace ComposableAsync.Factory.Examples
 {
@@ -62,9 +62,11 @@ namespace ComposableAsync.Factory.Examples
         public async Task Dispatcher_Can_Be_Combined()
         {
             LogWithThread($"starting Test");
-
-            var composed = TimeLimiter.GetFromMaxCountByInterval(1, TimeSpan.FromMilliseconds(100)).ToDispatcher()
-                .Then(Fiber.CreateMonoThreadedFiber(t => LogWithThread("starting actor Thread")));
+            //     TODO: uncommment when new version is ready
+            var composed = //TimeLimiter.GetFromMaxCountByInterval(1, TimeSpan.FromMilliseconds(100)).Then(
+                    Fiber.CreateMonoThreadedFiber(t => LogWithThread("starting actor Thread"))
+            //         )
+            ;
 
             var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMilliseconds(800));
             LogWithThread("Start");
@@ -84,20 +86,19 @@ namespace ComposableAsync.Factory.Examples
         }
 
         [Fact]
-        public async Task Dispatcher_Can_Be_Combined_To_Form_Proxy()
-        {
+        public async Task Dispatcher_Can_Be_Combined_To_Form_Proxy() {
             LogWithThread($"starting Test");
 
             var proxyBuilder = _ProxyFactoryBuilder.GetManagedProxyFactory(
-                TimeLimiter.GetFromMaxCountByInterval(1, TimeSpan.FromMilliseconds(100)).ToDispatcher(),
+     //     TODO: uncommment when new version is ready
+     //     TimeLimiter.GetFromMaxCountByInterval(1, TimeSpan.FromMilliseconds(100)),
                 Fiber.CreateMonoThreadedFiber(t => LogWithThread("starting actor Thread"))
             );
             var proxyStuffer = proxyBuilder.Build<IDoStuff>(new StufferLog(_TestOutput));
 
             var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMilliseconds(800));
             LogWithThread("Start");
-            while (!cancellationTokenSource.IsCancellationRequested)
-            {
+            while (!cancellationTokenSource.IsCancellationRequested) {
                 await SwitchThread();
                 LogWithThread("Loop");
 
