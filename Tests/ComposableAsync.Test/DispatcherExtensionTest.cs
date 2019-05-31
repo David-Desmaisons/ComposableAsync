@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ComposableAsync.Concurrent;
 using FluentAssertions;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using Xunit;
 
 namespace ComposableAsync.Core.Test
@@ -74,6 +75,27 @@ namespace ComposableAsync.Core.Test
         }
 
         [Fact]
+        public async Task Await_Dispatch_Action()
+        {
+            SetUpDispatcherDispatch();
+            await _Dispatcher;
+            _Dispatcher.Received(1).Dispatch(Arg.Any<Action>());
+        }
+
+        [Fact]
+        public async Task GetAwaiter_Rethrow_exception()
+        {
+            SetUpDispatcherDispatch();
+
+            Func<Task> asyncFunction = async () => {
+                await _Dispatcher;
+                throw new ArgumentException();
+            };
+
+            await asyncFunction.Should().ThrowAsync<ArgumentException>();
+        }
+
+        [Fact]
         public void ConfigureAwait_IsComplete_Is_False()
         {
             var awaitable = _CancellableDispatcher.ConfigureAwait(CancellationToken.None);
@@ -82,7 +104,7 @@ namespace ComposableAsync.Core.Test
         }
 
         [Fact]
-        public void ConfigureAwait_Dispatch_Action()
+        public void ConfigureAwait_Enqueue_Action()
         {
             var action = Substitute.For<Action>();
             var token = new CancellationToken();
@@ -202,6 +224,12 @@ namespace ComposableAsync.Core.Test
             var then = new List<ICancellableDispatcher>();
             Action @do = () => first.Then(then);
             @do.Should().Throw<ArgumentNullException>();
+        }
+
+        private void SetUpDispatcherDispatch()
+        {
+            _Dispatcher.When(d => d.Dispatch(Arg.Any<Action>()))
+                    .Do(x => ((Action) x[0])());
         }
     }
 }
