@@ -1,4 +1,5 @@
-﻿using Ninject;
+﻿using ComposableAsync.Concurrent;
+using Ninject;
 using Ninject.Syntax;
 
 namespace ComposableAsync.Factory.Ninject
@@ -14,7 +15,7 @@ namespace ComposableAsync.Factory.Ninject
 
         private static void RegisterDependency(IKernel standardKernel)
         {
-            var factoryBuilder = new ProxyFactoryBuilder();
+            var factoryBuilder = new ActorFactoryBuilder();
             var actorFactory = factoryBuilder.GetActorFactory();
             BindAsActor<IActor, Actor>(standardKernel, actorFactory).InSingletonScope();
         }

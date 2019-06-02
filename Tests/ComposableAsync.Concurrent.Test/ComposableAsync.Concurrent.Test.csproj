@@ -98,16 +98,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActorFactoryBuilderTest.cs" />
+    <Compile Include="ActorFactoryTest.cs" />
     <Compile Include="Fibers\TaskSchedulerFiberTest.cs" />
     <Compile Include="Fibers\SynchronizationContextFiberTest.cs" />
     <Compile Include="FiberTest.cs" />
+    <Compile Include="SharedThreadActorFactoryTest.cs" />
+    <Compile Include="SynchronizationContextFactoryTest.cs" />
     <Compile Include="SynchronizationContexts\MonoThreadedFiberSynchronizationContextTest.cs" />
     <Compile Include="Fibers\MonoThreadedFiberBaseTest.cs" />
     <Compile Include="Fibers\MonoThreadedFiberTest.cs" />
     <Compile Include="Fibers\ThreadPoolFiberTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskPoolActorFactoryTest.cs" />
     <Compile Include="TaskSchedulers\FiberTaskSchedulerTest.cs" />
-    <Compile Include="Tasks\TypeExtensionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -127,6 +131,14 @@
     <ProjectReference Include="..\..\ComposableAsync.Core\ComposableAsync.Core.csproj">
       <Project>{daaf47a6-6be1-491f-9b81-482ba7a4550b}</Project>
       <Name>ComposableAsync.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ComposableAsync.Factory\ComposableAsync.Factory.csproj">
+      <Project>{A09DE200-03A9-4D32-A2FD-95F133C77F49}</Project>
+      <Name>ComposableAsync.Factory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ComposableAsync.Factory.Test\ComposableAsync.Factory.Test.csproj">
+      <Project>{d3a0e7f2-381e-4b87-8ba6-3bfb979c5992}</Project>
+      <Name>ComposableAsync.Factory.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\ComposableAsync.Test.Helper\ComposableAsync.Test.Helper.csproj">
       <Project>{c4015566-e81f-4bb3-abd5-47ccf8a628b1}</Project>

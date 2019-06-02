@@ -58,6 +58,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ComposableAsync.Concurrent\ComposableAsync.Concurrent.csproj">
+      <Project>{7F9F56F4-85A8-4193-9CA2-027187319D91}</Project>
+      <Name>ComposableAsync.Concurrent</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ComposableAsync.Core\ComposableAsync.Core.csproj">
       <Project>{daaf47a6-6be1-491f-9b81-482ba7a4550b}</Project>
       <Name>ComposableAsync.Core</Name>

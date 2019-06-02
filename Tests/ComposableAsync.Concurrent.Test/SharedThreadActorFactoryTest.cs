@@ -1,10 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using ComposableAsync.Factory;
 using ComposableAsync.Factory.Test.TestInfra.DummyClass;
 using FluentAssertions;
 using Xunit;
 
-namespace ComposableAsync.Factory.Test
+namespace ComposableAsync.Concurrent.Test
 {     
     public class SharedThreadActorFactoryTest : IAsyncLifetime
     {
@@ -14,7 +15,7 @@ namespace ComposableAsync.Factory.Test
 
         public SharedThreadActorFactoryTest()
         {
-            _Factory = new ProxyFactoryBuilder().GetActorFactory(true);
+            _Factory = new ActorFactoryBuilder().GetActorFactory(true);
         }
 
         public Task InitializeAsync() => Task.CompletedTask;

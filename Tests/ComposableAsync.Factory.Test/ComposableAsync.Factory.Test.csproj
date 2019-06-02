@@ -100,15 +100,12 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="TaskPoolActorFactoryTest.cs" />
     <Compile Include="ProxyFactoryBuilderTest.cs" />
-    <Compile Include="ActorFactoryTest.cs" />
+    <Compile Include="Tasks\TypeExtensionTest.cs" />
     <Compile Include="TestInfra\DummyClass\CancellableImplementation.cs" />
     <Compile Include="TestInfra\DummyClass\DummyCircularReferenceClass.cs" />
     <Compile Include="TestInfra\DummyClass\DummyClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SharedThreadActorFactoryTest.cs" />
-    <Compile Include="SynchronizationContextFactoryTest.cs" />
     <Compile Include="TestInfra\DummyClass\DummyClassFactory.cs" />
     <Compile Include="TestInfra\DummyClass\DummyDisposableClass.cs" />
     <Compile Include="TestInfra\DummyClass\GenericImplementation.cs" />

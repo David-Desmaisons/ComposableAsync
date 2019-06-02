@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ComposableAsync.Concurrent;
 
-namespace ComposableAsync.Factory.DispatcherManagers
+namespace ComposableAsync.Actors.DispatcherManagers
 {
     internal sealed class StandardFiberManager : IDispatcherManager
     {

@@ -1,4 +1,4 @@
-﻿namespace ComposableAsync.Factory
+﻿namespace ComposableAsync
 {
     /// <summary>
     /// <see cref="ICancellableDispatcherProvider"/> extension

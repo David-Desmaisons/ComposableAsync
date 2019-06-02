@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using ComposableAsync.Concurrent;
 
-namespace ComposableAsync.Factory.DispatcherManagers
+namespace ComposableAsync.Actors.DispatcherManagers
 {
     internal sealed class TheadPoolFiberManager : IDispatcherManager
     {

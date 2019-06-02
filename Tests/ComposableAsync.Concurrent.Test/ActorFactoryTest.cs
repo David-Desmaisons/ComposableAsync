@@ -3,12 +3,13 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture.Xunit2;
+using ComposableAsync.Factory;
 using ComposableAsync.Factory.Test.TestInfra.DummyClass;
 using ComposableAsync.Test.Helper;
 using FluentAssertions;
 using Xunit;
 
-namespace ComposableAsync.Factory.Test
+namespace ComposableAsync.Concurrent.Test
 {
     public class ActorFactoryTest : IAsyncLifetime
     {
@@ -16,7 +17,7 @@ namespace ComposableAsync.Factory.Test
 
         public ActorFactoryTest()
         {
-            _Factory = new ProxyFactoryBuilder().GetActorFactory();
+            _Factory = new ActorFactoryBuilder().GetActorFactory();
         }
 
         public Task InitializeAsync() => Task.CompletedTask;

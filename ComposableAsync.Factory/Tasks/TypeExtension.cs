@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace ComposableAsync.Concurrent
+namespace ComposableAsync.Factory
 {
     /// <summary>
     /// Type extensions

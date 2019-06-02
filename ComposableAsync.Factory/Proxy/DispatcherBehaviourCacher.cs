@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using Castle.DynamicProxy;
-using ComposableAsync.Concurrent;
 
 namespace ComposableAsync.Factory.Proxy
 {

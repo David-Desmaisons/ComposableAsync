@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using ComposableAsync.Actors;
 using ComposableAsync.Concurrent;
 using FluentAssertions;
 using Xunit;
@@ -20,6 +21,7 @@ namespace ComposableAsync.Factory.Examples
         private readonly ITestOutputHelper _TestOutput;
         private IDoStuff _IActor;
 
+        private static readonly IActorFactoryBuilder _ActorFactoryBuilder = new ActorFactoryBuilder();
         private static readonly IProxyFactoryBuilder _ProxyFactoryBuilder = new ProxyFactoryBuilder();
 
         public ConcurrencyTest(ITestOutputHelper testOutput)
@@ -144,8 +146,8 @@ namespace ComposableAsync.Factory.Examples
         {
             get
             {
-                yield return () => _ProxyFactoryBuilder.GetActorFactory();
-                yield return () => _ProxyFactoryBuilder.GetTaskBasedActorFactory();
+                yield return () => _ActorFactoryBuilder.GetActorFactory();
+                yield return () => _ActorFactoryBuilder.GetTaskBasedActorFactory();
             }
         }
 

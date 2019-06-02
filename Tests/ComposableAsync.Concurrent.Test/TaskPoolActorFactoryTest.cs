@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using ComposableAsync.Factory;
 using ComposableAsync.Factory.Test.TestInfra.DummyClass;
 using FluentAssertions;
 using Xunit;
 
-namespace ComposableAsync.Factory.Test
+namespace ComposableAsync.Concurrent.Test
 {     
     public class TaskPoolActorFactoryTest
     {
@@ -13,7 +14,7 @@ namespace ComposableAsync.Factory.Test
 
         public TaskPoolActorFactoryTest()
         {
-            _TaskPoolActorFactory = new ProxyFactoryBuilder().GetTaskBasedActorFactory();
+            _TaskPoolActorFactory = new ActorFactoryBuilder().GetTaskBasedActorFactory();
         }
 
         [Fact]

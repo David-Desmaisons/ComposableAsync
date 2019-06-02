@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
-namespace ComposableAsync.Concurrent.Test.Tasks
+namespace ComposableAsync.Factory.Test.Tasks
 {
     public class TypeExtensionTest
     {

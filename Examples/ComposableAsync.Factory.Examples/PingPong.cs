@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using ComposableAsync.Concurrent;
 using ComposableAsync.Concurrent.Collections;
 using ComposableAsync.Concurrent.Fibers;
 using ComposableAsync.Concurrent.WorkItems;
@@ -21,14 +22,14 @@ namespace ComposableAsync.Factory.Examples
             _Output = output;
         }
 
-        private static readonly ProxyFactoryBuilder _ProxyFactoryBuilder = new ProxyFactoryBuilder();
+        private static readonly ActorFactoryBuilder _ActorFactoryBuilder = new ActorFactoryBuilder();
 
         public static IEnumerable<object[]> GetFactories()
         {
-            yield return new object[] { "Not shared", _ProxyFactoryBuilder.GetActorFactory() };
-            yield return new object[] { "Shared", _ProxyFactoryBuilder.GetActorFactory(shared:true) };
-            yield return new object[] { "TaskBased", _ProxyFactoryBuilder.GetTaskBasedActorFactory() };
-            yield return new object[] { "ThreadPool",  _ProxyFactoryBuilder.GetThreadPoolBasedActorFactory() };        
+            yield return new object[] { "Not shared", _ActorFactoryBuilder.GetActorFactory() };
+            yield return new object[] { "Shared", _ActorFactoryBuilder.GetActorFactory(shared:true) };
+            yield return new object[] { "TaskBased", _ActorFactoryBuilder.GetTaskBasedActorFactory() };
+            yield return new object[] { "ThreadPool",  _ActorFactoryBuilder.GetThreadPoolBasedActorFactory() };        
         }
 
         [Theory]
@@ -100,7 +101,7 @@ namespace ComposableAsync.Factory.Examples
             Output(queueWorkItem.GetType().Name);
 
             var fiber = new MonoThreadedFiber(null, queueWorkItem);
-            var factory = _ProxyFactoryBuilder.GetActorFactoryFrom(fiber);
+            var factory = _ActorFactoryBuilder.GetActorFactoryFrom(fiber);
 
             await TestNoTask("Fiber", factory);
 

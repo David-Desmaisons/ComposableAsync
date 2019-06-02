@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using ComposableAsync.Factory;
 using ComposableAsync.Factory.Test.TestInfra.DummyClass;
 using Concurrent.Test.Helper;
 using FluentAssertions;
 using Xunit;
 
-namespace ComposableAsync.Factory.Test
+namespace ComposableAsync.Concurrent.Test
 {
     public class SynchronizationContextFactoryTest : IDisposable
     {
@@ -18,7 +19,7 @@ namespace ComposableAsync.Factory.Test
             _UiMessageLoop = new WpfThreadingHelper();
             _UiMessageLoop.Start().Wait();
 
-            _Factory = _UiMessageLoop.Dispatcher.Invoke(() => _ProxyFactoryBuilder.GetInContextActorFactory());
+            _Factory = _UiMessageLoop.Dispatcher.Invoke(() => _ActorFactoryBuilder.GetInContextActorFactory());
         }
 
         public void Dispose()
@@ -26,13 +27,13 @@ namespace ComposableAsync.Factory.Test
             _UiMessageLoop.Dispose();
         }
 
-        private static readonly ProxyFactoryBuilder _ProxyFactoryBuilder = new ProxyFactoryBuilder();
+        private static readonly ActorFactoryBuilder _ActorFactoryBuilder = new ActorFactoryBuilder();
 
         [Fact]
         public void Creating_SynchronizationContextFactory_WithoutContext_ThrowException() 
         {
             SynchronizationContext.SetSynchronizationContext(null);
-            Action Do = () => _ProxyFactoryBuilder.GetInContextActorFactory();
+            Action Do = () => _ActorFactoryBuilder.GetInContextActorFactory();
             Do.Should().Throw<ArgumentNullException>();
         }
 

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
-using ComposableAsync.Concurrent;
-using ComposableAsync.Factory.Test.TestInfra.DummyClass;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
 
 namespace ComposableAsync.Factory.Test
 {
-    public class ProxyFactoryBuilderTest : IDisposable
+    public class ProxyFactoryBuilderTest
     {
         private readonly ProxyFactoryBuilder _ProxyFactoryBuilder;
         private readonly ICancellableDispatcher _CancellableDispatcher;
@@ -22,28 +19,6 @@ namespace ComposableAsync.Factory.Test
             _CancellableDispatcher = Substitute.For<ICancellableDispatcher, IAsyncDisposable>();
             _CancellableDispatcher2 = Substitute.For<ICancellableDispatcher, IAsyncDisposable>();
             _CancellableDispatcher3 = Substitute.For<ICancellableDispatcher, IAsyncDisposable>();
-        }
-
-        public void Dispose()
-        {
-            SynchronizationContext.SetSynchronizationContext(null);
-        }
-
-        [Fact]
-        public async Task GetFactoryForFiber_Creates_Actor_Using_The_Provided_Fiber()
-        {
-            var fiber = Fiber.CreateMonoThreadedFiber();
-            var fiberThread = await fiber.Enqueue(() => Thread.CurrentThread);
-
-            var factory = _ProxyFactoryBuilder.GetActorFactoryFrom(fiber);
-
-            var target = new DummyClass();
-            var actor = factory.Build<IDummyInterface2>(target);
-            await actor.DoAsync();
-
-            target.CallingThread.Should().Be(fiberThread);
-
-            await fiber.DisposeAsync();
         }
 
         [Fact]

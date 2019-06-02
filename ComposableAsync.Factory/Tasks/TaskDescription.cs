@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ComposableAsync.Concurrent
+namespace ComposableAsync.Factory
 {
     /// <summary>
     /// Task description
