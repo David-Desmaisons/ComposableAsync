@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using Castle.DynamicProxy;
+﻿using Castle.DynamicProxy;
 using ComposableAsync.Factory.Proxy;
+using System;
+using System.Threading.Tasks;
 
 namespace ComposableAsync.Factory
 {
@@ -21,6 +21,16 @@ namespace ComposableAsync.Factory
         public ProxyFactory(IDispatcherManager dispatcherManager)
         {
             _DispatcherManager = _ComposableAsyncDisposable.Add(dispatcherManager);
+        }
+
+        /// <summary>
+        /// Returns an proxy factory using the provided dispatcher
+        /// Disposing the created factory will dispose the provided dispatcher
+        /// </summary>
+        /// <param name="dispatcher"></param>
+        public ProxyFactory(ICancellableDispatcher dispatcher) :
+            this(new MonoDispatcherManager(dispatcher, true))
+        {
         }
 
         /// <summary>
