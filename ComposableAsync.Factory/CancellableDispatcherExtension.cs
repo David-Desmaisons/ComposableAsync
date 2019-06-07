@@ -12,7 +12,7 @@
         /// <param name="this"></param>
         /// <param name="concrete">Object to be proxified</param>
         /// <returns></returns>
-        public static T Proxify<T>(ICancellableDispatcher @this, T concrete) where T : class
+        public static T Proxify<T>(this ICancellableDispatcher @this, T concrete) where T : class
         {
             var factory = new ProxyFactory(@this);
             return factory.Build<T>(concrete);
