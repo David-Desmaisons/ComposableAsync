@@ -6,7 +6,7 @@
     public static class CancellableDispatcherExtension
     {
         /// <summary>
-        /// Proxify a POCO usando the <see cref="ICancellableDispatcher"/> as an ansynchroneous transformer
+        /// Proxify a POCO using the <see cref="ICancellableDispatcher"/> as an asynchronous transformer
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="this"></param>

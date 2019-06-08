@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using ComposableAsync.Awaitable;
 
@@ -90,6 +91,26 @@ namespace ComposableAsync
                 throw new ArgumentNullException(nameof(others));
 
             return others.Aggregate(dispatcher, (cum, val) => cum.Then(val));
+        }
+
+        /// <summary>
+        /// Create a <see cref="DelegatingHandler"/> from an <see cref="ICancellableDispatcher"/>
+        /// </summary>
+        /// <param name="dispatcher"></param>
+        /// <returns></returns>
+        public static DelegatingHandler AsDelegatingHandler(this ICancellableDispatcher dispatcher)
+        {
+            return new CancellableDispatcherDelegatingHandler(dispatcher);
+        }
+
+        /// <summary>
+        /// Create a <see cref="DelegatingHandler"/> from an <see cref="IDispatcher"/>
+        /// </summary>
+        /// <param name="dispatcher"></param>
+        /// <returns></returns>
+        public static DelegatingHandler AsDelegatingHandler(this IDispatcher dispatcher)
+        {
+            return new DispatcherDelegatingHandler(dispatcher);
         }
     }
 }
