@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComposableAsync.Factory.Nin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Concurrent.Flow.Sample", "Examples\Concurrent.Flow.Sample\Concurrent.Flow.Sample.csproj", "{006A5983-D4DF-4709-B4CE-3E0A594ED361}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComposableAsync.Asp", "ComposableAsync.Asp\ComposableAsync.Asp.csproj", "{BD1E7ABD-9402-418E-A399-EEC1392FCDAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +111,10 @@ Global
 		{006A5983-D4DF-4709-B4CE-3E0A594ED361}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{006A5983-D4DF-4709-B4CE-3E0A594ED361}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{006A5983-D4DF-4709-B4CE-3E0A594ED361}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD1E7ABD-9402-418E-A399-EEC1392FCDAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD1E7ABD-9402-418E-A399-EEC1392FCDAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD1E7ABD-9402-418E-A399-EEC1392FCDAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD1E7ABD-9402-418E-A399-EEC1392FCDAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
