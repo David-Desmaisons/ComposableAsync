@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
 using Xunit;
@@ -17,6 +18,7 @@ namespace ComposableAsync.Core.Test.Dispatchers
         private Action _DispatchedAction;
         private Func<Task> _DispatchedFuncTask;
         private Func<Task<int>> _DispatchedFuncTaskInt;
+        private readonly CancellationToken _CancellationToken = new CancellationToken();
 
         public ComposedDispatcherTest()
         {
@@ -24,6 +26,8 @@ namespace ComposableAsync.Core.Test.Dispatchers
             _First.Dispatch(Arg.Do<Action>(argument => _DispatchedAction = argument));
             _First.Enqueue(Arg.Do<Func<Task>>(argument => _DispatchedFuncTask = argument));
             _First.Enqueue(Arg.Do<Func<Task<int>>>(argument => _DispatchedFuncTaskInt = argument));
+            _First.Enqueue(Arg.Do<Func<Task>>(argument => _DispatchedFuncTask = argument), Arg.Any<CancellationToken>());
+            _First.Enqueue(Arg.Do<Func<Task<int>>>(argument => _DispatchedFuncTaskInt = argument), Arg.Any<CancellationToken>());
 
             _Second = Substitute.For<IDispatcher>();
             _Action = Substitute.For<Action>();
@@ -132,6 +136,46 @@ namespace ComposableAsync.Core.Test.Dispatchers
 
             await _Second.Received(1).Enqueue(Arg.Any<Func<Task<int>>>());
             await _Second.Received().Enqueue(_FuncTaskInt);
+        }
+
+        [Fact]
+        public async Task Enqueue_FuncTask_CancellationToken_Calls_Dispatch_First_On_First_Dispatcher()
+        {
+            await _ComposedDispatcher.Enqueue(_FuncTask, _CancellationToken);
+
+            await _First.Received(1).Enqueue(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>());
+            await _First.Received().Enqueue(Arg.Any<Func<Task>>(), _CancellationToken);
+            await _Second.DidNotReceive().Enqueue(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>());
+        }
+
+        [Fact]
+        public async Task Enqueue_FuncTask_CancellationToken_Calls_Dispatch_On_Second_Dispatcher_Then()
+        {
+            await _ComposedDispatcher.Enqueue(_FuncTask, _CancellationToken);
+            await _DispatchedFuncTask();
+
+            await _Second.Received(1).Enqueue(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>());
+            await _Second.Received().Enqueue(_FuncTask, _CancellationToken);
+        }
+
+        [Fact]
+        public async Task Enqueue_FuncTask_T_CancellationToken_Calls_Dispatch_First_On_First_Dispatcher()
+        {
+            await _ComposedDispatcher.Enqueue(_FuncTaskInt, _CancellationToken);
+
+            await _First.Received(1).Enqueue(Arg.Any<Func<Task<int>>>(), Arg.Any<CancellationToken>());
+            await _First.Received().Enqueue(Arg.Any<Func<Task<int>>>(), _CancellationToken);
+            await _Second.DidNotReceive().Enqueue(Arg.Any<Func<Task<int>>>(), Arg.Any<CancellationToken>());
+        }
+
+        [Fact]
+        public async Task Enqueue_FuncTask_T_CancellationToken_Calls_Dispatch_On_Second_Dispatcher_Then()
+        {
+            await _ComposedDispatcher.Enqueue(_FuncTaskInt, _CancellationToken);
+            await _DispatchedFuncTaskInt();
+
+            await _Second.Received(1).Enqueue(Arg.Any<Func<Task<int>>>(), Arg.Any<CancellationToken>());
+            await _Second.Received().Enqueue(_FuncTaskInt, _CancellationToken);
         }
     }
 }

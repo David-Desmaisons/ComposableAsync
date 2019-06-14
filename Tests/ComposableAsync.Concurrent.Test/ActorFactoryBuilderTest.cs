@@ -11,16 +11,16 @@ namespace ComposableAsync.Concurrent.Test
     public class ActorFactoryBuilderTest : IDisposable
     {
         private readonly ActorFactoryBuilder _ActorFactoryBuilder;
-        private readonly IDispatcher _CancellableDispatcher;
-        private readonly IDispatcher _CancellableDispatcher2;
-        private readonly IDispatcher _CancellableDispatcher3;
+        private readonly IDispatcher _Dispatcher;
+        private readonly IDispatcher _Dispatcher2;
+        private readonly IDispatcher _Dispatcher3;
 
         public ActorFactoryBuilderTest()
         {
             _ActorFactoryBuilder = new ActorFactoryBuilder();
-            _CancellableDispatcher = Substitute.For<IDispatcher, IAsyncDisposable>();
-            _CancellableDispatcher2 = Substitute.For<IDispatcher, IAsyncDisposable>();
-            _CancellableDispatcher3 = Substitute.For<IDispatcher, IAsyncDisposable>();
+            _Dispatcher = Substitute.For<IDispatcher, IAsyncDisposable>();
+            _Dispatcher2 = Substitute.For<IDispatcher, IAsyncDisposable>();
+            _Dispatcher3 = Substitute.For<IDispatcher, IAsyncDisposable>();
         }
 
         public void Dispose()

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using ComposableAsync.Concurrent;
 using FluentAssertions;
 using NSubstitute;
-using NSubstitute.ExceptionExtensions;
 using Xunit;
 
 namespace ComposableAsync.Core.Test
@@ -14,7 +13,6 @@ namespace ComposableAsync.Core.Test
     {
         private readonly IMonoThreadFiber _Fiber;
         private readonly IDispatcher _Dispatcher = Substitute.For<IDispatcher>();
-        private readonly IDispatcher _CancellableDispatcher = Substitute.For<IDispatcher>();
 
         private Thread _FiberThread;
 
@@ -106,15 +104,6 @@ namespace ComposableAsync.Core.Test
         }
 
         [Fact]
-        public void Then_Returns_A_ComposedCancellableDispatcher()
-        {
-            var first = Substitute.For<IDispatcher>();
-            var then = Substitute.For<IDispatcher>();
-            var composed = first.Then(then);
-            composed.Should().BeOfType<ComposedDispatcher>();
-        }
-
-        [Fact]
         public void Then_Throws_Exception_When_Other_Is_null()
         {
             var first = Substitute.For<IDispatcher>();
@@ -139,15 +128,6 @@ namespace ComposableAsync.Core.Test
             var then = new IDispatcher[0];
             var composed = first.Then(then);
             composed.Should().Be(first);
-        }
-
-        [Fact]
-        public void Then_Array_Returns_A_ComposedCancellableDispatcher()
-        {
-            var first = Substitute.For<IDispatcher>();
-            var then = Substitute.For<IDispatcher>();
-            var composed = first.Then(then);
-            composed.Should().BeOfType<ComposedDispatcher>();
         }
 
         [Fact]
@@ -178,7 +158,7 @@ namespace ComposableAsync.Core.Test
         }
 
         [Fact]
-        public void Then_Enumerable_Returns_A_ComposedCancellableDispatcher()
+        public void Then_Enumerable_Returns_A_ComposedDispatcher()
         {
             var first = Substitute.For<IDispatcher>();
             var then = new List<IDispatcher>()
@@ -190,7 +170,7 @@ namespace ComposableAsync.Core.Test
         }
 
         [Fact]
-        public void Then_ICancellableDispatcher_Enumerable_Throws_Exception_When_Other_Is_null()
+        public void Then_Enumerable_Throws_Exception_When_Other_Is_null()
         {
             var first = Substitute.For<IDispatcher>();
             var then = default(IEnumerable<IDispatcher>);
@@ -199,7 +179,7 @@ namespace ComposableAsync.Core.Test
         }
 
         [Fact]
-        public void Then_ICancellableDispatcher_Enumerable_Throws_Exception_When_This_Is_null()
+        public void Then_Enumerable_Throws_Exception_When_This_Is_null()
         {
             var first = default(IDispatcher);
             var then = new List<IDispatcher>();

@@ -8,7 +8,7 @@ namespace ComposableAsync.Test.Helper
 {
     public class TaskEnqueueWithCancellationTester
     {
-        private readonly IDispatcher _CancellableDispatcher;
+        private readonly IDispatcher _Dispatcher;
         private Stopwatch _Stopwatch;
 
         public TimeSpan TimeSpentToCancelTask => _Stopwatch.Elapsed;
@@ -16,7 +16,7 @@ namespace ComposableAsync.Test.Helper
 
         public TaskEnqueueWithCancellationTester(IDispatcher cancellableDispatcher)
         {
-            _CancellableDispatcher = cancellableDispatcher;
+            _Dispatcher = cancellableDispatcher;
         }
 
         public async Task RunAndCancelTask()
@@ -24,8 +24,8 @@ namespace ComposableAsync.Test.Helper
             var cancellationTokenSource = new CancellationTokenSource();
             _Stopwatch = Stopwatch.StartNew();
 
-            var taskEnqueued = _CancellableDispatcher.Enqueue(() => TaskFactory(sleep: 2));
-            var newTask = _CancellableDispatcher.Enqueue(() => TaskFactory(() => CancelledTaskHasBeenExecuted = true), cancellationTokenSource.Token);
+            var taskEnqueued = _Dispatcher.Enqueue(() => TaskFactory(sleep: 2));
+            var newTask = _Dispatcher.Enqueue(() => TaskFactory(() => CancelledTaskHasBeenExecuted = true), cancellationTokenSource.Token);
 
             cancellationTokenSource.Cancel();
 
@@ -43,8 +43,8 @@ namespace ComposableAsync.Test.Helper
             var cancellationTokenSource = new CancellationTokenSource();
             _Stopwatch = Stopwatch.StartNew();
 
-            var taskEnqueued = _CancellableDispatcher.Enqueue(() => TaskFactory_T(sleep: 2));
-            var newTask = _CancellableDispatcher.Enqueue(() => TaskFactory_T(0, () => CancelledTaskHasBeenExecuted = true), cancellationTokenSource.Token);
+            var taskEnqueued = _Dispatcher.Enqueue(() => TaskFactory_T(sleep: 2));
+            var newTask = _Dispatcher.Enqueue(() => TaskFactory_T(0, () => CancelledTaskHasBeenExecuted = true), cancellationTokenSource.Token);
 
             cancellationTokenSource.Cancel();
 
@@ -61,7 +61,7 @@ namespace ComposableAsync.Test.Helper
         {
             var cancellationTokenSource = new CancellationTokenSource();
 
-            var taskEnqueued = _CancellableDispatcher.Enqueue(() => TaskFactory(cancellationTokenSource.Token, () => CancelledTaskHasBeenExecuted = true, sleep: 1),
+            var taskEnqueued = _Dispatcher.Enqueue(() => TaskFactory(cancellationTokenSource.Token, () => CancelledTaskHasBeenExecuted = true, sleep: 1),
                                     cancellationTokenSource.Token);
 
             cancellationTokenSource.Cancel();
@@ -73,7 +73,7 @@ namespace ComposableAsync.Test.Helper
         {
             var cancellationTokenSource = new CancellationTokenSource();
 
-            var taskEnqueued = _CancellableDispatcher.Enqueue(() => TaskFactory_T(cancellationTokenSource.Token, () => CancelledTaskHasBeenExecuted = true, sleep: 1),
+            var taskEnqueued = _Dispatcher.Enqueue(() => TaskFactory_T(cancellationTokenSource.Token, () => CancelledTaskHasBeenExecuted = true, sleep: 1),
                 cancellationTokenSource.Token);
 
             cancellationTokenSource.Cancel();
@@ -85,7 +85,7 @@ namespace ComposableAsync.Test.Helper
         {
             var cancellationTokenSource = new CancellationTokenSource();
 
-            var taskEnqueued = _CancellableDispatcher.Enqueue(() => TaskFactory(() => CancelledTaskHasBeenExecuted = true, sleep: 1), cancellationTokenSource.Token);
+            var taskEnqueued = _Dispatcher.Enqueue(() => TaskFactory(() => CancelledTaskHasBeenExecuted = true, sleep: 1), cancellationTokenSource.Token);
 
             await Task.Delay(200);
             cancellationTokenSource.Cancel();
@@ -97,7 +97,7 @@ namespace ComposableAsync.Test.Helper
         {
             var cancellationTokenSource = new CancellationTokenSource();
 
-            var taskEnqueued = _CancellableDispatcher.Enqueue(() => TaskFactory_T(value: value, sleep: 1), cancellationTokenSource.Token);
+            var taskEnqueued = _Dispatcher.Enqueue(() => TaskFactory_T(value: value, sleep: 1), cancellationTokenSource.Token);
 
             await Task.Delay(200);
             cancellationTokenSource.Cancel();
