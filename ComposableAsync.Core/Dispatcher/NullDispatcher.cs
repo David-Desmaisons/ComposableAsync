@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ComposableAsync
@@ -45,5 +46,29 @@ namespace ComposableAsync
         {
             return await action();
         }
+
+        public Task<T> Enqueue<T>(Func<T> action, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(action());
+        }
+
+        public Task Enqueue(Action action, CancellationToken cancellationToken)
+        {
+            action();
+            return Task.CompletedTask;
+        }
+
+        public async Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
+        {
+            await action();
+        }
+
+        public async Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
+        {
+            return await action();
+        }
+
+        /// <inheritdoc />
+        public IDispatcher Clone() => Instance;
     }
 }

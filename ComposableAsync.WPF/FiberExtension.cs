@@ -8,9 +8,9 @@ namespace ComposableAsync.WPF
     /// </summary>
     public static class FiberExtension
     {
-        private static ICancellableDispatcher GetRawDispatcher(this object @object)
+        private static IDispatcher GetRawDispatcher(this object @object)
         {
-           return (@object as ICancellableDispatcherProvider)?.Dispatcher;
+           return (@object as IDispatcherProvider)?.Dispatcher;
         }
 
         /// <summary>

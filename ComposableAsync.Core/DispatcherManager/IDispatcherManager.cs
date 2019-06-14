@@ -16,6 +16,6 @@ namespace ComposableAsync
         /// Returns a consumable Dispatcher
         /// </summary>
         /// <returns></returns>
-        ICancellableDispatcher GetDispatcher();
+        IDispatcher GetDispatcher();
     }
 }

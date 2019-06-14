@@ -6,9 +6,9 @@ namespace ComposableAsync.Factory.Proxy
     [DebuggerNonUserCode]
     internal class DispatcherInterceptor<T> : IInterceptor
     {
-        private readonly ICancellableDispatcher _Dispatcher;
+        private readonly IDispatcher _Dispatcher;
 
-        internal DispatcherInterceptor(ICancellableDispatcher dispatcher)
+        internal DispatcherInterceptor(IDispatcher dispatcher)
         {
             _Dispatcher = dispatcher;
         }

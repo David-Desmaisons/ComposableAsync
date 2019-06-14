@@ -10,7 +10,7 @@ namespace ComposableAsync.Factory.Proxy
 
         private InvocationOnDispatcher Transform { get; }
 
-        internal object Invoke(ICancellableDispatcher dispatcher, IInvocation invocation) =>
+        internal object Invoke(IDispatcher dispatcher, IInvocation invocation) =>
             Transform.Invoke(dispatcher, invocation);
 
         internal ProxyFiberSolver(InvocationOnDispatcher transform, bool @continue)

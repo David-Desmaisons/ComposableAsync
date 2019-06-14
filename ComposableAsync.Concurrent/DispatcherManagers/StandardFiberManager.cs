@@ -15,7 +15,7 @@ namespace ComposableAsync.Actors.DispatcherManagers
             _OnCreate = onCreate;
         }
 
-        public ICancellableDispatcher GetDispatcher() => Fiber.CreateMonoThreadedFiber(_OnCreate);
+        public IDispatcher GetDispatcher() => Fiber.CreateMonoThreadedFiber(_OnCreate);
 
         public Task DisposeAsync() => Task.CompletedTask;
     }

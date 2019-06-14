@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ComposableAsync.Concurrent.Collections;
+using ComposableAsync.Concurrent.SynchronizationContexts;
+using ComposableAsync.Concurrent.WorkItems;
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using ComposableAsync.Concurrent.Collections;
-using ComposableAsync.Concurrent.SynchronizationContexts;
-using ComposableAsync.Concurrent.WorkItems;
 
 namespace ComposableAsync.Concurrent.Fibers
 {
@@ -20,18 +20,20 @@ namespace ComposableAsync.Concurrent.Fibers
 
         private SynchronizationContext _SynchronizationContext;
         private readonly IMpScQueue<IWorkItem> _TaskQueue;
+        private readonly Action<Thread> _OnCreate;
         private readonly TaskCompletionSource<int> _EndFiber = new TaskCompletionSource<int>();
 
         public MonoThreadedFiber(Action<Thread> onCreate = null, IMpScQueue<IWorkItem> queue = null)
         {
-            _TaskQueue = queue?? new BlockingMpscQueue<IWorkItem>();
+            _OnCreate = onCreate;
+            _TaskQueue = queue ?? new BlockingMpscQueue<IWorkItem>();
             Thread = new Thread(Consume)
             {
                 IsBackground = true,
                 Name = $"MonoThreadedQueue-{_Count++}"
             };
 
-            onCreate?.Invoke(Thread);
+            _OnCreate?.Invoke(Thread);
             Thread.Start();
         }
 
@@ -74,7 +76,7 @@ namespace ComposableAsync.Concurrent.Fibers
 
         public Task<T> Enqueue<T>(Func<T> action)
         {
-            return Enqueue<T>(new WorkItem<T>(action));    
+            return Enqueue<T>(new WorkItem<T>(action));
         }
 
         public void Dispatch(Action action)
@@ -105,6 +107,11 @@ namespace ComposableAsync.Concurrent.Fibers
             return Enqueue(new AsyncWorkItem<T>(action));
         }
 
+        public IDispatcher Clone()
+        {
+            return new MonoThreadedFiber(_OnCreate);
+        }
+
         private void Consume()
         {
             SynchronizationContext.SetSynchronizationContext(this.SynchronizationContext);
@@ -114,7 +121,7 @@ namespace ComposableAsync.Concurrent.Fibers
                 _TaskQueue.OnElements(action => action.Do());
             }
             catch (OperationCanceledException)
-            {          
+            {
             }
 
             foreach (var action in _TaskQueue.GetUnsafeQueue())

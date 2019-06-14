@@ -28,7 +28,7 @@ namespace ComposableAsync.Factory
         /// Disposing the created factory will dispose the provided dispatcher
         /// </summary>
         /// <param name="dispatcher"></param>
-        public ProxyFactory(ICancellableDispatcher dispatcher) :
+        public ProxyFactory(IDispatcher dispatcher) :
             this(new MonoDispatcherManager(dispatcher, true))
         {
         }
@@ -62,21 +62,21 @@ namespace ComposableAsync.Factory
         /// <returns></returns>
         public Task DisposeAsync() => _ComposableAsyncDisposable.DisposeAsync();
 
-        private T Create<T>(T concrete, ICancellableDispatcher dispatcher) where T : class
+        private T Create<T>(T concrete, IDispatcher dispatcher) where T : class
         {
             var interceptors = new IInterceptor[] { new DispatcherInterceptor<T>(dispatcher) };
             var options = GetProxyGenerationOptions(dispatcher);
             return _Generator.CreateInterfaceProxyWithTarget<T>(concrete, options, interceptors);
         }
 
-        private ProxyGenerationOptions GetProxyGenerationOptions(ICancellableDispatcher dispatcher)
+        private ProxyGenerationOptions GetProxyGenerationOptions(IDispatcher dispatcher)
         {
             var options = new ProxyGenerationOptions();
-            options.AddMixinInstance(new CancellableDispatcherProvider(dispatcher));
+            options.AddMixinInstance(new DispatcherProvider(dispatcher));
             return options;
         }
 
-        private ICancellableDispatcher GetDispatcher()
+        private IDispatcher GetDispatcher()
         {
             var dispatcher = _DispatcherManager.GetDispatcher();
             if (_DispatcherManager.DisposeDispatcher)

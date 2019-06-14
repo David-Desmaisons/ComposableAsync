@@ -26,7 +26,7 @@ namespace ComposableAsync.Factory.Proxy
                 return _EnqueueFunction;
 
             var parameterIndex = cancellationParameter.Position;
-            object Res(ICancellableDispatcher dispatcher, IInvocation invocation) => Enqueue(dispatcher, invocation, parameterIndex);
+            object Res(IDispatcher dispatcher, IInvocation invocation) => Enqueue(dispatcher, invocation, parameterIndex);
             return Res;
         }
 
@@ -57,28 +57,28 @@ namespace ComposableAsync.Factory.Proxy
         private static ParameterInfo GetCancellationParameter(MethodInfo method)
             => method.GetParameters().FirstOrDefault(p => p.ParameterType == _CancellationTokenSourceType);
 
-        private static object Dispatch(ICancellableDispatcher dispatcher, IInvocation invocation)
+        private static object Dispatch(IDispatcher dispatcher, IInvocation invocation)
         {
             dispatcher.Dispatch(invocation.Call);
             return null;
         }
 
-        private static object Enqueue(ICancellableDispatcher dispatcher, IInvocation invocation, int cancellationTokenPosition)
+        private static object Enqueue(IDispatcher dispatcher, IInvocation invocation, int cancellationTokenPosition)
         {
             var cancellationToken = (CancellationToken)invocation.Arguments[cancellationTokenPosition];
             return dispatcher.Enqueue(invocation.Call<Task>, cancellationToken);
         }
 
-        private static object Enqueue(ICancellableDispatcher dispatcher, IInvocation invocation) =>
+        private static object Enqueue(IDispatcher dispatcher, IInvocation invocation) =>
             dispatcher.Enqueue(invocation.Call<Task>);
 
-        private static object Proceed<TResult>(ICancellableDispatcher dispatcher, IInvocation invocation) =>
+        private static object Proceed<TResult>(IDispatcher dispatcher, IInvocation invocation) =>
             dispatcher.Enqueue(invocation.Call<Task<TResult>>);
 
-        private static object DynamicEnqueue(ICancellableDispatcher dispatcher, IInvocation invocation)
+        private static object DynamicEnqueue(IDispatcher dispatcher, IInvocation invocation)
             => DynamicDispatch(_Proceed, dispatcher, invocation);
 
-        private static object DynamicDispatch(MethodInfo genericMethodInfo, ICancellableDispatcher dispatcher, IInvocation invocation, object context = null)
+        private static object DynamicDispatch(MethodInfo genericMethodInfo, IDispatcher dispatcher, IInvocation invocation, object context = null)
         {
             var solvedTask = invocation.Method.ReturnType.GetTaskType();
             var methodInfo = genericMethodInfo.MakeGenericMethod(solvedTask.Type);
@@ -94,13 +94,13 @@ namespace ComposableAsync.Factory.Proxy
                 _Index = index;
             }
 
-            internal object ProceedWithCancellation<TResult>(ICancellableDispatcher dispatcher, IInvocation invocation)
+            internal object ProceedWithCancellation<TResult>(IDispatcher dispatcher, IInvocation invocation)
             {
                 var cancellationToken = (CancellationToken)invocation.Arguments[_Index];
                 return dispatcher.Enqueue(invocation.Call<Task<TResult>>, cancellationToken);
             }
 
-            internal object DynamicProceedWithCancellation(ICancellableDispatcher dispatcher, IInvocation invocation)
+            internal object DynamicProceedWithCancellation(IDispatcher dispatcher, IInvocation invocation)
                 => DynamicDispatch(_ProceedForCancellation, dispatcher, invocation, this);
         }
     }

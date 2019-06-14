@@ -16,7 +16,7 @@ namespace ComposableAsync
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            return _Dispatcher.Enqueue(() => base.SendAsync(request, cancellationToken));
+            return _Dispatcher.Enqueue(() => base.SendAsync(request, cancellationToken), cancellationToken);
         }
     }
 }

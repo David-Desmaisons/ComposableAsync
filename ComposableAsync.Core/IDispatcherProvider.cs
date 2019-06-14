@@ -3,11 +3,11 @@
     /// <summary>
     /// Returns the fiber associated with an actor
     /// </summary>
-    public interface ICancellableDispatcherProvider
+    public interface IDispatcherProvider
     {
         /// <summary>
-        /// Returns the corresponding <see cref="ICancellableDispatcher"/>
+        /// Returns the corresponding <see cref="IDispatcher"/>
         /// </summary>
-        ICancellableDispatcher Dispatcher { get; }
+        IDispatcher Dispatcher { get; }
     }
 }

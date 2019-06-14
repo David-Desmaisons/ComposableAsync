@@ -20,7 +20,8 @@ namespace ComposableAsync.Awaitable
         /// Construct a NotifyCompletion fom a dispatcher
         /// </summary>
         /// <param name="dispatcher"></param>
-        public DispatcherAwaiter(IDispatcher dispatcher) {
+        public DispatcherAwaiter(IDispatcher dispatcher)
+        {
             _Dispatcher = dispatcher;
         }
 
@@ -29,7 +30,8 @@ namespace ComposableAsync.Awaitable
         /// </summary>
         /// <param name="continuation"></param>
         [SecuritySafeCritical]
-        public void OnCompleted(Action continuation) {
+        public void OnCompleted(Action continuation)
+        {
             _Dispatcher.Dispatch(continuation);
         }
 

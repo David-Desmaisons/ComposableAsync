@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Threading;
 using ComposableAsync.Awaitable;
 
 namespace ComposableAsync
@@ -24,18 +23,6 @@ namespace ComposableAsync
         }
 
         /// <summary>
-        /// Return a cancellable awaitable linked to the corresponding ICancellableDispatcher
-        /// </summary>
-        /// <param name="dispatcher"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Corresponding awaitable struct</returns>
-        public static DispatcherCancelableAwaitable ConfigureAwait(this ICancellableDispatcher dispatcher, CancellationToken cancellationToken)
-        {
-            var awaiter = new DispatcherCancelableAwaiter(dispatcher, cancellationToken);
-            return new DispatcherCancelableAwaitable(awaiter);
-        }
-
-        /// <summary>
         /// Returns a composed dispatcher applying the given dispatcher
         /// after the first one
         /// </summary>
@@ -44,25 +31,13 @@ namespace ComposableAsync
         /// <returns></returns>
         public static IDispatcher Then(this IDispatcher dispatcher, IDispatcher other)
         {
-            return new ComposedDispatcher(dispatcher, other);
-        }
-
-        /// <summary>
-        /// Returns a composed dispatcher applying the given dispatcher
-        /// after the first one
-        /// </summary>
-        /// <param name="dispatcher"></param>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public static ICancellableDispatcher Then(this ICancellableDispatcher dispatcher, ICancellableDispatcher other)
-        {
             if (dispatcher == null)
                 throw new ArgumentNullException(nameof(dispatcher));
 
             if (other == null)
                 throw new ArgumentNullException(nameof(other));
 
-            return new ComposedCancellableDispatcher(dispatcher, other);
+            return new ComposedDispatcher(dispatcher, other);
         }
 
         /// <summary>
@@ -71,9 +46,9 @@ namespace ComposableAsync
         /// <param name="dispatcher"></param>
         /// <param name="others"></param>
         /// <returns></returns>
-        public static ICancellableDispatcher Then(this ICancellableDispatcher dispatcher, params ICancellableDispatcher[] others)
+        public static IDispatcher Then(this IDispatcher dispatcher, params IDispatcher[] others)
         {
-            return dispatcher.Then((IEnumerable<ICancellableDispatcher>)others);
+            return dispatcher.Then((IEnumerable<IDispatcher>)others);
         }
 
         /// <summary>
@@ -82,7 +57,7 @@ namespace ComposableAsync
         /// <param name="dispatcher"></param>
         /// <param name="others"></param>
         /// <returns></returns>
-        public static ICancellableDispatcher Then(this ICancellableDispatcher dispatcher, IEnumerable<ICancellableDispatcher> others)
+        public static IDispatcher Then(this IDispatcher dispatcher, IEnumerable<IDispatcher> others)
         {
             if (dispatcher == null)
                 throw new ArgumentNullException(nameof(dispatcher));
@@ -91,16 +66,6 @@ namespace ComposableAsync
                 throw new ArgumentNullException(nameof(others));
 
             return others.Aggregate(dispatcher, (cum, val) => cum.Then(val));
-        }
-
-        /// <summary>
-        /// Create a <see cref="DelegatingHandler"/> from an <see cref="ICancellableDispatcher"/>
-        /// </summary>
-        /// <param name="dispatcher"></param>
-        /// <returns></returns>
-        public static DelegatingHandler AsDelegatingHandler(this ICancellableDispatcher dispatcher)
-        {
-            return new CancellableDispatcherDelegatingHandler(dispatcher);
         }
 
         /// <summary>

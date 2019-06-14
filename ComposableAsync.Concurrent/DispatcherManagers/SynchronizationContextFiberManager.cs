@@ -21,7 +21,7 @@ namespace ComposableAsync.Actors.DispatcherManagers
             _Fiber = Fiber.GetFiberFromSynchronizationContext(synchronizationContext);
         }
 
-        public ICancellableDispatcher GetDispatcher() => _Fiber;
+        public IDispatcher GetDispatcher() => _Fiber;
 
         public Task DisposeAsync() => Task.CompletedTask;
     }

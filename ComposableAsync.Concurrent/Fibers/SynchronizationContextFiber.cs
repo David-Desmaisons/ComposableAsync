@@ -1,7 +1,7 @@
-﻿using System;
+﻿using ComposableAsync.Concurrent.WorkItems;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ComposableAsync.Concurrent.WorkItems;
 
 namespace ComposableAsync.Concurrent.Fibers
 {
@@ -40,6 +40,8 @@ namespace ComposableAsync.Concurrent.Fibers
             return PrivateEnqueue(new AsyncWorkItem<T>(action));
         }
 
+        public IDispatcher Clone() => this;
+
         public Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
             return PrivateEnqueue(new AsyncActionCancellableWorkItem(action, cancellationToken));
@@ -55,7 +57,7 @@ namespace ComposableAsync.Concurrent.Fibers
             SynchronizationContext.Post(_SendOrPostAction, action);
         }
 
-        public Task Enqueue(Action action) 
+        public Task Enqueue(Action action)
         {
             return PrivateEnqueue(new ActionWorkItem(action));
         }
@@ -75,7 +77,7 @@ namespace ComposableAsync.Concurrent.Fibers
         private static readonly SendOrPostCallback _SendOrPostWorkItem = DoWorkItem;
         private static readonly SendOrPostCallback _SendOrPostAction = RunAction;
 
-        private static void DoWorkItem(object state) => ((IWorkItem) state).Do();
-        private static void RunAction(object state) => ((Action) state)();
+        private static void DoWorkItem(object state) => ((IWorkItem)state).Do();
+        private static void RunAction(object state) => ((Action)state)();
     }
 }

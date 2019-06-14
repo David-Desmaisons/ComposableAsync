@@ -11,7 +11,7 @@
         /// </summary>
         /// <param name="dispatcher"></param>
         /// <returns></returns>
-        IProxyFactory GetManagedProxyFactory(ICancellableDispatcher dispatcher);
+        IProxyFactory GetManagedProxyFactory(IDispatcher dispatcher);
 
         /// <summary>
         /// Returns an proxy factory using the provided dispatchers sequentially
@@ -20,7 +20,7 @@
         /// <param name="dispatcher1"></param>
         /// <param name="dispatcher2"></param>
         /// <returns></returns>
-        IProxyFactory GetManagedProxyFactory(ICancellableDispatcher dispatcher1, ICancellableDispatcher dispatcher2);
+        IProxyFactory GetManagedProxyFactory(IDispatcher dispatcher1, IDispatcher dispatcher2);
 
         /// <summary>
         /// Returns an proxy factory using the provided dispatchers sequentially
@@ -28,7 +28,7 @@
         /// </summary>
         /// <param name="dispatchers"></param>
         /// <returns></returns>
-        IProxyFactory GetManagedProxyFactory(params ICancellableDispatcher[] dispatchers);
+        IProxyFactory GetManagedProxyFactory(params IDispatcher[] dispatchers);
 
         /// <summary>
         /// Returns an proxy factory using the provided dispatcher
@@ -36,7 +36,7 @@
         /// </summary>
         /// <param name="dispatcher"></param>
         /// <returns></returns>
-        IProxyFactory GetUnmanagedProxyFactory(ICancellableDispatcher dispatcher);
+        IProxyFactory GetUnmanagedProxyFactory(IDispatcher dispatcher);
 
         /// <summary>
         /// Returns an proxy factory using the provided dispatchers sequentially
@@ -45,7 +45,7 @@
         /// <param name="dispatcher1"></param>
         /// <param name="dispatcher2"></param>
         /// <returns></returns>
-        IProxyFactory GetUnmanagedProxyFactory(ICancellableDispatcher dispatcher1, ICancellableDispatcher dispatcher2);
+        IProxyFactory GetUnmanagedProxyFactory(IDispatcher dispatcher1, IDispatcher dispatcher2);
 
         /// <summary>
         /// Returns an proxy factory using the provided dispatchers sequentially
@@ -53,6 +53,6 @@
         /// </summary>
         /// <param name="dispatchers"></param>
         /// <returns></returns>
-        IProxyFactory GetUnmanagedProxyFactory(params ICancellableDispatcher[] dispatchers);
+        IProxyFactory GetUnmanagedProxyFactory(params IDispatcher[] dispatchers);
     }
 }

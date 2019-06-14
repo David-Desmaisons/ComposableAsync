@@ -8,7 +8,7 @@ namespace ComposableAsync.Concurrent.Dispatchers
     /// <summary>
     /// Dispatcher using a <see cref="TaskScheduler"/>
     /// </summary>
-    internal class TaskSchedulerDispatcher : ICancellableDispatcher
+    internal class TaskSchedulerDispatcher : IDispatcher
     {
         internal TaskScheduler TaskScheduler { get; }
 
@@ -104,6 +104,8 @@ namespace ComposableAsync.Concurrent.Dispatchers
         {
             return Enqueue(new AsyncWorkItem<T>(action));
         }
+
+        public IDispatcher Clone() => this;
 
         public Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {

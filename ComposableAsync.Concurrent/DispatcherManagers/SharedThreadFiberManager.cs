@@ -15,7 +15,7 @@ namespace ComposableAsync.Actors.DispatcherManagers
            _Fiber = Fiber.CreateMonoThreadedFiber(onCreate);
         }
 
-        public ICancellableDispatcher GetDispatcher() => _Fiber;
+        public IDispatcher GetDispatcher() => _Fiber;
 
         public Task DisposeAsync() => _Fiber.DisposeAsync();      
     }

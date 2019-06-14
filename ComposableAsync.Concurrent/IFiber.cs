@@ -5,7 +5,7 @@ namespace ComposableAsync.Concurrent
     /// <summary>
     /// Fiber abstraction
     /// </summary>
-    public interface IFiber : ICancellableDispatcher
+    public interface IFiber : IDispatcher
     {
         /// <summary>
         /// True if the fiber is active

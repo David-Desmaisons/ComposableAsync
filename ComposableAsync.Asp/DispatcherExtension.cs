@@ -9,12 +9,12 @@ namespace ComposableAsync.Asp
 {
     public static class DispatcherExtension
     {
-        public static void UseDispatcher(this IApplicationBuilder app, ICancellableDispatcher dispatcher)
+        public static void UseDispatcher(this IApplicationBuilder app, IDispatcher dispatcher)
         {
             app.Use((context, next) => dispatcher.Enqueue(next));
         }
 
-        public static void UseDispatcher(this IApplicationBuilder app, Func<HttpContext,ICancellableDispatcher> dispatcherFinder)
+        public static void UseDispatcher(this IApplicationBuilder app, Func<HttpContext, IDispatcher> dispatcherFinder)
         {
             app.Use((context, next) =>
             {
@@ -23,9 +23,9 @@ namespace ComposableAsync.Asp
             });
         }
 
-        public static void UseDispatcherByRemoteIpAddress(this IApplicationBuilder app, Func<ICancellableDispatcher> dispatcherFinder)
+        public static void UseDispatcherByRemoteIpAddress(this IApplicationBuilder app, Func<IDispatcher> dispatcherFinder)
         {
-            var cache = new Dictionary<IPAddress, ICancellableDispatcher>();
+            var cache = new Dictionary<IPAddress, IDispatcher>();
             app.Use((context, next) =>
             {
                 var dispatcher = GetOrCreate(cache, context.Connection.RemoteIpAddress, dispatcherFinder);
@@ -33,9 +33,9 @@ namespace ComposableAsync.Asp
             });
         }
 
-        public static void UseDispatcherByUser(this IApplicationBuilder app, Func<ICancellableDispatcher> dispatcherFinder)
+        public static void UseDispatcherByUser(this IApplicationBuilder app, Func<IDispatcher> dispatcherFinder)
         {
-            var cache = new Dictionary<ClaimsPrincipal, ICancellableDispatcher>();
+            var cache = new Dictionary<ClaimsPrincipal, IDispatcher>();
             app.Use((context, next) =>
             {
                 if (context.User == null)
@@ -46,7 +46,7 @@ namespace ComposableAsync.Asp
             });
         }
 
-        private static ICancellableDispatcher GetOrCreate<T>(IDictionary<T, ICancellableDispatcher> cache, T address, Func<ICancellableDispatcher> dispatcherFinder)
+        private static IDispatcher GetOrCreate<T>(IDictionary<T, IDispatcher> cache, T address, Func<IDispatcher> dispatcherFinder)
         {
             if (cache.TryGetValue(address, out var dispatcher))
                 return dispatcher;

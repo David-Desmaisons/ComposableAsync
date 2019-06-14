@@ -141,6 +141,6 @@ namespace ComposableAsync.Concurrent.Test
             taskEnqueued.IsCompleted.Should().BeTrue();
         }
 
-        private ICancellableDispatcher GetFiber<T>(T actor) => (actor as ICancellableDispatcherProvider)?.Dispatcher;
+        private IDispatcher GetFiber<T>(T actor) => (actor as IDispatcherProvider)?.Dispatcher;
     }
 }

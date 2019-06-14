@@ -96,6 +96,8 @@ namespace ComposableAsync.Concurrent.Fibers
             return PrivateEnqueue(new AsyncWorkItem<T>(action));
         }
 
+        public IDispatcher Clone() => new ThreadPoolFiber();
+
         private void Consume() 
         {
             using (new SynchronizationContextSwapper(SynchronizationContext)) 

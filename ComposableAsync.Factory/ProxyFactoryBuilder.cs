@@ -9,46 +9,46 @@ namespace ComposableAsync.Factory
     public class ProxyFactoryBuilder : IProxyFactoryBuilder
     {
         /// <inheritdoc />
-        public IProxyFactory GetManagedProxyFactory(ICancellableDispatcher dispatcher)
+        public IProxyFactory GetManagedProxyFactory(IDispatcher dispatcher)
         {
             return new ProxyFactory(new MonoDispatcherManager(dispatcher, true));
         }
 
         /// <inheritdoc />
-        public IProxyFactory GetManagedProxyFactory(ICancellableDispatcher dispatcher1, ICancellableDispatcher dispatcher2)
+        public IProxyFactory GetManagedProxyFactory(IDispatcher dispatcher1, IDispatcher dispatcher2)
         {
             var dispatcher = dispatcher1.Then(dispatcher2);
             return GetManagedProxyFactory(dispatcher);
         }
 
         /// <inheritdoc />
-        public IProxyFactory GetManagedProxyFactory(params ICancellableDispatcher[] dispatchers)
+        public IProxyFactory GetManagedProxyFactory(params IDispatcher[] dispatchers)
         {
             var dispatcher = Build(dispatchers);
             return GetManagedProxyFactory(dispatcher);
         }
 
         /// <inheritdoc />
-        public IProxyFactory GetUnmanagedProxyFactory(ICancellableDispatcher dispatcher)
+        public IProxyFactory GetUnmanagedProxyFactory(IDispatcher dispatcher)
         {
             return new ProxyFactory(new MonoDispatcherManager(dispatcher));
         }
 
         /// <inheritdoc />
-        public IProxyFactory GetUnmanagedProxyFactory(ICancellableDispatcher dispatcher1, ICancellableDispatcher dispatcher2)
+        public IProxyFactory GetUnmanagedProxyFactory(IDispatcher dispatcher1, IDispatcher dispatcher2)
         {
             var dispatcher = dispatcher1.Then(dispatcher2);
             return GetUnmanagedProxyFactory(dispatcher);
         }
 
         /// <inheritdoc />
-        public IProxyFactory GetUnmanagedProxyFactory(params ICancellableDispatcher[] dispatchers)
+        public IProxyFactory GetUnmanagedProxyFactory(params IDispatcher[] dispatchers)
         {
             var dispatcher = Build(dispatchers);
             return GetUnmanagedProxyFactory(dispatcher);
         }
 
-        private static ICancellableDispatcher Build(ICancellableDispatcher[] dispatchers)
+        private static IDispatcher Build(IDispatcher[] dispatchers)
         {
             if (dispatchers.Length == 0)
                 throw new ArgumentException(nameof(dispatchers));

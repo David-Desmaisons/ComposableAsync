@@ -324,14 +324,14 @@ namespace ComposableAsync.Concurrent.Test
         public void Actor_Should_Implement_IFiberProvider()
         {
             var actor = _Factory.Build<IDummyInterface2>(new DummyClass());
-            actor.Should().BeAssignableTo<ICancellableDispatcherProvider>();
+            actor.Should().BeAssignableTo<IDispatcherProvider>();
         }
 
         [Fact]
         public void Actor_Should_Returns_Fiber()
         {
             var actor = _Factory.Build<IDummyInterface2>(new DummyClass());
-            var fp = actor as ICancellableDispatcherProvider;
+            var fp = actor as IDispatcherProvider;
 
             var fiber = fp?.Dispatcher;
 

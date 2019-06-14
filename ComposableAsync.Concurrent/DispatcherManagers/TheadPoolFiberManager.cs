@@ -7,7 +7,7 @@ namespace ComposableAsync.Actors.DispatcherManagers
     {
         public bool DisposeDispatcher => true;
 
-        public ICancellableDispatcher GetDispatcher() => Fiber.GetThreadPoolFiber();
+        public IDispatcher GetDispatcher() => Fiber.GetThreadPoolFiber();
 
         public Task DisposeAsync() => Task.CompletedTask;
     }

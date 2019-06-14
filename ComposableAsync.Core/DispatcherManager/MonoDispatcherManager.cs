@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace ComposableAsync
 {
     /// <summary>
-    /// <see cref="IDispatcherManager"/> implementation based on single <see cref="ICancellableDispatcher"/>
+    /// <see cref="IDispatcherManager"/> implementation based on single <see cref="IDispatcher"/>
     /// </summary>
     public sealed class MonoDispatcherManager : IDispatcherManager
     {
@@ -12,16 +12,16 @@ namespace ComposableAsync
         public bool DisposeDispatcher { get; }
 
         /// <inheritdoc cref="IDispatcherManager"/>
-        public ICancellableDispatcher GetDispatcher() => _Dispatcher;
+        public IDispatcher GetDispatcher() => _Dispatcher;
 
-        private readonly ICancellableDispatcher _Dispatcher;
+        private readonly IDispatcher _Dispatcher;
 
         /// <summary>
         /// Create 
         /// </summary>
         /// <param name="dispatcher"></param>
         /// <param name="shouldDispose"></param>
-        public MonoDispatcherManager(ICancellableDispatcher dispatcher, bool shouldDispose = false)
+        public MonoDispatcherManager(IDispatcher dispatcher, bool shouldDispose = false)
         {
             _Dispatcher = dispatcher;
             DisposeDispatcher = shouldDispose;

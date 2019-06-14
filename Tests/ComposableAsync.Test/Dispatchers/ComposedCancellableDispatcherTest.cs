@@ -8,11 +8,11 @@ namespace ComposableAsync.Core.Test.Dispatchers
 {
     public class ComposedCancellableDispatcherTest 
     {
-        private readonly ICancellableDispatcher _First;
-        private readonly ICancellableDispatcher _Second;
+        private readonly IDispatcher _First;
+        private readonly IDispatcher _Second;
         private readonly Func<Task> _FuncTask;
         private readonly Func<Task<int>> _FuncTaskInt;
-        private readonly ComposedCancellableDispatcher _ComposedCancellableDispatcher;
+        private readonly ComposedDispatcher _ComposedCancellableDispatcher;
         private readonly CancellationToken _CancellationToken = new CancellationToken();
 
         private Func<Task> _DispatchedFuncTask;
@@ -23,12 +23,12 @@ namespace ComposableAsync.Core.Test.Dispatchers
             _FuncTask = Substitute.For<Func<Task>>();
             _FuncTaskInt = Substitute.For<Func<Task<int>>>();
 
-            _First = Substitute.For<ICancellableDispatcher>();
+            _First = Substitute.For<IDispatcher>();
             _First.Enqueue(Arg.Do<Func<Task>>(argument => _DispatchedFuncTask = argument), Arg.Any<CancellationToken>());
             _First.Enqueue(Arg.Do<Func<Task<int>>>(argument => _DispatchedFuncTaskInt = argument), Arg.Any<CancellationToken>());
 
-            _Second = Substitute.For<ICancellableDispatcher>();
-            _ComposedCancellableDispatcher = new ComposedCancellableDispatcher(_First, _Second);
+            _Second = Substitute.For<IDispatcher>();
+            _ComposedCancellableDispatcher = new ComposedDispatcher(_First, _Second);
         }
 
         [Fact]

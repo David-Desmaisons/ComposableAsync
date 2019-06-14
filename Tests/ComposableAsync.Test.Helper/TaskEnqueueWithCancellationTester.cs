@@ -8,13 +8,13 @@ namespace ComposableAsync.Test.Helper
 {
     public class TaskEnqueueWithCancellationTester
     {
-        private readonly ICancellableDispatcher _CancellableDispatcher;
+        private readonly IDispatcher _CancellableDispatcher;
         private Stopwatch _Stopwatch;
 
         public TimeSpan TimeSpentToCancelTask => _Stopwatch.Elapsed;
         public bool CancelledTaskHasBeenExecuted { get; private set; } = false;
 
-        public TaskEnqueueWithCancellationTester(ICancellableDispatcher cancellableDispatcher)
+        public TaskEnqueueWithCancellationTester(IDispatcher cancellableDispatcher)
         {
             _CancellableDispatcher = cancellableDispatcher;
         }

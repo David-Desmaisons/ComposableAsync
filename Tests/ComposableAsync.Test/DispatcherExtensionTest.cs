@@ -14,7 +14,7 @@ namespace ComposableAsync.Core.Test
     {
         private readonly IMonoThreadFiber _Fiber;
         private readonly IDispatcher _Dispatcher = Substitute.For<IDispatcher>();
-        private readonly ICancellableDispatcher _CancellableDispatcher = Substitute.For<ICancellableDispatcher>();
+        private readonly IDispatcher _CancellableDispatcher = Substitute.For<IDispatcher>();
 
         private Thread _FiberThread;
 
@@ -95,26 +95,7 @@ namespace ComposableAsync.Core.Test
             await asyncFunction.Should().ThrowAsync<ArgumentException>();
         }
 
-        [Fact]
-        public void ConfigureAwait_IsComplete_Is_False()
-        {
-            var awaitable = _CancellableDispatcher.ConfigureAwait(CancellationToken.None);
-            var awaiter = awaitable.GetAwaiter();
-            awaiter.IsCompleted.Should().BeFalse();
-        }
-
-        [Fact]
-        public void ConfigureAwait_Enqueue_Action()
-        {
-            var action = Substitute.For<Action>();
-            var token = new CancellationToken();
-            var awaitable = _CancellableDispatcher.ConfigureAwait(token);
-            var awaiter = awaitable.GetAwaiter();
-            awaiter.OnCompleted(action);
-
-            _CancellableDispatcher.Received(1).Enqueue(Arg.Any<Action>(), Arg.Any<CancellationToken>());
-            _CancellableDispatcher.Received().Enqueue(action, token);
-        }
+      
 
         [Fact]
         public void Then_Returns_A_ComposedDispatcher()
@@ -125,94 +106,94 @@ namespace ComposableAsync.Core.Test
         }
 
         [Fact]
-        public void Then_ICancellableDispatcher_Returns_A_ComposedCancellableDispatcher()
+        public void Then_Returns_A_ComposedCancellableDispatcher()
         {
-            var first = Substitute.For<ICancellableDispatcher>();
-            var then = Substitute.For<ICancellableDispatcher>();
+            var first = Substitute.For<IDispatcher>();
+            var then = Substitute.For<IDispatcher>();
             var composed = first.Then(then);
-            composed.Should().BeOfType<ComposedCancellableDispatcher>();
+            composed.Should().BeOfType<ComposedDispatcher>();
         }
 
         [Fact]
-        public void Then_ICancellableDispatcher_Throws_Exception_When_Other_Is_null()
+        public void Then_Throws_Exception_When_Other_Is_null()
         {
-            var first = Substitute.For<ICancellableDispatcher>();
-            var then = default(ICancellableDispatcher);
+            var first = Substitute.For<IDispatcher>();
+            var then = default(IDispatcher);
             Action @do = () => first.Then(then);
             @do.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
-        public void Then_ICancellableDispatcher_Throws_Exception_When_This_Is_null()
+        public void Then_Throws_Exception_When_This_Is_null()
         {
-            var first = default(ICancellableDispatcher);
-            var then = Substitute.For<ICancellableDispatcher>();
+            var first = default(IDispatcher);
+            var then = Substitute.For<IDispatcher>();
             Action @do = () => first.Then(then);
             @do.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
-        public void Then_ICancellableDispatcher_Array_Returns_This_When_Array_Is_Empty()
+        public void Then_Array_Returns_This_When_Array_Is_Empty()
         {
-            var first = Substitute.For<ICancellableDispatcher>();
-            var then = new ICancellableDispatcher[0];
-            var composed = first.Then(then);
-            composed.Should().Be(first);
-        }
-
-        [Fact]
-        public void Then_ICancellableDispatcher_Array_Returns_A_ComposedCancellableDispatcher()
-        {
-            var first = Substitute.For<ICancellableDispatcher>();
-            var then = Substitute.For<ICancellableDispatcher>();
-            var composed = first.Then(then);
-            composed.Should().BeOfType<ComposedCancellableDispatcher>();
-        }
-
-        [Fact]
-        public void Then_ICancellableDispatcher_Array_Throws_Exception_When_Other_Is_null()
-        {
-            var first = Substitute.For<ICancellableDispatcher>();
-            var then = default(ICancellableDispatcher[]);
-            Action @do = () => first.Then(then);
-            @do.Should().Throw<ArgumentNullException>();
-        }
-
-        [Fact]
-        public void Then_ICancellableDispatcher_Array_Throws_Exception_When_This_Is_null()
-        {
-            var first = default(ICancellableDispatcher); ;
-            var then = new ICancellableDispatcher[0];
-            Action @do = () => first.Then(then);
-            @do.Should().Throw<ArgumentNullException>();
-        }
-
-        [Fact]
-        public void Then_ICancellableDispatcher_Enumerable_Returns_This_When_Array_Is_Empty()
-        {
-            var first = Substitute.For<ICancellableDispatcher>();
-            var then = new List<ICancellableDispatcher>();
+            var first = Substitute.For<IDispatcher>();
+            var then = new IDispatcher[0];
             var composed = first.Then(then);
             composed.Should().Be(first);
         }
 
         [Fact]
-        public void Then_ICancellableDispatcher_Enumerable_Returns_A_ComposedCancellableDispatcher()
+        public void Then_Array_Returns_A_ComposedCancellableDispatcher()
         {
-            var first = Substitute.For<ICancellableDispatcher>();
-            var then = new List<ICancellableDispatcher>()
+            var first = Substitute.For<IDispatcher>();
+            var then = Substitute.For<IDispatcher>();
+            var composed = first.Then(then);
+            composed.Should().BeOfType<ComposedDispatcher>();
+        }
+
+        [Fact]
+        public void Then_Array_Throws_Exception_When_Other_Is_null()
+        {
+            var first = Substitute.For<IDispatcher>();
+            var then = default(IDispatcher[]);
+            Action @do = () => first.Then(then);
+            @do.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void Then_Array_Throws_Exception_When_This_Is_null()
+        {
+            var first = default(IDispatcher); ;
+            var then = new IDispatcher[0];
+            Action @do = () => first.Then(then);
+            @do.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void Then_Enumerable_Returns_This_When_Array_Is_Empty()
+        {
+            var first = Substitute.For<IDispatcher>();
+            var then = new List<IDispatcher>();
+            var composed = first.Then(then);
+            composed.Should().Be(first);
+        }
+
+        [Fact]
+        public void Then_Enumerable_Returns_A_ComposedCancellableDispatcher()
+        {
+            var first = Substitute.For<IDispatcher>();
+            var then = new List<IDispatcher>()
             {
-                Substitute.For<ICancellableDispatcher>()
+                Substitute.For<IDispatcher>()
             };
             var composed = first.Then(then);
-            composed.Should().BeOfType<ComposedCancellableDispatcher>();
+            composed.Should().BeOfType<ComposedDispatcher>();
         }
 
         [Fact]
         public void Then_ICancellableDispatcher_Enumerable_Throws_Exception_When_Other_Is_null()
         {
-            var first = Substitute.For<ICancellableDispatcher>();
-            var then = default(IEnumerable<ICancellableDispatcher>);
+            var first = Substitute.For<IDispatcher>();
+            var then = default(IEnumerable<IDispatcher>);
             Action @do = () => first.Then(then);
             @do.Should().Throw<ArgumentNullException>();
         }
@@ -220,8 +201,8 @@ namespace ComposableAsync.Core.Test
         [Fact]
         public void Then_ICancellableDispatcher_Enumerable_Throws_Exception_When_This_Is_null()
         {
-            var first = default(ICancellableDispatcher);
-            var then = new List<ICancellableDispatcher>();
+            var first = default(IDispatcher);
+            var then = new List<IDispatcher>();
             Action @do = () => first.Then(then);
             @do.Should().Throw<ArgumentNullException>();
         }
