@@ -6,7 +6,7 @@
     <AssemblyName>ComposableAsync.Factory</AssemblyName>
     <RootNamespace>ComposableAsync.Factory</RootNamespace>
     <Authors>David Desmaisons</Authors>
-    <Version>1.0.1-alpha.2</Version>
+    <Version>1.0.2-alpha.1</Version>
     <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/David-Desmaisons/EasyActor</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/David-Desmaisons/EasyActor/blob/master/LICENSE</PackageLicenseUrl>
@@ -16,8 +16,8 @@ In order to work, The target interface should only expose methods returning Task
     <PackageId>ComposableAsync.Factory</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>Actor Model, Asynchronous</PackageTags>
-    <AssemblyVersion>1.0.1.2</AssemblyVersion>
-    <FileVersion>1.0.1.2</FileVersion>
+    <AssemblyVersion>1.0.2.1</AssemblyVersion>
+    <FileVersion>1.0.2.1</FileVersion>
     <PackageReleaseNotes>Update to .NET Standard</PackageReleaseNotes>
   </PropertyGroup>
 

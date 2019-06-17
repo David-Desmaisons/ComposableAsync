@@ -4,12 +4,12 @@
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <RootNamespace>ComposableAsync</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1-alpha.2</Version>
+    <Version>1.0.2-alpha.1</Version>
     <Authors>David Desmaisons</Authors>
     <Product />
     <Company />
-    <AssemblyVersion>1.0.1.2</AssemblyVersion>
-    <FileVersion>1.0.1.2</FileVersion>
+    <AssemblyVersion>1.0.2.1</AssemblyVersion>
+    <FileVersion>1.0.2.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
