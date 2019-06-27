@@ -11,6 +11,7 @@ namespace ComposableAsync
         public DispatcherDelegatingHandler(IDispatcher dispatcher)
         {
             _Dispatcher = dispatcher;
+            InnerHandler = new HttpClientHandler();
         }
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
