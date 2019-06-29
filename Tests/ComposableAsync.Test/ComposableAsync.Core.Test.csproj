@@ -82,9 +82,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\ComposableAsync.Concurrent\ComposableAsync.Concurrent.csproj">
       <Project>{7f9f56f4-85a8-4193-9ca2-027187319d91}</Project>
       <Name>ComposableAsync.Concurrent</Name>
@@ -97,6 +94,9 @@
       <Project>{c4015566-e81f-4bb3-abd5-47ccf8a628b1}</Project>
       <Name>ComposableAsync.Test.Helper</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
