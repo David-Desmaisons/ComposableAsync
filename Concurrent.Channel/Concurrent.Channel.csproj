@@ -6,7 +6,7 @@
     <AssemblyName>Concurrent.Channel</AssemblyName>
     <RootNamespace>Concurrent.Channel</RootNamespace>
     <Authors>David Desmaisons</Authors>
-    <Version>1.0.0-alpha.3</Version>
+    <Version>1.0.3</Version>
     <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/David-Desmaisons/EasyActor</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/David-Desmaisons/EasyActor/blob/master/LICENSE</PackageLicenseUrl>
@@ -16,8 +16,8 @@ In order to work, The target interface should only expose methods returning Task
     <PackageId>Concurrent.Channel</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>Actor Model, Asynchronous</PackageTags>
-    <AssemblyVersion>1.0.0.3</AssemblyVersion>
-    <FileVersion>1.0.0.3</FileVersion>
+    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <FileVersion>1.0.3.0</FileVersion>
     <PackageReleaseNotes>Update to .NET Standard</PackageReleaseNotes>
   </PropertyGroup>
 

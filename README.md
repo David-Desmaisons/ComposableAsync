@@ -9,9 +9,9 @@ Composable Async
 
 Create and compose complex asynchronous behavior in .Net.
 
-Re-use these building blocks using [aspect oriented programming](https://www.wikiwand.com/en/Aspect-oriented_programming).
+Create complex async building blocks using [aspect oriented programming](https://www.wikiwand.com/en/Aspect-oriented_programming).
 
-Composable Async first appears to provide a lightweight way to transform POCOs in [actors](https://en.wikipedia.org/wiki/Actor_model) and then evolves to become generic.
+Provide a lightweight way to transform POCOs in [actors](https://en.wikipedia.org/wiki/Actor_model).
 
 
 Motivation
@@ -52,7 +52,7 @@ public interface IDispatcher
 	- Fiber implementation to build object that uses [Actor pattern](https://en.wikipedia.org/wiki/Actor_model).
 	- Circuit-breaker (incoming)
 
-3. Extension methods to compose and await `IDispatcher`
+3. Extension methods to transform, compose and await `IDispatcher`
 
 4. Factories to add `IDispatcher` behaviors to [plain old CLR Objects](https://www.wikipedia.org//wiki/Plain_old_CLR_object)
 
@@ -69,32 +69,38 @@ public interface IDispatcher
 2) Await a dispatcher:
 
 ```CSharp
-  await fiberDispatcher;
-  // After the await, the code executes in the dispatcher context
-  // In this case the code will execute on the fiber thread
-  Console.WriteLine($"This is fiber thread {Thread.CurrentThread.ManagedThreadId}"); 
+	await fiberDispatcher;
+	// After the await, the code executes in the dispatcher context
+	// In this case the code will execute on the fiber thread
+	Console.WriteLine($"This is fiber thread {Thread.CurrentThread.ManagedThreadId}"); 
 ```
 
-3) Compose two dispatcher:
+3) Compose two dispatchers:
 
 ```CSharp
-  var composed = dispatcher1.Then(dispatcher2);
+	var composed = dispatcher1.Then(dispatcher2);
 ```
 
-4) Use a dispatcher to create a proxy:
+4) Use a dispatcher as a htpp Handler:
 ```CSharp
-  var proxyBuilder = _ProxyFactoryBuilder.GetManagedProxyFactory(dispatcher);
-  var proxyObject = proxyBuilder.Build<IBusinessObject>(new BusinessObject());
+	var handler = TimeLimiter
+			.GetFromMaxCountByInterval(60, TimeSpan.FromMinutes(1))
+			.AsDelegatingHandler();
+	var client = new HttpClient(handler)
 ```
-Note that Composable Async library provides simplified API to create an actor. See below.
+
+5) Use a dispatcher to create a proxy (using ComposableAsync.Factory):
+```CSharp
+  var proxyFactory = new ProxyFactory(dispatcher);
+  var proxyObject = proxyFactory.Build<IBusinessObject>(new BusinessObject());
+```
+Note that ComposableAsync.Concurrent library provides simplified API to create an actor. See below.
 
 ### Actor
 
-This library notably can be used as a way that transform POCO in actors. 
-
 Actor leaves in their own thread and communicate with immutable message. They communicate with other objects asynchronously using Task and Task<T>.
 
-Composable.Async provide a factory allowing the transformation of POCO in actor that are then seen through an interface.
+ ComposableAsync.Concurrent provides a factory allowing the transformation of POCO in actor that are then seen through an interface.
 Actor guarantees that all calls to the actor interface will occur in a separated thread, sequentially.
 
 The target interface should only expose methods returning Task or Task<T>.
@@ -130,7 +136,7 @@ To create an actor:
 
 ```CSharp
 	// Instantiate actor factory
-	var builder = new ProxyFactoryBuilder();
+	var builder = new ActorFactoryBuilder();
 	var factory = builder.GetActorFactory();
 		
 	// Instantiate an actor from a POCO
