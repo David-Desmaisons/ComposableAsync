@@ -75,7 +75,8 @@
     ],
     "dest": "../../docs",
     "template": [
-      "default"
+      "default",
+      "template"
     ]
   }
 }

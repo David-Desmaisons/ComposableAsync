@@ -19,8 +19,11 @@ Composable Async
 # Motivation
 
 * Leverage C# 5.0 asynchronous API (Task, async , await)
+
 * Simplify concurrent programing getting using Actor model.
+
 * Transparent for consumer: factories transform any POCO by adding behaviors and return user defined interface.
+
 * Fast: performance overhead should be minimum
 
 # Features
@@ -59,7 +62,9 @@ public interface IDispatcher
 
 ## Pre-built `IDispatchers`:
 - Rate limiting with [RateLimiter](http://david-desmaisons.github.io/RateLimiter/index.html)
+
 - [Fiber](https://www.wikiwand.com/en/Fiber_(computer_science)) implementation to build object that uses [Actor pattern](https://en.wikipedia.org/wiki/Actor_model).
+
 - Circuit-breaker (incoming)
 
 ## Extension methods
@@ -74,6 +79,7 @@ In order to add `IDispatcher` behaviors to [plain old CLR Objects](https://www.w
 
 ### Core functions (ComposableAsync.Core nuget)
 - Create a dispatcher:
+
 ```CSharp
 var fiberDispatcher = Fiber.CreateMonoThreadedFiber();
 ```
@@ -119,10 +125,12 @@ var client = new HttpClient(handler)
 ### With ComposableAsync.Factory nuget:
 
 - Use a dispatcher to create a proxy:
+
 ```CSharp
 var proxyFactory = new ProxyFactory(dispatcher);
 var proxyObject = proxyFactory.Build<IBusinessObject>(new BusinessObject());
 ```
+
 Note that ComposableAsync.Concurrent library provides simplified API to create an actor. See below.
 
 ### Actor (ComposableAsync.Concurrent nuget)
@@ -181,11 +189,28 @@ var res = await fooActor.Bar();
 
 How it works
 ------------
-Internally, ComposableAsync.Factory uses [Castle Core DynamicProxy](https://github.com/castleproject/Core) to instantiate a proxy for the corresponding interface.
+Internally, `ComposableAsync.Factory` uses [Castle Core DynamicProxy](https://github.com/castleproject/Core) to instantiate a proxy for the corresponding interface.
 All calls to the interface methods are intercepted and then redirected to run on the actor Threads.
 
 Nuget
 -----
+For core functionality:
 
-[Go nuget package](https://www.nuget.org/packages/EasyActor/)
+```
+Install-Package ComposableAsync.Core
+```
+
+For factories:
+
+```
+Install-Package ComposableAsync.Factory
+```
+
+For actors:
+
+```
+Install-Package ComposableAsync.Concurrent
+```
+
+[Go nuget packages](https://www.nuget.org/packages/ComposableAsync.Core/)
 

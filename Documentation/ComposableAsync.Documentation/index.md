@@ -19,8 +19,11 @@ Composable Async
 # Motivation
 
 * Leverage C# 5.0 asynchronous API (Task, async , await)
+
 * Simplify concurrent programing getting using Actor model.
+
 * Transparent for consumer: factories transform any POCO by adding behaviors and return user defined interface.
+
 * Fast: performance overhead should be minimum
 
 # Features
@@ -59,7 +62,9 @@ public interface IDispatcher
 
 ## Pre-built `IDispatchers`:
 - Rate limiting with [RateLimiter](http://david-desmaisons.github.io/RateLimiter/index.html)
+
 - [Fiber](https://www.wikiwand.com/en/Fiber_(computer_science)) implementation to build object that uses [Actor pattern](https://en.wikipedia.org/wiki/Actor_model).
+
 - Circuit-breaker (incoming)
 
 ## Extension methods

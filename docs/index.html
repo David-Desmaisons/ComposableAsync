@@ -20,6 +20,10 @@
     
     
   </head>
+  
+  <a href="https://github.com/David-Desmaisons/ComposableAsync" target="_blank">
+    <img style="position: fixed; top: 0; right: 0; border: 0; z-index:99999" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_gray_6d6d6d.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1">
+  </a>
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
@@ -78,10 +82,14 @@
 </ul>
 <h1 id="motivation">Motivation</h1>
 <ul>
-<li>Leverage C# 5.0 asynchronous API (Task, async , await)</li>
-<li>Simplify concurrent programing getting using Actor model.</li>
-<li>Transparent for consumer: factories transform any POCO by adding behaviors and return user defined interface.</li>
-<li>Fast: performance overhead should be minimum</li>
+<li><p>Leverage C# 5.0 asynchronous API (Task, async , await)</p>
+</li>
+<li><p>Simplify concurrent programing getting using Actor model.</p>
+</li>
+<li><p>Transparent for consumer: factories transform any POCO by adding behaviors and return user defined interface.</p>
+</li>
+<li><p>Fast: performance overhead should be minimum</p>
+</li>
 </ul>
 <h1 id="features">Features</h1>
 <h2 id="idispatcher-abstraction"><code>IDispatcher</code> abstraction</h2>
@@ -113,9 +121,12 @@
 }
 </code></pre><h2 id="pre-built-idispatchers">Pre-built <code>IDispatchers</code>:</h2>
 <ul>
-<li>Rate limiting with <a href="http://david-desmaisons.github.io/RateLimiter/index.html">RateLimiter</a></li>
-<li><a href="https://www.wikiwand.com/en/Fiber_(computer_science)">Fiber</a> implementation to build object that uses <a href="https://en.wikipedia.org/wiki/Actor_model">Actor pattern</a>.</li>
-<li>Circuit-breaker (incoming)</li>
+<li><p>Rate limiting with <a href="http://david-desmaisons.github.io/RateLimiter/index.html">RateLimiter</a></p>
+</li>
+<li><p><a href="https://www.wikiwand.com/en/Fiber_(computer_science)">Fiber</a> implementation to build object that uses <a href="https://en.wikipedia.org/wiki/Actor_model">Actor pattern</a>.</p>
+</li>
+<li><p>Circuit-breaker (incoming)</p>
+</li>
 </ul>
 <h2 id="extension-methods">Extension methods</h2>
 <p>In order to transform, compose and await <code>IDispatcher</code></p>
