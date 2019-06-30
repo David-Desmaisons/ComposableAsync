@@ -89,7 +89,7 @@ var fiberDispatcher = Fiber.CreateMonoThreadedFiber();
 ```CSharp
 for(int i=0; i<1000; i++)
 {
-	await fiberDispatcher.Perform(ConsoleIt);
+	await fiberDispatcher.Enqueue(ConsoleIt);
 }
 
 //...

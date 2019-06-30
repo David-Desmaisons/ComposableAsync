@@ -144,7 +144,7 @@
 </ul>
 <pre><code class="lang-CSharp">for(int i=0; i&lt;1000; i++)
 {
-    await fiberDispatcher.Perform(ConsoleIt);
+    await fiberDispatcher.Enqueue(ConsoleIt);
 }
 
 //...
