@@ -1,7 +1,7 @@
 ﻿namespace ComposableAsync
 {
     /// <summary>
-    /// <see cref="IDispatcher"/> extension
+    /// <see cref="IDispatcherProvider"/> extension
     /// </summary>
     public static class DispatcherProviderExtension
     {

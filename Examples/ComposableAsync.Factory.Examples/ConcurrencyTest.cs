@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using ComposableAsync.Actors;
 using ComposableAsync.Concurrent;
 using FluentAssertions;
 using Xunit;

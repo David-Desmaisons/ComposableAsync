@@ -1,0 +1,602 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/Users/David/Documents/Source/ComposableAsync/Documentation/ComposableAsync.Documentation",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "/eew93nZ9wsOcwjfdw1VQA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "jQlJku8bbP83f9eAjjE2Zw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.ComposableAsyncDisposable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.ComposableAsyncDisposable.html",
+          "hash": "Mze8wzU6BlZacHHfetrCkw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.ActorFactoryBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.ActorFactoryBuilder.html",
+          "hash": "yjzdIn3J+nGp8+LWK093Eg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.Collections.BlockingMpscQueue-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.Collections.BlockingMpscQueue-1.html",
+          "hash": "FuT8nuBG9JpyuljdV+Hwew=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.Collections.IMpScQueue-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.Collections.IMpScQueue-1.html",
+          "hash": "0Q7+T+PLSfnseszHzYoDCg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.Collections.SpinningMpscQueue-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.Collections.SpinningMpscQueue-1.html",
+          "hash": "SrlO7IzuGUakrN+1jwYYIg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.Collections.StandardMpscQueue-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.Collections.StandardMpscQueue-1.html",
+          "hash": "8zsUuP6PW7y58LhGLqU5Lg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.Collections.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.Collections.html",
+          "hash": "JSQE+Q140VEWj58bd8bhig=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.Fiber.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.Fiber.html",
+          "hash": "/vDqjLJdV891FIKAWOyi7w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.FiberExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.FiberExtension.html",
+          "hash": "w+m39wEj+MG2KowngYBGvA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.IActorFactoryBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.IActorFactoryBuilder.html",
+          "hash": "QcWeC3a5bTUMFJgk4hA0NA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.IFiber.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.IFiber.html",
+          "hash": "8IJYYGCRZlh4AU/zPbmyng=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.IMonoThreadFiber.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.IMonoThreadFiber.html",
+          "hash": "bTDjs9uY2KErJZYO7q7XJQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.IStoppableFiber.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.IStoppableFiber.html",
+          "hash": "YshwE0ElEax++0GixL3Gmg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem-1.html",
+          "hash": "KwvUrgN6OrIA2ASB42hSZg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem.html",
+          "hash": "4Rf7WsAxBtmwjCOHy4CaAg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.WorkItems.IWorkItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.WorkItems.IWorkItem.html",
+          "hash": "rO6u2Sgaq6gq/cQ0qUPQhw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.WorkItems.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.WorkItems.html",
+          "hash": "2Dbn54wNZmskst1dyOmE7w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Concurrent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Concurrent.html",
+          "hash": "KYmc8S4JLIZYcduE605Z4g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.DispatcherAwaiter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.DispatcherAwaiter.html",
+          "hash": "Nl3k+I5DldlKdJHHgWHCKw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.DispatcherDelegatingHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.DispatcherDelegatingHandler.html",
+          "hash": "DROV4+fu6RTaKR2cEpg59Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.DispatcherExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.DispatcherExtension.html",
+          "hash": "mqbmxIaXcL0nCVp2TWFBPA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.DispatcherProviderExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.DispatcherProviderExtension.html",
+          "hash": "w0ZapRW1DCUP/kWZLMWiNw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Factory.DispatcherExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Factory.DispatcherExtension.html",
+          "hash": "bXwXoG3sWwNPW/MFfJVzdw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Factory.IProxyFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Factory.IProxyFactory.html",
+          "hash": "uLvGrMMdIDPHvR8OViC0Hg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Factory.IProxyFactoryBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Factory.IProxyFactoryBuilder.html",
+          "hash": "ikC0ZXq5iQMHA+XBUb2CeA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Factory.ProxyFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Factory.ProxyFactory.html",
+          "hash": "zBIgKmvDR/KTVU5PZK6TkA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Factory.ProxyFactoryBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Factory.ProxyFactoryBuilder.html",
+          "hash": "Q5Bjg8qC1+5pF2iqXBduxw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Factory.TaskDescription.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Factory.TaskDescription.html",
+          "hash": "VFFOrDmV4ZMkp23o7kj+EQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Factory.TaskType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Factory.TaskType.html",
+          "hash": "dFxqWTDiS79Hrb5fIRZs4Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Factory.TypeExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Factory.TypeExtension.html",
+          "hash": "XiJuc/VmVOGrZTzGl5aOvQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.Factory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.Factory.html",
+          "hash": "mUxhtukTAiVhpL4R/eYVrg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.IDispatcher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.IDispatcher.html",
+          "hash": "Mtu5VhXmrvfhKlJUukE38g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.IDispatcherManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.IDispatcherManager.html",
+          "hash": "OsfcTHZD+ZxA4ecB9g7aGw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.IDispatcherProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.IDispatcherProvider.html",
+          "hash": "HElwzGEwf6BgcOkiaDvvyQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.MonoDispatcherManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.MonoDispatcherManager.html",
+          "hash": "U6o3qHa4MnvP3AqK2TuuHQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.NullDispatcher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.NullDispatcher.html",
+          "hash": "/p5f7B+K+hoG4O1F8xvAhw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "ReferencedXrefPropertyNotString"
+      ],
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.WPF.FiberExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.WPF.FiberExtension.html",
+          "hash": "wikZta00OwCx5G7BF8sGyA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.WPF.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.WPF.html",
+          "hash": "i5JhpvR6oFk5kW0fkcxm1Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/ComposableAsync.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ComposableAsync.html",
+          "hash": "9kLyQ8HgczNdLLhwtUsfgA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/System.IAsyncDisposable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/System.IAsyncDisposable.html",
+          "hash": "F9K1qob0IMOtl/odPJ3OAQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/api/System.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/System.html",
+          "hash": "wYreTlg0RTTOKQjSkSAO4g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "obj/docfx/api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "5cafONKAeuXkJLdVG4vnLg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "5rQ4FmyiPWzI4lJcjQIhdg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Disable incremental build by force rebuild option.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "ForceRebuild"
+      },
+      "processors": {
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 2,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 41,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: it's disabled.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

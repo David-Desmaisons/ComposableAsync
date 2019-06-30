@@ -1,0 +1,446 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Interface IProxyFactoryBuilder
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Interface IProxyFactoryBuilder
+   ">
+    <meta name="generator" content="docfx 2.43.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="ComposableAsync.Factory.IProxyFactoryBuilder">
+  
+  
+  <h1 id="ComposableAsync_Factory_IProxyFactoryBuilder" data-uid="ComposableAsync.Factory.IProxyFactoryBuilder" class="text-break">Interface IProxyFactoryBuilder
+  </h1>
+  <div class="markdown level0 summary">
+IProxyFactory and ILoadBalancerFactory factory
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="ComposableAsync.Factory.html">ComposableAsync.Factory</a></h6>
+  <h6><strong>Assembly</strong>: ComposableAsync.Factory.dll</h6>
+  <h5 id="ComposableAsync_Factory_IProxyFactoryBuilder_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public interface IProxyFactoryBuilder</code></pre>
+  </div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/David-Desmaisons/EasyActor/new/Re-Arquitecturing/apiSpec/new?filename=ComposableAsync_Factory_IProxyFactoryBuilder_GetManagedProxyFactory_ComposableAsync_IDispatcher_.md&amp;value=---%0Auid%3A%20ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/David-Desmaisons/EasyActor/blob/Re-Arquitecturing/ComposableAsync.Factory/IProxyFactoryBuilder.cs/#L14">View Source</a>
+  </span>
+  <a id="ComposableAsync_Factory_IProxyFactoryBuilder_GetManagedProxyFactory_" data-uid="ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory*"></a>
+  <h4 id="ComposableAsync_Factory_IProxyFactoryBuilder_GetManagedProxyFactory_ComposableAsync_IDispatcher_" data-uid="ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher)">GetManagedProxyFactory(IDispatcher)</h4>
+  <div class="markdown level1 summary">
+Returns an proxy factory using the provided dispatcher
+Disposing the created factory will dispose the provided dispatcher
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IProxyFactory GetManagedProxyFactory(IDispatcher dispatcher)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.IDispatcher.html">IDispatcher</a></td>
+        <td><span class="parametername">dispatcher</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.Factory.IProxyFactory.html">IProxyFactory</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/David-Desmaisons/EasyActor/new/Re-Arquitecturing/apiSpec/new?filename=ComposableAsync_Factory_IProxyFactoryBuilder_GetManagedProxyFactory_ComposableAsync_IDispatcher_ComposableAsync_IDispatcher_.md&amp;value=---%0Auid%3A%20ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher%2CComposableAsync.IDispatcher)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/David-Desmaisons/EasyActor/blob/Re-Arquitecturing/ComposableAsync.Factory/IProxyFactoryBuilder.cs/#L23">View Source</a>
+  </span>
+  <a id="ComposableAsync_Factory_IProxyFactoryBuilder_GetManagedProxyFactory_" data-uid="ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory*"></a>
+  <h4 id="ComposableAsync_Factory_IProxyFactoryBuilder_GetManagedProxyFactory_ComposableAsync_IDispatcher_ComposableAsync_IDispatcher_" data-uid="ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher,ComposableAsync.IDispatcher)">GetManagedProxyFactory(IDispatcher, IDispatcher)</h4>
+  <div class="markdown level1 summary">
+Returns an proxy factory using the provided dispatchers sequentially
+Disposing the created factory will dispose the provided dispatcher
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IProxyFactory GetManagedProxyFactory(IDispatcher dispatcher1, IDispatcher dispatcher2)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.IDispatcher.html">IDispatcher</a></td>
+        <td><span class="parametername">dispatcher1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.IDispatcher.html">IDispatcher</a></td>
+        <td><span class="parametername">dispatcher2</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.Factory.IProxyFactory.html">IProxyFactory</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/David-Desmaisons/EasyActor/new/Re-Arquitecturing/apiSpec/new?filename=ComposableAsync_Factory_IProxyFactoryBuilder_GetManagedProxyFactory_ComposableAsync_IDispatcher___.md&amp;value=---%0Auid%3A%20ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/David-Desmaisons/EasyActor/blob/Re-Arquitecturing/ComposableAsync.Factory/IProxyFactoryBuilder.cs/#L31">View Source</a>
+  </span>
+  <a id="ComposableAsync_Factory_IProxyFactoryBuilder_GetManagedProxyFactory_" data-uid="ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory*"></a>
+  <h4 id="ComposableAsync_Factory_IProxyFactoryBuilder_GetManagedProxyFactory_ComposableAsync_IDispatcher___" data-uid="ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher[])">GetManagedProxyFactory(IDispatcher[])</h4>
+  <div class="markdown level1 summary">
+Returns an proxy factory using the provided dispatchers sequentially
+Disposing the created factory will dispose the provided dispatcher
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IProxyFactory GetManagedProxyFactory(params IDispatcher[] dispatchers)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.IDispatcher.html">IDispatcher</a>[]</td>
+        <td><span class="parametername">dispatchers</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.Factory.IProxyFactory.html">IProxyFactory</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/David-Desmaisons/EasyActor/new/Re-Arquitecturing/apiSpec/new?filename=ComposableAsync_Factory_IProxyFactoryBuilder_GetUnmanagedProxyFactory_ComposableAsync_IDispatcher_.md&amp;value=---%0Auid%3A%20ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/David-Desmaisons/EasyActor/blob/Re-Arquitecturing/ComposableAsync.Factory/IProxyFactoryBuilder.cs/#L39">View Source</a>
+  </span>
+  <a id="ComposableAsync_Factory_IProxyFactoryBuilder_GetUnmanagedProxyFactory_" data-uid="ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory*"></a>
+  <h4 id="ComposableAsync_Factory_IProxyFactoryBuilder_GetUnmanagedProxyFactory_ComposableAsync_IDispatcher_" data-uid="ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher)">GetUnmanagedProxyFactory(IDispatcher)</h4>
+  <div class="markdown level1 summary">
+Returns an proxy factory using the provided dispatcher
+Disposing the created factory will not dispose the provided dispatcher 
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IProxyFactory GetUnmanagedProxyFactory(IDispatcher dispatcher)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.IDispatcher.html">IDispatcher</a></td>
+        <td><span class="parametername">dispatcher</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.Factory.IProxyFactory.html">IProxyFactory</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/David-Desmaisons/EasyActor/new/Re-Arquitecturing/apiSpec/new?filename=ComposableAsync_Factory_IProxyFactoryBuilder_GetUnmanagedProxyFactory_ComposableAsync_IDispatcher_ComposableAsync_IDispatcher_.md&amp;value=---%0Auid%3A%20ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher%2CComposableAsync.IDispatcher)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/David-Desmaisons/EasyActor/blob/Re-Arquitecturing/ComposableAsync.Factory/IProxyFactoryBuilder.cs/#L48">View Source</a>
+  </span>
+  <a id="ComposableAsync_Factory_IProxyFactoryBuilder_GetUnmanagedProxyFactory_" data-uid="ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory*"></a>
+  <h4 id="ComposableAsync_Factory_IProxyFactoryBuilder_GetUnmanagedProxyFactory_ComposableAsync_IDispatcher_ComposableAsync_IDispatcher_" data-uid="ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher,ComposableAsync.IDispatcher)">GetUnmanagedProxyFactory(IDispatcher, IDispatcher)</h4>
+  <div class="markdown level1 summary">
+Returns an proxy factory using the provided dispatchers sequentially
+Disposing the created factory will dispose the provided dispatcher
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IProxyFactory GetUnmanagedProxyFactory(IDispatcher dispatcher1, IDispatcher dispatcher2)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.IDispatcher.html">IDispatcher</a></td>
+        <td><span class="parametername">dispatcher1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.IDispatcher.html">IDispatcher</a></td>
+        <td><span class="parametername">dispatcher2</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.Factory.IProxyFactory.html">IProxyFactory</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/David-Desmaisons/EasyActor/new/Re-Arquitecturing/apiSpec/new?filename=ComposableAsync_Factory_IProxyFactoryBuilder_GetUnmanagedProxyFactory_ComposableAsync_IDispatcher___.md&amp;value=---%0Auid%3A%20ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/David-Desmaisons/EasyActor/blob/Re-Arquitecturing/ComposableAsync.Factory/IProxyFactoryBuilder.cs/#L56">View Source</a>
+  </span>
+  <a id="ComposableAsync_Factory_IProxyFactoryBuilder_GetUnmanagedProxyFactory_" data-uid="ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory*"></a>
+  <h4 id="ComposableAsync_Factory_IProxyFactoryBuilder_GetUnmanagedProxyFactory_ComposableAsync_IDispatcher___" data-uid="ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher[])">GetUnmanagedProxyFactory(IDispatcher[])</h4>
+  <div class="markdown level1 summary">
+Returns an proxy factory using the provided dispatchers sequentially
+Disposing the created factory will dispose the provided dispatcher
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IProxyFactory GetUnmanagedProxyFactory(params IDispatcher[] dispatchers)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.IDispatcher.html">IDispatcher</a>[]</td>
+        <td><span class="parametername">dispatchers</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.Factory.IProxyFactory.html">IProxyFactory</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="ComposableAsync.WPF.FiberExtension.html#ComposableAsync_WPF_FiberExtension_GetAssociatedFiber_System_Object_">FiberExtension.GetAssociatedFiber(Object)</a>
+  </div>
+  <div>
+      <a class="xref" href="ComposableAsync.WPF.FiberExtension.html#ComposableAsync_WPF_FiberExtension_GetAssociatedDispatcher_System_Object_">FiberExtension.GetAssociatedDispatcher(Object)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/David-Desmaisons/EasyActor/new/Re-Arquitecturing/apiSpec/new?filename=ComposableAsync_Factory_IProxyFactoryBuilder.md&amp;value=---%0Auid%3A%20ComposableAsync.Factory.IProxyFactoryBuilder%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/David-Desmaisons/EasyActor/blob/Re-Arquitecturing/ComposableAsync.Factory/IProxyFactoryBuilder.cs/#L6" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

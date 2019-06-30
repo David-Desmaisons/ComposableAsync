@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Security;
 
-namespace ComposableAsync.Awaitable
+namespace ComposableAsync
 {
     /// <summary>
     /// Dispatcher awaiter, making a dispatcher awaitable

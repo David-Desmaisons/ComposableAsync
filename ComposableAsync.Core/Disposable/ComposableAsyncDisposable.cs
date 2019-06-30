@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace ComposableAsync
 {
     /// <summary>
-    /// <see cref="IAsyncDisposable"/> 
+    /// <see cref="IAsyncDisposable"/> implementation aggregating other <see cref="IAsyncDisposable"/>
     /// </summary>
     public sealed class ComposableAsyncDisposable : IAsyncDisposable
     {
@@ -39,7 +39,7 @@ namespace ComposableAsync
         public T Add<T>(T disposable) where T: IAsyncDisposable
         {
             if (disposable == null)
-                return disposable;
+                return default(T);
 
             _Disposables.Enqueue(disposable);
             return disposable;

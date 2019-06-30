@@ -6,8 +6,7 @@ using System.Threading;
 namespace ComposableAsync.Concurrent.Collections
 {
     /// <summary>
-    /// Implementation of <see cref="IMpScQueue<typeparam name="T"></typeparam>"/> relying
-    /// on .Net BlockingCollection
+    /// Implementation of IMpScQueue relying on .Net BlockingCollection
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class StandardMpscQueue<T> : IMpScQueue<T> where T: class

@@ -6,7 +6,7 @@ using ComposableAsync.Concurrent.Signals;
 namespace ComposableAsync.Concurrent.Collections
 {
     /// <summary>
-    /// Blocking implementation of <see cref="IMpScQueue<typeparam name="T"></typeparam>"/>
+    /// Blocking implementation of IMpScQueue
     /// Inspired by and adapted from http://www.1024cores.net/
     /// Ref: http://www.1024cores.net/home/lock-free-algorithms/queues/non-intrusive-mpsc-node-based-queue
     /// </summary>

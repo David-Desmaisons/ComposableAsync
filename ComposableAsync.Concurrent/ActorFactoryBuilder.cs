@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using ComposableAsync.Factory;
-using ComposableAsync.Actors.DispatcherManagers;
+using ComposableAsync.Concurrent.DispatcherManagers;
 
 namespace ComposableAsync.Concurrent
 {

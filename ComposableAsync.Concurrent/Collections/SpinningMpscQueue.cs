@@ -5,7 +5,7 @@ using System.Threading;
 namespace ComposableAsync.Concurrent.Collections
 {
     /// <summary>
-    /// Spinning implementation of see cref="IMpScQueue<typeparam name="T"></typeparam>"/>
+    /// Spinning implementation of IMpScQueue
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class SpinningMpscQueue<T> : IMpScQueue<T> where T: class

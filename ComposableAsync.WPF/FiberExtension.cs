@@ -14,7 +14,7 @@ namespace ComposableAsync.WPF
         }
 
         /// <summary>
-        /// Returns the fiber associated with an object
+        /// Returns the fiber associated with an object.
         /// This will returns fiber for both actors and <see cref="DispatcherObject"/>
         /// </summary>
         /// <param name="object"></param>

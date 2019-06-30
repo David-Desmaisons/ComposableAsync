@@ -1,0 +1,1802 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: ComposableAsync
+  name: ComposableAsync
+  href: api/ComposableAsync.html
+  commentId: N:ComposableAsync
+  fullName: ComposableAsync
+  nameWithType: ComposableAsync
+- uid: ComposableAsync.ComposableAsyncDisposable
+  name: ComposableAsyncDisposable
+  href: api/ComposableAsync.ComposableAsyncDisposable.html
+  commentId: T:ComposableAsync.ComposableAsyncDisposable
+  fullName: ComposableAsync.ComposableAsyncDisposable
+  nameWithType: ComposableAsyncDisposable
+- uid: ComposableAsync.ComposableAsyncDisposable.#ctor
+  name: ComposableAsyncDisposable()
+  href: api/ComposableAsync.ComposableAsyncDisposable.html#ComposableAsync_ComposableAsyncDisposable__ctor
+  commentId: M:ComposableAsync.ComposableAsyncDisposable.#ctor
+  fullName: ComposableAsync.ComposableAsyncDisposable.ComposableAsyncDisposable()
+  nameWithType: ComposableAsyncDisposable.ComposableAsyncDisposable()
+- uid: ComposableAsync.ComposableAsyncDisposable.#ctor(System.IAsyncDisposable[])
+  name: ComposableAsyncDisposable(IAsyncDisposable[])
+  href: api/ComposableAsync.ComposableAsyncDisposable.html#ComposableAsync_ComposableAsyncDisposable__ctor_System_IAsyncDisposable___
+  commentId: M:ComposableAsync.ComposableAsyncDisposable.#ctor(System.IAsyncDisposable[])
+  name.vb: ComposableAsyncDisposable(IAsyncDisposable())
+  fullName: ComposableAsync.ComposableAsyncDisposable.ComposableAsyncDisposable(System.IAsyncDisposable[])
+  fullName.vb: ComposableAsync.ComposableAsyncDisposable.ComposableAsyncDisposable(System.IAsyncDisposable())
+  nameWithType: ComposableAsyncDisposable.ComposableAsyncDisposable(IAsyncDisposable[])
+  nameWithType.vb: ComposableAsyncDisposable.ComposableAsyncDisposable(IAsyncDisposable())
+- uid: ComposableAsync.ComposableAsyncDisposable.#ctor*
+  name: ComposableAsyncDisposable
+  href: api/ComposableAsync.ComposableAsyncDisposable.html#ComposableAsync_ComposableAsyncDisposable__ctor_
+  commentId: Overload:ComposableAsync.ComposableAsyncDisposable.#ctor
+  isSpec: "True"
+  fullName: ComposableAsync.ComposableAsyncDisposable.ComposableAsyncDisposable
+  nameWithType: ComposableAsyncDisposable.ComposableAsyncDisposable
+- uid: ComposableAsync.ComposableAsyncDisposable.Add*
+  name: Add
+  href: api/ComposableAsync.ComposableAsyncDisposable.html#ComposableAsync_ComposableAsyncDisposable_Add_
+  commentId: Overload:ComposableAsync.ComposableAsyncDisposable.Add
+  isSpec: "True"
+  fullName: ComposableAsync.ComposableAsyncDisposable.Add
+  nameWithType: ComposableAsyncDisposable.Add
+- uid: ComposableAsync.ComposableAsyncDisposable.Add``1(``0)
+  name: Add<T>(T)
+  href: api/ComposableAsync.ComposableAsyncDisposable.html#ComposableAsync_ComposableAsyncDisposable_Add__1___0_
+  commentId: M:ComposableAsync.ComposableAsyncDisposable.Add``1(``0)
+  name.vb: Add(Of T)(T)
+  fullName: ComposableAsync.ComposableAsyncDisposable.Add<T>(T)
+  fullName.vb: ComposableAsync.ComposableAsyncDisposable.Add(Of T)(T)
+  nameWithType: ComposableAsyncDisposable.Add<T>(T)
+  nameWithType.vb: ComposableAsyncDisposable.Add(Of T)(T)
+- uid: ComposableAsync.ComposableAsyncDisposable.DisposeAsync
+  name: DisposeAsync()
+  href: api/ComposableAsync.ComposableAsyncDisposable.html#ComposableAsync_ComposableAsyncDisposable_DisposeAsync
+  commentId: M:ComposableAsync.ComposableAsyncDisposable.DisposeAsync
+  fullName: ComposableAsync.ComposableAsyncDisposable.DisposeAsync()
+  nameWithType: ComposableAsyncDisposable.DisposeAsync()
+- uid: ComposableAsync.ComposableAsyncDisposable.DisposeAsync*
+  name: DisposeAsync
+  href: api/ComposableAsync.ComposableAsyncDisposable.html#ComposableAsync_ComposableAsyncDisposable_DisposeAsync_
+  commentId: Overload:ComposableAsync.ComposableAsyncDisposable.DisposeAsync
+  isSpec: "True"
+  fullName: ComposableAsync.ComposableAsyncDisposable.DisposeAsync
+  nameWithType: ComposableAsyncDisposable.DisposeAsync
+- uid: ComposableAsync.Concurrent
+  name: ComposableAsync.Concurrent
+  href: api/ComposableAsync.Concurrent.html
+  commentId: N:ComposableAsync.Concurrent
+  fullName: ComposableAsync.Concurrent
+  nameWithType: ComposableAsync.Concurrent
+- uid: ComposableAsync.Concurrent.ActorFactoryBuilder
+  name: ActorFactoryBuilder
+  href: api/ComposableAsync.Concurrent.ActorFactoryBuilder.html
+  commentId: T:ComposableAsync.Concurrent.ActorFactoryBuilder
+  fullName: ComposableAsync.Concurrent.ActorFactoryBuilder
+  nameWithType: ActorFactoryBuilder
+- uid: ComposableAsync.Concurrent.ActorFactoryBuilder.GetActorFactory(System.Boolean,System.Action{System.Threading.Thread})
+  name: GetActorFactory(Boolean, Action<Thread>)
+  href: api/ComposableAsync.Concurrent.ActorFactoryBuilder.html#ComposableAsync_Concurrent_ActorFactoryBuilder_GetActorFactory_System_Boolean_System_Action_System_Threading_Thread__
+  commentId: M:ComposableAsync.Concurrent.ActorFactoryBuilder.GetActorFactory(System.Boolean,System.Action{System.Threading.Thread})
+  name.vb: GetActorFactory(Boolean, Action(Of Thread))
+  fullName: ComposableAsync.Concurrent.ActorFactoryBuilder.GetActorFactory(System.Boolean, System.Action<System.Threading.Thread>)
+  fullName.vb: ComposableAsync.Concurrent.ActorFactoryBuilder.GetActorFactory(System.Boolean, System.Action(Of System.Threading.Thread))
+  nameWithType: ActorFactoryBuilder.GetActorFactory(Boolean, Action<Thread>)
+  nameWithType.vb: ActorFactoryBuilder.GetActorFactory(Boolean, Action(Of Thread))
+- uid: ComposableAsync.Concurrent.ActorFactoryBuilder.GetActorFactory*
+  name: GetActorFactory
+  href: api/ComposableAsync.Concurrent.ActorFactoryBuilder.html#ComposableAsync_Concurrent_ActorFactoryBuilder_GetActorFactory_
+  commentId: Overload:ComposableAsync.Concurrent.ActorFactoryBuilder.GetActorFactory
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.ActorFactoryBuilder.GetActorFactory
+  nameWithType: ActorFactoryBuilder.GetActorFactory
+- uid: ComposableAsync.Concurrent.ActorFactoryBuilder.GetActorFactoryFrom(ComposableAsync.Concurrent.IFiber)
+  name: GetActorFactoryFrom(IFiber)
+  href: api/ComposableAsync.Concurrent.ActorFactoryBuilder.html#ComposableAsync_Concurrent_ActorFactoryBuilder_GetActorFactoryFrom_ComposableAsync_Concurrent_IFiber_
+  commentId: M:ComposableAsync.Concurrent.ActorFactoryBuilder.GetActorFactoryFrom(ComposableAsync.Concurrent.IFiber)
+  fullName: ComposableAsync.Concurrent.ActorFactoryBuilder.GetActorFactoryFrom(ComposableAsync.Concurrent.IFiber)
+  nameWithType: ActorFactoryBuilder.GetActorFactoryFrom(IFiber)
+- uid: ComposableAsync.Concurrent.ActorFactoryBuilder.GetActorFactoryFrom*
+  name: GetActorFactoryFrom
+  href: api/ComposableAsync.Concurrent.ActorFactoryBuilder.html#ComposableAsync_Concurrent_ActorFactoryBuilder_GetActorFactoryFrom_
+  commentId: Overload:ComposableAsync.Concurrent.ActorFactoryBuilder.GetActorFactoryFrom
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.ActorFactoryBuilder.GetActorFactoryFrom
+  nameWithType: ActorFactoryBuilder.GetActorFactoryFrom
+- uid: ComposableAsync.Concurrent.ActorFactoryBuilder.GetInContextActorFactory
+  name: GetInContextActorFactory()
+  href: api/ComposableAsync.Concurrent.ActorFactoryBuilder.html#ComposableAsync_Concurrent_ActorFactoryBuilder_GetInContextActorFactory
+  commentId: M:ComposableAsync.Concurrent.ActorFactoryBuilder.GetInContextActorFactory
+  fullName: ComposableAsync.Concurrent.ActorFactoryBuilder.GetInContextActorFactory()
+  nameWithType: ActorFactoryBuilder.GetInContextActorFactory()
+- uid: ComposableAsync.Concurrent.ActorFactoryBuilder.GetInContextActorFactory(System.Threading.SynchronizationContext)
+  name: GetInContextActorFactory(SynchronizationContext)
+  href: api/ComposableAsync.Concurrent.ActorFactoryBuilder.html#ComposableAsync_Concurrent_ActorFactoryBuilder_GetInContextActorFactory_System_Threading_SynchronizationContext_
+  commentId: M:ComposableAsync.Concurrent.ActorFactoryBuilder.GetInContextActorFactory(System.Threading.SynchronizationContext)
+  fullName: ComposableAsync.Concurrent.ActorFactoryBuilder.GetInContextActorFactory(System.Threading.SynchronizationContext)
+  nameWithType: ActorFactoryBuilder.GetInContextActorFactory(SynchronizationContext)
+- uid: ComposableAsync.Concurrent.ActorFactoryBuilder.GetInContextActorFactory*
+  name: GetInContextActorFactory
+  href: api/ComposableAsync.Concurrent.ActorFactoryBuilder.html#ComposableAsync_Concurrent_ActorFactoryBuilder_GetInContextActorFactory_
+  commentId: Overload:ComposableAsync.Concurrent.ActorFactoryBuilder.GetInContextActorFactory
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.ActorFactoryBuilder.GetInContextActorFactory
+  nameWithType: ActorFactoryBuilder.GetInContextActorFactory
+- uid: ComposableAsync.Concurrent.ActorFactoryBuilder.GetTaskBasedActorFactory
+  name: GetTaskBasedActorFactory()
+  href: api/ComposableAsync.Concurrent.ActorFactoryBuilder.html#ComposableAsync_Concurrent_ActorFactoryBuilder_GetTaskBasedActorFactory
+  commentId: M:ComposableAsync.Concurrent.ActorFactoryBuilder.GetTaskBasedActorFactory
+  fullName: ComposableAsync.Concurrent.ActorFactoryBuilder.GetTaskBasedActorFactory()
+  nameWithType: ActorFactoryBuilder.GetTaskBasedActorFactory()
+- uid: ComposableAsync.Concurrent.ActorFactoryBuilder.GetTaskBasedActorFactory*
+  name: GetTaskBasedActorFactory
+  href: api/ComposableAsync.Concurrent.ActorFactoryBuilder.html#ComposableAsync_Concurrent_ActorFactoryBuilder_GetTaskBasedActorFactory_
+  commentId: Overload:ComposableAsync.Concurrent.ActorFactoryBuilder.GetTaskBasedActorFactory
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.ActorFactoryBuilder.GetTaskBasedActorFactory
+  nameWithType: ActorFactoryBuilder.GetTaskBasedActorFactory
+- uid: ComposableAsync.Concurrent.ActorFactoryBuilder.GetThreadPoolBasedActorFactory
+  name: GetThreadPoolBasedActorFactory()
+  href: api/ComposableAsync.Concurrent.ActorFactoryBuilder.html#ComposableAsync_Concurrent_ActorFactoryBuilder_GetThreadPoolBasedActorFactory
+  commentId: M:ComposableAsync.Concurrent.ActorFactoryBuilder.GetThreadPoolBasedActorFactory
+  fullName: ComposableAsync.Concurrent.ActorFactoryBuilder.GetThreadPoolBasedActorFactory()
+  nameWithType: ActorFactoryBuilder.GetThreadPoolBasedActorFactory()
+- uid: ComposableAsync.Concurrent.ActorFactoryBuilder.GetThreadPoolBasedActorFactory*
+  name: GetThreadPoolBasedActorFactory
+  href: api/ComposableAsync.Concurrent.ActorFactoryBuilder.html#ComposableAsync_Concurrent_ActorFactoryBuilder_GetThreadPoolBasedActorFactory_
+  commentId: Overload:ComposableAsync.Concurrent.ActorFactoryBuilder.GetThreadPoolBasedActorFactory
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.ActorFactoryBuilder.GetThreadPoolBasedActorFactory
+  nameWithType: ActorFactoryBuilder.GetThreadPoolBasedActorFactory
+- uid: ComposableAsync.Concurrent.Collections
+  name: ComposableAsync.Concurrent.Collections
+  href: api/ComposableAsync.Concurrent.Collections.html
+  commentId: N:ComposableAsync.Concurrent.Collections
+  fullName: ComposableAsync.Concurrent.Collections
+  nameWithType: ComposableAsync.Concurrent.Collections
+- uid: ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1
+  name: BlockingMpscQueue<T>
+  href: api/ComposableAsync.Concurrent.Collections.BlockingMpscQueue-1.html
+  commentId: T:ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1
+  name.vb: BlockingMpscQueue(Of T)
+  fullName: ComposableAsync.Concurrent.Collections.BlockingMpscQueue<T>
+  fullName.vb: ComposableAsync.Concurrent.Collections.BlockingMpscQueue(Of T)
+  nameWithType: BlockingMpscQueue<T>
+  nameWithType.vb: BlockingMpscQueue(Of T)
+- uid: ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.#ctor
+  name: BlockingMpscQueue()
+  href: api/ComposableAsync.Concurrent.Collections.BlockingMpscQueue-1.html#ComposableAsync_Concurrent_Collections_BlockingMpscQueue_1__ctor
+  commentId: M:ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.#ctor
+  fullName: ComposableAsync.Concurrent.Collections.BlockingMpscQueue<T>.BlockingMpscQueue()
+  fullName.vb: ComposableAsync.Concurrent.Collections.BlockingMpscQueue(Of T).BlockingMpscQueue()
+  nameWithType: BlockingMpscQueue<T>.BlockingMpscQueue()
+  nameWithType.vb: BlockingMpscQueue(Of T).BlockingMpscQueue()
+- uid: ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.#ctor*
+  name: BlockingMpscQueue
+  href: api/ComposableAsync.Concurrent.Collections.BlockingMpscQueue-1.html#ComposableAsync_Concurrent_Collections_BlockingMpscQueue_1__ctor_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.#ctor
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.BlockingMpscQueue<T>.BlockingMpscQueue
+  fullName.vb: ComposableAsync.Concurrent.Collections.BlockingMpscQueue(Of T).BlockingMpscQueue
+  nameWithType: BlockingMpscQueue<T>.BlockingMpscQueue
+  nameWithType.vb: BlockingMpscQueue(Of T).BlockingMpscQueue
+- uid: ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.CompleteAdding
+  name: CompleteAdding()
+  href: api/ComposableAsync.Concurrent.Collections.BlockingMpscQueue-1.html#ComposableAsync_Concurrent_Collections_BlockingMpscQueue_1_CompleteAdding
+  commentId: M:ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.CompleteAdding
+  fullName: ComposableAsync.Concurrent.Collections.BlockingMpscQueue<T>.CompleteAdding()
+  fullName.vb: ComposableAsync.Concurrent.Collections.BlockingMpscQueue(Of T).CompleteAdding()
+  nameWithType: BlockingMpscQueue<T>.CompleteAdding()
+  nameWithType.vb: BlockingMpscQueue(Of T).CompleteAdding()
+- uid: ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.CompleteAdding*
+  name: CompleteAdding
+  href: api/ComposableAsync.Concurrent.Collections.BlockingMpscQueue-1.html#ComposableAsync_Concurrent_Collections_BlockingMpscQueue_1_CompleteAdding_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.CompleteAdding
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.BlockingMpscQueue<T>.CompleteAdding
+  fullName.vb: ComposableAsync.Concurrent.Collections.BlockingMpscQueue(Of T).CompleteAdding
+  nameWithType: BlockingMpscQueue<T>.CompleteAdding
+  nameWithType.vb: BlockingMpscQueue(Of T).CompleteAdding
+- uid: ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.Dispose
+  name: Dispose()
+  href: api/ComposableAsync.Concurrent.Collections.BlockingMpscQueue-1.html#ComposableAsync_Concurrent_Collections_BlockingMpscQueue_1_Dispose
+  commentId: M:ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.Dispose
+  fullName: ComposableAsync.Concurrent.Collections.BlockingMpscQueue<T>.Dispose()
+  fullName.vb: ComposableAsync.Concurrent.Collections.BlockingMpscQueue(Of T).Dispose()
+  nameWithType: BlockingMpscQueue<T>.Dispose()
+  nameWithType.vb: BlockingMpscQueue(Of T).Dispose()
+- uid: ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.Dispose*
+  name: Dispose
+  href: api/ComposableAsync.Concurrent.Collections.BlockingMpscQueue-1.html#ComposableAsync_Concurrent_Collections_BlockingMpscQueue_1_Dispose_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.Dispose
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.BlockingMpscQueue<T>.Dispose
+  fullName.vb: ComposableAsync.Concurrent.Collections.BlockingMpscQueue(Of T).Dispose
+  nameWithType: BlockingMpscQueue<T>.Dispose
+  nameWithType.vb: BlockingMpscQueue(Of T).Dispose
+- uid: ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.Enqueue(`0)
+  name: Enqueue(T)
+  href: api/ComposableAsync.Concurrent.Collections.BlockingMpscQueue-1.html#ComposableAsync_Concurrent_Collections_BlockingMpscQueue_1_Enqueue__0_
+  commentId: M:ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.Enqueue(`0)
+  fullName: ComposableAsync.Concurrent.Collections.BlockingMpscQueue<T>.Enqueue(T)
+  fullName.vb: ComposableAsync.Concurrent.Collections.BlockingMpscQueue(Of T).Enqueue(T)
+  nameWithType: BlockingMpscQueue<T>.Enqueue(T)
+  nameWithType.vb: BlockingMpscQueue(Of T).Enqueue(T)
+- uid: ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.Enqueue*
+  name: Enqueue
+  href: api/ComposableAsync.Concurrent.Collections.BlockingMpscQueue-1.html#ComposableAsync_Concurrent_Collections_BlockingMpscQueue_1_Enqueue_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.Enqueue
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.BlockingMpscQueue<T>.Enqueue
+  fullName.vb: ComposableAsync.Concurrent.Collections.BlockingMpscQueue(Of T).Enqueue
+  nameWithType: BlockingMpscQueue<T>.Enqueue
+  nameWithType.vb: BlockingMpscQueue(Of T).Enqueue
+- uid: ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.GetUnsafeQueue
+  name: GetUnsafeQueue()
+  href: api/ComposableAsync.Concurrent.Collections.BlockingMpscQueue-1.html#ComposableAsync_Concurrent_Collections_BlockingMpscQueue_1_GetUnsafeQueue
+  commentId: M:ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.GetUnsafeQueue
+  fullName: ComposableAsync.Concurrent.Collections.BlockingMpscQueue<T>.GetUnsafeQueue()
+  fullName.vb: ComposableAsync.Concurrent.Collections.BlockingMpscQueue(Of T).GetUnsafeQueue()
+  nameWithType: BlockingMpscQueue<T>.GetUnsafeQueue()
+  nameWithType.vb: BlockingMpscQueue(Of T).GetUnsafeQueue()
+- uid: ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.GetUnsafeQueue*
+  name: GetUnsafeQueue
+  href: api/ComposableAsync.Concurrent.Collections.BlockingMpscQueue-1.html#ComposableAsync_Concurrent_Collections_BlockingMpscQueue_1_GetUnsafeQueue_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.GetUnsafeQueue
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.BlockingMpscQueue<T>.GetUnsafeQueue
+  fullName.vb: ComposableAsync.Concurrent.Collections.BlockingMpscQueue(Of T).GetUnsafeQueue
+  nameWithType: BlockingMpscQueue<T>.GetUnsafeQueue
+  nameWithType.vb: BlockingMpscQueue(Of T).GetUnsafeQueue
+- uid: ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.OnElements(System.Action{`0})
+  name: OnElements(Action<T>)
+  href: api/ComposableAsync.Concurrent.Collections.BlockingMpscQueue-1.html#ComposableAsync_Concurrent_Collections_BlockingMpscQueue_1_OnElements_System_Action__0__
+  commentId: M:ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.OnElements(System.Action{`0})
+  name.vb: OnElements(Action(Of T))
+  fullName: ComposableAsync.Concurrent.Collections.BlockingMpscQueue<T>.OnElements(System.Action<T>)
+  fullName.vb: ComposableAsync.Concurrent.Collections.BlockingMpscQueue(Of T).OnElements(System.Action(Of T))
+  nameWithType: BlockingMpscQueue<T>.OnElements(Action<T>)
+  nameWithType.vb: BlockingMpscQueue(Of T).OnElements(Action(Of T))
+- uid: ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.OnElements*
+  name: OnElements
+  href: api/ComposableAsync.Concurrent.Collections.BlockingMpscQueue-1.html#ComposableAsync_Concurrent_Collections_BlockingMpscQueue_1_OnElements_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.BlockingMpscQueue`1.OnElements
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.BlockingMpscQueue<T>.OnElements
+  fullName.vb: ComposableAsync.Concurrent.Collections.BlockingMpscQueue(Of T).OnElements
+  nameWithType: BlockingMpscQueue<T>.OnElements
+  nameWithType.vb: BlockingMpscQueue(Of T).OnElements
+- uid: ComposableAsync.Concurrent.Collections.IMpScQueue`1
+  name: IMpScQueue<T>
+  href: api/ComposableAsync.Concurrent.Collections.IMpScQueue-1.html
+  commentId: T:ComposableAsync.Concurrent.Collections.IMpScQueue`1
+  name.vb: IMpScQueue(Of T)
+  fullName: ComposableAsync.Concurrent.Collections.IMpScQueue<T>
+  fullName.vb: ComposableAsync.Concurrent.Collections.IMpScQueue(Of T)
+  nameWithType: IMpScQueue<T>
+  nameWithType.vb: IMpScQueue(Of T)
+- uid: ComposableAsync.Concurrent.Collections.IMpScQueue`1.CompleteAdding
+  name: CompleteAdding()
+  href: api/ComposableAsync.Concurrent.Collections.IMpScQueue-1.html#ComposableAsync_Concurrent_Collections_IMpScQueue_1_CompleteAdding
+  commentId: M:ComposableAsync.Concurrent.Collections.IMpScQueue`1.CompleteAdding
+  fullName: ComposableAsync.Concurrent.Collections.IMpScQueue<T>.CompleteAdding()
+  fullName.vb: ComposableAsync.Concurrent.Collections.IMpScQueue(Of T).CompleteAdding()
+  nameWithType: IMpScQueue<T>.CompleteAdding()
+  nameWithType.vb: IMpScQueue(Of T).CompleteAdding()
+- uid: ComposableAsync.Concurrent.Collections.IMpScQueue`1.CompleteAdding*
+  name: CompleteAdding
+  href: api/ComposableAsync.Concurrent.Collections.IMpScQueue-1.html#ComposableAsync_Concurrent_Collections_IMpScQueue_1_CompleteAdding_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.IMpScQueue`1.CompleteAdding
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.IMpScQueue<T>.CompleteAdding
+  fullName.vb: ComposableAsync.Concurrent.Collections.IMpScQueue(Of T).CompleteAdding
+  nameWithType: IMpScQueue<T>.CompleteAdding
+  nameWithType.vb: IMpScQueue(Of T).CompleteAdding
+- uid: ComposableAsync.Concurrent.Collections.IMpScQueue`1.Enqueue(`0)
+  name: Enqueue(T)
+  href: api/ComposableAsync.Concurrent.Collections.IMpScQueue-1.html#ComposableAsync_Concurrent_Collections_IMpScQueue_1_Enqueue__0_
+  commentId: M:ComposableAsync.Concurrent.Collections.IMpScQueue`1.Enqueue(`0)
+  fullName: ComposableAsync.Concurrent.Collections.IMpScQueue<T>.Enqueue(T)
+  fullName.vb: ComposableAsync.Concurrent.Collections.IMpScQueue(Of T).Enqueue(T)
+  nameWithType: IMpScQueue<T>.Enqueue(T)
+  nameWithType.vb: IMpScQueue(Of T).Enqueue(T)
+- uid: ComposableAsync.Concurrent.Collections.IMpScQueue`1.Enqueue*
+  name: Enqueue
+  href: api/ComposableAsync.Concurrent.Collections.IMpScQueue-1.html#ComposableAsync_Concurrent_Collections_IMpScQueue_1_Enqueue_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.IMpScQueue`1.Enqueue
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.IMpScQueue<T>.Enqueue
+  fullName.vb: ComposableAsync.Concurrent.Collections.IMpScQueue(Of T).Enqueue
+  nameWithType: IMpScQueue<T>.Enqueue
+  nameWithType.vb: IMpScQueue(Of T).Enqueue
+- uid: ComposableAsync.Concurrent.Collections.IMpScQueue`1.GetUnsafeQueue
+  name: GetUnsafeQueue()
+  href: api/ComposableAsync.Concurrent.Collections.IMpScQueue-1.html#ComposableAsync_Concurrent_Collections_IMpScQueue_1_GetUnsafeQueue
+  commentId: M:ComposableAsync.Concurrent.Collections.IMpScQueue`1.GetUnsafeQueue
+  fullName: ComposableAsync.Concurrent.Collections.IMpScQueue<T>.GetUnsafeQueue()
+  fullName.vb: ComposableAsync.Concurrent.Collections.IMpScQueue(Of T).GetUnsafeQueue()
+  nameWithType: IMpScQueue<T>.GetUnsafeQueue()
+  nameWithType.vb: IMpScQueue(Of T).GetUnsafeQueue()
+- uid: ComposableAsync.Concurrent.Collections.IMpScQueue`1.GetUnsafeQueue*
+  name: GetUnsafeQueue
+  href: api/ComposableAsync.Concurrent.Collections.IMpScQueue-1.html#ComposableAsync_Concurrent_Collections_IMpScQueue_1_GetUnsafeQueue_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.IMpScQueue`1.GetUnsafeQueue
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.IMpScQueue<T>.GetUnsafeQueue
+  fullName.vb: ComposableAsync.Concurrent.Collections.IMpScQueue(Of T).GetUnsafeQueue
+  nameWithType: IMpScQueue<T>.GetUnsafeQueue
+  nameWithType.vb: IMpScQueue(Of T).GetUnsafeQueue
+- uid: ComposableAsync.Concurrent.Collections.IMpScQueue`1.OnElements(System.Action{`0})
+  name: OnElements(Action<T>)
+  href: api/ComposableAsync.Concurrent.Collections.IMpScQueue-1.html#ComposableAsync_Concurrent_Collections_IMpScQueue_1_OnElements_System_Action__0__
+  commentId: M:ComposableAsync.Concurrent.Collections.IMpScQueue`1.OnElements(System.Action{`0})
+  name.vb: OnElements(Action(Of T))
+  fullName: ComposableAsync.Concurrent.Collections.IMpScQueue<T>.OnElements(System.Action<T>)
+  fullName.vb: ComposableAsync.Concurrent.Collections.IMpScQueue(Of T).OnElements(System.Action(Of T))
+  nameWithType: IMpScQueue<T>.OnElements(Action<T>)
+  nameWithType.vb: IMpScQueue(Of T).OnElements(Action(Of T))
+- uid: ComposableAsync.Concurrent.Collections.IMpScQueue`1.OnElements*
+  name: OnElements
+  href: api/ComposableAsync.Concurrent.Collections.IMpScQueue-1.html#ComposableAsync_Concurrent_Collections_IMpScQueue_1_OnElements_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.IMpScQueue`1.OnElements
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.IMpScQueue<T>.OnElements
+  fullName.vb: ComposableAsync.Concurrent.Collections.IMpScQueue(Of T).OnElements
+  nameWithType: IMpScQueue<T>.OnElements
+  nameWithType.vb: IMpScQueue(Of T).OnElements
+- uid: ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1
+  name: SpinningMpscQueue<T>
+  href: api/ComposableAsync.Concurrent.Collections.SpinningMpscQueue-1.html
+  commentId: T:ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1
+  name.vb: SpinningMpscQueue(Of T)
+  fullName: ComposableAsync.Concurrent.Collections.SpinningMpscQueue<T>
+  fullName.vb: ComposableAsync.Concurrent.Collections.SpinningMpscQueue(Of T)
+  nameWithType: SpinningMpscQueue<T>
+  nameWithType.vb: SpinningMpscQueue(Of T)
+- uid: ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.#ctor
+  name: SpinningMpscQueue()
+  href: api/ComposableAsync.Concurrent.Collections.SpinningMpscQueue-1.html#ComposableAsync_Concurrent_Collections_SpinningMpscQueue_1__ctor
+  commentId: M:ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.#ctor
+  fullName: ComposableAsync.Concurrent.Collections.SpinningMpscQueue<T>.SpinningMpscQueue()
+  fullName.vb: ComposableAsync.Concurrent.Collections.SpinningMpscQueue(Of T).SpinningMpscQueue()
+  nameWithType: SpinningMpscQueue<T>.SpinningMpscQueue()
+  nameWithType.vb: SpinningMpscQueue(Of T).SpinningMpscQueue()
+- uid: ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.#ctor*
+  name: SpinningMpscQueue
+  href: api/ComposableAsync.Concurrent.Collections.SpinningMpscQueue-1.html#ComposableAsync_Concurrent_Collections_SpinningMpscQueue_1__ctor_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.#ctor
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.SpinningMpscQueue<T>.SpinningMpscQueue
+  fullName.vb: ComposableAsync.Concurrent.Collections.SpinningMpscQueue(Of T).SpinningMpscQueue
+  nameWithType: SpinningMpscQueue<T>.SpinningMpscQueue
+  nameWithType.vb: SpinningMpscQueue(Of T).SpinningMpscQueue
+- uid: ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.CompleteAdding
+  name: CompleteAdding()
+  href: api/ComposableAsync.Concurrent.Collections.SpinningMpscQueue-1.html#ComposableAsync_Concurrent_Collections_SpinningMpscQueue_1_CompleteAdding
+  commentId: M:ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.CompleteAdding
+  fullName: ComposableAsync.Concurrent.Collections.SpinningMpscQueue<T>.CompleteAdding()
+  fullName.vb: ComposableAsync.Concurrent.Collections.SpinningMpscQueue(Of T).CompleteAdding()
+  nameWithType: SpinningMpscQueue<T>.CompleteAdding()
+  nameWithType.vb: SpinningMpscQueue(Of T).CompleteAdding()
+- uid: ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.CompleteAdding*
+  name: CompleteAdding
+  href: api/ComposableAsync.Concurrent.Collections.SpinningMpscQueue-1.html#ComposableAsync_Concurrent_Collections_SpinningMpscQueue_1_CompleteAdding_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.CompleteAdding
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.SpinningMpscQueue<T>.CompleteAdding
+  fullName.vb: ComposableAsync.Concurrent.Collections.SpinningMpscQueue(Of T).CompleteAdding
+  nameWithType: SpinningMpscQueue<T>.CompleteAdding
+  nameWithType.vb: SpinningMpscQueue(Of T).CompleteAdding
+- uid: ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.Dispose
+  name: Dispose()
+  href: api/ComposableAsync.Concurrent.Collections.SpinningMpscQueue-1.html#ComposableAsync_Concurrent_Collections_SpinningMpscQueue_1_Dispose
+  commentId: M:ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.Dispose
+  fullName: ComposableAsync.Concurrent.Collections.SpinningMpscQueue<T>.Dispose()
+  fullName.vb: ComposableAsync.Concurrent.Collections.SpinningMpscQueue(Of T).Dispose()
+  nameWithType: SpinningMpscQueue<T>.Dispose()
+  nameWithType.vb: SpinningMpscQueue(Of T).Dispose()
+- uid: ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.Dispose*
+  name: Dispose
+  href: api/ComposableAsync.Concurrent.Collections.SpinningMpscQueue-1.html#ComposableAsync_Concurrent_Collections_SpinningMpscQueue_1_Dispose_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.Dispose
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.SpinningMpscQueue<T>.Dispose
+  fullName.vb: ComposableAsync.Concurrent.Collections.SpinningMpscQueue(Of T).Dispose
+  nameWithType: SpinningMpscQueue<T>.Dispose
+  nameWithType.vb: SpinningMpscQueue(Of T).Dispose
+- uid: ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.Enqueue(`0)
+  name: Enqueue(T)
+  href: api/ComposableAsync.Concurrent.Collections.SpinningMpscQueue-1.html#ComposableAsync_Concurrent_Collections_SpinningMpscQueue_1_Enqueue__0_
+  commentId: M:ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.Enqueue(`0)
+  fullName: ComposableAsync.Concurrent.Collections.SpinningMpscQueue<T>.Enqueue(T)
+  fullName.vb: ComposableAsync.Concurrent.Collections.SpinningMpscQueue(Of T).Enqueue(T)
+  nameWithType: SpinningMpscQueue<T>.Enqueue(T)
+  nameWithType.vb: SpinningMpscQueue(Of T).Enqueue(T)
+- uid: ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.Enqueue*
+  name: Enqueue
+  href: api/ComposableAsync.Concurrent.Collections.SpinningMpscQueue-1.html#ComposableAsync_Concurrent_Collections_SpinningMpscQueue_1_Enqueue_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.Enqueue
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.SpinningMpscQueue<T>.Enqueue
+  fullName.vb: ComposableAsync.Concurrent.Collections.SpinningMpscQueue(Of T).Enqueue
+  nameWithType: SpinningMpscQueue<T>.Enqueue
+  nameWithType.vb: SpinningMpscQueue(Of T).Enqueue
+- uid: ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.GetUnsafeQueue
+  name: GetUnsafeQueue()
+  href: api/ComposableAsync.Concurrent.Collections.SpinningMpscQueue-1.html#ComposableAsync_Concurrent_Collections_SpinningMpscQueue_1_GetUnsafeQueue
+  commentId: M:ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.GetUnsafeQueue
+  fullName: ComposableAsync.Concurrent.Collections.SpinningMpscQueue<T>.GetUnsafeQueue()
+  fullName.vb: ComposableAsync.Concurrent.Collections.SpinningMpscQueue(Of T).GetUnsafeQueue()
+  nameWithType: SpinningMpscQueue<T>.GetUnsafeQueue()
+  nameWithType.vb: SpinningMpscQueue(Of T).GetUnsafeQueue()
+- uid: ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.GetUnsafeQueue*
+  name: GetUnsafeQueue
+  href: api/ComposableAsync.Concurrent.Collections.SpinningMpscQueue-1.html#ComposableAsync_Concurrent_Collections_SpinningMpscQueue_1_GetUnsafeQueue_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.GetUnsafeQueue
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.SpinningMpscQueue<T>.GetUnsafeQueue
+  fullName.vb: ComposableAsync.Concurrent.Collections.SpinningMpscQueue(Of T).GetUnsafeQueue
+  nameWithType: SpinningMpscQueue<T>.GetUnsafeQueue
+  nameWithType.vb: SpinningMpscQueue(Of T).GetUnsafeQueue
+- uid: ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.OnElements(System.Action{`0})
+  name: OnElements(Action<T>)
+  href: api/ComposableAsync.Concurrent.Collections.SpinningMpscQueue-1.html#ComposableAsync_Concurrent_Collections_SpinningMpscQueue_1_OnElements_System_Action__0__
+  commentId: M:ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.OnElements(System.Action{`0})
+  name.vb: OnElements(Action(Of T))
+  fullName: ComposableAsync.Concurrent.Collections.SpinningMpscQueue<T>.OnElements(System.Action<T>)
+  fullName.vb: ComposableAsync.Concurrent.Collections.SpinningMpscQueue(Of T).OnElements(System.Action(Of T))
+  nameWithType: SpinningMpscQueue<T>.OnElements(Action<T>)
+  nameWithType.vb: SpinningMpscQueue(Of T).OnElements(Action(Of T))
+- uid: ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.OnElements*
+  name: OnElements
+  href: api/ComposableAsync.Concurrent.Collections.SpinningMpscQueue-1.html#ComposableAsync_Concurrent_Collections_SpinningMpscQueue_1_OnElements_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.SpinningMpscQueue`1.OnElements
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.SpinningMpscQueue<T>.OnElements
+  fullName.vb: ComposableAsync.Concurrent.Collections.SpinningMpscQueue(Of T).OnElements
+  nameWithType: SpinningMpscQueue<T>.OnElements
+  nameWithType.vb: SpinningMpscQueue(Of T).OnElements
+- uid: ComposableAsync.Concurrent.Collections.StandardMpscQueue`1
+  name: StandardMpscQueue<T>
+  href: api/ComposableAsync.Concurrent.Collections.StandardMpscQueue-1.html
+  commentId: T:ComposableAsync.Concurrent.Collections.StandardMpscQueue`1
+  name.vb: StandardMpscQueue(Of T)
+  fullName: ComposableAsync.Concurrent.Collections.StandardMpscQueue<T>
+  fullName.vb: ComposableAsync.Concurrent.Collections.StandardMpscQueue(Of T)
+  nameWithType: StandardMpscQueue<T>
+  nameWithType.vb: StandardMpscQueue(Of T)
+- uid: ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.CompleteAdding
+  name: CompleteAdding()
+  href: api/ComposableAsync.Concurrent.Collections.StandardMpscQueue-1.html#ComposableAsync_Concurrent_Collections_StandardMpscQueue_1_CompleteAdding
+  commentId: M:ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.CompleteAdding
+  fullName: ComposableAsync.Concurrent.Collections.StandardMpscQueue<T>.CompleteAdding()
+  fullName.vb: ComposableAsync.Concurrent.Collections.StandardMpscQueue(Of T).CompleteAdding()
+  nameWithType: StandardMpscQueue<T>.CompleteAdding()
+  nameWithType.vb: StandardMpscQueue(Of T).CompleteAdding()
+- uid: ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.CompleteAdding*
+  name: CompleteAdding
+  href: api/ComposableAsync.Concurrent.Collections.StandardMpscQueue-1.html#ComposableAsync_Concurrent_Collections_StandardMpscQueue_1_CompleteAdding_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.CompleteAdding
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.StandardMpscQueue<T>.CompleteAdding
+  fullName.vb: ComposableAsync.Concurrent.Collections.StandardMpscQueue(Of T).CompleteAdding
+  nameWithType: StandardMpscQueue<T>.CompleteAdding
+  nameWithType.vb: StandardMpscQueue(Of T).CompleteAdding
+- uid: ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.Dispose
+  name: Dispose()
+  href: api/ComposableAsync.Concurrent.Collections.StandardMpscQueue-1.html#ComposableAsync_Concurrent_Collections_StandardMpscQueue_1_Dispose
+  commentId: M:ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.Dispose
+  fullName: ComposableAsync.Concurrent.Collections.StandardMpscQueue<T>.Dispose()
+  fullName.vb: ComposableAsync.Concurrent.Collections.StandardMpscQueue(Of T).Dispose()
+  nameWithType: StandardMpscQueue<T>.Dispose()
+  nameWithType.vb: StandardMpscQueue(Of T).Dispose()
+- uid: ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.Dispose*
+  name: Dispose
+  href: api/ComposableAsync.Concurrent.Collections.StandardMpscQueue-1.html#ComposableAsync_Concurrent_Collections_StandardMpscQueue_1_Dispose_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.Dispose
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.StandardMpscQueue<T>.Dispose
+  fullName.vb: ComposableAsync.Concurrent.Collections.StandardMpscQueue(Of T).Dispose
+  nameWithType: StandardMpscQueue<T>.Dispose
+  nameWithType.vb: StandardMpscQueue(Of T).Dispose
+- uid: ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.Enqueue(`0)
+  name: Enqueue(T)
+  href: api/ComposableAsync.Concurrent.Collections.StandardMpscQueue-1.html#ComposableAsync_Concurrent_Collections_StandardMpscQueue_1_Enqueue__0_
+  commentId: M:ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.Enqueue(`0)
+  fullName: ComposableAsync.Concurrent.Collections.StandardMpscQueue<T>.Enqueue(T)
+  fullName.vb: ComposableAsync.Concurrent.Collections.StandardMpscQueue(Of T).Enqueue(T)
+  nameWithType: StandardMpscQueue<T>.Enqueue(T)
+  nameWithType.vb: StandardMpscQueue(Of T).Enqueue(T)
+- uid: ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.Enqueue*
+  name: Enqueue
+  href: api/ComposableAsync.Concurrent.Collections.StandardMpscQueue-1.html#ComposableAsync_Concurrent_Collections_StandardMpscQueue_1_Enqueue_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.Enqueue
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.StandardMpscQueue<T>.Enqueue
+  fullName.vb: ComposableAsync.Concurrent.Collections.StandardMpscQueue(Of T).Enqueue
+  nameWithType: StandardMpscQueue<T>.Enqueue
+  nameWithType.vb: StandardMpscQueue(Of T).Enqueue
+- uid: ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.GetUnsafeQueue
+  name: GetUnsafeQueue()
+  href: api/ComposableAsync.Concurrent.Collections.StandardMpscQueue-1.html#ComposableAsync_Concurrent_Collections_StandardMpscQueue_1_GetUnsafeQueue
+  commentId: M:ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.GetUnsafeQueue
+  fullName: ComposableAsync.Concurrent.Collections.StandardMpscQueue<T>.GetUnsafeQueue()
+  fullName.vb: ComposableAsync.Concurrent.Collections.StandardMpscQueue(Of T).GetUnsafeQueue()
+  nameWithType: StandardMpscQueue<T>.GetUnsafeQueue()
+  nameWithType.vb: StandardMpscQueue(Of T).GetUnsafeQueue()
+- uid: ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.GetUnsafeQueue*
+  name: GetUnsafeQueue
+  href: api/ComposableAsync.Concurrent.Collections.StandardMpscQueue-1.html#ComposableAsync_Concurrent_Collections_StandardMpscQueue_1_GetUnsafeQueue_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.GetUnsafeQueue
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.StandardMpscQueue<T>.GetUnsafeQueue
+  fullName.vb: ComposableAsync.Concurrent.Collections.StandardMpscQueue(Of T).GetUnsafeQueue
+  nameWithType: StandardMpscQueue<T>.GetUnsafeQueue
+  nameWithType.vb: StandardMpscQueue(Of T).GetUnsafeQueue
+- uid: ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.OnElements(System.Action{`0})
+  name: OnElements(Action<T>)
+  href: api/ComposableAsync.Concurrent.Collections.StandardMpscQueue-1.html#ComposableAsync_Concurrent_Collections_StandardMpscQueue_1_OnElements_System_Action__0__
+  commentId: M:ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.OnElements(System.Action{`0})
+  name.vb: OnElements(Action(Of T))
+  fullName: ComposableAsync.Concurrent.Collections.StandardMpscQueue<T>.OnElements(System.Action<T>)
+  fullName.vb: ComposableAsync.Concurrent.Collections.StandardMpscQueue(Of T).OnElements(System.Action(Of T))
+  nameWithType: StandardMpscQueue<T>.OnElements(Action<T>)
+  nameWithType.vb: StandardMpscQueue(Of T).OnElements(Action(Of T))
+- uid: ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.OnElements*
+  name: OnElements
+  href: api/ComposableAsync.Concurrent.Collections.StandardMpscQueue-1.html#ComposableAsync_Concurrent_Collections_StandardMpscQueue_1_OnElements_
+  commentId: Overload:ComposableAsync.Concurrent.Collections.StandardMpscQueue`1.OnElements
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Collections.StandardMpscQueue<T>.OnElements
+  fullName.vb: ComposableAsync.Concurrent.Collections.StandardMpscQueue(Of T).OnElements
+  nameWithType: StandardMpscQueue<T>.OnElements
+  nameWithType.vb: StandardMpscQueue(Of T).OnElements
+- uid: ComposableAsync.Concurrent.Fiber
+  name: Fiber
+  href: api/ComposableAsync.Concurrent.Fiber.html
+  commentId: T:ComposableAsync.Concurrent.Fiber
+  fullName: ComposableAsync.Concurrent.Fiber
+  nameWithType: Fiber
+- uid: ComposableAsync.Concurrent.Fiber.CreateMonoThreadedFiber(System.Action{System.Threading.Thread})
+  name: CreateMonoThreadedFiber(Action<Thread>)
+  href: api/ComposableAsync.Concurrent.Fiber.html#ComposableAsync_Concurrent_Fiber_CreateMonoThreadedFiber_System_Action_System_Threading_Thread__
+  commentId: M:ComposableAsync.Concurrent.Fiber.CreateMonoThreadedFiber(System.Action{System.Threading.Thread})
+  name.vb: CreateMonoThreadedFiber(Action(Of Thread))
+  fullName: ComposableAsync.Concurrent.Fiber.CreateMonoThreadedFiber(System.Action<System.Threading.Thread>)
+  fullName.vb: ComposableAsync.Concurrent.Fiber.CreateMonoThreadedFiber(System.Action(Of System.Threading.Thread))
+  nameWithType: Fiber.CreateMonoThreadedFiber(Action<Thread>)
+  nameWithType.vb: Fiber.CreateMonoThreadedFiber(Action(Of Thread))
+- uid: ComposableAsync.Concurrent.Fiber.CreateMonoThreadedFiber*
+  name: CreateMonoThreadedFiber
+  href: api/ComposableAsync.Concurrent.Fiber.html#ComposableAsync_Concurrent_Fiber_CreateMonoThreadedFiber_
+  commentId: Overload:ComposableAsync.Concurrent.Fiber.CreateMonoThreadedFiber
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Fiber.CreateMonoThreadedFiber
+  nameWithType: Fiber.CreateMonoThreadedFiber
+- uid: ComposableAsync.Concurrent.Fiber.GetDispatcherFromCurrentContext
+  name: GetDispatcherFromCurrentContext()
+  href: api/ComposableAsync.Concurrent.Fiber.html#ComposableAsync_Concurrent_Fiber_GetDispatcherFromCurrentContext
+  commentId: M:ComposableAsync.Concurrent.Fiber.GetDispatcherFromCurrentContext
+  fullName: ComposableAsync.Concurrent.Fiber.GetDispatcherFromCurrentContext()
+  nameWithType: Fiber.GetDispatcherFromCurrentContext()
+- uid: ComposableAsync.Concurrent.Fiber.GetDispatcherFromCurrentContext*
+  name: GetDispatcherFromCurrentContext
+  href: api/ComposableAsync.Concurrent.Fiber.html#ComposableAsync_Concurrent_Fiber_GetDispatcherFromCurrentContext_
+  commentId: Overload:ComposableAsync.Concurrent.Fiber.GetDispatcherFromCurrentContext
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Fiber.GetDispatcherFromCurrentContext
+  nameWithType: Fiber.GetDispatcherFromCurrentContext
+- uid: ComposableAsync.Concurrent.Fiber.GetFiberFromCurrentContext
+  name: GetFiberFromCurrentContext()
+  href: api/ComposableAsync.Concurrent.Fiber.html#ComposableAsync_Concurrent_Fiber_GetFiberFromCurrentContext
+  commentId: M:ComposableAsync.Concurrent.Fiber.GetFiberFromCurrentContext
+  fullName: ComposableAsync.Concurrent.Fiber.GetFiberFromCurrentContext()
+  nameWithType: Fiber.GetFiberFromCurrentContext()
+- uid: ComposableAsync.Concurrent.Fiber.GetFiberFromCurrentContext*
+  name: GetFiberFromCurrentContext
+  href: api/ComposableAsync.Concurrent.Fiber.html#ComposableAsync_Concurrent_Fiber_GetFiberFromCurrentContext_
+  commentId: Overload:ComposableAsync.Concurrent.Fiber.GetFiberFromCurrentContext
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Fiber.GetFiberFromCurrentContext
+  nameWithType: Fiber.GetFiberFromCurrentContext
+- uid: ComposableAsync.Concurrent.Fiber.GetFiberFromSynchronizationContext(System.Threading.SynchronizationContext)
+  name: GetFiberFromSynchronizationContext(SynchronizationContext)
+  href: api/ComposableAsync.Concurrent.Fiber.html#ComposableAsync_Concurrent_Fiber_GetFiberFromSynchronizationContext_System_Threading_SynchronizationContext_
+  commentId: M:ComposableAsync.Concurrent.Fiber.GetFiberFromSynchronizationContext(System.Threading.SynchronizationContext)
+  fullName: ComposableAsync.Concurrent.Fiber.GetFiberFromSynchronizationContext(System.Threading.SynchronizationContext)
+  nameWithType: Fiber.GetFiberFromSynchronizationContext(SynchronizationContext)
+- uid: ComposableAsync.Concurrent.Fiber.GetFiberFromSynchronizationContext*
+  name: GetFiberFromSynchronizationContext
+  href: api/ComposableAsync.Concurrent.Fiber.html#ComposableAsync_Concurrent_Fiber_GetFiberFromSynchronizationContext_
+  commentId: Overload:ComposableAsync.Concurrent.Fiber.GetFiberFromSynchronizationContext
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Fiber.GetFiberFromSynchronizationContext
+  nameWithType: Fiber.GetFiberFromSynchronizationContext
+- uid: ComposableAsync.Concurrent.Fiber.GetTaskBasedFiber
+  name: GetTaskBasedFiber()
+  href: api/ComposableAsync.Concurrent.Fiber.html#ComposableAsync_Concurrent_Fiber_GetTaskBasedFiber
+  commentId: M:ComposableAsync.Concurrent.Fiber.GetTaskBasedFiber
+  fullName: ComposableAsync.Concurrent.Fiber.GetTaskBasedFiber()
+  nameWithType: Fiber.GetTaskBasedFiber()
+- uid: ComposableAsync.Concurrent.Fiber.GetTaskBasedFiber*
+  name: GetTaskBasedFiber
+  href: api/ComposableAsync.Concurrent.Fiber.html#ComposableAsync_Concurrent_Fiber_GetTaskBasedFiber_
+  commentId: Overload:ComposableAsync.Concurrent.Fiber.GetTaskBasedFiber
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Fiber.GetTaskBasedFiber
+  nameWithType: Fiber.GetTaskBasedFiber
+- uid: ComposableAsync.Concurrent.Fiber.GetThreadPoolFiber
+  name: GetThreadPoolFiber()
+  href: api/ComposableAsync.Concurrent.Fiber.html#ComposableAsync_Concurrent_Fiber_GetThreadPoolFiber
+  commentId: M:ComposableAsync.Concurrent.Fiber.GetThreadPoolFiber
+  fullName: ComposableAsync.Concurrent.Fiber.GetThreadPoolFiber()
+  nameWithType: Fiber.GetThreadPoolFiber()
+- uid: ComposableAsync.Concurrent.Fiber.GetThreadPoolFiber*
+  name: GetThreadPoolFiber
+  href: api/ComposableAsync.Concurrent.Fiber.html#ComposableAsync_Concurrent_Fiber_GetThreadPoolFiber_
+  commentId: Overload:ComposableAsync.Concurrent.Fiber.GetThreadPoolFiber
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.Fiber.GetThreadPoolFiber
+  nameWithType: Fiber.GetThreadPoolFiber
+- uid: ComposableAsync.Concurrent.FiberExtension
+  name: FiberExtension
+  href: api/ComposableAsync.Concurrent.FiberExtension.html
+  commentId: T:ComposableAsync.Concurrent.FiberExtension
+  fullName: ComposableAsync.Concurrent.FiberExtension
+  nameWithType: FiberExtension
+- uid: ComposableAsync.Concurrent.FiberExtension.GetTaskScheduler(ComposableAsync.Concurrent.IFiber)
+  name: GetTaskScheduler(IFiber)
+  href: api/ComposableAsync.Concurrent.FiberExtension.html#ComposableAsync_Concurrent_FiberExtension_GetTaskScheduler_ComposableAsync_Concurrent_IFiber_
+  commentId: M:ComposableAsync.Concurrent.FiberExtension.GetTaskScheduler(ComposableAsync.Concurrent.IFiber)
+  fullName: ComposableAsync.Concurrent.FiberExtension.GetTaskScheduler(ComposableAsync.Concurrent.IFiber)
+  nameWithType: FiberExtension.GetTaskScheduler(IFiber)
+- uid: ComposableAsync.Concurrent.FiberExtension.GetTaskScheduler*
+  name: GetTaskScheduler
+  href: api/ComposableAsync.Concurrent.FiberExtension.html#ComposableAsync_Concurrent_FiberExtension_GetTaskScheduler_
+  commentId: Overload:ComposableAsync.Concurrent.FiberExtension.GetTaskScheduler
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.FiberExtension.GetTaskScheduler
+  nameWithType: FiberExtension.GetTaskScheduler
+- uid: ComposableAsync.Concurrent.IActorFactoryBuilder
+  name: IActorFactoryBuilder
+  href: api/ComposableAsync.Concurrent.IActorFactoryBuilder.html
+  commentId: T:ComposableAsync.Concurrent.IActorFactoryBuilder
+  fullName: ComposableAsync.Concurrent.IActorFactoryBuilder
+  nameWithType: IActorFactoryBuilder
+- uid: ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactory(System.Boolean,System.Action{System.Threading.Thread})
+  name: GetActorFactory(Boolean, Action<Thread>)
+  href: api/ComposableAsync.Concurrent.IActorFactoryBuilder.html#ComposableAsync_Concurrent_IActorFactoryBuilder_GetActorFactory_System_Boolean_System_Action_System_Threading_Thread__
+  commentId: M:ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactory(System.Boolean,System.Action{System.Threading.Thread})
+  name.vb: GetActorFactory(Boolean, Action(Of Thread))
+  fullName: ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactory(System.Boolean, System.Action<System.Threading.Thread>)
+  fullName.vb: ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactory(System.Boolean, System.Action(Of System.Threading.Thread))
+  nameWithType: IActorFactoryBuilder.GetActorFactory(Boolean, Action<Thread>)
+  nameWithType.vb: IActorFactoryBuilder.GetActorFactory(Boolean, Action(Of Thread))
+- uid: ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactory*
+  name: GetActorFactory
+  href: api/ComposableAsync.Concurrent.IActorFactoryBuilder.html#ComposableAsync_Concurrent_IActorFactoryBuilder_GetActorFactory_
+  commentId: Overload:ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactory
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactory
+  nameWithType: IActorFactoryBuilder.GetActorFactory
+- uid: ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactoryFrom(ComposableAsync.Concurrent.IFiber)
+  name: GetActorFactoryFrom(IFiber)
+  href: api/ComposableAsync.Concurrent.IActorFactoryBuilder.html#ComposableAsync_Concurrent_IActorFactoryBuilder_GetActorFactoryFrom_ComposableAsync_Concurrent_IFiber_
+  commentId: M:ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactoryFrom(ComposableAsync.Concurrent.IFiber)
+  fullName: ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactoryFrom(ComposableAsync.Concurrent.IFiber)
+  nameWithType: IActorFactoryBuilder.GetActorFactoryFrom(IFiber)
+- uid: ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactoryFrom*
+  name: GetActorFactoryFrom
+  href: api/ComposableAsync.Concurrent.IActorFactoryBuilder.html#ComposableAsync_Concurrent_IActorFactoryBuilder_GetActorFactoryFrom_
+  commentId: Overload:ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactoryFrom
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactoryFrom
+  nameWithType: IActorFactoryBuilder.GetActorFactoryFrom
+- uid: ComposableAsync.Concurrent.IActorFactoryBuilder.GetInContextActorFactory
+  name: GetInContextActorFactory()
+  href: api/ComposableAsync.Concurrent.IActorFactoryBuilder.html#ComposableAsync_Concurrent_IActorFactoryBuilder_GetInContextActorFactory
+  commentId: M:ComposableAsync.Concurrent.IActorFactoryBuilder.GetInContextActorFactory
+  fullName: ComposableAsync.Concurrent.IActorFactoryBuilder.GetInContextActorFactory()
+  nameWithType: IActorFactoryBuilder.GetInContextActorFactory()
+- uid: ComposableAsync.Concurrent.IActorFactoryBuilder.GetInContextActorFactory(System.Threading.SynchronizationContext)
+  name: GetInContextActorFactory(SynchronizationContext)
+  href: api/ComposableAsync.Concurrent.IActorFactoryBuilder.html#ComposableAsync_Concurrent_IActorFactoryBuilder_GetInContextActorFactory_System_Threading_SynchronizationContext_
+  commentId: M:ComposableAsync.Concurrent.IActorFactoryBuilder.GetInContextActorFactory(System.Threading.SynchronizationContext)
+  fullName: ComposableAsync.Concurrent.IActorFactoryBuilder.GetInContextActorFactory(System.Threading.SynchronizationContext)
+  nameWithType: IActorFactoryBuilder.GetInContextActorFactory(SynchronizationContext)
+- uid: ComposableAsync.Concurrent.IActorFactoryBuilder.GetInContextActorFactory*
+  name: GetInContextActorFactory
+  href: api/ComposableAsync.Concurrent.IActorFactoryBuilder.html#ComposableAsync_Concurrent_IActorFactoryBuilder_GetInContextActorFactory_
+  commentId: Overload:ComposableAsync.Concurrent.IActorFactoryBuilder.GetInContextActorFactory
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.IActorFactoryBuilder.GetInContextActorFactory
+  nameWithType: IActorFactoryBuilder.GetInContextActorFactory
+- uid: ComposableAsync.Concurrent.IActorFactoryBuilder.GetTaskBasedActorFactory
+  name: GetTaskBasedActorFactory()
+  href: api/ComposableAsync.Concurrent.IActorFactoryBuilder.html#ComposableAsync_Concurrent_IActorFactoryBuilder_GetTaskBasedActorFactory
+  commentId: M:ComposableAsync.Concurrent.IActorFactoryBuilder.GetTaskBasedActorFactory
+  fullName: ComposableAsync.Concurrent.IActorFactoryBuilder.GetTaskBasedActorFactory()
+  nameWithType: IActorFactoryBuilder.GetTaskBasedActorFactory()
+- uid: ComposableAsync.Concurrent.IActorFactoryBuilder.GetTaskBasedActorFactory*
+  name: GetTaskBasedActorFactory
+  href: api/ComposableAsync.Concurrent.IActorFactoryBuilder.html#ComposableAsync_Concurrent_IActorFactoryBuilder_GetTaskBasedActorFactory_
+  commentId: Overload:ComposableAsync.Concurrent.IActorFactoryBuilder.GetTaskBasedActorFactory
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.IActorFactoryBuilder.GetTaskBasedActorFactory
+  nameWithType: IActorFactoryBuilder.GetTaskBasedActorFactory
+- uid: ComposableAsync.Concurrent.IActorFactoryBuilder.GetThreadPoolBasedActorFactory
+  name: GetThreadPoolBasedActorFactory()
+  href: api/ComposableAsync.Concurrent.IActorFactoryBuilder.html#ComposableAsync_Concurrent_IActorFactoryBuilder_GetThreadPoolBasedActorFactory
+  commentId: M:ComposableAsync.Concurrent.IActorFactoryBuilder.GetThreadPoolBasedActorFactory
+  fullName: ComposableAsync.Concurrent.IActorFactoryBuilder.GetThreadPoolBasedActorFactory()
+  nameWithType: IActorFactoryBuilder.GetThreadPoolBasedActorFactory()
+- uid: ComposableAsync.Concurrent.IActorFactoryBuilder.GetThreadPoolBasedActorFactory*
+  name: GetThreadPoolBasedActorFactory
+  href: api/ComposableAsync.Concurrent.IActorFactoryBuilder.html#ComposableAsync_Concurrent_IActorFactoryBuilder_GetThreadPoolBasedActorFactory_
+  commentId: Overload:ComposableAsync.Concurrent.IActorFactoryBuilder.GetThreadPoolBasedActorFactory
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.IActorFactoryBuilder.GetThreadPoolBasedActorFactory
+  nameWithType: IActorFactoryBuilder.GetThreadPoolBasedActorFactory
+- uid: ComposableAsync.Concurrent.IFiber
+  name: IFiber
+  href: api/ComposableAsync.Concurrent.IFiber.html
+  commentId: T:ComposableAsync.Concurrent.IFiber
+  fullName: ComposableAsync.Concurrent.IFiber
+  nameWithType: IFiber
+- uid: ComposableAsync.Concurrent.IFiber.IsAlive
+  name: IsAlive
+  href: api/ComposableAsync.Concurrent.IFiber.html#ComposableAsync_Concurrent_IFiber_IsAlive
+  commentId: P:ComposableAsync.Concurrent.IFiber.IsAlive
+  fullName: ComposableAsync.Concurrent.IFiber.IsAlive
+  nameWithType: IFiber.IsAlive
+- uid: ComposableAsync.Concurrent.IFiber.IsAlive*
+  name: IsAlive
+  href: api/ComposableAsync.Concurrent.IFiber.html#ComposableAsync_Concurrent_IFiber_IsAlive_
+  commentId: Overload:ComposableAsync.Concurrent.IFiber.IsAlive
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.IFiber.IsAlive
+  nameWithType: IFiber.IsAlive
+- uid: ComposableAsync.Concurrent.IFiber.SynchronizationContext
+  name: SynchronizationContext
+  href: api/ComposableAsync.Concurrent.IFiber.html#ComposableAsync_Concurrent_IFiber_SynchronizationContext
+  commentId: P:ComposableAsync.Concurrent.IFiber.SynchronizationContext
+  fullName: ComposableAsync.Concurrent.IFiber.SynchronizationContext
+  nameWithType: IFiber.SynchronizationContext
+- uid: ComposableAsync.Concurrent.IFiber.SynchronizationContext*
+  name: SynchronizationContext
+  href: api/ComposableAsync.Concurrent.IFiber.html#ComposableAsync_Concurrent_IFiber_SynchronizationContext_
+  commentId: Overload:ComposableAsync.Concurrent.IFiber.SynchronizationContext
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.IFiber.SynchronizationContext
+  nameWithType: IFiber.SynchronizationContext
+- uid: ComposableAsync.Concurrent.IMonoThreadFiber
+  name: IMonoThreadFiber
+  href: api/ComposableAsync.Concurrent.IMonoThreadFiber.html
+  commentId: T:ComposableAsync.Concurrent.IMonoThreadFiber
+  fullName: ComposableAsync.Concurrent.IMonoThreadFiber
+  nameWithType: IMonoThreadFiber
+- uid: ComposableAsync.Concurrent.IMonoThreadFiber.Send(System.Action)
+  name: Send(Action)
+  href: api/ComposableAsync.Concurrent.IMonoThreadFiber.html#ComposableAsync_Concurrent_IMonoThreadFiber_Send_System_Action_
+  commentId: M:ComposableAsync.Concurrent.IMonoThreadFiber.Send(System.Action)
+  fullName: ComposableAsync.Concurrent.IMonoThreadFiber.Send(System.Action)
+  nameWithType: IMonoThreadFiber.Send(Action)
+- uid: ComposableAsync.Concurrent.IMonoThreadFiber.Send*
+  name: Send
+  href: api/ComposableAsync.Concurrent.IMonoThreadFiber.html#ComposableAsync_Concurrent_IMonoThreadFiber_Send_
+  commentId: Overload:ComposableAsync.Concurrent.IMonoThreadFiber.Send
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.IMonoThreadFiber.Send
+  nameWithType: IMonoThreadFiber.Send
+- uid: ComposableAsync.Concurrent.IMonoThreadFiber.Thread
+  name: Thread
+  href: api/ComposableAsync.Concurrent.IMonoThreadFiber.html#ComposableAsync_Concurrent_IMonoThreadFiber_Thread
+  commentId: P:ComposableAsync.Concurrent.IMonoThreadFiber.Thread
+  fullName: ComposableAsync.Concurrent.IMonoThreadFiber.Thread
+  nameWithType: IMonoThreadFiber.Thread
+- uid: ComposableAsync.Concurrent.IMonoThreadFiber.Thread*
+  name: Thread
+  href: api/ComposableAsync.Concurrent.IMonoThreadFiber.html#ComposableAsync_Concurrent_IMonoThreadFiber_Thread_
+  commentId: Overload:ComposableAsync.Concurrent.IMonoThreadFiber.Thread
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.IMonoThreadFiber.Thread
+  nameWithType: IMonoThreadFiber.Thread
+- uid: ComposableAsync.Concurrent.IStoppableFiber
+  name: IStoppableFiber
+  href: api/ComposableAsync.Concurrent.IStoppableFiber.html
+  commentId: T:ComposableAsync.Concurrent.IStoppableFiber
+  fullName: ComposableAsync.Concurrent.IStoppableFiber
+  nameWithType: IStoppableFiber
+- uid: ComposableAsync.Concurrent.WorkItems
+  name: ComposableAsync.Concurrent.WorkItems
+  href: api/ComposableAsync.Concurrent.WorkItems.html
+  commentId: N:ComposableAsync.Concurrent.WorkItems
+  fullName: ComposableAsync.Concurrent.WorkItems
+  nameWithType: ComposableAsync.Concurrent.WorkItems
+- uid: ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem
+  name: ITraceableWorkItem
+  href: api/ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem.html
+  commentId: T:ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem
+  fullName: ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem
+  nameWithType: ITraceableWorkItem
+- uid: ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem.Task
+  name: Task
+  href: api/ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem.html#ComposableAsync_Concurrent_WorkItems_ITraceableWorkItem_Task
+  commentId: P:ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem.Task
+  fullName: ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem.Task
+  nameWithType: ITraceableWorkItem.Task
+- uid: ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem.Task*
+  name: Task
+  href: api/ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem.html#ComposableAsync_Concurrent_WorkItems_ITraceableWorkItem_Task_
+  commentId: Overload:ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem.Task
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem.Task
+  nameWithType: ITraceableWorkItem.Task
+- uid: ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem`1
+  name: ITraceableWorkItem<T>
+  href: api/ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem-1.html
+  commentId: T:ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem`1
+  name.vb: ITraceableWorkItem(Of T)
+  fullName: ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem<T>
+  fullName.vb: ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem(Of T)
+  nameWithType: ITraceableWorkItem<T>
+  nameWithType.vb: ITraceableWorkItem(Of T)
+- uid: ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem`1.Task
+  name: Task
+  href: api/ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem-1.html#ComposableAsync_Concurrent_WorkItems_ITraceableWorkItem_1_Task
+  commentId: P:ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem`1.Task
+  fullName: ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem<T>.Task
+  fullName.vb: ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem(Of T).Task
+  nameWithType: ITraceableWorkItem<T>.Task
+  nameWithType.vb: ITraceableWorkItem(Of T).Task
+- uid: ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem`1.Task*
+  name: Task
+  href: api/ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem-1.html#ComposableAsync_Concurrent_WorkItems_ITraceableWorkItem_1_Task_
+  commentId: Overload:ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem`1.Task
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem<T>.Task
+  fullName.vb: ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem(Of T).Task
+  nameWithType: ITraceableWorkItem<T>.Task
+  nameWithType.vb: ITraceableWorkItem(Of T).Task
+- uid: ComposableAsync.Concurrent.WorkItems.IWorkItem
+  name: IWorkItem
+  href: api/ComposableAsync.Concurrent.WorkItems.IWorkItem.html
+  commentId: T:ComposableAsync.Concurrent.WorkItems.IWorkItem
+  fullName: ComposableAsync.Concurrent.WorkItems.IWorkItem
+  nameWithType: IWorkItem
+- uid: ComposableAsync.Concurrent.WorkItems.IWorkItem.Cancel
+  name: Cancel()
+  href: api/ComposableAsync.Concurrent.WorkItems.IWorkItem.html#ComposableAsync_Concurrent_WorkItems_IWorkItem_Cancel
+  commentId: M:ComposableAsync.Concurrent.WorkItems.IWorkItem.Cancel
+  fullName: ComposableAsync.Concurrent.WorkItems.IWorkItem.Cancel()
+  nameWithType: IWorkItem.Cancel()
+- uid: ComposableAsync.Concurrent.WorkItems.IWorkItem.Cancel*
+  name: Cancel
+  href: api/ComposableAsync.Concurrent.WorkItems.IWorkItem.html#ComposableAsync_Concurrent_WorkItems_IWorkItem_Cancel_
+  commentId: Overload:ComposableAsync.Concurrent.WorkItems.IWorkItem.Cancel
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.WorkItems.IWorkItem.Cancel
+  nameWithType: IWorkItem.Cancel
+- uid: ComposableAsync.Concurrent.WorkItems.IWorkItem.Do
+  name: Do()
+  href: api/ComposableAsync.Concurrent.WorkItems.IWorkItem.html#ComposableAsync_Concurrent_WorkItems_IWorkItem_Do
+  commentId: M:ComposableAsync.Concurrent.WorkItems.IWorkItem.Do
+  fullName: ComposableAsync.Concurrent.WorkItems.IWorkItem.Do()
+  nameWithType: IWorkItem.Do()
+- uid: ComposableAsync.Concurrent.WorkItems.IWorkItem.Do*
+  name: Do
+  href: api/ComposableAsync.Concurrent.WorkItems.IWorkItem.html#ComposableAsync_Concurrent_WorkItems_IWorkItem_Do_
+  commentId: Overload:ComposableAsync.Concurrent.WorkItems.IWorkItem.Do
+  isSpec: "True"
+  fullName: ComposableAsync.Concurrent.WorkItems.IWorkItem.Do
+  nameWithType: IWorkItem.Do
+- uid: ComposableAsync.DispatcherAwaiter
+  name: DispatcherAwaiter
+  href: api/ComposableAsync.DispatcherAwaiter.html
+  commentId: T:ComposableAsync.DispatcherAwaiter
+  fullName: ComposableAsync.DispatcherAwaiter
+  nameWithType: DispatcherAwaiter
+- uid: ComposableAsync.DispatcherAwaiter.#ctor(ComposableAsync.IDispatcher)
+  name: DispatcherAwaiter(IDispatcher)
+  href: api/ComposableAsync.DispatcherAwaiter.html#ComposableAsync_DispatcherAwaiter__ctor_ComposableAsync_IDispatcher_
+  commentId: M:ComposableAsync.DispatcherAwaiter.#ctor(ComposableAsync.IDispatcher)
+  fullName: ComposableAsync.DispatcherAwaiter.DispatcherAwaiter(ComposableAsync.IDispatcher)
+  nameWithType: DispatcherAwaiter.DispatcherAwaiter(IDispatcher)
+- uid: ComposableAsync.DispatcherAwaiter.#ctor*
+  name: DispatcherAwaiter
+  href: api/ComposableAsync.DispatcherAwaiter.html#ComposableAsync_DispatcherAwaiter__ctor_
+  commentId: Overload:ComposableAsync.DispatcherAwaiter.#ctor
+  isSpec: "True"
+  fullName: ComposableAsync.DispatcherAwaiter.DispatcherAwaiter
+  nameWithType: DispatcherAwaiter.DispatcherAwaiter
+- uid: ComposableAsync.DispatcherAwaiter.GetResult
+  name: GetResult()
+  href: api/ComposableAsync.DispatcherAwaiter.html#ComposableAsync_DispatcherAwaiter_GetResult
+  commentId: M:ComposableAsync.DispatcherAwaiter.GetResult
+  fullName: ComposableAsync.DispatcherAwaiter.GetResult()
+  nameWithType: DispatcherAwaiter.GetResult()
+- uid: ComposableAsync.DispatcherAwaiter.GetResult*
+  name: GetResult
+  href: api/ComposableAsync.DispatcherAwaiter.html#ComposableAsync_DispatcherAwaiter_GetResult_
+  commentId: Overload:ComposableAsync.DispatcherAwaiter.GetResult
+  isSpec: "True"
+  fullName: ComposableAsync.DispatcherAwaiter.GetResult
+  nameWithType: DispatcherAwaiter.GetResult
+- uid: ComposableAsync.DispatcherAwaiter.IsCompleted
+  name: IsCompleted
+  href: api/ComposableAsync.DispatcherAwaiter.html#ComposableAsync_DispatcherAwaiter_IsCompleted
+  commentId: P:ComposableAsync.DispatcherAwaiter.IsCompleted
+  fullName: ComposableAsync.DispatcherAwaiter.IsCompleted
+  nameWithType: DispatcherAwaiter.IsCompleted
+- uid: ComposableAsync.DispatcherAwaiter.IsCompleted*
+  name: IsCompleted
+  href: api/ComposableAsync.DispatcherAwaiter.html#ComposableAsync_DispatcherAwaiter_IsCompleted_
+  commentId: Overload:ComposableAsync.DispatcherAwaiter.IsCompleted
+  isSpec: "True"
+  fullName: ComposableAsync.DispatcherAwaiter.IsCompleted
+  nameWithType: DispatcherAwaiter.IsCompleted
+- uid: ComposableAsync.DispatcherAwaiter.OnCompleted(System.Action)
+  name: OnCompleted(Action)
+  href: api/ComposableAsync.DispatcherAwaiter.html#ComposableAsync_DispatcherAwaiter_OnCompleted_System_Action_
+  commentId: M:ComposableAsync.DispatcherAwaiter.OnCompleted(System.Action)
+  fullName: ComposableAsync.DispatcherAwaiter.OnCompleted(System.Action)
+  nameWithType: DispatcherAwaiter.OnCompleted(Action)
+- uid: ComposableAsync.DispatcherAwaiter.OnCompleted*
+  name: OnCompleted
+  href: api/ComposableAsync.DispatcherAwaiter.html#ComposableAsync_DispatcherAwaiter_OnCompleted_
+  commentId: Overload:ComposableAsync.DispatcherAwaiter.OnCompleted
+  isSpec: "True"
+  fullName: ComposableAsync.DispatcherAwaiter.OnCompleted
+  nameWithType: DispatcherAwaiter.OnCompleted
+- uid: ComposableAsync.DispatcherDelegatingHandler
+  name: DispatcherDelegatingHandler
+  href: api/ComposableAsync.DispatcherDelegatingHandler.html
+  commentId: T:ComposableAsync.DispatcherDelegatingHandler
+  fullName: ComposableAsync.DispatcherDelegatingHandler
+  nameWithType: DispatcherDelegatingHandler
+- uid: ComposableAsync.DispatcherDelegatingHandler.#ctor(ComposableAsync.IDispatcher)
+  name: DispatcherDelegatingHandler(IDispatcher)
+  href: api/ComposableAsync.DispatcherDelegatingHandler.html#ComposableAsync_DispatcherDelegatingHandler__ctor_ComposableAsync_IDispatcher_
+  commentId: M:ComposableAsync.DispatcherDelegatingHandler.#ctor(ComposableAsync.IDispatcher)
+  fullName: ComposableAsync.DispatcherDelegatingHandler.DispatcherDelegatingHandler(ComposableAsync.IDispatcher)
+  nameWithType: DispatcherDelegatingHandler.DispatcherDelegatingHandler(IDispatcher)
+- uid: ComposableAsync.DispatcherDelegatingHandler.#ctor*
+  name: DispatcherDelegatingHandler
+  href: api/ComposableAsync.DispatcherDelegatingHandler.html#ComposableAsync_DispatcherDelegatingHandler__ctor_
+  commentId: Overload:ComposableAsync.DispatcherDelegatingHandler.#ctor
+  isSpec: "True"
+  fullName: ComposableAsync.DispatcherDelegatingHandler.DispatcherDelegatingHandler
+  nameWithType: DispatcherDelegatingHandler.DispatcherDelegatingHandler
+- uid: ComposableAsync.DispatcherDelegatingHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)
+  name: SendAsync(HttpRequestMessage, CancellationToken)
+  href: api/ComposableAsync.DispatcherDelegatingHandler.html#ComposableAsync_DispatcherDelegatingHandler_SendAsync_System_Net_Http_HttpRequestMessage_System_Threading_CancellationToken_
+  commentId: M:ComposableAsync.DispatcherDelegatingHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)
+  fullName: ComposableAsync.DispatcherDelegatingHandler.SendAsync(System.Net.Http.HttpRequestMessage, System.Threading.CancellationToken)
+  nameWithType: DispatcherDelegatingHandler.SendAsync(HttpRequestMessage, CancellationToken)
+- uid: ComposableAsync.DispatcherDelegatingHandler.SendAsync*
+  name: SendAsync
+  href: api/ComposableAsync.DispatcherDelegatingHandler.html#ComposableAsync_DispatcherDelegatingHandler_SendAsync_
+  commentId: Overload:ComposableAsync.DispatcherDelegatingHandler.SendAsync
+  isSpec: "True"
+  fullName: ComposableAsync.DispatcherDelegatingHandler.SendAsync
+  nameWithType: DispatcherDelegatingHandler.SendAsync
+- uid: ComposableAsync.DispatcherExtension
+  name: DispatcherExtension
+  href: api/ComposableAsync.DispatcherExtension.html
+  commentId: T:ComposableAsync.DispatcherExtension
+  fullName: ComposableAsync.DispatcherExtension
+  nameWithType: DispatcherExtension
+- uid: ComposableAsync.DispatcherExtension.AsDelegatingHandler(ComposableAsync.IDispatcher)
+  name: AsDelegatingHandler(IDispatcher)
+  href: api/ComposableAsync.DispatcherExtension.html#ComposableAsync_DispatcherExtension_AsDelegatingHandler_ComposableAsync_IDispatcher_
+  commentId: M:ComposableAsync.DispatcherExtension.AsDelegatingHandler(ComposableAsync.IDispatcher)
+  fullName: ComposableAsync.DispatcherExtension.AsDelegatingHandler(ComposableAsync.IDispatcher)
+  nameWithType: DispatcherExtension.AsDelegatingHandler(IDispatcher)
+- uid: ComposableAsync.DispatcherExtension.AsDelegatingHandler*
+  name: AsDelegatingHandler
+  href: api/ComposableAsync.DispatcherExtension.html#ComposableAsync_DispatcherExtension_AsDelegatingHandler_
+  commentId: Overload:ComposableAsync.DispatcherExtension.AsDelegatingHandler
+  isSpec: "True"
+  fullName: ComposableAsync.DispatcherExtension.AsDelegatingHandler
+  nameWithType: DispatcherExtension.AsDelegatingHandler
+- uid: ComposableAsync.DispatcherExtension.GetAwaiter(ComposableAsync.IDispatcher)
+  name: GetAwaiter(IDispatcher)
+  href: api/ComposableAsync.DispatcherExtension.html#ComposableAsync_DispatcherExtension_GetAwaiter_ComposableAsync_IDispatcher_
+  commentId: M:ComposableAsync.DispatcherExtension.GetAwaiter(ComposableAsync.IDispatcher)
+  fullName: ComposableAsync.DispatcherExtension.GetAwaiter(ComposableAsync.IDispatcher)
+  nameWithType: DispatcherExtension.GetAwaiter(IDispatcher)
+- uid: ComposableAsync.DispatcherExtension.GetAwaiter*
+  name: GetAwaiter
+  href: api/ComposableAsync.DispatcherExtension.html#ComposableAsync_DispatcherExtension_GetAwaiter_
+  commentId: Overload:ComposableAsync.DispatcherExtension.GetAwaiter
+  isSpec: "True"
+  fullName: ComposableAsync.DispatcherExtension.GetAwaiter
+  nameWithType: DispatcherExtension.GetAwaiter
+- uid: ComposableAsync.DispatcherExtension.Then(ComposableAsync.IDispatcher,ComposableAsync.IDispatcher)
+  name: Then(IDispatcher, IDispatcher)
+  href: api/ComposableAsync.DispatcherExtension.html#ComposableAsync_DispatcherExtension_Then_ComposableAsync_IDispatcher_ComposableAsync_IDispatcher_
+  commentId: M:ComposableAsync.DispatcherExtension.Then(ComposableAsync.IDispatcher,ComposableAsync.IDispatcher)
+  fullName: ComposableAsync.DispatcherExtension.Then(ComposableAsync.IDispatcher, ComposableAsync.IDispatcher)
+  nameWithType: DispatcherExtension.Then(IDispatcher, IDispatcher)
+- uid: ComposableAsync.DispatcherExtension.Then(ComposableAsync.IDispatcher,ComposableAsync.IDispatcher[])
+  name: Then(IDispatcher, IDispatcher[])
+  href: api/ComposableAsync.DispatcherExtension.html#ComposableAsync_DispatcherExtension_Then_ComposableAsync_IDispatcher_ComposableAsync_IDispatcher___
+  commentId: M:ComposableAsync.DispatcherExtension.Then(ComposableAsync.IDispatcher,ComposableAsync.IDispatcher[])
+  name.vb: Then(IDispatcher, IDispatcher())
+  fullName: ComposableAsync.DispatcherExtension.Then(ComposableAsync.IDispatcher, ComposableAsync.IDispatcher[])
+  fullName.vb: ComposableAsync.DispatcherExtension.Then(ComposableAsync.IDispatcher, ComposableAsync.IDispatcher())
+  nameWithType: DispatcherExtension.Then(IDispatcher, IDispatcher[])
+  nameWithType.vb: DispatcherExtension.Then(IDispatcher, IDispatcher())
+- uid: ComposableAsync.DispatcherExtension.Then(ComposableAsync.IDispatcher,System.Collections.Generic.IEnumerable{ComposableAsync.IDispatcher})
+  name: Then(IDispatcher, IEnumerable<IDispatcher>)
+  href: api/ComposableAsync.DispatcherExtension.html#ComposableAsync_DispatcherExtension_Then_ComposableAsync_IDispatcher_System_Collections_Generic_IEnumerable_ComposableAsync_IDispatcher__
+  commentId: M:ComposableAsync.DispatcherExtension.Then(ComposableAsync.IDispatcher,System.Collections.Generic.IEnumerable{ComposableAsync.IDispatcher})
+  name.vb: Then(IDispatcher, IEnumerable(Of IDispatcher))
+  fullName: ComposableAsync.DispatcherExtension.Then(ComposableAsync.IDispatcher, System.Collections.Generic.IEnumerable<ComposableAsync.IDispatcher>)
+  fullName.vb: ComposableAsync.DispatcherExtension.Then(ComposableAsync.IDispatcher, System.Collections.Generic.IEnumerable(Of ComposableAsync.IDispatcher))
+  nameWithType: DispatcherExtension.Then(IDispatcher, IEnumerable<IDispatcher>)
+  nameWithType.vb: DispatcherExtension.Then(IDispatcher, IEnumerable(Of IDispatcher))
+- uid: ComposableAsync.DispatcherExtension.Then*
+  name: Then
+  href: api/ComposableAsync.DispatcherExtension.html#ComposableAsync_DispatcherExtension_Then_
+  commentId: Overload:ComposableAsync.DispatcherExtension.Then
+  isSpec: "True"
+  fullName: ComposableAsync.DispatcherExtension.Then
+  nameWithType: DispatcherExtension.Then
+- uid: ComposableAsync.DispatcherProviderExtension
+  name: DispatcherProviderExtension
+  href: api/ComposableAsync.DispatcherProviderExtension.html
+  commentId: T:ComposableAsync.DispatcherProviderExtension
+  fullName: ComposableAsync.DispatcherProviderExtension
+  nameWithType: DispatcherProviderExtension
+- uid: ComposableAsync.DispatcherProviderExtension.GetAssociatedDispatcher(ComposableAsync.IDispatcherProvider)
+  name: GetAssociatedDispatcher(IDispatcherProvider)
+  href: api/ComposableAsync.DispatcherProviderExtension.html#ComposableAsync_DispatcherProviderExtension_GetAssociatedDispatcher_ComposableAsync_IDispatcherProvider_
+  commentId: M:ComposableAsync.DispatcherProviderExtension.GetAssociatedDispatcher(ComposableAsync.IDispatcherProvider)
+  fullName: ComposableAsync.DispatcherProviderExtension.GetAssociatedDispatcher(ComposableAsync.IDispatcherProvider)
+  nameWithType: DispatcherProviderExtension.GetAssociatedDispatcher(IDispatcherProvider)
+- uid: ComposableAsync.DispatcherProviderExtension.GetAssociatedDispatcher*
+  name: GetAssociatedDispatcher
+  href: api/ComposableAsync.DispatcherProviderExtension.html#ComposableAsync_DispatcherProviderExtension_GetAssociatedDispatcher_
+  commentId: Overload:ComposableAsync.DispatcherProviderExtension.GetAssociatedDispatcher
+  isSpec: "True"
+  fullName: ComposableAsync.DispatcherProviderExtension.GetAssociatedDispatcher
+  nameWithType: DispatcherProviderExtension.GetAssociatedDispatcher
+- uid: ComposableAsync.Factory
+  name: ComposableAsync.Factory
+  href: api/ComposableAsync.Factory.html
+  commentId: N:ComposableAsync.Factory
+  fullName: ComposableAsync.Factory
+  nameWithType: ComposableAsync.Factory
+- uid: ComposableAsync.Factory.DispatcherExtension
+  name: DispatcherExtension
+  href: api/ComposableAsync.Factory.DispatcherExtension.html
+  commentId: T:ComposableAsync.Factory.DispatcherExtension
+  fullName: ComposableAsync.Factory.DispatcherExtension
+  nameWithType: DispatcherExtension
+- uid: ComposableAsync.Factory.DispatcherExtension.Proxify*
+  name: Proxify
+  href: api/ComposableAsync.Factory.DispatcherExtension.html#ComposableAsync_Factory_DispatcherExtension_Proxify_
+  commentId: Overload:ComposableAsync.Factory.DispatcherExtension.Proxify
+  isSpec: "True"
+  fullName: ComposableAsync.Factory.DispatcherExtension.Proxify
+  nameWithType: DispatcherExtension.Proxify
+- uid: ComposableAsync.Factory.DispatcherExtension.Proxify``1(ComposableAsync.IDispatcher,``0)
+  name: Proxify<T>(IDispatcher, T)
+  href: api/ComposableAsync.Factory.DispatcherExtension.html#ComposableAsync_Factory_DispatcherExtension_Proxify__1_ComposableAsync_IDispatcher___0_
+  commentId: M:ComposableAsync.Factory.DispatcherExtension.Proxify``1(ComposableAsync.IDispatcher,``0)
+  name.vb: Proxify(Of T)(IDispatcher, T)
+  fullName: ComposableAsync.Factory.DispatcherExtension.Proxify<T>(ComposableAsync.IDispatcher, T)
+  fullName.vb: ComposableAsync.Factory.DispatcherExtension.Proxify(Of T)(ComposableAsync.IDispatcher, T)
+  nameWithType: DispatcherExtension.Proxify<T>(IDispatcher, T)
+  nameWithType.vb: DispatcherExtension.Proxify(Of T)(IDispatcher, T)
+- uid: ComposableAsync.Factory.IProxyFactory
+  name: IProxyFactory
+  href: api/ComposableAsync.Factory.IProxyFactory.html
+  commentId: T:ComposableAsync.Factory.IProxyFactory
+  fullName: ComposableAsync.Factory.IProxyFactory
+  nameWithType: IProxyFactory
+- uid: ComposableAsync.Factory.IProxyFactory.Build*
+  name: Build
+  href: api/ComposableAsync.Factory.IProxyFactory.html#ComposableAsync_Factory_IProxyFactory_Build_
+  commentId: Overload:ComposableAsync.Factory.IProxyFactory.Build
+  isSpec: "True"
+  fullName: ComposableAsync.Factory.IProxyFactory.Build
+  nameWithType: IProxyFactory.Build
+- uid: ComposableAsync.Factory.IProxyFactory.Build``1(``0)
+  name: Build<T>(T)
+  href: api/ComposableAsync.Factory.IProxyFactory.html#ComposableAsync_Factory_IProxyFactory_Build__1___0_
+  commentId: M:ComposableAsync.Factory.IProxyFactory.Build``1(``0)
+  name.vb: Build(Of T)(T)
+  fullName: ComposableAsync.Factory.IProxyFactory.Build<T>(T)
+  fullName.vb: ComposableAsync.Factory.IProxyFactory.Build(Of T)(T)
+  nameWithType: IProxyFactory.Build<T>(T)
+  nameWithType.vb: IProxyFactory.Build(Of T)(T)
+- uid: ComposableAsync.Factory.IProxyFactory.BuildAsync*
+  name: BuildAsync
+  href: api/ComposableAsync.Factory.IProxyFactory.html#ComposableAsync_Factory_IProxyFactory_BuildAsync_
+  commentId: Overload:ComposableAsync.Factory.IProxyFactory.BuildAsync
+  isSpec: "True"
+  fullName: ComposableAsync.Factory.IProxyFactory.BuildAsync
+  nameWithType: IProxyFactory.BuildAsync
+- uid: ComposableAsync.Factory.IProxyFactory.BuildAsync``1(System.Func{``0})
+  name: BuildAsync<T>(Func<T>)
+  href: api/ComposableAsync.Factory.IProxyFactory.html#ComposableAsync_Factory_IProxyFactory_BuildAsync__1_System_Func___0__
+  commentId: M:ComposableAsync.Factory.IProxyFactory.BuildAsync``1(System.Func{``0})
+  name.vb: BuildAsync(Of T)(Func(Of T))
+  fullName: ComposableAsync.Factory.IProxyFactory.BuildAsync<T>(System.Func<T>)
+  fullName.vb: ComposableAsync.Factory.IProxyFactory.BuildAsync(Of T)(System.Func(Of T))
+  nameWithType: IProxyFactory.BuildAsync<T>(Func<T>)
+  nameWithType.vb: IProxyFactory.BuildAsync(Of T)(Func(Of T))
+- uid: ComposableAsync.Factory.IProxyFactoryBuilder
+  name: IProxyFactoryBuilder
+  href: api/ComposableAsync.Factory.IProxyFactoryBuilder.html
+  commentId: T:ComposableAsync.Factory.IProxyFactoryBuilder
+  fullName: ComposableAsync.Factory.IProxyFactoryBuilder
+  nameWithType: IProxyFactoryBuilder
+- uid: ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher)
+  name: GetManagedProxyFactory(IDispatcher)
+  href: api/ComposableAsync.Factory.IProxyFactoryBuilder.html#ComposableAsync_Factory_IProxyFactoryBuilder_GetManagedProxyFactory_ComposableAsync_IDispatcher_
+  commentId: M:ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher)
+  fullName: ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher)
+  nameWithType: IProxyFactoryBuilder.GetManagedProxyFactory(IDispatcher)
+- uid: ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher,ComposableAsync.IDispatcher)
+  name: GetManagedProxyFactory(IDispatcher, IDispatcher)
+  href: api/ComposableAsync.Factory.IProxyFactoryBuilder.html#ComposableAsync_Factory_IProxyFactoryBuilder_GetManagedProxyFactory_ComposableAsync_IDispatcher_ComposableAsync_IDispatcher_
+  commentId: M:ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher,ComposableAsync.IDispatcher)
+  fullName: ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher, ComposableAsync.IDispatcher)
+  nameWithType: IProxyFactoryBuilder.GetManagedProxyFactory(IDispatcher, IDispatcher)
+- uid: ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher[])
+  name: GetManagedProxyFactory(IDispatcher[])
+  href: api/ComposableAsync.Factory.IProxyFactoryBuilder.html#ComposableAsync_Factory_IProxyFactoryBuilder_GetManagedProxyFactory_ComposableAsync_IDispatcher___
+  commentId: M:ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher[])
+  name.vb: GetManagedProxyFactory(IDispatcher())
+  fullName: ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher[])
+  fullName.vb: ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher())
+  nameWithType: IProxyFactoryBuilder.GetManagedProxyFactory(IDispatcher[])
+  nameWithType.vb: IProxyFactoryBuilder.GetManagedProxyFactory(IDispatcher())
+- uid: ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory*
+  name: GetManagedProxyFactory
+  href: api/ComposableAsync.Factory.IProxyFactoryBuilder.html#ComposableAsync_Factory_IProxyFactoryBuilder_GetManagedProxyFactory_
+  commentId: Overload:ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory
+  isSpec: "True"
+  fullName: ComposableAsync.Factory.IProxyFactoryBuilder.GetManagedProxyFactory
+  nameWithType: IProxyFactoryBuilder.GetManagedProxyFactory
+- uid: ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher)
+  name: GetUnmanagedProxyFactory(IDispatcher)
+  href: api/ComposableAsync.Factory.IProxyFactoryBuilder.html#ComposableAsync_Factory_IProxyFactoryBuilder_GetUnmanagedProxyFactory_ComposableAsync_IDispatcher_
+  commentId: M:ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher)
+  fullName: ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher)
+  nameWithType: IProxyFactoryBuilder.GetUnmanagedProxyFactory(IDispatcher)
+- uid: ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher,ComposableAsync.IDispatcher)
+  name: GetUnmanagedProxyFactory(IDispatcher, IDispatcher)
+  href: api/ComposableAsync.Factory.IProxyFactoryBuilder.html#ComposableAsync_Factory_IProxyFactoryBuilder_GetUnmanagedProxyFactory_ComposableAsync_IDispatcher_ComposableAsync_IDispatcher_
+  commentId: M:ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher,ComposableAsync.IDispatcher)
+  fullName: ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher, ComposableAsync.IDispatcher)
+  nameWithType: IProxyFactoryBuilder.GetUnmanagedProxyFactory(IDispatcher, IDispatcher)
+- uid: ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher[])
+  name: GetUnmanagedProxyFactory(IDispatcher[])
+  href: api/ComposableAsync.Factory.IProxyFactoryBuilder.html#ComposableAsync_Factory_IProxyFactoryBuilder_GetUnmanagedProxyFactory_ComposableAsync_IDispatcher___
+  commentId: M:ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher[])
+  name.vb: GetUnmanagedProxyFactory(IDispatcher())
+  fullName: ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher[])
+  fullName.vb: ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher())
+  nameWithType: IProxyFactoryBuilder.GetUnmanagedProxyFactory(IDispatcher[])
+  nameWithType.vb: IProxyFactoryBuilder.GetUnmanagedProxyFactory(IDispatcher())
+- uid: ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory*
+  name: GetUnmanagedProxyFactory
+  href: api/ComposableAsync.Factory.IProxyFactoryBuilder.html#ComposableAsync_Factory_IProxyFactoryBuilder_GetUnmanagedProxyFactory_
+  commentId: Overload:ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory
+  isSpec: "True"
+  fullName: ComposableAsync.Factory.IProxyFactoryBuilder.GetUnmanagedProxyFactory
+  nameWithType: IProxyFactoryBuilder.GetUnmanagedProxyFactory
+- uid: ComposableAsync.Factory.ProxyFactory
+  name: ProxyFactory
+  href: api/ComposableAsync.Factory.ProxyFactory.html
+  commentId: T:ComposableAsync.Factory.ProxyFactory
+  fullName: ComposableAsync.Factory.ProxyFactory
+  nameWithType: ProxyFactory
+- uid: ComposableAsync.Factory.ProxyFactory.#ctor(ComposableAsync.IDispatcher)
+  name: ProxyFactory(IDispatcher)
+  href: api/ComposableAsync.Factory.ProxyFactory.html#ComposableAsync_Factory_ProxyFactory__ctor_ComposableAsync_IDispatcher_
+  commentId: M:ComposableAsync.Factory.ProxyFactory.#ctor(ComposableAsync.IDispatcher)
+  fullName: ComposableAsync.Factory.ProxyFactory.ProxyFactory(ComposableAsync.IDispatcher)
+  nameWithType: ProxyFactory.ProxyFactory(IDispatcher)
+- uid: ComposableAsync.Factory.ProxyFactory.#ctor(ComposableAsync.IDispatcherManager)
+  name: ProxyFactory(IDispatcherManager)
+  href: api/ComposableAsync.Factory.ProxyFactory.html#ComposableAsync_Factory_ProxyFactory__ctor_ComposableAsync_IDispatcherManager_
+  commentId: M:ComposableAsync.Factory.ProxyFactory.#ctor(ComposableAsync.IDispatcherManager)
+  fullName: ComposableAsync.Factory.ProxyFactory.ProxyFactory(ComposableAsync.IDispatcherManager)
+  nameWithType: ProxyFactory.ProxyFactory(IDispatcherManager)
+- uid: ComposableAsync.Factory.ProxyFactory.#ctor*
+  name: ProxyFactory
+  href: api/ComposableAsync.Factory.ProxyFactory.html#ComposableAsync_Factory_ProxyFactory__ctor_
+  commentId: Overload:ComposableAsync.Factory.ProxyFactory.#ctor
+  isSpec: "True"
+  fullName: ComposableAsync.Factory.ProxyFactory.ProxyFactory
+  nameWithType: ProxyFactory.ProxyFactory
+- uid: ComposableAsync.Factory.ProxyFactory.Build*
+  name: Build
+  href: api/ComposableAsync.Factory.ProxyFactory.html#ComposableAsync_Factory_ProxyFactory_Build_
+  commentId: Overload:ComposableAsync.Factory.ProxyFactory.Build
+  isSpec: "True"
+  fullName: ComposableAsync.Factory.ProxyFactory.Build
+  nameWithType: ProxyFactory.Build
+- uid: ComposableAsync.Factory.ProxyFactory.Build``1(``0)
+  name: Build<T>(T)
+  href: api/ComposableAsync.Factory.ProxyFactory.html#ComposableAsync_Factory_ProxyFactory_Build__1___0_
+  commentId: M:ComposableAsync.Factory.ProxyFactory.Build``1(``0)
+  name.vb: Build(Of T)(T)
+  fullName: ComposableAsync.Factory.ProxyFactory.Build<T>(T)
+  fullName.vb: ComposableAsync.Factory.ProxyFactory.Build(Of T)(T)
+  nameWithType: ProxyFactory.Build<T>(T)
+  nameWithType.vb: ProxyFactory.Build(Of T)(T)
+- uid: ComposableAsync.Factory.ProxyFactory.BuildAsync*
+  name: BuildAsync
+  href: api/ComposableAsync.Factory.ProxyFactory.html#ComposableAsync_Factory_ProxyFactory_BuildAsync_
+  commentId: Overload:ComposableAsync.Factory.ProxyFactory.BuildAsync
+  isSpec: "True"
+  fullName: ComposableAsync.Factory.ProxyFactory.BuildAsync
+  nameWithType: ProxyFactory.BuildAsync
+- uid: ComposableAsync.Factory.ProxyFactory.BuildAsync``1(System.Func{``0})
+  name: BuildAsync<T>(Func<T>)
+  href: api/ComposableAsync.Factory.ProxyFactory.html#ComposableAsync_Factory_ProxyFactory_BuildAsync__1_System_Func___0__
+  commentId: M:ComposableAsync.Factory.ProxyFactory.BuildAsync``1(System.Func{``0})
+  name.vb: BuildAsync(Of T)(Func(Of T))
+  fullName: ComposableAsync.Factory.ProxyFactory.BuildAsync<T>(System.Func<T>)
+  fullName.vb: ComposableAsync.Factory.ProxyFactory.BuildAsync(Of T)(System.Func(Of T))
+  nameWithType: ProxyFactory.BuildAsync<T>(Func<T>)
+  nameWithType.vb: ProxyFactory.BuildAsync(Of T)(Func(Of T))
+- uid: ComposableAsync.Factory.ProxyFactory.DisposeAsync
+  name: DisposeAsync()
+  href: api/ComposableAsync.Factory.ProxyFactory.html#ComposableAsync_Factory_ProxyFactory_DisposeAsync
+  commentId: M:ComposableAsync.Factory.ProxyFactory.DisposeAsync
+  fullName: ComposableAsync.Factory.ProxyFactory.DisposeAsync()
+  nameWithType: ProxyFactory.DisposeAsync()
+- uid: ComposableAsync.Factory.ProxyFactory.DisposeAsync*
+  name: DisposeAsync
+  href: api/ComposableAsync.Factory.ProxyFactory.html#ComposableAsync_Factory_ProxyFactory_DisposeAsync_
+  commentId: Overload:ComposableAsync.Factory.ProxyFactory.DisposeAsync
+  isSpec: "True"
+  fullName: ComposableAsync.Factory.ProxyFactory.DisposeAsync
+  nameWithType: ProxyFactory.DisposeAsync
+- uid: ComposableAsync.Factory.ProxyFactoryBuilder
+  name: ProxyFactoryBuilder
+  href: api/ComposableAsync.Factory.ProxyFactoryBuilder.html
+  commentId: T:ComposableAsync.Factory.ProxyFactoryBuilder
+  fullName: ComposableAsync.Factory.ProxyFactoryBuilder
+  nameWithType: ProxyFactoryBuilder
+- uid: ComposableAsync.Factory.ProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher)
+  name: GetManagedProxyFactory(IDispatcher)
+  href: api/ComposableAsync.Factory.ProxyFactoryBuilder.html#ComposableAsync_Factory_ProxyFactoryBuilder_GetManagedProxyFactory_ComposableAsync_IDispatcher_
+  commentId: M:ComposableAsync.Factory.ProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher)
+  fullName: ComposableAsync.Factory.ProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher)
+  nameWithType: ProxyFactoryBuilder.GetManagedProxyFactory(IDispatcher)
+- uid: ComposableAsync.Factory.ProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher,ComposableAsync.IDispatcher)
+  name: GetManagedProxyFactory(IDispatcher, IDispatcher)
+  href: api/ComposableAsync.Factory.ProxyFactoryBuilder.html#ComposableAsync_Factory_ProxyFactoryBuilder_GetManagedProxyFactory_ComposableAsync_IDispatcher_ComposableAsync_IDispatcher_
+  commentId: M:ComposableAsync.Factory.ProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher,ComposableAsync.IDispatcher)
+  fullName: ComposableAsync.Factory.ProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher, ComposableAsync.IDispatcher)
+  nameWithType: ProxyFactoryBuilder.GetManagedProxyFactory(IDispatcher, IDispatcher)
+- uid: ComposableAsync.Factory.ProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher[])
+  name: GetManagedProxyFactory(IDispatcher[])
+  href: api/ComposableAsync.Factory.ProxyFactoryBuilder.html#ComposableAsync_Factory_ProxyFactoryBuilder_GetManagedProxyFactory_ComposableAsync_IDispatcher___
+  commentId: M:ComposableAsync.Factory.ProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher[])
+  name.vb: GetManagedProxyFactory(IDispatcher())
+  fullName: ComposableAsync.Factory.ProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher[])
+  fullName.vb: ComposableAsync.Factory.ProxyFactoryBuilder.GetManagedProxyFactory(ComposableAsync.IDispatcher())
+  nameWithType: ProxyFactoryBuilder.GetManagedProxyFactory(IDispatcher[])
+  nameWithType.vb: ProxyFactoryBuilder.GetManagedProxyFactory(IDispatcher())
+- uid: ComposableAsync.Factory.ProxyFactoryBuilder.GetManagedProxyFactory*
+  name: GetManagedProxyFactory
+  href: api/ComposableAsync.Factory.ProxyFactoryBuilder.html#ComposableAsync_Factory_ProxyFactoryBuilder_GetManagedProxyFactory_
+  commentId: Overload:ComposableAsync.Factory.ProxyFactoryBuilder.GetManagedProxyFactory
+  isSpec: "True"
+  fullName: ComposableAsync.Factory.ProxyFactoryBuilder.GetManagedProxyFactory
+  nameWithType: ProxyFactoryBuilder.GetManagedProxyFactory
+- uid: ComposableAsync.Factory.ProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher)
+  name: GetUnmanagedProxyFactory(IDispatcher)
+  href: api/ComposableAsync.Factory.ProxyFactoryBuilder.html#ComposableAsync_Factory_ProxyFactoryBuilder_GetUnmanagedProxyFactory_ComposableAsync_IDispatcher_
+  commentId: M:ComposableAsync.Factory.ProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher)
+  fullName: ComposableAsync.Factory.ProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher)
+  nameWithType: ProxyFactoryBuilder.GetUnmanagedProxyFactory(IDispatcher)
+- uid: ComposableAsync.Factory.ProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher,ComposableAsync.IDispatcher)
+  name: GetUnmanagedProxyFactory(IDispatcher, IDispatcher)
+  href: api/ComposableAsync.Factory.ProxyFactoryBuilder.html#ComposableAsync_Factory_ProxyFactoryBuilder_GetUnmanagedProxyFactory_ComposableAsync_IDispatcher_ComposableAsync_IDispatcher_
+  commentId: M:ComposableAsync.Factory.ProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher,ComposableAsync.IDispatcher)
+  fullName: ComposableAsync.Factory.ProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher, ComposableAsync.IDispatcher)
+  nameWithType: ProxyFactoryBuilder.GetUnmanagedProxyFactory(IDispatcher, IDispatcher)
+- uid: ComposableAsync.Factory.ProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher[])
+  name: GetUnmanagedProxyFactory(IDispatcher[])
+  href: api/ComposableAsync.Factory.ProxyFactoryBuilder.html#ComposableAsync_Factory_ProxyFactoryBuilder_GetUnmanagedProxyFactory_ComposableAsync_IDispatcher___
+  commentId: M:ComposableAsync.Factory.ProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher[])
+  name.vb: GetUnmanagedProxyFactory(IDispatcher())
+  fullName: ComposableAsync.Factory.ProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher[])
+  fullName.vb: ComposableAsync.Factory.ProxyFactoryBuilder.GetUnmanagedProxyFactory(ComposableAsync.IDispatcher())
+  nameWithType: ProxyFactoryBuilder.GetUnmanagedProxyFactory(IDispatcher[])
+  nameWithType.vb: ProxyFactoryBuilder.GetUnmanagedProxyFactory(IDispatcher())
+- uid: ComposableAsync.Factory.ProxyFactoryBuilder.GetUnmanagedProxyFactory*
+  name: GetUnmanagedProxyFactory
+  href: api/ComposableAsync.Factory.ProxyFactoryBuilder.html#ComposableAsync_Factory_ProxyFactoryBuilder_GetUnmanagedProxyFactory_
+  commentId: Overload:ComposableAsync.Factory.ProxyFactoryBuilder.GetUnmanagedProxyFactory
+  isSpec: "True"
+  fullName: ComposableAsync.Factory.ProxyFactoryBuilder.GetUnmanagedProxyFactory
+  nameWithType: ProxyFactoryBuilder.GetUnmanagedProxyFactory
+- uid: ComposableAsync.Factory.TaskDescription
+  name: TaskDescription
+  href: api/ComposableAsync.Factory.TaskDescription.html
+  commentId: T:ComposableAsync.Factory.TaskDescription
+  fullName: ComposableAsync.Factory.TaskDescription
+  nameWithType: TaskDescription
+- uid: ComposableAsync.Factory.TaskDescription.MethodType
+  name: MethodType
+  href: api/ComposableAsync.Factory.TaskDescription.html#ComposableAsync_Factory_TaskDescription_MethodType
+  commentId: P:ComposableAsync.Factory.TaskDescription.MethodType
+  fullName: ComposableAsync.Factory.TaskDescription.MethodType
+  nameWithType: TaskDescription.MethodType
+- uid: ComposableAsync.Factory.TaskDescription.MethodType*
+  name: MethodType
+  href: api/ComposableAsync.Factory.TaskDescription.html#ComposableAsync_Factory_TaskDescription_MethodType_
+  commentId: Overload:ComposableAsync.Factory.TaskDescription.MethodType
+  isSpec: "True"
+  fullName: ComposableAsync.Factory.TaskDescription.MethodType
+  nameWithType: TaskDescription.MethodType
+- uid: ComposableAsync.Factory.TaskDescription.Type
+  name: Type
+  href: api/ComposableAsync.Factory.TaskDescription.html#ComposableAsync_Factory_TaskDescription_Type
+  commentId: P:ComposableAsync.Factory.TaskDescription.Type
+  fullName: ComposableAsync.Factory.TaskDescription.Type
+  nameWithType: TaskDescription.Type
+- uid: ComposableAsync.Factory.TaskDescription.Type*
+  name: Type
+  href: api/ComposableAsync.Factory.TaskDescription.html#ComposableAsync_Factory_TaskDescription_Type_
+  commentId: Overload:ComposableAsync.Factory.TaskDescription.Type
+  isSpec: "True"
+  fullName: ComposableAsync.Factory.TaskDescription.Type
+  nameWithType: TaskDescription.Type
+- uid: ComposableAsync.Factory.TaskType
+  name: TaskType
+  href: api/ComposableAsync.Factory.TaskType.html
+  commentId: T:ComposableAsync.Factory.TaskType
+  fullName: ComposableAsync.Factory.TaskType
+  nameWithType: TaskType
+- uid: ComposableAsync.Factory.TaskType.GenericTask
+  name: GenericTask
+  href: api/ComposableAsync.Factory.TaskType.html#ComposableAsync_Factory_TaskType_GenericTask
+  commentId: F:ComposableAsync.Factory.TaskType.GenericTask
+  fullName: ComposableAsync.Factory.TaskType.GenericTask
+  nameWithType: TaskType.GenericTask
+- uid: ComposableAsync.Factory.TaskType.None
+  name: None
+  href: api/ComposableAsync.Factory.TaskType.html#ComposableAsync_Factory_TaskType_None
+  commentId: F:ComposableAsync.Factory.TaskType.None
+  fullName: ComposableAsync.Factory.TaskType.None
+  nameWithType: TaskType.None
+- uid: ComposableAsync.Factory.TaskType.Task
+  name: Task
+  href: api/ComposableAsync.Factory.TaskType.html#ComposableAsync_Factory_TaskType_Task
+  commentId: F:ComposableAsync.Factory.TaskType.Task
+  fullName: ComposableAsync.Factory.TaskType.Task
+  nameWithType: TaskType.Task
+- uid: ComposableAsync.Factory.TaskType.Void
+  name: Void
+  href: api/ComposableAsync.Factory.TaskType.html#ComposableAsync_Factory_TaskType_Void
+  commentId: F:ComposableAsync.Factory.TaskType.Void
+  fullName: ComposableAsync.Factory.TaskType.Void
+  nameWithType: TaskType.Void
+- uid: ComposableAsync.Factory.TypeExtension
+  name: TypeExtension
+  href: api/ComposableAsync.Factory.TypeExtension.html
+  commentId: T:ComposableAsync.Factory.TypeExtension
+  fullName: ComposableAsync.Factory.TypeExtension
+  nameWithType: TypeExtension
+- uid: ComposableAsync.Factory.TypeExtension.GetTaskType(System.Type)
+  name: GetTaskType(Type)
+  href: api/ComposableAsync.Factory.TypeExtension.html#ComposableAsync_Factory_TypeExtension_GetTaskType_System_Type_
+  commentId: M:ComposableAsync.Factory.TypeExtension.GetTaskType(System.Type)
+  fullName: ComposableAsync.Factory.TypeExtension.GetTaskType(System.Type)
+  nameWithType: TypeExtension.GetTaskType(Type)
+- uid: ComposableAsync.Factory.TypeExtension.GetTaskType*
+  name: GetTaskType
+  href: api/ComposableAsync.Factory.TypeExtension.html#ComposableAsync_Factory_TypeExtension_GetTaskType_
+  commentId: Overload:ComposableAsync.Factory.TypeExtension.GetTaskType
+  isSpec: "True"
+  fullName: ComposableAsync.Factory.TypeExtension.GetTaskType
+  nameWithType: TypeExtension.GetTaskType
+- uid: ComposableAsync.IDispatcher
+  name: IDispatcher
+  href: api/ComposableAsync.IDispatcher.html
+  commentId: T:ComposableAsync.IDispatcher
+  fullName: ComposableAsync.IDispatcher
+  nameWithType: IDispatcher
+- uid: ComposableAsync.IDispatcher.Clone
+  name: Clone()
+  href: api/ComposableAsync.IDispatcher.html#ComposableAsync_IDispatcher_Clone
+  commentId: M:ComposableAsync.IDispatcher.Clone
+  fullName: ComposableAsync.IDispatcher.Clone()
+  nameWithType: IDispatcher.Clone()
+- uid: ComposableAsync.IDispatcher.Clone*
+  name: Clone
+  href: api/ComposableAsync.IDispatcher.html#ComposableAsync_IDispatcher_Clone_
+  commentId: Overload:ComposableAsync.IDispatcher.Clone
+  isSpec: "True"
+  fullName: ComposableAsync.IDispatcher.Clone
+  nameWithType: IDispatcher.Clone
+- uid: ComposableAsync.IDispatcher.Dispatch(System.Action)
+  name: Dispatch(Action)
+  href: api/ComposableAsync.IDispatcher.html#ComposableAsync_IDispatcher_Dispatch_System_Action_
+  commentId: M:ComposableAsync.IDispatcher.Dispatch(System.Action)
+  fullName: ComposableAsync.IDispatcher.Dispatch(System.Action)
+  nameWithType: IDispatcher.Dispatch(Action)
+- uid: ComposableAsync.IDispatcher.Dispatch*
+  name: Dispatch
+  href: api/ComposableAsync.IDispatcher.html#ComposableAsync_IDispatcher_Dispatch_
+  commentId: Overload:ComposableAsync.IDispatcher.Dispatch
+  isSpec: "True"
+  fullName: ComposableAsync.IDispatcher.Dispatch
+  nameWithType: IDispatcher.Dispatch
+- uid: ComposableAsync.IDispatcher.Enqueue(System.Action)
+  name: Enqueue(Action)
+  href: api/ComposableAsync.IDispatcher.html#ComposableAsync_IDispatcher_Enqueue_System_Action_
+  commentId: M:ComposableAsync.IDispatcher.Enqueue(System.Action)
+  fullName: ComposableAsync.IDispatcher.Enqueue(System.Action)
+  nameWithType: IDispatcher.Enqueue(Action)
+- uid: ComposableAsync.IDispatcher.Enqueue(System.Action,System.Threading.CancellationToken)
+  name: Enqueue(Action, CancellationToken)
+  href: api/ComposableAsync.IDispatcher.html#ComposableAsync_IDispatcher_Enqueue_System_Action_System_Threading_CancellationToken_
+  commentId: M:ComposableAsync.IDispatcher.Enqueue(System.Action,System.Threading.CancellationToken)
+  fullName: ComposableAsync.IDispatcher.Enqueue(System.Action, System.Threading.CancellationToken)
+  nameWithType: IDispatcher.Enqueue(Action, CancellationToken)
+- uid: ComposableAsync.IDispatcher.Enqueue(System.Func{System.Threading.Tasks.Task})
+  name: Enqueue(Func<Task>)
+  href: api/ComposableAsync.IDispatcher.html#ComposableAsync_IDispatcher_Enqueue_System_Func_System_Threading_Tasks_Task__
+  commentId: M:ComposableAsync.IDispatcher.Enqueue(System.Func{System.Threading.Tasks.Task})
+  name.vb: Enqueue(Func(Of Task))
+  fullName: ComposableAsync.IDispatcher.Enqueue(System.Func<System.Threading.Tasks.Task>)
+  fullName.vb: ComposableAsync.IDispatcher.Enqueue(System.Func(Of System.Threading.Tasks.Task))
+  nameWithType: IDispatcher.Enqueue(Func<Task>)
+  nameWithType.vb: IDispatcher.Enqueue(Func(Of Task))
+- uid: ComposableAsync.IDispatcher.Enqueue(System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken)
+  name: Enqueue(Func<Task>, CancellationToken)
+  href: api/ComposableAsync.IDispatcher.html#ComposableAsync_IDispatcher_Enqueue_System_Func_System_Threading_Tasks_Task__System_Threading_CancellationToken_
+  commentId: M:ComposableAsync.IDispatcher.Enqueue(System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken)
+  name.vb: Enqueue(Func(Of Task), CancellationToken)
+  fullName: ComposableAsync.IDispatcher.Enqueue(System.Func<System.Threading.Tasks.Task>, System.Threading.CancellationToken)
+  fullName.vb: ComposableAsync.IDispatcher.Enqueue(System.Func(Of System.Threading.Tasks.Task), System.Threading.CancellationToken)
+  nameWithType: IDispatcher.Enqueue(Func<Task>, CancellationToken)
+  nameWithType.vb: IDispatcher.Enqueue(Func(Of Task), CancellationToken)
+- uid: ComposableAsync.IDispatcher.Enqueue*
+  name: Enqueue
+  href: api/ComposableAsync.IDispatcher.html#ComposableAsync_IDispatcher_Enqueue_
+  commentId: Overload:ComposableAsync.IDispatcher.Enqueue
+  isSpec: "True"
+  fullName: ComposableAsync.IDispatcher.Enqueue
+  nameWithType: IDispatcher.Enqueue
+- uid: ComposableAsync.IDispatcher.Enqueue``1(System.Func{``0})
+  name: Enqueue<T>(Func<T>)
+  href: api/ComposableAsync.IDispatcher.html#ComposableAsync_IDispatcher_Enqueue__1_System_Func___0__
+  commentId: M:ComposableAsync.IDispatcher.Enqueue``1(System.Func{``0})
+  name.vb: Enqueue(Of T)(Func(Of T))
+  fullName: ComposableAsync.IDispatcher.Enqueue<T>(System.Func<T>)
+  fullName.vb: ComposableAsync.IDispatcher.Enqueue(Of T)(System.Func(Of T))
+  nameWithType: IDispatcher.Enqueue<T>(Func<T>)
+  nameWithType.vb: IDispatcher.Enqueue(Of T)(Func(Of T))
+- uid: ComposableAsync.IDispatcher.Enqueue``1(System.Func{``0},System.Threading.CancellationToken)
+  name: Enqueue<T>(Func<T>, CancellationToken)
+  href: api/ComposableAsync.IDispatcher.html#ComposableAsync_IDispatcher_Enqueue__1_System_Func___0__System_Threading_CancellationToken_
+  commentId: M:ComposableAsync.IDispatcher.Enqueue``1(System.Func{``0},System.Threading.CancellationToken)
+  name.vb: Enqueue(Of T)(Func(Of T), CancellationToken)
+  fullName: ComposableAsync.IDispatcher.Enqueue<T>(System.Func<T>, System.Threading.CancellationToken)
+  fullName.vb: ComposableAsync.IDispatcher.Enqueue(Of T)(System.Func(Of T), System.Threading.CancellationToken)
+  nameWithType: IDispatcher.Enqueue<T>(Func<T>, CancellationToken)
+  nameWithType.vb: IDispatcher.Enqueue(Of T)(Func(Of T), CancellationToken)
+- uid: ComposableAsync.IDispatcher.Enqueue``1(System.Func{System.Threading.Tasks.Task{``0}})
+  name: Enqueue<T>(Func<Task<T>>)
+  href: api/ComposableAsync.IDispatcher.html#ComposableAsync_IDispatcher_Enqueue__1_System_Func_System_Threading_Tasks_Task___0___
+  commentId: M:ComposableAsync.IDispatcher.Enqueue``1(System.Func{System.Threading.Tasks.Task{``0}})
+  name.vb: Enqueue(Of T)(Func(Of Task(Of T)))
+  fullName: ComposableAsync.IDispatcher.Enqueue<T>(System.Func<System.Threading.Tasks.Task<T>>)
+  fullName.vb: ComposableAsync.IDispatcher.Enqueue(Of T)(System.Func(Of System.Threading.Tasks.Task(Of T)))
+  nameWithType: IDispatcher.Enqueue<T>(Func<Task<T>>)
+  nameWithType.vb: IDispatcher.Enqueue(Of T)(Func(Of Task(Of T)))
+- uid: ComposableAsync.IDispatcher.Enqueue``1(System.Func{System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)
+  name: Enqueue<T>(Func<Task<T>>, CancellationToken)
+  href: api/ComposableAsync.IDispatcher.html#ComposableAsync_IDispatcher_Enqueue__1_System_Func_System_Threading_Tasks_Task___0___System_Threading_CancellationToken_
+  commentId: M:ComposableAsync.IDispatcher.Enqueue``1(System.Func{System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)
+  name.vb: Enqueue(Of T)(Func(Of Task(Of T)), CancellationToken)
+  fullName: ComposableAsync.IDispatcher.Enqueue<T>(System.Func<System.Threading.Tasks.Task<T>>, System.Threading.CancellationToken)
+  fullName.vb: ComposableAsync.IDispatcher.Enqueue(Of T)(System.Func(Of System.Threading.Tasks.Task(Of T)), System.Threading.CancellationToken)
+  nameWithType: IDispatcher.Enqueue<T>(Func<Task<T>>, CancellationToken)
+  nameWithType.vb: IDispatcher.Enqueue(Of T)(Func(Of Task(Of T)), CancellationToken)
+- uid: ComposableAsync.IDispatcherManager
+  name: IDispatcherManager
+  href: api/ComposableAsync.IDispatcherManager.html
+  commentId: T:ComposableAsync.IDispatcherManager
+  fullName: ComposableAsync.IDispatcherManager
+  nameWithType: IDispatcherManager
+- uid: ComposableAsync.IDispatcherManager.DisposeDispatcher
+  name: DisposeDispatcher
+  href: api/ComposableAsync.IDispatcherManager.html#ComposableAsync_IDispatcherManager_DisposeDispatcher
+  commentId: P:ComposableAsync.IDispatcherManager.DisposeDispatcher
+  fullName: ComposableAsync.IDispatcherManager.DisposeDispatcher
+  nameWithType: IDispatcherManager.DisposeDispatcher
+- uid: ComposableAsync.IDispatcherManager.DisposeDispatcher*
+  name: DisposeDispatcher
+  href: api/ComposableAsync.IDispatcherManager.html#ComposableAsync_IDispatcherManager_DisposeDispatcher_
+  commentId: Overload:ComposableAsync.IDispatcherManager.DisposeDispatcher
+  isSpec: "True"
+  fullName: ComposableAsync.IDispatcherManager.DisposeDispatcher
+  nameWithType: IDispatcherManager.DisposeDispatcher
+- uid: ComposableAsync.IDispatcherManager.GetDispatcher
+  name: GetDispatcher()
+  href: api/ComposableAsync.IDispatcherManager.html#ComposableAsync_IDispatcherManager_GetDispatcher
+  commentId: M:ComposableAsync.IDispatcherManager.GetDispatcher
+  fullName: ComposableAsync.IDispatcherManager.GetDispatcher()
+  nameWithType: IDispatcherManager.GetDispatcher()
+- uid: ComposableAsync.IDispatcherManager.GetDispatcher*
+  name: GetDispatcher
+  href: api/ComposableAsync.IDispatcherManager.html#ComposableAsync_IDispatcherManager_GetDispatcher_
+  commentId: Overload:ComposableAsync.IDispatcherManager.GetDispatcher
+  isSpec: "True"
+  fullName: ComposableAsync.IDispatcherManager.GetDispatcher
+  nameWithType: IDispatcherManager.GetDispatcher
+- uid: ComposableAsync.IDispatcherProvider
+  name: IDispatcherProvider
+  href: api/ComposableAsync.IDispatcherProvider.html
+  commentId: T:ComposableAsync.IDispatcherProvider
+  fullName: ComposableAsync.IDispatcherProvider
+  nameWithType: IDispatcherProvider
+- uid: ComposableAsync.IDispatcherProvider.Dispatcher
+  name: Dispatcher
+  href: api/ComposableAsync.IDispatcherProvider.html#ComposableAsync_IDispatcherProvider_Dispatcher
+  commentId: P:ComposableAsync.IDispatcherProvider.Dispatcher
+  fullName: ComposableAsync.IDispatcherProvider.Dispatcher
+  nameWithType: IDispatcherProvider.Dispatcher
+- uid: ComposableAsync.IDispatcherProvider.Dispatcher*
+  name: Dispatcher
+  href: api/ComposableAsync.IDispatcherProvider.html#ComposableAsync_IDispatcherProvider_Dispatcher_
+  commentId: Overload:ComposableAsync.IDispatcherProvider.Dispatcher
+  isSpec: "True"
+  fullName: ComposableAsync.IDispatcherProvider.Dispatcher
+  nameWithType: IDispatcherProvider.Dispatcher
+- uid: ComposableAsync.MonoDispatcherManager
+  name: MonoDispatcherManager
+  href: api/ComposableAsync.MonoDispatcherManager.html
+  commentId: T:ComposableAsync.MonoDispatcherManager
+  fullName: ComposableAsync.MonoDispatcherManager
+  nameWithType: MonoDispatcherManager
+- uid: ComposableAsync.MonoDispatcherManager.#ctor(ComposableAsync.IDispatcher,System.Boolean)
+  name: MonoDispatcherManager(IDispatcher, Boolean)
+  href: api/ComposableAsync.MonoDispatcherManager.html#ComposableAsync_MonoDispatcherManager__ctor_ComposableAsync_IDispatcher_System_Boolean_
+  commentId: M:ComposableAsync.MonoDispatcherManager.#ctor(ComposableAsync.IDispatcher,System.Boolean)
+  fullName: ComposableAsync.MonoDispatcherManager.MonoDispatcherManager(ComposableAsync.IDispatcher, System.Boolean)
+  nameWithType: MonoDispatcherManager.MonoDispatcherManager(IDispatcher, Boolean)
+- uid: ComposableAsync.MonoDispatcherManager.#ctor*
+  name: MonoDispatcherManager
+  href: api/ComposableAsync.MonoDispatcherManager.html#ComposableAsync_MonoDispatcherManager__ctor_
+  commentId: Overload:ComposableAsync.MonoDispatcherManager.#ctor
+  isSpec: "True"
+  fullName: ComposableAsync.MonoDispatcherManager.MonoDispatcherManager
+  nameWithType: MonoDispatcherManager.MonoDispatcherManager
+- uid: ComposableAsync.MonoDispatcherManager.DisposeAsync
+  name: DisposeAsync()
+  href: api/ComposableAsync.MonoDispatcherManager.html#ComposableAsync_MonoDispatcherManager_DisposeAsync
+  commentId: M:ComposableAsync.MonoDispatcherManager.DisposeAsync
+  fullName: ComposableAsync.MonoDispatcherManager.DisposeAsync()
+  nameWithType: MonoDispatcherManager.DisposeAsync()
+- uid: ComposableAsync.MonoDispatcherManager.DisposeAsync*
+  name: DisposeAsync
+  href: api/ComposableAsync.MonoDispatcherManager.html#ComposableAsync_MonoDispatcherManager_DisposeAsync_
+  commentId: Overload:ComposableAsync.MonoDispatcherManager.DisposeAsync
+  isSpec: "True"
+  fullName: ComposableAsync.MonoDispatcherManager.DisposeAsync
+  nameWithType: MonoDispatcherManager.DisposeAsync
+- uid: ComposableAsync.MonoDispatcherManager.DisposeDispatcher
+  name: DisposeDispatcher
+  href: api/ComposableAsync.MonoDispatcherManager.html#ComposableAsync_MonoDispatcherManager_DisposeDispatcher
+  commentId: P:ComposableAsync.MonoDispatcherManager.DisposeDispatcher
+  fullName: ComposableAsync.MonoDispatcherManager.DisposeDispatcher
+  nameWithType: MonoDispatcherManager.DisposeDispatcher
+- uid: ComposableAsync.MonoDispatcherManager.DisposeDispatcher*
+  name: DisposeDispatcher
+  href: api/ComposableAsync.MonoDispatcherManager.html#ComposableAsync_MonoDispatcherManager_DisposeDispatcher_
+  commentId: Overload:ComposableAsync.MonoDispatcherManager.DisposeDispatcher
+  isSpec: "True"
+  fullName: ComposableAsync.MonoDispatcherManager.DisposeDispatcher
+  nameWithType: MonoDispatcherManager.DisposeDispatcher
+- uid: ComposableAsync.MonoDispatcherManager.GetDispatcher
+  name: GetDispatcher()
+  href: api/ComposableAsync.MonoDispatcherManager.html#ComposableAsync_MonoDispatcherManager_GetDispatcher
+  commentId: M:ComposableAsync.MonoDispatcherManager.GetDispatcher
+  fullName: ComposableAsync.MonoDispatcherManager.GetDispatcher()
+  nameWithType: MonoDispatcherManager.GetDispatcher()
+- uid: ComposableAsync.MonoDispatcherManager.GetDispatcher*
+  name: GetDispatcher
+  href: api/ComposableAsync.MonoDispatcherManager.html#ComposableAsync_MonoDispatcherManager_GetDispatcher_
+  commentId: Overload:ComposableAsync.MonoDispatcherManager.GetDispatcher
+  isSpec: "True"
+  fullName: ComposableAsync.MonoDispatcherManager.GetDispatcher
+  nameWithType: MonoDispatcherManager.GetDispatcher
+- uid: ComposableAsync.NullDispatcher
+  name: NullDispatcher
+  href: api/ComposableAsync.NullDispatcher.html
+  commentId: T:ComposableAsync.NullDispatcher
+  fullName: ComposableAsync.NullDispatcher
+  nameWithType: NullDispatcher
+- uid: ComposableAsync.NullDispatcher.Clone
+  name: Clone()
+  href: api/ComposableAsync.NullDispatcher.html#ComposableAsync_NullDispatcher_Clone
+  commentId: M:ComposableAsync.NullDispatcher.Clone
+  fullName: ComposableAsync.NullDispatcher.Clone()
+  nameWithType: NullDispatcher.Clone()
+- uid: ComposableAsync.NullDispatcher.Clone*
+  name: Clone
+  href: api/ComposableAsync.NullDispatcher.html#ComposableAsync_NullDispatcher_Clone_
+  commentId: Overload:ComposableAsync.NullDispatcher.Clone
+  isSpec: "True"
+  fullName: ComposableAsync.NullDispatcher.Clone
+  nameWithType: NullDispatcher.Clone
+- uid: ComposableAsync.NullDispatcher.Dispatch(System.Action)
+  name: Dispatch(Action)
+  href: api/ComposableAsync.NullDispatcher.html#ComposableAsync_NullDispatcher_Dispatch_System_Action_
+  commentId: M:ComposableAsync.NullDispatcher.Dispatch(System.Action)
+  fullName: ComposableAsync.NullDispatcher.Dispatch(System.Action)
+  nameWithType: NullDispatcher.Dispatch(Action)
+- uid: ComposableAsync.NullDispatcher.Dispatch*
+  name: Dispatch
+  href: api/ComposableAsync.NullDispatcher.html#ComposableAsync_NullDispatcher_Dispatch_
+  commentId: Overload:ComposableAsync.NullDispatcher.Dispatch
+  isSpec: "True"
+  fullName: ComposableAsync.NullDispatcher.Dispatch
+  nameWithType: NullDispatcher.Dispatch
+- uid: ComposableAsync.NullDispatcher.Enqueue(System.Action)
+  name: Enqueue(Action)
+  href: api/ComposableAsync.NullDispatcher.html#ComposableAsync_NullDispatcher_Enqueue_System_Action_
+  commentId: M:ComposableAsync.NullDispatcher.Enqueue(System.Action)
+  fullName: ComposableAsync.NullDispatcher.Enqueue(System.Action)
+  nameWithType: NullDispatcher.Enqueue(Action)
+- uid: ComposableAsync.NullDispatcher.Enqueue(System.Action,System.Threading.CancellationToken)
+  name: Enqueue(Action, CancellationToken)
+  href: api/ComposableAsync.NullDispatcher.html#ComposableAsync_NullDispatcher_Enqueue_System_Action_System_Threading_CancellationToken_
+  commentId: M:ComposableAsync.NullDispatcher.Enqueue(System.Action,System.Threading.CancellationToken)
+  fullName: ComposableAsync.NullDispatcher.Enqueue(System.Action, System.Threading.CancellationToken)
+  nameWithType: NullDispatcher.Enqueue(Action, CancellationToken)
+- uid: ComposableAsync.NullDispatcher.Enqueue(System.Func{System.Threading.Tasks.Task})
+  name: Enqueue(Func<Task>)
+  href: api/ComposableAsync.NullDispatcher.html#ComposableAsync_NullDispatcher_Enqueue_System_Func_System_Threading_Tasks_Task__
+  commentId: M:ComposableAsync.NullDispatcher.Enqueue(System.Func{System.Threading.Tasks.Task})
+  name.vb: Enqueue(Func(Of Task))
+  fullName: ComposableAsync.NullDispatcher.Enqueue(System.Func<System.Threading.Tasks.Task>)
+  fullName.vb: ComposableAsync.NullDispatcher.Enqueue(System.Func(Of System.Threading.Tasks.Task))
+  nameWithType: NullDispatcher.Enqueue(Func<Task>)
+  nameWithType.vb: NullDispatcher.Enqueue(Func(Of Task))
+- uid: ComposableAsync.NullDispatcher.Enqueue(System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken)
+  name: Enqueue(Func<Task>, CancellationToken)
+  href: api/ComposableAsync.NullDispatcher.html#ComposableAsync_NullDispatcher_Enqueue_System_Func_System_Threading_Tasks_Task__System_Threading_CancellationToken_
+  commentId: M:ComposableAsync.NullDispatcher.Enqueue(System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken)
+  name.vb: Enqueue(Func(Of Task), CancellationToken)
+  fullName: ComposableAsync.NullDispatcher.Enqueue(System.Func<System.Threading.Tasks.Task>, System.Threading.CancellationToken)
+  fullName.vb: ComposableAsync.NullDispatcher.Enqueue(System.Func(Of System.Threading.Tasks.Task), System.Threading.CancellationToken)
+  nameWithType: NullDispatcher.Enqueue(Func<Task>, CancellationToken)
+  nameWithType.vb: NullDispatcher.Enqueue(Func(Of Task), CancellationToken)
+- uid: ComposableAsync.NullDispatcher.Enqueue*
+  name: Enqueue
+  href: api/ComposableAsync.NullDispatcher.html#ComposableAsync_NullDispatcher_Enqueue_
+  commentId: Overload:ComposableAsync.NullDispatcher.Enqueue
+  isSpec: "True"
+  fullName: ComposableAsync.NullDispatcher.Enqueue
+  nameWithType: NullDispatcher.Enqueue
+- uid: ComposableAsync.NullDispatcher.Enqueue``1(System.Func{``0})
+  name: Enqueue<T>(Func<T>)
+  href: api/ComposableAsync.NullDispatcher.html#ComposableAsync_NullDispatcher_Enqueue__1_System_Func___0__
+  commentId: M:ComposableAsync.NullDispatcher.Enqueue``1(System.Func{``0})
+  name.vb: Enqueue(Of T)(Func(Of T))
+  fullName: ComposableAsync.NullDispatcher.Enqueue<T>(System.Func<T>)
+  fullName.vb: ComposableAsync.NullDispatcher.Enqueue(Of T)(System.Func(Of T))
+  nameWithType: NullDispatcher.Enqueue<T>(Func<T>)
+  nameWithType.vb: NullDispatcher.Enqueue(Of T)(Func(Of T))
+- uid: ComposableAsync.NullDispatcher.Enqueue``1(System.Func{``0},System.Threading.CancellationToken)
+  name: Enqueue<T>(Func<T>, CancellationToken)
+  href: api/ComposableAsync.NullDispatcher.html#ComposableAsync_NullDispatcher_Enqueue__1_System_Func___0__System_Threading_CancellationToken_
+  commentId: M:ComposableAsync.NullDispatcher.Enqueue``1(System.Func{``0},System.Threading.CancellationToken)
+  name.vb: Enqueue(Of T)(Func(Of T), CancellationToken)
+  fullName: ComposableAsync.NullDispatcher.Enqueue<T>(System.Func<T>, System.Threading.CancellationToken)
+  fullName.vb: ComposableAsync.NullDispatcher.Enqueue(Of T)(System.Func(Of T), System.Threading.CancellationToken)
+  nameWithType: NullDispatcher.Enqueue<T>(Func<T>, CancellationToken)
+  nameWithType.vb: NullDispatcher.Enqueue(Of T)(Func(Of T), CancellationToken)
+- uid: ComposableAsync.NullDispatcher.Enqueue``1(System.Func{System.Threading.Tasks.Task{``0}})
+  name: Enqueue<T>(Func<Task<T>>)
+  href: api/ComposableAsync.NullDispatcher.html#ComposableAsync_NullDispatcher_Enqueue__1_System_Func_System_Threading_Tasks_Task___0___
+  commentId: M:ComposableAsync.NullDispatcher.Enqueue``1(System.Func{System.Threading.Tasks.Task{``0}})
+  name.vb: Enqueue(Of T)(Func(Of Task(Of T)))
+  fullName: ComposableAsync.NullDispatcher.Enqueue<T>(System.Func<System.Threading.Tasks.Task<T>>)
+  fullName.vb: ComposableAsync.NullDispatcher.Enqueue(Of T)(System.Func(Of System.Threading.Tasks.Task(Of T)))
+  nameWithType: NullDispatcher.Enqueue<T>(Func<Task<T>>)
+  nameWithType.vb: NullDispatcher.Enqueue(Of T)(Func(Of Task(Of T)))
+- uid: ComposableAsync.NullDispatcher.Enqueue``1(System.Func{System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)
+  name: Enqueue<T>(Func<Task<T>>, CancellationToken)
+  href: api/ComposableAsync.NullDispatcher.html#ComposableAsync_NullDispatcher_Enqueue__1_System_Func_System_Threading_Tasks_Task___0___System_Threading_CancellationToken_
+  commentId: M:ComposableAsync.NullDispatcher.Enqueue``1(System.Func{System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)
+  name.vb: Enqueue(Of T)(Func(Of Task(Of T)), CancellationToken)
+  fullName: ComposableAsync.NullDispatcher.Enqueue<T>(System.Func<System.Threading.Tasks.Task<T>>, System.Threading.CancellationToken)
+  fullName.vb: ComposableAsync.NullDispatcher.Enqueue(Of T)(System.Func(Of System.Threading.Tasks.Task(Of T)), System.Threading.CancellationToken)
+  nameWithType: NullDispatcher.Enqueue<T>(Func<Task<T>>, CancellationToken)
+  nameWithType.vb: NullDispatcher.Enqueue(Of T)(Func(Of Task(Of T)), CancellationToken)
+- uid: ComposableAsync.NullDispatcher.Instance
+  name: Instance
+  href: api/ComposableAsync.NullDispatcher.html#ComposableAsync_NullDispatcher_Instance
+  commentId: P:ComposableAsync.NullDispatcher.Instance
+  fullName: ComposableAsync.NullDispatcher.Instance
+  nameWithType: NullDispatcher.Instance
+- uid: ComposableAsync.NullDispatcher.Instance*
+  name: Instance
+  href: api/ComposableAsync.NullDispatcher.html#ComposableAsync_NullDispatcher_Instance_
+  commentId: Overload:ComposableAsync.NullDispatcher.Instance
+  isSpec: "True"
+  fullName: ComposableAsync.NullDispatcher.Instance
+  nameWithType: NullDispatcher.Instance
+- uid: ComposableAsync.WPF
+  name: ComposableAsync.WPF
+  href: api/ComposableAsync.WPF.html
+  commentId: N:ComposableAsync.WPF
+  fullName: ComposableAsync.WPF
+  nameWithType: ComposableAsync.WPF
+- uid: ComposableAsync.WPF.FiberExtension
+  name: FiberExtension
+  href: api/ComposableAsync.WPF.FiberExtension.html
+  commentId: T:ComposableAsync.WPF.FiberExtension
+  fullName: ComposableAsync.WPF.FiberExtension
+  nameWithType: FiberExtension
+- uid: ComposableAsync.WPF.FiberExtension.GetAssociatedDispatcher(System.Object)
+  name: GetAssociatedDispatcher(Object)
+  href: api/ComposableAsync.WPF.FiberExtension.html#ComposableAsync_WPF_FiberExtension_GetAssociatedDispatcher_System_Object_
+  commentId: M:ComposableAsync.WPF.FiberExtension.GetAssociatedDispatcher(System.Object)
+  fullName: ComposableAsync.WPF.FiberExtension.GetAssociatedDispatcher(System.Object)
+  nameWithType: FiberExtension.GetAssociatedDispatcher(Object)
+- uid: ComposableAsync.WPF.FiberExtension.GetAssociatedDispatcher*
+  name: GetAssociatedDispatcher
+  href: api/ComposableAsync.WPF.FiberExtension.html#ComposableAsync_WPF_FiberExtension_GetAssociatedDispatcher_
+  commentId: Overload:ComposableAsync.WPF.FiberExtension.GetAssociatedDispatcher
+  isSpec: "True"
+  fullName: ComposableAsync.WPF.FiberExtension.GetAssociatedDispatcher
+  nameWithType: FiberExtension.GetAssociatedDispatcher
+- uid: ComposableAsync.WPF.FiberExtension.GetAssociatedFiber(System.Object)
+  name: GetAssociatedFiber(Object)
+  href: api/ComposableAsync.WPF.FiberExtension.html#ComposableAsync_WPF_FiberExtension_GetAssociatedFiber_System_Object_
+  commentId: M:ComposableAsync.WPF.FiberExtension.GetAssociatedFiber(System.Object)
+  fullName: ComposableAsync.WPF.FiberExtension.GetAssociatedFiber(System.Object)
+  nameWithType: FiberExtension.GetAssociatedFiber(Object)
+- uid: ComposableAsync.WPF.FiberExtension.GetAssociatedFiber*
+  name: GetAssociatedFiber
+  href: api/ComposableAsync.WPF.FiberExtension.html#ComposableAsync_WPF_FiberExtension_GetAssociatedFiber_
+  commentId: Overload:ComposableAsync.WPF.FiberExtension.GetAssociatedFiber
+  isSpec: "True"
+  fullName: ComposableAsync.WPF.FiberExtension.GetAssociatedFiber
+  nameWithType: FiberExtension.GetAssociatedFiber
+- uid: System
+  name: System
+  href: api/System.html
+  commentId: N:System
+  fullName: System
+  nameWithType: System
+- uid: System.IAsyncDisposable
+  name: IAsyncDisposable
+  href: api/System.IAsyncDisposable.html
+  commentId: T:System.IAsyncDisposable
+  fullName: System.IAsyncDisposable
+  nameWithType: IAsyncDisposable
+- uid: System.IAsyncDisposable.DisposeAsync
+  name: DisposeAsync()
+  href: api/System.IAsyncDisposable.html#System_IAsyncDisposable_DisposeAsync
+  commentId: M:System.IAsyncDisposable.DisposeAsync
+  fullName: System.IAsyncDisposable.DisposeAsync()
+  nameWithType: IAsyncDisposable.DisposeAsync()
+- uid: System.IAsyncDisposable.DisposeAsync*
+  name: DisposeAsync
+  href: api/System.IAsyncDisposable.html#System_IAsyncDisposable_DisposeAsync_
+  commentId: Overload:System.IAsyncDisposable.DisposeAsync
+  isSpec: "True"
+  fullName: System.IAsyncDisposable.DisposeAsync
+  nameWithType: IAsyncDisposable.DisposeAsync
