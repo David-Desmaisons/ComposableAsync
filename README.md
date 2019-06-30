@@ -2,37 +2,36 @@ Composable Async
 ================
 
 [![build](https://img.shields.io/appveyor/ci/David-Desmaisons/EasyActor.svg)](https://ci.appveyor.com/project/David-Desmaisons/EasyActor)
-[![NuGet Badge](https://buildstats.info/nuget/EasyActor)](https://www.nuget.org/packages/EasyActor/)
+[![NuGet Badge](https://buildstats.info/nuget/composableAsync.core?includePreReleases=true)](https://www.nuget.org/packages/ComposableAsync.Core/)
 [![MIT License](https://img.shields.io/github/license/David-Desmaisons/EasyActor.svg)](https://github.com/David-Desmaisons/EasyActor/blob/master/LICENSE)
 
-## Goal
+# Goal
 
-Create and compose complex asynchronous behavior in .Net.
+* Create and compose complex asynchronous behavior in .Net.
 
-Create complex async building blocks using [aspect oriented programming](https://www.wikiwand.com/en/Aspect-oriented_programming).
+* Use these behaviors as building blocks with [aspect oriented programming](https://www.wikiwand.com/en/Aspect-oriented_programming).
 
-Provide a lightweight way to transform POCOs in [actors](https://en.wikipedia.org/wiki/Actor_model).
+* Provide a lightweight way to transform POCOs in [actors](https://en.wikipedia.org/wiki/Actor_model).
+
+* For .Net Framework and .Net Core
 
 
-Motivation
-----------
+# Motivation
 
 * Leverage C# 5.0 asynchronous API (Task, async , await)
 * Simplify concurrent programing getting using Actor model.
 * Transparent for consumer: factories transform any POCO by adding behaviors and return user defined interface.
 * Fast: performance overhead should be minimum
 
-## Features
+# Features
 
-Composable Async provides:
+## `IDispatcher` abstraction 
 
-1. `IDispatcher` abstraction that take an Action or Function and replay it in a different context.
+A dispatcher takes an Action, a Function, or a Task and replay it in a different context.
 
 ```CSharp
 public interface IDispatcher
 {
-	///...
-
 	/// <summary>
 	/// Enqueue the action and return a task corresponding to
 	/// the completion of the action
@@ -44,59 +43,89 @@ public interface IDispatcher
 	/// the result of the function
 	/// </summary>
 	Task<T> Enqueue<T>(Func<T> action);
+
+	/// <summary>
+	/// Enqueue the task and return a task corresponding
+	/// to the execution of the original task
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="action"></param>
+	/// <returns></returns>
+	Task<T> Enqueue<T>(Func<Task<T>> action);
+
+	///...Additional signatures including Task and CancellationToken
 }
 ```
 
-2. Pre-built `IDispatchers` such as:
-	- Rate limiting
-	- Fiber implementation to build object that uses [Actor pattern](https://en.wikipedia.org/wiki/Actor_model).
-	- Circuit-breaker (incoming)
+## Pre-built `IDispatchers`:
+- Rate limiting with [RateLimiter](http://david-desmaisons.github.io/RateLimiter/index.html)
+- [Fiber](https://www.wikiwand.com/en/Fiber_(computer_science)) implementation to build object that uses [Actor pattern](https://en.wikipedia.org/wiki/Actor_model).
+- Circuit-breaker (incoming)
 
-3. Extension methods to transform, compose and await `IDispatcher`
+## Extension methods
+In order to transform, compose and await `IDispatcher`
 
-4. Factories to add `IDispatcher` behaviors to [plain old CLR Objects](https://www.wikipedia.org//wiki/Plain_old_CLR_object)
+## Factories 
+In order to add `IDispatcher` behaviors to [plain old CLR Objects](https://www.wikipedia.org//wiki/Plain_old_CLR_object)
 
+# Usage - Example
 
-## Usage - Example
+## Dispatchers
 
-### Dispatchers
-
-1) Create a dispatcher:
+### Core functions (ComposableAsync.Core nuget)
+- Create a dispatcher:
 ```CSharp
-  var fiberDispatcher = Fiber.CreateMonoThreadedFiber();
+var fiberDispatcher = Fiber.CreateMonoThreadedFiber();
 ```
 
-2) Await a dispatcher:
+- Basic usage
 
 ```CSharp
-	await fiberDispatcher;
-	// After the await, the code executes in the dispatcher context
-	// In this case the code will execute on the fiber thread
-	Console.WriteLine($"This is fiber thread {Thread.CurrentThread.ManagedThreadId}"); 
+for(int i=0; i<1000; i++)
+{
+	await fiberDispatcher.Perform(ConsoleIt);
+}
+
+//...
+private void ConsoleIt()
+{
+	Console.WriteLine($"This is fiber thread {Thread.CurrentThread.ManagedThreadId}");
+}
 ```
 
-3) Compose two dispatchers:
+- Await a dispatcher:
 
 ```CSharp
-	var composed = dispatcher1.Then(dispatcher2);
+await fiberDispatcher;
+// After the await, the code executes in the dispatcher context
+// In this case the code will execute on the fiber thread
+Console.WriteLine($"This is fiber thread {Thread.CurrentThread.ManagedThreadId}");
 ```
 
-4) Use a dispatcher as a htpp Handler:
+- Compose two dispatchers:
+
 ```CSharp
-	var handler = TimeLimiter
-			.GetFromMaxCountByInterval(60, TimeSpan.FromMinutes(1))
-			.AsDelegatingHandler();
-	var client = new HttpClient(handler)
+var composed = dispatcher1.Then(dispatcher2);
 ```
 
-5) Use a dispatcher to create a proxy (using ComposableAsync.Factory):
+- Use a dispatcher as a [HttpMessageHandler](https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpmessagehandler?view=netframework-4.8):
 ```CSharp
-  var proxyFactory = new ProxyFactory(dispatcher);
-  var proxyObject = proxyFactory.Build<IBusinessObject>(new BusinessObject());
+var handler = TimeLimiter
+	.GetFromMaxCountByInterval(60, TimeSpan.FromMinutes(1))
+	.AsDelegatingHandler();
+var client = new HttpClient(handler)
+```
+
+### With ComposableAsync.Factory nuget:
+
+- Use a dispatcher to create a proxy:
+```CSharp
+var proxyFactory = new ProxyFactory(dispatcher);
+var proxyObject = proxyFactory.Build<IBusinessObject>(new BusinessObject());
 ```
 Note that ComposableAsync.Concurrent library provides simplified API to create an actor. See below.
 
-### Actor
+### Actor (ComposableAsync.Concurrent nuget)
 
 Actor leaves in their own thread and communicate with immutable message. They communicate with other objects asynchronously using Task and Task<T>.
 
@@ -112,42 +141,42 @@ To create an actor:
 1) Define an interface
 
 ```CSharp
-	// IFoo definition
-	public interface IFoo
-	{
-	    Task Bar();
-	}
+// IFoo definition
+public interface IFoo
+{
+	Task Bar();
+}
 ```
 
 2) Implement the interface in a POCO	
 
 ```CSharp
-	// ConcreteFoo definition
-	public class ConcreteFoo : IFoo
+// ConcreteFoo definition
+public class ConcreteFoo : IFoo
+{
+	public Task<int> Bar()
 	{
-	    public Task<int> Bar()
-	    {
 		return Task.FromResult<int>(2);
-	    }
 	}
+}
 ```
 
 3) Use an ComposableAsync.Factory factory to create an actor from the POCO
 
 ```CSharp
-	// Instantiate actor factory
-	var builder = new ActorFactoryBuilder();
-	var factory = builder.GetActorFactory();
-		
-	// Instantiate an actor from a POCO
-	var fooActor = fact.Build<IFoo>(new ConcreteFoo());
+// Instantiate actor factory
+var builder = new ActorFactoryBuilder();
+var factory = builder.GetActorFactory();
+
+// Instantiate an actor from a POCO
+var fooActor = fact.Build<IFoo>(new ConcreteFoo());
 ```	
 4) Use the actor: all methods call will be executed on a dedicated thread
 
 ```CSharp
-	//This will call ConcreteFoo Bar in its own thread
-	var res = await fooActor.Bar();
-```		
+//This will call ConcreteFoo Bar in its own thread
+var res = await fooActor.Bar();
+```
 
 
 How it works
