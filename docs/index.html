@@ -177,6 +177,10 @@ var client = new HttpClient(handler)</code></li>
 </ul>
 <pre><code class="lang-CSharp">var proxyFactory = new ProxyFactory(dispatcher);
 var proxyObject = proxyFactory.Build&lt;IBusinessObject&gt;(new BusinessObject());
+</code></pre><ul>
+<li>Release all factory resources:</li>
+</ul>
+<pre><code class="lang-CSharp">await proxyFactory.DisposeAsync();
 </code></pre><p>Note that ComposableAsync.Concurrent library provides simplified API to create an actor. See below.</p>
 <h3 id="actor-composableasyncconcurrent-nuget">Actor (ComposableAsync.Concurrent nuget)</h3>
 <p>Actor leaves in their own thread and communicate with immutable message. They communicate with other objects asynchronously using Task and Task<t>.<p>
@@ -204,13 +208,18 @@ public class ConcreteFoo : IFoo
 </code></pre><p>3) Use an ComposableAsync.Factory factory to create an actor from the POCO</p>
 <pre><code class="lang-CSharp">// Instantiate actor factory
 var builder = new ActorFactoryBuilder();
-var factory = builder.GetActorFactory();
+var factory = builder.GetActorFactory(shared: false);
+// When shared is true, all actor leaves in the same thread,
+// when shared is false, each actor leaves in its own thread.
 
 // Instantiate an actor from a POCO
 var fooActor = fact.Build&lt;IFoo&gt;(new ConcreteFoo());
 </code></pre><p>4) Use the actor: all methods call will be executed on a dedicated thread</p>
 <pre><code class="lang-CSharp">//This will call ConcreteFoo Bar in its own thread
 var res = await fooActor.Bar();
+</code></pre><p>5) Life cycle</p>
+<p>To release all resources linked to thread management call <code>DisposeAsync</code> on the factory (typically called when closing application and actors won&#39;t be used):</p>
+<pre><code class="lang-CSharp">await proxyFactory.DisposeAsync();
 </code></pre><h2 id="how-it-works">How it works</h2>
 <p>Internally, <code>ComposableAsync.Factory</code> uses <a href="https://github.com/castleproject/Core">Castle Core DynamicProxy</a> to instantiate a proxy for the corresponding interface.
 All calls to the interface methods are intercepted and then redirected to run on the actor Threads.</p>

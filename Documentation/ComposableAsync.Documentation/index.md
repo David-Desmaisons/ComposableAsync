@@ -131,6 +131,12 @@ var proxyFactory = new ProxyFactory(dispatcher);
 var proxyObject = proxyFactory.Build<IBusinessObject>(new BusinessObject());
 ```
 
+- Release all factory resources:
+
+```CSharp
+await proxyFactory.DisposeAsync();
+```
+
 Note that ComposableAsync.Concurrent library provides simplified API to create an actor. See below.
 
 ### Actor (ComposableAsync.Concurrent nuget)
@@ -174,7 +180,9 @@ public class ConcreteFoo : IFoo
 ```CSharp
 // Instantiate actor factory
 var builder = new ActorFactoryBuilder();
-var factory = builder.GetActorFactory();
+var factory = builder.GetActorFactory(shared: false);
+// When shared is true, all actor leaves in the same thread,
+// when shared is false, each actor leaves in its own thread.
 
 // Instantiate an actor from a POCO
 var fooActor = fact.Build<IFoo>(new ConcreteFoo());
@@ -186,6 +194,14 @@ var fooActor = fact.Build<IFoo>(new ConcreteFoo());
 var res = await fooActor.Bar();
 ```
 
+5) Life cycle
+
+To release all resources linked to thread management call `DisposeAsync` on the factory (typically called when closing application and actors won't be used):
+
+
+```CSharp
+await proxyFactory.DisposeAsync();
+```
 
 How it works
 ------------
