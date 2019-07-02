@@ -1,0 +1,394 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Interface IActorFactoryBuilder
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Interface IActorFactoryBuilder
+   ">
+    <meta name="generator" content="docfx 2.43.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  
+  <a href="https://github.com/David-Desmaisons/ComposableAsync" target="_blank">
+    <img style="position: fixed; top: 0; right: 0; border: 0; z-index:99999" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_gray_6d6d6d.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1">
+  </a>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="ComposableAsync.Concurrent.IActorFactoryBuilder">
+  
+  
+  <h1 id="ComposableAsync_Concurrent_IActorFactoryBuilder" data-uid="ComposableAsync.Concurrent.IActorFactoryBuilder" class="text-break">Interface IActorFactoryBuilder
+  </h1>
+  <div class="markdown level0 summary">
+IProxyFactory and ILoadBalancerFactory factory
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="ComposableAsync.Concurrent.html">ComposableAsync.Concurrent</a></h6>
+  <h6><strong>Assembly</strong>: ComposableAsync.Concurrent.dll</h6>
+  <h5 id="ComposableAsync_Concurrent_IActorFactoryBuilder_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public interface IActorFactoryBuilder</code></pre>
+  </div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/David-Desmaisons/EasyActor/new/Re-Arquitecturing/apiSpec/new?filename=ComposableAsync_Concurrent_IActorFactoryBuilder_GetActorFactory_System_Boolean_System_Action_System_Threading_Thread__.md&amp;value=---%0Auid%3A%20ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactory(System.Boolean%2CSystem.Action%7BSystem.Threading.Thread%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/David-Desmaisons/EasyActor/blob/Re-Arquitecturing/ComposableAsync.Concurrent/IActorFactoryBuilder.cs/#L21">View Source</a>
+  </span>
+  <a id="ComposableAsync_Concurrent_IActorFactoryBuilder_GetActorFactory_" data-uid="ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactory*"></a>
+  <h4 id="ComposableAsync_Concurrent_IActorFactoryBuilder_GetActorFactory_System_Boolean_System_Action_System_Threading_Thread__" data-uid="ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactory(System.Boolean,System.Action{System.Threading.Thread})">GetActorFactory(Boolean, Action&lt;Thread&gt;)</h4>
+  <div class="markdown level1 summary">
+Returns an actor factory 
+<param name="shared">
+if true all the actors created by this factory will use the same thread. 
+
+<param name="onCreate">
+Delegate called on each new created thread. 
+
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IProxyFactory GetActorFactory(bool shared = false, Action&lt;Thread&gt; onCreate = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">shared</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span>&lt;<span class="xref">System.Threading.Thread</span>&gt;</td>
+        <td><span class="parametername">onCreate</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.Factory.IProxyFactory.html">IProxyFactory</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/David-Desmaisons/EasyActor/new/Re-Arquitecturing/apiSpec/new?filename=ComposableAsync_Concurrent_IActorFactoryBuilder_GetActorFactoryFrom_ComposableAsync_Concurrent_IFiber_.md&amp;value=---%0Auid%3A%20ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactoryFrom(ComposableAsync.Concurrent.IFiber)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/David-Desmaisons/EasyActor/blob/Re-Arquitecturing/ComposableAsync.Concurrent/IActorFactoryBuilder.cs/#L46">View Source</a>
+  </span>
+  <a id="ComposableAsync_Concurrent_IActorFactoryBuilder_GetActorFactoryFrom_" data-uid="ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactoryFrom*"></a>
+  <h4 id="ComposableAsync_Concurrent_IActorFactoryBuilder_GetActorFactoryFrom_ComposableAsync_Concurrent_IFiber_" data-uid="ComposableAsync.Concurrent.IActorFactoryBuilder.GetActorFactoryFrom(ComposableAsync.Concurrent.IFiber)">GetActorFactoryFrom(IFiber)</h4>
+  <div class="markdown level1 summary">
+Returns an actor factory using the provided fiber 
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IProxyFactory GetActorFactoryFrom(IFiber dispatcher)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.Concurrent.IFiber.html">IFiber</a></td>
+        <td><span class="parametername">dispatcher</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.Factory.IProxyFactory.html">IProxyFactory</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/David-Desmaisons/EasyActor/new/Re-Arquitecturing/apiSpec/new?filename=ComposableAsync_Concurrent_IActorFactoryBuilder_GetInContextActorFactory.md&amp;value=---%0Auid%3A%20ComposableAsync.Concurrent.IActorFactoryBuilder.GetInContextActorFactory%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/David-Desmaisons/EasyActor/blob/Re-Arquitecturing/ComposableAsync.Concurrent/IActorFactoryBuilder.cs/#L36">View Source</a>
+  </span>
+  <a id="ComposableAsync_Concurrent_IActorFactoryBuilder_GetInContextActorFactory_" data-uid="ComposableAsync.Concurrent.IActorFactoryBuilder.GetInContextActorFactory*"></a>
+  <h4 id="ComposableAsync_Concurrent_IActorFactoryBuilder_GetInContextActorFactory" data-uid="ComposableAsync.Concurrent.IActorFactoryBuilder.GetInContextActorFactory">GetInContextActorFactory()</h4>
+  <div class="markdown level1 summary">
+Returns an actor factory using the current synchronization context
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IProxyFactory GetInContextActorFactory()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.Factory.IProxyFactory.html">IProxyFactory</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/David-Desmaisons/EasyActor/new/Re-Arquitecturing/apiSpec/new?filename=ComposableAsync_Concurrent_IActorFactoryBuilder_GetInContextActorFactory_System_Threading_SynchronizationContext_.md&amp;value=---%0Auid%3A%20ComposableAsync.Concurrent.IActorFactoryBuilder.GetInContextActorFactory(System.Threading.SynchronizationContext)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/David-Desmaisons/EasyActor/blob/Re-Arquitecturing/ComposableAsync.Concurrent/IActorFactoryBuilder.cs/#L41">View Source</a>
+  </span>
+  <a id="ComposableAsync_Concurrent_IActorFactoryBuilder_GetInContextActorFactory_" data-uid="ComposableAsync.Concurrent.IActorFactoryBuilder.GetInContextActorFactory*"></a>
+  <h4 id="ComposableAsync_Concurrent_IActorFactoryBuilder_GetInContextActorFactory_System_Threading_SynchronizationContext_" data-uid="ComposableAsync.Concurrent.IActorFactoryBuilder.GetInContextActorFactory(System.Threading.SynchronizationContext)">GetInContextActorFactory(SynchronizationContext)</h4>
+  <div class="markdown level1 summary">
+Returns an actor factory using the provided synchronizationContext 
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IProxyFactory GetInContextActorFactory(SynchronizationContext synchronizationContext)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.SynchronizationContext</span></td>
+        <td><span class="parametername">synchronizationContext</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.Factory.IProxyFactory.html">IProxyFactory</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/David-Desmaisons/EasyActor/new/Re-Arquitecturing/apiSpec/new?filename=ComposableAsync_Concurrent_IActorFactoryBuilder_GetTaskBasedActorFactory.md&amp;value=---%0Auid%3A%20ComposableAsync.Concurrent.IActorFactoryBuilder.GetTaskBasedActorFactory%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/David-Desmaisons/EasyActor/blob/Re-Arquitecturing/ComposableAsync.Concurrent/IActorFactoryBuilder.cs/#L31">View Source</a>
+  </span>
+  <a id="ComposableAsync_Concurrent_IActorFactoryBuilder_GetTaskBasedActorFactory_" data-uid="ComposableAsync.Concurrent.IActorFactoryBuilder.GetTaskBasedActorFactory*"></a>
+  <h4 id="ComposableAsync_Concurrent_IActorFactoryBuilder_GetTaskBasedActorFactory" data-uid="ComposableAsync.Concurrent.IActorFactoryBuilder.GetTaskBasedActorFactory">GetTaskBasedActorFactory()</h4>
+  <div class="markdown level1 summary">
+Returns an actor factory using Task Pool as Fiber implementation
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IProxyFactory GetTaskBasedActorFactory()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.Factory.IProxyFactory.html">IProxyFactory</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/David-Desmaisons/EasyActor/new/Re-Arquitecturing/apiSpec/new?filename=ComposableAsync_Concurrent_IActorFactoryBuilder_GetThreadPoolBasedActorFactory.md&amp;value=---%0Auid%3A%20ComposableAsync.Concurrent.IActorFactoryBuilder.GetThreadPoolBasedActorFactory%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/David-Desmaisons/EasyActor/blob/Re-Arquitecturing/ComposableAsync.Concurrent/IActorFactoryBuilder.cs/#L26">View Source</a>
+  </span>
+  <a id="ComposableAsync_Concurrent_IActorFactoryBuilder_GetThreadPoolBasedActorFactory_" data-uid="ComposableAsync.Concurrent.IActorFactoryBuilder.GetThreadPoolBasedActorFactory*"></a>
+  <h4 id="ComposableAsync_Concurrent_IActorFactoryBuilder_GetThreadPoolBasedActorFactory" data-uid="ComposableAsync.Concurrent.IActorFactoryBuilder.GetThreadPoolBasedActorFactory">GetThreadPoolBasedActorFactory()</h4>
+  <div class="markdown level1 summary">
+Returns an actor factory using Thread Pool as Fiber implementation
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IProxyFactory GetThreadPoolBasedActorFactory()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ComposableAsync.Factory.IProxyFactory.html">IProxyFactory</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="ComposableAsync.WPF.FiberExtension.html#ComposableAsync_WPF_FiberExtension_GetAssociatedFiber_System_Object_">FiberExtension.GetAssociatedFiber(Object)</a>
+  </div>
+  <div>
+      <a class="xref" href="ComposableAsync.WPF.FiberExtension.html#ComposableAsync_WPF_FiberExtension_GetAssociatedDispatcher_System_Object_">FiberExtension.GetAssociatedDispatcher(Object)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/David-Desmaisons/EasyActor/new/Re-Arquitecturing/apiSpec/new?filename=ComposableAsync_Concurrent_IActorFactoryBuilder.md&amp;value=---%0Auid%3A%20ComposableAsync.Concurrent.IActorFactoryBuilder%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/David-Desmaisons/EasyActor/blob/Re-Arquitecturing/ComposableAsync.Concurrent/IActorFactoryBuilder.cs/#L10" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

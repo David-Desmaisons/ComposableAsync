@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net472</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyName>ComposableAsync.Concurrent</AssemblyName>
+    <RootNamespace>ComposableAsync.Concurrent</RootNamespace>
+    <Authors>David Desmaisons</Authors>
+    <Version>1.0.3</Version>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl>https://github.com/David-Desmaisons/EasyActor</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/David-Desmaisons/EasyActor/blob/master/LICENSE</PackageLicenseUrl>
+    <Description></Description>
+    <PackageId>ComposableAsync.Concurrent</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageTags>Actor Model, Asynchronous</PackageTags>
+    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <FileVersion>1.0.3.0</FileVersion>
+    <PackageReleaseNotes></PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ComposableAsync.Core\ComposableAsync.Core.csproj" />
+    <ProjectReference Include="..\ComposableAsync.Factory\ComposableAsync.Factory.csproj" />
+  </ItemGroup>
+
+</Project>
