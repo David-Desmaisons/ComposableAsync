@@ -1,9 +1,11 @@
 Composable Async
 ================
 
-[![build](https://img.shields.io/appveyor/ci/David-Desmaisons/EasyActor.svg)](https://ci.appveyor.com/project/David-Desmaisons/EasyActor)
-[![NuGet Badge](https://buildstats.info/nuget/composableAsync.core?includePreReleases=true)](https://www.nuget.org/packages/ComposableAsync.Core/)
-[![MIT License](https://img.shields.io/github/license/David-Desmaisons/EasyActor.svg)](https://github.com/David-Desmaisons/EasyActor/blob/master/LICENSE)
+[![build](https://img.shields.io/appveyor/ci/David-Desmaisons/ComposableAsync.svg)](https://ci.appveyor.com/project/David-Desmaisons/ComposableAsync)
+[![NuGet Badge](https://buildstats.info/nuget/ComposableAsync.Core?includePreReleases=true)](https://www.nuget.org/packages/ComposableAsync.Core/)
+[![MIT License](https://img.shields.io/github/license/David-Desmaisons/ComposableAsync.svg)](https://github.com/David-Desmaisons/ComposableAsync/blob/master/LICENSE)
+
+http://david-desmaisons.github.io/ComposableAsync/
 
 # Goal
 
