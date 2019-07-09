@@ -200,3 +200,7 @@ ModelManifest.xml
 /.vs/ComposableAsync/v15/Server/sqlite3
 
 \.vs/ComposableAsync/DesignTimeBuild/\.dtbcache
+
+\.vs/
+
+Documentation/ComposableAsync\.Documentation/log\.txt
