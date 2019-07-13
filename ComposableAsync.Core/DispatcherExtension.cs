@@ -76,5 +76,10 @@ namespace ComposableAsync
         {
             return new DispatcherDelegatingHandler(dispatcher);
         }
+
+        public static IDispatcher ToFullDispatcher(this IBasicDispatcher @basicDispatcher)
+        {
+            return new DispatcherAdapter(@basicDispatcher);
+        }
     }
 }

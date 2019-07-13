@@ -1045,6 +1045,19 @@ references:
   isSpec: "True"
   fullName: ComposableAsync.DispatcherExtension.Then
   nameWithType: DispatcherExtension.Then
+- uid: ComposableAsync.DispatcherExtension.ToFullDispatcher(ComposableAsync.IBasicDispatcher)
+  name: ToFullDispatcher(IBasicDispatcher)
+  href: api/ComposableAsync.DispatcherExtension.html#ComposableAsync_DispatcherExtension_ToFullDispatcher_ComposableAsync_IBasicDispatcher_
+  commentId: M:ComposableAsync.DispatcherExtension.ToFullDispatcher(ComposableAsync.IBasicDispatcher)
+  fullName: ComposableAsync.DispatcherExtension.ToFullDispatcher(ComposableAsync.IBasicDispatcher)
+  nameWithType: DispatcherExtension.ToFullDispatcher(IBasicDispatcher)
+- uid: ComposableAsync.DispatcherExtension.ToFullDispatcher*
+  name: ToFullDispatcher
+  href: api/ComposableAsync.DispatcherExtension.html#ComposableAsync_DispatcherExtension_ToFullDispatcher_
+  commentId: Overload:ComposableAsync.DispatcherExtension.ToFullDispatcher
+  isSpec: "True"
+  fullName: ComposableAsync.DispatcherExtension.ToFullDispatcher
+  nameWithType: DispatcherExtension.ToFullDispatcher
 - uid: ComposableAsync.DispatcherProviderExtension
   name: DispatcherProviderExtension
   href: api/ComposableAsync.DispatcherProviderExtension.html
@@ -1405,6 +1418,65 @@ references:
   isSpec: "True"
   fullName: ComposableAsync.Factory.TypeExtension.GetTaskType
   nameWithType: TypeExtension.GetTaskType
+- uid: ComposableAsync.IBasicDispatcher
+  name: IBasicDispatcher
+  href: api/ComposableAsync.IBasicDispatcher.html
+  commentId: T:ComposableAsync.IBasicDispatcher
+  fullName: ComposableAsync.IBasicDispatcher
+  nameWithType: IBasicDispatcher
+- uid: ComposableAsync.IBasicDispatcher.Clone
+  name: Clone()
+  href: api/ComposableAsync.IBasicDispatcher.html#ComposableAsync_IBasicDispatcher_Clone
+  commentId: M:ComposableAsync.IBasicDispatcher.Clone
+  fullName: ComposableAsync.IBasicDispatcher.Clone()
+  nameWithType: IBasicDispatcher.Clone()
+- uid: ComposableAsync.IBasicDispatcher.Clone*
+  name: Clone
+  href: api/ComposableAsync.IBasicDispatcher.html#ComposableAsync_IBasicDispatcher_Clone_
+  commentId: Overload:ComposableAsync.IBasicDispatcher.Clone
+  isSpec: "True"
+  fullName: ComposableAsync.IBasicDispatcher.Clone
+  nameWithType: IBasicDispatcher.Clone
+- uid: ComposableAsync.IBasicDispatcher.Enqueue(System.Action,System.Threading.CancellationToken)
+  name: Enqueue(Action, CancellationToken)
+  href: api/ComposableAsync.IBasicDispatcher.html#ComposableAsync_IBasicDispatcher_Enqueue_System_Action_System_Threading_CancellationToken_
+  commentId: M:ComposableAsync.IBasicDispatcher.Enqueue(System.Action,System.Threading.CancellationToken)
+  fullName: ComposableAsync.IBasicDispatcher.Enqueue(System.Action, System.Threading.CancellationToken)
+  nameWithType: IBasicDispatcher.Enqueue(Action, CancellationToken)
+- uid: ComposableAsync.IBasicDispatcher.Enqueue(System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken)
+  name: Enqueue(Func<Task>, CancellationToken)
+  href: api/ComposableAsync.IBasicDispatcher.html#ComposableAsync_IBasicDispatcher_Enqueue_System_Func_System_Threading_Tasks_Task__System_Threading_CancellationToken_
+  commentId: M:ComposableAsync.IBasicDispatcher.Enqueue(System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken)
+  name.vb: Enqueue(Func(Of Task), CancellationToken)
+  fullName: ComposableAsync.IBasicDispatcher.Enqueue(System.Func<System.Threading.Tasks.Task>, System.Threading.CancellationToken)
+  fullName.vb: ComposableAsync.IBasicDispatcher.Enqueue(System.Func(Of System.Threading.Tasks.Task), System.Threading.CancellationToken)
+  nameWithType: IBasicDispatcher.Enqueue(Func<Task>, CancellationToken)
+  nameWithType.vb: IBasicDispatcher.Enqueue(Func(Of Task), CancellationToken)
+- uid: ComposableAsync.IBasicDispatcher.Enqueue*
+  name: Enqueue
+  href: api/ComposableAsync.IBasicDispatcher.html#ComposableAsync_IBasicDispatcher_Enqueue_
+  commentId: Overload:ComposableAsync.IBasicDispatcher.Enqueue
+  isSpec: "True"
+  fullName: ComposableAsync.IBasicDispatcher.Enqueue
+  nameWithType: IBasicDispatcher.Enqueue
+- uid: ComposableAsync.IBasicDispatcher.Enqueue``1(System.Func{``0},System.Threading.CancellationToken)
+  name: Enqueue<T>(Func<T>, CancellationToken)
+  href: api/ComposableAsync.IBasicDispatcher.html#ComposableAsync_IBasicDispatcher_Enqueue__1_System_Func___0__System_Threading_CancellationToken_
+  commentId: M:ComposableAsync.IBasicDispatcher.Enqueue``1(System.Func{``0},System.Threading.CancellationToken)
+  name.vb: Enqueue(Of T)(Func(Of T), CancellationToken)
+  fullName: ComposableAsync.IBasicDispatcher.Enqueue<T>(System.Func<T>, System.Threading.CancellationToken)
+  fullName.vb: ComposableAsync.IBasicDispatcher.Enqueue(Of T)(System.Func(Of T), System.Threading.CancellationToken)
+  nameWithType: IBasicDispatcher.Enqueue<T>(Func<T>, CancellationToken)
+  nameWithType.vb: IBasicDispatcher.Enqueue(Of T)(Func(Of T), CancellationToken)
+- uid: ComposableAsync.IBasicDispatcher.Enqueue``1(System.Func{System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)
+  name: Enqueue<T>(Func<Task<T>>, CancellationToken)
+  href: api/ComposableAsync.IBasicDispatcher.html#ComposableAsync_IBasicDispatcher_Enqueue__1_System_Func_System_Threading_Tasks_Task___0___System_Threading_CancellationToken_
+  commentId: M:ComposableAsync.IBasicDispatcher.Enqueue``1(System.Func{System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)
+  name.vb: Enqueue(Of T)(Func(Of Task(Of T)), CancellationToken)
+  fullName: ComposableAsync.IBasicDispatcher.Enqueue<T>(System.Func<System.Threading.Tasks.Task<T>>, System.Threading.CancellationToken)
+  fullName.vb: ComposableAsync.IBasicDispatcher.Enqueue(Of T)(System.Func(Of System.Threading.Tasks.Task(Of T)), System.Threading.CancellationToken)
+  nameWithType: IBasicDispatcher.Enqueue<T>(Func<Task<T>>, CancellationToken)
+  nameWithType.vb: IBasicDispatcher.Enqueue(Of T)(Func(Of Task(Of T)), CancellationToken)
 - uid: ComposableAsync.IDispatcher
   name: IDispatcher
   href: api/ComposableAsync.IDispatcher.html
