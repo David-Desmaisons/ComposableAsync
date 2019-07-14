@@ -8,40 +8,43 @@ namespace ComposableAsync.Retry
     {
         public IBasicDispatcher Clone()
         {
-            throw new NotImplementedException();
+            return this;
         }
 
         public void Dispatch(Action action)
         {
-            throw new NotImplementedException();
+            Enqueue(action, CancellationToken.None);
         }
 
         public async Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
-            var done = false;
-            do
+            while (true)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 try
                 {
                     await action();
-                    done = true;
+                    return;
                 }
                 catch (Exception)
                 {
+                    // ignored
                 }
-            } while (done == false);
+            }
         }
 
         public async Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
         {
             while (true)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 try
                 {
                     return await action();
                 }
                 catch (Exception)
                 {
+                    // ignored
                 }
             }
         }

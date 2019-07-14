@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace ComposableAsync.Retry
 
         public IBasicDispatcher Clone()
         {
-            throw new NotImplementedException();
+            return this;
         }
 
         public void Dispatch(Action action)
@@ -26,25 +27,26 @@ namespace ComposableAsync.Retry
 
         public async Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
-            var done = false;
-            do
+            while (true)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 try
                 {
                     await action();
-                    done = true;
+                    return;
                 }
                 catch (Exception exception)
                 {
                     ThrowIfNeeded(exception);
                 }
-            } while (done == false);
+            }
         }
 
         public async Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
         {
             while (true)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 try
                 {
                     return await action();
@@ -58,7 +60,8 @@ namespace ComposableAsync.Retry
 
         private void ThrowIfNeeded(Exception exception)
         {
-            if (_Types.Contains(exception.GetType()))
+            var type = exception.GetType();
+            if (_Types.Any(t => t == type || type.IsSubclassOf(t)))
                 return;
 
             throw exception;
