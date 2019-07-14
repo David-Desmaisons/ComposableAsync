@@ -56,7 +56,19 @@ namespace ComposableAsync.Retry
 
         public Task Enqueue(Action action, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            while (true)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                try
+                {
+                    action();
+                    return Task.CompletedTask;
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
         }
     }
 }
