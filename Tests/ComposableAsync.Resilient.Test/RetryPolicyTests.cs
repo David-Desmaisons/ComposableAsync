@@ -15,6 +15,7 @@ namespace ComposableAsync.Resilient.Test
         private readonly IDispatcher _ForNullReferenceExceptionForEver;
 
         private readonly Action _FakeAction;
+        private readonly Func<int> _FakeFunction;
         private readonly Func<Task> _FakeTask;
         private readonly Func<Task<int>> _FakeTaskT;
 
@@ -22,6 +23,7 @@ namespace ComposableAsync.Resilient.Test
         {
             _FakeAction = Substitute.For<Action>();
             _FakeTask = Substitute.For<Func<Task>>();
+            _FakeFunction = Substitute.For<Func<int>>();
             _FakeTaskT = Substitute.For<Func<Task<int>>>();
             _ForAllForEver = RetryPolicy.ForAllException().ForEver();
             _ForNullReferenceExceptionForEver = RetryPolicy.For<NullReferenceException>().ForEver();
@@ -49,6 +51,60 @@ namespace ComposableAsync.Resilient.Test
             _FakeAction.SetUpExceptions(times);
             _ForAllForEver.Dispatch(_FakeAction);
             _FakeAction.Received(times + 1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(5)]
+        [InlineData(10)]
+        public void ForAllException_Enqueue_Action_Calls_TillNoException(int times)
+        {
+            _FakeAction.SetUpExceptions(times);
+            _ForAllForEver.Enqueue(_FakeAction);
+            _FakeAction.Received(times + 1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(3)]
+        [InlineData(4)]
+        [InlineData(10)]
+        public async Task ForAllException_Enqueue_Action_Can_BeCancelled(int times)
+        {
+            var timesToCancel = 2;
+            var tokenSource = new CancellationTokenSource();
+            _FakeAction.SetUpExceptionsWithCancellation(times, timesToCancel, tokenSource);
+            Func<Task> @do = async () => await _ForAllForEver.Enqueue(_FakeAction, tokenSource.Token);
+            await @do.Should().ThrowAsync<OperationCanceledException>();
+            _FakeAction.Received(timesToCancel + 1).Invoke();
+        }
+
+        [Theory]
+        [InlineAutoData(0)]
+        [InlineAutoData(1)]
+        [InlineAutoData(5)]
+        [InlineAutoData(10)]
+        public async Task ForAllException_Enqueue_Func_Calls_TillNoException(int times, int res)
+        {
+            _FakeFunction.SetUpExceptions(times, res);
+            var actual = await _ForAllForEver.Enqueue(_FakeFunction);
+
+            actual.Should().Be(res);
+            _FakeFunction.Received(times + 1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(3)]
+        [InlineData(4)]
+        [InlineData(10)]
+        public async Task ForAllException_Enqueue_Func_Can_BeCancelled(int times)
+        {
+            var timesToCancel = 2;
+            var tokenSource = new CancellationTokenSource();
+            _FakeFunction.SetUpExceptionsWithCancellation(times, timesToCancel, 8, tokenSource);
+            Func<Task> @do = async () => await _ForAllForEver.Enqueue(_FakeFunction, tokenSource.Token);
+            await @do.Should().ThrowAsync<OperationCanceledException>();
+            _FakeFunction.Received(timesToCancel + 1).Invoke();
         }
 
         [Theory]
@@ -127,6 +183,46 @@ namespace ComposableAsync.Resilient.Test
             await _FakeTask.Received(times + 1).Invoke();
         }
 
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(5)]
+        [InlineData(10)]
+        public void ForException_Dispatch_Calls_TillNoException(int times)
+        {
+            _FakeAction.SetUpExceptions(times);
+            _ForNullReferenceExceptionForEver.Dispatch(_FakeAction);
+            _FakeAction.Received(times + 1).Invoke();
+        }
+
+        [Theory]
+        [InlineAutoData(0)]
+        [InlineAutoData(1)]
+        [InlineAutoData(5)]
+        [InlineAutoData(10)]
+        public async Task ForException_Enqueue_Func_Calls_TillNoException(int times, int res)
+        {
+            _FakeFunction.SetUpExceptions(times, res, typeof(NullReferenceException));
+            var actual = await _ForNullReferenceExceptionForEver.Enqueue(_FakeFunction);
+
+            actual.Should().Be(res);
+            _FakeFunction.Received(times + 1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(3)]
+        [InlineData(4)]
+        [InlineData(10)]
+        public async Task ForException_Enqueue_Func_Can_BeCancelled(int times)
+        {
+            var timesToCancel = 2;
+            var tokenSource = new CancellationTokenSource();
+            _FakeFunction.SetUpExceptionsWithCancellation(times, timesToCancel, 8, tokenSource, typeof(NullReferenceException));
+            Func<Task> @do = async () => await _ForNullReferenceExceptionForEver.Enqueue(_FakeFunction, tokenSource.Token);
+            await @do.Should().ThrowAsync<OperationCanceledException>();
+            _FakeFunction.Received(timesToCancel + 1).Invoke();
+        }
+
         private class ChildNullReferenceException : NullReferenceException{ }
 
         [Theory]
@@ -138,6 +234,19 @@ namespace ComposableAsync.Resilient.Test
         {
             _FakeTask.SetUpExceptions(times, typeof(ChildNullReferenceException));
             await _ForNullReferenceExceptionForEver.Enqueue(_FakeTask);
+            await _FakeTask.Received(times + 1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(typeof(BadImageFormatException))]
+        [InlineData(typeof(NullReferenceException))]
+        [InlineData(typeof(ChildNullReferenceException))]
+        public async Task ForException_And_Enqueue_Task_TillNoExceptionsRegistered(Type type)
+        {
+            var times = 4;
+            var composed = RetryPolicy.For<BadImageFormatException>().And<NullReferenceException>().ForEver();
+            _FakeTask.SetUpExceptions(times, type);
+            await composed.Enqueue(_FakeTask);
             await _FakeTask.Received(times + 1).Invoke();
         }
 

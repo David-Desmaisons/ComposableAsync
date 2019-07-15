@@ -10,7 +10,7 @@ namespace ComposableAsync.Retry
     {
         private readonly HashSet<Type> _Types;
 
-        public ForEverRetrySelectiveDispatcher(HashSet<Type> types)
+        internal ForEverRetrySelectiveDispatcher(HashSet<Type> types)
         {
             _Types = types;
         }
@@ -18,11 +18,6 @@ namespace ComposableAsync.Retry
         public IBasicDispatcher Clone()
         {
             return this;
-        }
-
-        public void Dispatch(Action action)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
@@ -69,12 +64,35 @@ namespace ComposableAsync.Retry
 
         public Task<T> Enqueue<T>(Func<T> action, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            while (true)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                try
+                {
+                    return Task.FromResult(action());
+                }
+                catch (Exception exception)
+                {
+                    ThrowIfNeeded(exception);
+                }
+            }
         }
 
         public Task Enqueue(Action action, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            while (true)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                try
+                {
+                    action();
+                    return Task.CompletedTask;
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
         }
     }
 }

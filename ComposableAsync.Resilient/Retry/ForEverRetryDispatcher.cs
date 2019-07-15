@@ -11,11 +11,6 @@ namespace ComposableAsync.Retry
             return this;
         }
 
-        public void Dispatch(Action action)
-        {
-            Enqueue(action, CancellationToken.None);
-        }
-
         public async Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
             while (true)
@@ -51,7 +46,18 @@ namespace ComposableAsync.Retry
 
         public Task<T> Enqueue<T>(Func<T> action, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            while (true)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                try
+                {
+                    return Task.FromResult(action());
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
         }
 
         public Task Enqueue(Action action, CancellationToken cancellationToken)

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using NSubstitute;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using NSubstitute;
 
 namespace ComposableAsync.Resilient.Test.Helper
 {
@@ -16,6 +16,19 @@ namespace ComposableAsync.Resilient.Test.Helper
             {
                 if (count++ < times)
                     throw (Exception)Activator.CreateInstance(exceptionType);
+            });
+        }
+
+        public static void SetUpExceptions<T>(this Func<T> action, int times, T result, Type exceptionType = null)
+        {
+            exceptionType = exceptionType ?? typeof(Exception);
+            var count = 0;
+            action.Invoke().Returns(_ =>
+            {
+                if (count++ < times)
+                    throw (Exception)Activator.CreateInstance(exceptionType);
+
+                return result;
             });
         }
 
@@ -42,6 +55,38 @@ namespace ComposableAsync.Resilient.Test.Helper
                     throw (Exception)Activator.CreateInstance(exceptionType);
 
                 return Task.FromResult(result);
+            });
+        }
+
+        public static void SetUpExceptionsWithCancellation(this Action action, int times, int cancelAfter, CancellationTokenSource tokenSource, Type exceptionType = null)
+        {
+            exceptionType = exceptionType ?? typeof(Exception);
+            var count = 0;
+            action.When(f => f.Invoke()).Do(_ =>
+            {
+                if (count == cancelAfter)
+                    tokenSource.Cancel();
+
+                if (count++ >= times)
+                    return;
+
+                throw (Exception)Activator.CreateInstance(exceptionType);
+            });
+        }
+
+        public static void SetUpExceptionsWithCancellation<T>(this Func<T> action, int times, int cancelAfter, T result, CancellationTokenSource tokenSource, Type exceptionType = null)
+        {
+            exceptionType = exceptionType ?? typeof(Exception);
+            var count = 0;
+            action.Invoke().Returns(_ =>
+            {
+                if (count == cancelAfter)
+                    tokenSource.Cancel();
+
+                if (count++ < times)
+                    throw (Exception)Activator.CreateInstance(exceptionType);
+
+                return result;
             });
         }
 
