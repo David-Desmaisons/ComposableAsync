@@ -9,10 +9,12 @@ namespace ComposableAsync.Retry
     internal class ForEverRetrySelectiveDispatcher : IBasicDispatcher
     {
         private readonly HashSet<Type> _Types;
+        private readonly int _Max;
 
-        internal ForEverRetrySelectiveDispatcher(HashSet<Type> types)
+        internal ForEverRetrySelectiveDispatcher(HashSet<Type> types, int max = Int32.MaxValue)
         {
             _Types = types;
+            _Max = max;
         }
 
         public IBasicDispatcher Clone()
@@ -22,6 +24,7 @@ namespace ComposableAsync.Retry
 
         public async Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
+            var count = 0;
             while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -32,13 +35,14 @@ namespace ComposableAsync.Retry
                 }
                 catch (Exception exception)
                 {
-                    ThrowIfNeeded(exception);
+                    ThrowIfNeeded(ref count, exception);
                 }
             }
         }
 
         public async Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
         {
+            var count = 0;
             while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -48,13 +52,16 @@ namespace ComposableAsync.Retry
                 }
                 catch (Exception exception)
                 {
-                    ThrowIfNeeded(exception);
+                    ThrowIfNeeded(ref count, exception);
                 }
             }
         }
 
-        private void ThrowIfNeeded(Exception exception)
+        private void ThrowIfNeeded(ref int count, Exception exception)
         {
+            if (count++ == _Max)
+                throw exception;
+
             var type = exception.GetType();
             if (_Types.Any(t => t == type || type.IsSubclassOf(t)))
                 return;
@@ -64,6 +71,7 @@ namespace ComposableAsync.Retry
 
         public Task<T> Enqueue<T>(Func<T> action, CancellationToken cancellationToken)
         {
+            var count = 0;
             while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -73,13 +81,14 @@ namespace ComposableAsync.Retry
                 }
                 catch (Exception exception)
                 {
-                    ThrowIfNeeded(exception);
+                    ThrowIfNeeded(ref count, exception);
                 }
             }
         }
 
         public Task Enqueue(Action action, CancellationToken cancellationToken)
         {
+            var count = 0;
             while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -88,9 +97,9 @@ namespace ComposableAsync.Retry
                     action();
                     return Task.CompletedTask;
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-                    // ignored
+                    ThrowIfNeeded(ref count, exception);
                 }
             }
         }

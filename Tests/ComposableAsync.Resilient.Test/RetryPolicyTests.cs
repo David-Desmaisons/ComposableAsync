@@ -190,7 +190,7 @@ namespace ComposableAsync.Resilient.Test
         [InlineData(10)]
         public void ForException_Dispatch_Calls_TillNoException(int times)
         {
-            _FakeAction.SetUpExceptions(times);
+            _FakeAction.SetUpExceptions(times, typeof(NullReferenceException));
             _ForNullReferenceExceptionForEver.Dispatch(_FakeAction);
             _FakeAction.Received(times + 1).Invoke();
         }
@@ -207,6 +207,30 @@ namespace ComposableAsync.Resilient.Test
 
             actual.Should().Be(res);
             _FakeFunction.Received(times + 1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(typeof(BadImageFormatException))]
+        [InlineData(typeof(IndexOutOfRangeException))]
+        [InlineData(typeof(ArgumentException))]
+        public async Task ForException_Enqueue_Action_IsSelective(Type type)
+        {
+            _FakeAction.SetUpExceptions(1, type);
+            Func<Task> @do = async () => await _ForNullReferenceExceptionForEver.Enqueue(_FakeAction, CancellationToken.None);
+            var exceptionAssertions = await @do.Should().ThrowAsync<Exception>();
+            exceptionAssertions.Where(ex => ex.GetType() == type);
+        }
+
+        [Theory]
+        [InlineAutoData(typeof(BadImageFormatException))]
+        [InlineAutoData(typeof(IndexOutOfRangeException))]
+        [InlineAutoData(typeof(ArgumentException))]
+        public async Task ForException_Enqueue_Func_IsSelective(Type type, int res)
+        {
+            _FakeFunction.SetUpExceptions(1, res, type);
+            Func<Task> @do = async () => await _ForNullReferenceExceptionForEver.Enqueue(_FakeFunction, CancellationToken.None);
+            var exceptionAssertions = await @do.Should().ThrowAsync<Exception>();
+            exceptionAssertions.Where(ex => ex.GetType() == type);
         }
 
         [Theory]
