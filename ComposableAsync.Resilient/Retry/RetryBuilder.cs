@@ -7,6 +7,7 @@ namespace ComposableAsync.Retry
     {
         private readonly bool _All;
         private readonly HashSet<Type> _Type = new HashSet<Type>();
+        private int _MaxTry = Int32.MaxValue;
 
         public RetryBuilder()
         {
@@ -31,13 +32,14 @@ namespace ComposableAsync.Retry
 
         private IBasicDispatcher GetBasicDispatcher()
         {
-            return _All ? (IBasicDispatcher)new ForEverRetryDispatcher() :
-                new ForEverRetrySelectiveDispatcher(_Type);
+            return _All ? (IBasicDispatcher)new ForEverRetryDispatcher(_MaxTry) :
+                new ForEverRetrySelectiveDispatcher(_Type, _MaxTry);
         }
 
         public IDispatcher Until(int maxTimes)
         {
-            throw new NotImplementedException();
+            _MaxTry = maxTimes;
+            return GetBasicDispatcher().ToFullDispatcher();
         }
     }
 }

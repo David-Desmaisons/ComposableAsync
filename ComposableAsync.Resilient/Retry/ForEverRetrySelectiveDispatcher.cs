@@ -9,12 +9,12 @@ namespace ComposableAsync.Retry
     internal class ForEverRetrySelectiveDispatcher : IBasicDispatcher
     {
         private readonly HashSet<Type> _Types;
-        private readonly int _Max;
+        private readonly int _MaxRetry;
 
-        internal ForEverRetrySelectiveDispatcher(HashSet<Type> types, int max = Int32.MaxValue)
+        internal ForEverRetrySelectiveDispatcher(HashSet<Type> types, int maxRetry)
         {
             _Types = types;
-            _Max = max;
+            _MaxRetry = maxRetry;
         }
 
         public IBasicDispatcher Clone()
@@ -59,7 +59,7 @@ namespace ComposableAsync.Retry
 
         private void ThrowIfNeeded(ref int count, Exception exception)
         {
-            if (count++ == _Max)
+            if (count++ == _MaxRetry)
                 throw exception;
 
             var type = exception.GetType();

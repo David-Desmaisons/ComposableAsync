@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoFixture.Xunit2;
+﻿using AutoFixture.Xunit2;
 using ComposableAsync.Resilient.Test.Helper;
 using FluentAssertions;
 using NSubstitute;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ComposableAsync.Resilient.Test
@@ -28,6 +28,8 @@ namespace ComposableAsync.Resilient.Test
             _ForAllForEver = RetryPolicy.ForAllException().ForEver();
             _ForNullReferenceExceptionForEver = RetryPolicy.For<NullReferenceException>().ForEver();
         }
+
+        #region ForAll
 
         [Theory]
         [InlineData(0)]
@@ -171,6 +173,10 @@ namespace ComposableAsync.Resilient.Test
             await _FakeTaskT.Received(timesToCancel + 1).Invoke();
         }
 
+        #endregion
+
+        #region Selective
+
         [Theory]
         [InlineData(0)]
         [InlineData(1)]
@@ -216,7 +222,8 @@ namespace ComposableAsync.Resilient.Test
         public async Task ForException_Enqueue_Action_IsSelective(Type type)
         {
             _FakeAction.SetUpExceptions(1, type);
-            Func<Task> @do = async () => await _ForNullReferenceExceptionForEver.Enqueue(_FakeAction, CancellationToken.None);
+            Func<Task> @do = async () =>
+                await _ForNullReferenceExceptionForEver.Enqueue(_FakeAction, CancellationToken.None);
             var exceptionAssertions = await @do.Should().ThrowAsync<Exception>();
             exceptionAssertions.Where(ex => ex.GetType() == type);
         }
@@ -228,7 +235,8 @@ namespace ComposableAsync.Resilient.Test
         public async Task ForException_Enqueue_Func_IsSelective(Type type, int res)
         {
             _FakeFunction.SetUpExceptions(1, res, type);
-            Func<Task> @do = async () => await _ForNullReferenceExceptionForEver.Enqueue(_FakeFunction, CancellationToken.None);
+            Func<Task> @do = async () =>
+                await _ForNullReferenceExceptionForEver.Enqueue(_FakeFunction, CancellationToken.None);
             var exceptionAssertions = await @do.Should().ThrowAsync<Exception>();
             exceptionAssertions.Where(ex => ex.GetType() == type);
         }
@@ -241,13 +249,17 @@ namespace ComposableAsync.Resilient.Test
         {
             var timesToCancel = 2;
             var tokenSource = new CancellationTokenSource();
-            _FakeFunction.SetUpExceptionsWithCancellation(times, timesToCancel, 8, tokenSource, typeof(NullReferenceException));
-            Func<Task> @do = async () => await _ForNullReferenceExceptionForEver.Enqueue(_FakeFunction, tokenSource.Token);
+            _FakeFunction.SetUpExceptionsWithCancellation(times, timesToCancel, 8, tokenSource,
+                typeof(NullReferenceException));
+            Func<Task> @do = async () =>
+                await _ForNullReferenceExceptionForEver.Enqueue(_FakeFunction, tokenSource.Token);
             await @do.Should().ThrowAsync<OperationCanceledException>();
             _FakeFunction.Received(timesToCancel + 1).Invoke();
         }
 
-        private class ChildNullReferenceException : NullReferenceException{ }
+        private class ChildNullReferenceException : NullReferenceException
+        {
+        }
 
         [Theory]
         [InlineData(0)]
@@ -282,7 +294,8 @@ namespace ComposableAsync.Resilient.Test
         {
             var timesToCancel = 2;
             var tokenSource = new CancellationTokenSource();
-            _FakeTask.SetUpExceptionsWithCancellation(times, timesToCancel, tokenSource, typeof(NullReferenceException));
+            _FakeTask.SetUpExceptionsWithCancellation(times, timesToCancel, tokenSource,
+                typeof(NullReferenceException));
             Func<Task> @do = async () => await _ForNullReferenceExceptionForEver.Enqueue(_FakeTask, tokenSource.Token);
             await @do.Should().ThrowAsync<OperationCanceledException>();
             await _FakeTask.Received(timesToCancel + 1).Invoke();
@@ -311,7 +324,8 @@ namespace ComposableAsync.Resilient.Test
         {
             var timesToCancel = 2;
             var tokenSource = new CancellationTokenSource();
-            _FakeTaskT.SetUpExceptionsWithCancellation(times, timesToCancel, res, tokenSource, typeof(NullReferenceException));
+            _FakeTaskT.SetUpExceptionsWithCancellation(times, timesToCancel, res, tokenSource,
+                typeof(NullReferenceException));
 
             Func<Task> @do = async () => await _ForNullReferenceExceptionForEver.Enqueue(_FakeTaskT, tokenSource.Token);
             await @do.Should().ThrowAsync<OperationCanceledException>();
@@ -329,5 +343,38 @@ namespace ComposableAsync.Resilient.Test
             var expected = await @do.Should().ThrowAsync<Exception>();
             expected.Where(ex => ex.GetType() == exceptionType);
         }
+
+        #endregion
+
+        #region SelectiveUntill
+
+        [Theory]
+        [InlineData(0,1)]
+        [InlineData(1,1)]
+        [InlineData(5,10)]
+        [InlineData(10, 20)]
+        public async Task ForException_WithMax_Enqueue_Task_DoesNotThrow_WhenLessThanMaxRetry(int times, int maxRetry)
+        {
+            var replay = RetryPolicy.For<NullReferenceException>().Until(maxRetry);
+            _FakeTask.SetUpExceptions(times, typeof(NullReferenceException));
+            Func<Task> @do = async () => await replay.Enqueue(_FakeTask);
+            await @do.Should().NotThrowAsync();
+            await _FakeTask.Received(times + 1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(1, 0)]
+        [InlineData(2, 1)]    
+        [InlineData(10, 5)]
+        [InlineData(1000, 3)]
+        public async Task ForException_WithMax_Enqueue_Task_TillNoNullException_WhenLessThanMaxRetry(int times, int maxRetry)
+        {
+            var replay = RetryPolicy.For<NullReferenceException>().Until(maxRetry);
+            _FakeTask.SetUpExceptions(times, typeof(NullReferenceException));
+            Func<Task> @do = async () => await replay.Enqueue(_FakeTask);
+            await @do.Should().ThrowAsync<NullReferenceException>();
+            await _FakeTask.Received(maxRetry + 1).Invoke();
+        }
+        #endregion
     }
 }

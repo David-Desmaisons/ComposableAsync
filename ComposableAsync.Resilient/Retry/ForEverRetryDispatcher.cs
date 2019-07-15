@@ -6,6 +6,13 @@ namespace ComposableAsync.Retry
 {
     internal class ForEverRetryDispatcher : IBasicDispatcher
     {
+        private readonly int _MaxRetry;
+
+        public ForEverRetryDispatcher(int maxRetry)
+        {
+            _MaxRetry = maxRetry;
+        }
+
         public IBasicDispatcher Clone()
         {
             return this;
