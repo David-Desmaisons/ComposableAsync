@@ -30,8 +30,8 @@ namespace ComposableAsync.Retry
 
         private IBasicDispatcher GetBasicDispatcher(int max)
         {
-            return _All ? (IBasicDispatcher)new ForEverRetryDispatcher(max) :
-                new ForEverRetrySelectiveDispatcher(_Type, max);
+            return _All ? (IBasicDispatcher)new GenericRetryDispatcher(max) :
+                new SelectiveRetryDispatcher(_Type, max);
         }
     }
 }

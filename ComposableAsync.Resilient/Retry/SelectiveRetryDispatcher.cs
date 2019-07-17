@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ComposableAsync.Retry
 {
-    internal class ForEverRetrySelectiveDispatcher : IBasicDispatcher
+    internal class SelectiveRetryDispatcher : IBasicDispatcher
     {
         private readonly HashSet<Type> _Types;
         private readonly int _MaxRetry;
 
-        internal ForEverRetrySelectiveDispatcher(HashSet<Type> types, int maxRetry)
+        internal SelectiveRetryDispatcher(HashSet<Type> types, int maxRetry)
         {
             _Types = types;
             _MaxRetry = maxRetry;
