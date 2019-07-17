@@ -3,10 +3,11 @@ using System.Collections.Generic;
 
 namespace ComposableAsync.Retry
 {
-    internal class RetryBuilder: IRetryBuilder
+    internal sealed class RetryBuilder: IRetryBuilder
     {
         private readonly bool _All;
         private readonly HashSet<Type> _Type = new HashSet<Type>();
+        private readonly List<TimeSpan> _Waits = new List<TimeSpan>();
 
         public RetryBuilder()
         {
@@ -26,11 +27,12 @@ namespace ComposableAsync.Retry
 
         public IRetryBuilder WithWaitBetweenRetry(int waitInMilliseconds)
         {
-            return this;
+            return WithWaitBetweenRetry(TimeSpan.FromMilliseconds(waitInMilliseconds));
         }
 
         public IRetryBuilder WithWaitBetweenRetry(TimeSpan wait)
         {
+            _Waits.Add(wait);
             return this;
         }
 
@@ -40,6 +42,10 @@ namespace ComposableAsync.Retry
 
         private IBasicDispatcher GetBasicDispatcher(int max)
         {
+            if (_Waits.Count > 0)
+                return _All ? (IBasicDispatcher) new GenericRetryDispatcherAsync(_Waits.ToArray(), max) :
+                    new SelectiveRetryDispatcherAsync(_Waits.ToArray(), _Type, max);
+
             return _All ? (IBasicDispatcher)new GenericRetryDispatcher(max) :
                 new SelectiveRetryDispatcher(_Type, max);
         }
