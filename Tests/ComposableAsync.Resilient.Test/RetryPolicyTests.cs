@@ -182,6 +182,35 @@ namespace ComposableAsync.Resilient.Test
         [InlineData(1, 1)]
         [InlineData(5, 10)]
         [InlineData(10, 20)]
+        public async Task ForAllException_WithMax_Enqueue_Action_DoesNotThrow_WhenLessThanMaxRetry(int times, int maxRetry)
+        {
+            var replay = RetryPolicy.ForAllException().WithMaxRetry(maxRetry);
+            _FakeAction.SetUpExceptions(times);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
+            await @do.Should().NotThrowAsync();
+            _FakeAction.Received(times + 1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(1, 0)]
+        [InlineData(2, 1)]
+        [InlineData(10, 5)]
+        [InlineData(1000, 3)]
+        public async Task ForAllException_WithMax_Enqueue_Action_TillNoNullException_WhenLessThanMaxRetry(int times, int maxRetry)
+        {
+            var replay = RetryPolicy.ForAllException().WithMaxRetry(maxRetry);
+            var expectedType = typeof(BadImageFormatException);
+            _FakeAction.SetUpExceptions(times, expectedType);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
+            await @do.Should().ThrowAsync<BadImageFormatException>();
+            _FakeAction.Received(maxRetry + 1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(0, 1)]
+        [InlineData(1, 1)]
+        [InlineData(5, 10)]
+        [InlineData(10, 20)]
         public async Task ForAllException_WithMax_Enqueue_Task_DoesNotThrow_WhenLessThanMaxRetry(int times, int maxRetry) {
             var replay = RetryPolicy.ForAllException().WithMaxRetry(maxRetry);
             _FakeTask.SetUpExceptions(times, typeof(NullReferenceException));
