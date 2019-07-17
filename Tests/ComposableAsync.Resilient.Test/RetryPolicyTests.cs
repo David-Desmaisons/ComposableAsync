@@ -175,7 +175,7 @@ namespace ComposableAsync.Resilient.Test
 
         #endregion
 
-        #region ForAllUntill
+        #region ForAll WithMaxRetry
 
         [Theory]
         [InlineData(0, 1)]
@@ -204,6 +204,35 @@ namespace ComposableAsync.Resilient.Test
             Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
             await @do.Should().ThrowAsync<BadImageFormatException>();
             _FakeAction.Received(maxRetry + 1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(0, 1)]
+        [InlineData(1, 1)]
+        [InlineData(5, 10)]
+        [InlineData(10, 20)]
+        public async Task ForAllException_WithMax_Enqueue_Func_DoesNotThrow_WhenLessThanMaxRetry(int times, int maxRetry)
+        {
+            var replay = RetryPolicy.ForAllException().WithMaxRetry(maxRetry);
+            _FakeFunction.SetUpExceptions(times, 20);
+            Func<Task<int>> @do = async () => await replay.Enqueue(_FakeFunction);
+            await @do.Should().NotThrowAsync();
+            _FakeFunction.Received(times + 1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(1, 0)]
+        [InlineData(2, 1)]
+        [InlineData(10, 5)]
+        [InlineData(1000, 3)]
+        public async Task ForAllException_WithMax_Enqueue_Func_TillNoNullException_WhenLessThanMaxRetry(int times, int maxRetry)
+        {
+            var replay = RetryPolicy.ForAllException().WithMaxRetry(maxRetry);
+            var expectedType = typeof(BadImageFormatException);
+            _FakeFunction.SetUpExceptions(times, 5, expectedType);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeFunction);
+            await @do.Should().ThrowAsync<BadImageFormatException>();
+            _FakeFunction.Received(maxRetry + 1).Invoke();
         }
 
         [Theory]
@@ -433,7 +462,7 @@ namespace ComposableAsync.Resilient.Test
 
         #endregion
 
-        #region SelectiveUntill
+        #region Selective WithMaxRetry
 
         [Theory]
         [InlineData(0,1)]
