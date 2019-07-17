@@ -362,6 +362,23 @@ namespace ComposableAsync.Resilient.Test
         }
 
         [Theory]
+        [InlineData(1, 0)]
+        [InlineData(2, 1)]
+        [InlineData(10, 5)]
+        [InlineData(1000, 3)]
+        public async Task ForAllException_WithWait_WithMax_Enqueue_Action_TillNoNullException_WhenLessThanMaxRetry(int times, int maxRetry)
+        {
+            var replay = RetryPolicy.ForAllException().WithWaitBetweenRetry(_TimeOut).WithMaxRetry(maxRetry);
+            var expectedType = typeof(BadImageFormatException);
+            _FakeAction.SetUpExceptions(times, expectedType);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
+            var watch = Stopwatch.StartNew();
+            await @do.Should().ThrowAsync<BadImageFormatException>();
+            watch.Stop();
+            watch.Elapsed.Should().BeCloseTo(TimeSpan.FromMilliseconds(_TimeOut* maxRetry), 100);
+        }
+
+        [Theory]
         [InlineData(0, 1)]
         [InlineData(1, 1)]
         [InlineData(5, 10)]

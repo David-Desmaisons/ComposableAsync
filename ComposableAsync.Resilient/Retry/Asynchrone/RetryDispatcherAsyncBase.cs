@@ -30,7 +30,7 @@ namespace ComposableAsync.Retry
                 }
                 catch (Exception exception)
                 {
-                    count = await ThrowIfNeeded(count, exception);
+                    count = await ThrowIfNeeded(count, exception, cancellationToken);
                 }
             }
         }
@@ -47,7 +47,7 @@ namespace ComposableAsync.Retry
                 }
                 catch (Exception exception)
                 {
-                    count = await ThrowIfNeeded(count, exception);
+                    count = await ThrowIfNeeded(count, exception, cancellationToken);
                 }
             }
         }
@@ -64,7 +64,7 @@ namespace ComposableAsync.Retry
                 }
                 catch (Exception exception)
                 {
-                    count = await ThrowIfNeeded(count, exception);
+                    count = await ThrowIfNeeded(count, exception, cancellationToken);
                 }
             }
         }
@@ -82,12 +82,12 @@ namespace ComposableAsync.Retry
                 }
                 catch (Exception exception)
                 {
-                    count = await ThrowIfNeeded(count, exception);
+                    count = await ThrowIfNeeded(count, exception, cancellationToken);
                 }
             }
         }
 
-        private async Task<int> ThrowIfNeeded(int count, Exception exception)
+        private async Task<int> ThrowIfNeeded(int count, Exception exception, CancellationToken cancellationToken)
         {
             if (count == _MaxRetry)
                 throw exception;
@@ -96,9 +96,10 @@ namespace ComposableAsync.Retry
 
             var wait = GetWait(count);
             if (wait.TotalMilliseconds != 0) {
-                await Task.Delay(wait);
-            }          
-            return count++;
+                await Task.Delay(wait, cancellationToken);
+            }
+            
+            return count + 1;
         }
 
         private TimeSpan GetWait(int count)
