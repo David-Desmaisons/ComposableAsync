@@ -26,7 +26,7 @@ namespace ComposableAsync.Retry
 
         public IDispatcher ForEver() => GetBasicDispatcher(int.MaxValue).ToFullDispatcher();
 
-        public IDispatcher Until(int maxTimes) => GetBasicDispatcher(maxTimes).ToFullDispatcher();
+        public IDispatcher WithMaxRetry(int maxTimes) => GetBasicDispatcher(maxTimes).ToFullDispatcher();
 
         private IBasicDispatcher GetBasicDispatcher(int max)
         {

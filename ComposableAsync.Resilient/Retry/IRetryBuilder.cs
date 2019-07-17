@@ -8,6 +8,6 @@ namespace ComposableAsync.Retry
 
         IDispatcher ForEver();
 
-        IDispatcher Until(int maxTimes);
+        IDispatcher WithMaxRetry(int maxTimes);
     }
 }
