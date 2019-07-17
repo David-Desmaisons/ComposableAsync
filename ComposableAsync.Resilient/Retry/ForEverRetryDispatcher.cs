@@ -38,7 +38,7 @@ namespace ComposableAsync.Retry
 
         public async Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
         {
-            //var count = 0;
+            var count = 0;
             while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -48,7 +48,7 @@ namespace ComposableAsync.Retry
                 }
                 catch (Exception exception)
                 {
-                    //ThrowIfNeeded(ref count, exception);
+                    ThrowIfNeeded(ref count, exception);
                 }
             }
         }

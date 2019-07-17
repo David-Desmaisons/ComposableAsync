@@ -203,6 +203,34 @@ namespace ComposableAsync.Resilient.Test
             await @do.Should().ThrowAsync<BadImageFormatException>();
             await _FakeTask.Received(maxRetry + 1).Invoke();
         }
+
+        [Theory]
+        [InlineData(0, 1)]
+        [InlineData(1, 1)]
+        [InlineData(5, 10)]
+        [InlineData(10, 20)]
+        public async Task ForAllException_WithMax_Enqueue_Task_T_DoesNotThrow_WhenLessThanMaxRetry(int times, int maxRetry) {
+            var replay = RetryPolicy.ForAllException().WithMaxRetry(maxRetry);
+            _FakeTaskT.SetUpExceptions(times, 1);
+            Func<Task<int>> @do = async () => await replay.Enqueue(_FakeTaskT);
+            await @do.Should().NotThrowAsync();
+            await _FakeTaskT.Received(times + 1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(1, 0)]
+        [InlineData(2, 1)]
+        [InlineData(10, 5)]
+        [InlineData(1000, 3)]
+        public async Task ForAllException_WithMax_Enqueue_Task_T_TillNoNullException_WhenLessThanMaxRetry(int times, int maxRetry) {
+            var replay = RetryPolicy.ForAllException().WithMaxRetry(maxRetry);
+            var expectedType = typeof(BadImageFormatException);
+            _FakeTaskT.SetUpExceptions(times, 6, expectedType);
+            Func<Task<int>> @do = async () => await replay.Enqueue(_FakeTaskT);
+            await @do.Should().ThrowAsync<BadImageFormatException>();
+            await _FakeTaskT.Received(maxRetry + 1).Invoke();
+        }
+
         #endregion
 
         #region Selective
