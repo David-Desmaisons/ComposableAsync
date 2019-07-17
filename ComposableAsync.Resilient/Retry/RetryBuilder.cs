@@ -24,6 +24,16 @@ namespace ComposableAsync.Retry
             return this;
         }
 
+        public IRetryBuilder WithWaitBetweenRetry(int waitInMilliseconds)
+        {
+            return this;
+        }
+
+        public IRetryBuilder WithWaitBetweenRetry(TimeSpan wait)
+        {
+            return this;
+        }
+
         public IDispatcher ForEver() => GetBasicDispatcher(int.MaxValue).ToFullDispatcher();
 
         public IDispatcher WithMaxRetry(int maxTimes) => GetBasicDispatcher(maxTimes).ToFullDispatcher();
