@@ -20,6 +20,7 @@ namespace ComposableAsync.Retry
 
         public async Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
+            var count = 0;
             while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -28,15 +29,16 @@ namespace ComposableAsync.Retry
                     await action();
                     return;
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-                    // ignored
+                    ThrowIfNeeded(ref count, exception);
                 }
             }
         }
 
         public async Task<T> Enqueue<T>(Func<Task<T>> action, CancellationToken cancellationToken)
         {
+            //var count = 0;
             while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -44,9 +46,9 @@ namespace ComposableAsync.Retry
                 {
                     return await action();
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-                    // ignored
+                    //ThrowIfNeeded(ref count, exception);
                 }
             }
         }
@@ -77,11 +79,17 @@ namespace ComposableAsync.Retry
                     action();
                     return Task.CompletedTask;
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-                    // ignored
+                    //ThrowIfNeeded(ref int count, Exception exception);
                 }
             }
+        }
+
+        private void ThrowIfNeeded(ref int count, Exception exception)
+        {
+            if (count++ == _MaxRetry)
+                throw exception;
         }
     }
 }

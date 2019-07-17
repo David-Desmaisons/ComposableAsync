@@ -36,7 +36,7 @@ namespace ComposableAsync.Retry
                 new ForEverRetrySelectiveDispatcher(_Type, _MaxTry);
         }
 
-        public IDispatcher Until(int maxTimes)
+        public IDispatcher WithMaxRetry(int maxTimes)
         {
             _MaxTry = maxTimes;
             return GetBasicDispatcher().ToFullDispatcher();
