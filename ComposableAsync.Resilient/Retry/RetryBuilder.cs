@@ -7,18 +7,19 @@ namespace ComposableAsync.Retry
 {
     internal sealed class RetryBuilder: IRetryBuilder
     {
-        private readonly bool _All;
         private readonly HashSet<Type> _Type = new HashSet<Type>();
         private readonly List<TimeSpan> _Waits = new List<TimeSpan>();
+        private readonly IExceptionFilter _ExceptionFilter;
 
         public RetryBuilder()
         {
-            _All = true;
+            _ExceptionFilter = new NoThrow();
         }
 
         public RetryBuilder(Type type)
         {
             _Type.Add(type);
+            _ExceptionFilter = new ThrowOnType(_Type);
         }
 
         public IRetryBuilder And<T>() where T : Exception
@@ -56,14 +57,8 @@ namespace ComposableAsync.Retry
 
         private IBasicDispatcher GetBasicDispatcher(int max)
         {
-            var filter = GetExceptionFilter();
-            return (_Waits.Count > 0) ? (IBasicDispatcher) new RetryDispatcherAsync(filter, max, _Waits.ToArray()) :
-                new RetryDispatcher(filter, max);
-        }
-
-        private IExceptionFilter GetExceptionFilter()
-        {
-            return _All ? (IExceptionFilter) new NoThrow() : new ThrowOnType(_Type);
+            return (_Waits.Count > 0) ? (IBasicDispatcher) new RetryDispatcherAsync(_ExceptionFilter, max, _Waits.ToArray()) :
+                new RetryDispatcher(_ExceptionFilter, max);
         }
     }
 }
