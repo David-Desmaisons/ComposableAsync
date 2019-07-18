@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ComposableAsync.Retry.ExceptionFilter;
 
 namespace ComposableAsync.Retry
 {
@@ -55,12 +56,14 @@ namespace ComposableAsync.Retry
 
         private IBasicDispatcher GetBasicDispatcher(int max)
         {
-            if (_Waits.Count > 0)
-                return _All ? (IBasicDispatcher) new GenericRetryDispatcherAsync(_Waits.ToArray(), max) :
-                    new SelectiveRetryDispatcherAsync(_Waits.ToArray(), _Type, max);
+            var filter = GetExceptionFilter();
+            return (_Waits.Count > 0) ? (IBasicDispatcher) new RetryDispatcherAsync(filter, max, _Waits.ToArray()) :
+                new RetryDispatcher(filter, max);
+        }
 
-            return _All ? (IBasicDispatcher)new GenericRetryDispatcher(max) :
-                new SelectiveRetryDispatcher(_Type, max);
+        private IExceptionFilter GetExceptionFilter()
+        {
+            return _All ? (IExceptionFilter) new NoThrow() : new ThrowOnType(_Type);
         }
     }
 }

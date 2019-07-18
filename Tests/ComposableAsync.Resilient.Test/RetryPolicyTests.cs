@@ -378,6 +378,21 @@ namespace ComposableAsync.Resilient.Test
             watch.Elapsed.Should().BeCloseTo(TimeSpan.FromMilliseconds(_TimeOut* maxRetry), 100);
         }
 
+        [Fact]
+        public async Task ForAllException_WithWait_WithMax_Enqueue_Action_Is_Cancellable()
+        {
+            var timeOut = TimeSpan.FromMilliseconds(100);
+            var replay = RetryPolicy.ForAllException().WithWaitBetweenRetry(TimeSpan.FromMinutes(2)).ForEver();
+            var expectedType = typeof(BadImageFormatException);
+            _FakeAction.SetUpExceptions(1000, expectedType);
+            var tokenSource = new CancellationTokenSource(timeOut);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeAction, tokenSource.Token);
+            var watch = Stopwatch.StartNew();
+            await @do.Should().ThrowAsync<TaskCanceledException>();
+            watch.Stop();
+            watch.Elapsed.Should().BeCloseTo(timeOut, 50);
+        }
+
         [Theory]
         [InlineData(0, 1)]
         [InlineData(1, 1)]

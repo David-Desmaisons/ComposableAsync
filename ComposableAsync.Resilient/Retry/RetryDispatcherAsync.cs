@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using ComposableAsync.Retry.ExceptionFilter;
 
 namespace ComposableAsync.Retry
 {
-    internal abstract class RetryDispatcherAsyncBase : IBasicDispatcher
+    internal sealed class RetryDispatcherAsync : IBasicDispatcher
     {
         private readonly int _MaxRetry;
         private readonly TimeSpan[] _TimeSpans;
+        private readonly IExceptionFilter _ExceptionFilter;
 
-        protected RetryDispatcherAsyncBase(int maxRetry, TimeSpan[] timeSpans)
+        internal RetryDispatcherAsync(IExceptionFilter exceptionFilter, int maxRetry, TimeSpan[] timeSpans)
         {
             _MaxRetry = maxRetry;
             _TimeSpans = timeSpans;
+            _ExceptionFilter = exceptionFilter;
         }
 
         public IBasicDispatcher Clone() => this;
-
-        protected abstract void RethrowIfNeeded(Exception exception);
 
         public async Task Enqueue(Func<Task> action, CancellationToken cancellationToken)
         {
@@ -91,10 +92,8 @@ namespace ComposableAsync.Retry
 
         private async Task<int> ThrowIfNeeded(int count, Exception exception, CancellationToken cancellationToken)
         {
-            if (count == _MaxRetry)
+            if ((count == _MaxRetry) || (_ExceptionFilter.ShouldBeThrown(exception)))
                 throw exception;
-
-            RethrowIfNeeded(exception);
 
             var wait = GetWait(count);
             if (Math.Abs(wait.TotalMilliseconds) > 0) {
