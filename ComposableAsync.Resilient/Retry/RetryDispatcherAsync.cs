@@ -106,9 +106,7 @@ namespace ComposableAsync.Retry
         private TimeSpan GetWait(int count)
         {
             var length = _TimeSpans.Length - 1;
-            if (count > length)
-                return _TimeSpans[length];
-            return _TimeSpans[count];
+            return(count > length) ? _TimeSpans[length] : _TimeSpans[count];
         }
     }
-}
+} 
