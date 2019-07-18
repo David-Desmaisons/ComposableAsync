@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ComposableAsync.Retry
 {
-    internal sealed class SelectiveRetryDispatcherAsync : RetryDispatcherAsyncBase, IBasicDispatcher
+    internal sealed class SelectiveRetryDispatcherAsync : RetryDispatcherAsyncBase
     {
         private readonly HashSet<Type> _Types;
 
@@ -12,8 +12,6 @@ namespace ComposableAsync.Retry
         {
             _Types = types;
         }
-
-        public IBasicDispatcher Clone() => this;
 
         protected override void RethrowIfNeeded(Exception exception)
         {

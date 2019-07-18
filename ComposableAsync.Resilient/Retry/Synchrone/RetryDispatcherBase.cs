@@ -4,14 +4,16 @@ using System.Threading.Tasks;
 
 namespace ComposableAsync.Retry
 {
-    internal abstract class RetryDispatcherBase
+    internal abstract class RetryDispatcherBase : IBasicDispatcher
     {
         private readonly int _MaxRetry;
 
-        public RetryDispatcherBase(int maxRetry)
+        protected RetryDispatcherBase(int maxRetry)
         {
             _MaxRetry = maxRetry;
         }
+
+        public IBasicDispatcher Clone() => this;
 
         protected abstract void RethrowIfNeeded(Exception exception);
 

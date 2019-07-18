@@ -4,18 +4,13 @@ using System.Linq;
 
 namespace ComposableAsync.Retry
 {
-    internal sealed class SelectiveRetryDispatcher : RetryDispatcherBase, IBasicDispatcher
+    internal sealed class SelectiveRetryDispatcher : RetryDispatcherBase
     {
         private readonly HashSet<Type> _Types;
 
         internal SelectiveRetryDispatcher(HashSet<Type> types, int maxRetry) : base(maxRetry)
         {
             _Types = types;
-        }
-
-        public IBasicDispatcher Clone()
-        {
-            return this;
         }
 
         protected override void RethrowIfNeeded(Exception exception)

@@ -4,16 +4,18 @@ using System.Threading.Tasks;
 
 namespace ComposableAsync.Retry
 {
-    internal abstract class RetryDispatcherAsyncBase
+    internal abstract class RetryDispatcherAsyncBase : IBasicDispatcher
     {
-        private int _MaxRetry;
-        private TimeSpan[] _TimeSpans;
+        private readonly int _MaxRetry;
+        private readonly TimeSpan[] _TimeSpans;
 
-        public RetryDispatcherAsyncBase(int maxRetry, TimeSpan[] timeSpans)
+        protected RetryDispatcherAsyncBase(int maxRetry, TimeSpan[] timeSpans)
         {
             _MaxRetry = maxRetry;
             _TimeSpans = timeSpans;
         }
+
+        public IBasicDispatcher Clone() => this;
 
         protected abstract void RethrowIfNeeded(Exception exception);
 
@@ -95,7 +97,7 @@ namespace ComposableAsync.Retry
             RethrowIfNeeded(exception);
 
             var wait = GetWait(count);
-            if (wait.TotalMilliseconds != 0) {
+            if (Math.Abs(wait.TotalMilliseconds) > 0) {
                 await Task.Delay(wait, cancellationToken);
             }
             
