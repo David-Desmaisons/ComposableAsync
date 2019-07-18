@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ComposableAsync.Retry
 {
@@ -33,6 +34,18 @@ namespace ComposableAsync.Retry
         public IRetryBuilder WithWaitBetweenRetry(TimeSpan wait)
         {
             _Waits.Add(wait);
+            return this;
+        }
+
+        public IRetryBuilder WithWaitBetweenRetry(params TimeSpan[] waits)
+        {
+            _Waits.AddRange(waits);
+            return this;
+        }
+
+        public IRetryBuilder WithWaitBetweenRetry(params int[] waits)
+        {
+            _Waits.AddRange(waits.Select(w => TimeSpan.FromMilliseconds(w)));
             return this;
         }
 

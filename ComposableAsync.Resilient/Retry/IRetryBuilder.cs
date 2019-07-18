@@ -29,6 +29,20 @@ namespace ComposableAsync.Retry
         IRetryBuilder WithWaitBetweenRetry(TimeSpan wait);
 
         /// <summary>
+        /// Set a collection of times to wait between successive retries
+        /// </summary>
+        /// <param name="waits"></param>
+        /// <returns></returns>
+        IRetryBuilder WithWaitBetweenRetry(params TimeSpan[] waits);
+
+        /// <summary>
+        /// Set a collection of times to wait between successive retries
+        /// </summary>
+        /// <param name="waits"></param>
+        /// <returns></returns>
+        IRetryBuilder WithWaitBetweenRetry(params int[] waits);
+
+        /// <summary>
         /// create a <see cref="IDispatcher"/> that will perform
         /// function till no exception without limit
         /// </summary>
