@@ -7,6 +7,15 @@ namespace ComposableAsync.Resilient.Test.Helper
 {
     public static class ResilientHelper
     {
+        public static void SetUpExceptions(this Action action, int times, Exception exception)
+        {
+            var count = 0;
+            action.When(f => f.Invoke()).Do(_ =>
+            {
+                if (count++ < times)
+                    throw exception;
+            });
+        }
 
         public static void SetUpExceptions(this Action action, int times, Type exceptionType = null)
         {

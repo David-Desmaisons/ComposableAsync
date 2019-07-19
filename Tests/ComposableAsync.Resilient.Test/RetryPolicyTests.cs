@@ -22,7 +22,7 @@ namespace ComposableAsync.Resilient.Test
         private readonly Func<Task> _FakeTask;
         private readonly Func<Task<int>> _FakeTaskT;
 
-        private readonly int _TimeOut =200;
+        private readonly int _TimeOut = 200;
 
         public RetryPolicyTests()
         {
@@ -211,11 +211,26 @@ namespace ComposableAsync.Resilient.Test
         }
 
         [Theory]
+        [InlineData(1, 200)]
+        [InlineData(2, 300)]
+        [InlineData(3, 400)]
+        [InlineData(4, 500)]
+        public async Task ForAllException_WithWait_Enqueue_Action_TillNoException_WithTimeoutSeries_UseLastWait(int times, int expectedTimeInMs)
+        {
+            var replay = RetryPolicy.ForAllException().WithWaitBetweenRetry(200, 100).ForEver();
+            _FakeAction.SetUpExceptions(times);
+            var watch = Stopwatch.StartNew();
+            await replay.Enqueue(_FakeAction);
+            watch.Stop();
+            watch.Elapsed.Should().BeCloseTo(TimeSpan.FromMilliseconds(expectedTimeInMs), 50);
+        }
+
+        [Theory]
         [InlineData(1, 100)]
         [InlineData(2, 300)]
         [InlineData(3, 600)]
         [InlineData(4, 700)]
-        public async Task ForAllException_WithWait_Enqueue_Action_TillNoException_WithTimeoutSeries(int times, int expectedTimeInMs)
+        public async Task ForAllException_WithWait_Enqueue_Action_TillNoException_WithTimeoutSeries_RespectWait(int times, int expectedTimeInMs)
         {
             var replay = RetryPolicy.ForAllException().WithWaitBetweenRetry(100, 200, 300, 100).ForEver();
             _FakeAction.SetUpExceptions(times);
@@ -408,7 +423,7 @@ namespace ComposableAsync.Resilient.Test
             var watch = Stopwatch.StartNew();
             await @do.Should().ThrowAsync<BadImageFormatException>();
             watch.Stop();
-            watch.Elapsed.Should().BeCloseTo(TimeSpan.FromMilliseconds(_TimeOut* maxRetry), 100);
+            watch.Elapsed.Should().BeCloseTo(TimeSpan.FromMilliseconds(_TimeOut * maxRetry), 100);
         }
 
         [Theory]
@@ -477,7 +492,8 @@ namespace ComposableAsync.Resilient.Test
         [InlineData(1, 1)]
         [InlineData(5, 10)]
         [InlineData(10, 20)]
-        public async Task ForAllException_WithMax_Enqueue_Task_DoesNotThrow_WhenLessThanMaxRetry(int times, int maxRetry) {
+        public async Task ForAllException_WithMax_Enqueue_Task_DoesNotThrow_WhenLessThanMaxRetry(int times, int maxRetry)
+        {
             var replay = RetryPolicy.ForAllException().WithMaxRetry(maxRetry);
             _FakeTask.SetUpExceptions(times, typeof(NullReferenceException));
             Func<Task> @do = async () => await replay.Enqueue(_FakeTask);
@@ -490,7 +506,8 @@ namespace ComposableAsync.Resilient.Test
         [InlineData(2, 1)]
         [InlineData(10, 5)]
         [InlineData(1000, 3)]
-        public async Task ForAllException_WithMax_Enqueue_Task_TillNoNullException_WhenLessThanMaxRetry(int times, int maxRetry) {
+        public async Task ForAllException_WithMax_Enqueue_Task_TillNoNullException_WhenLessThanMaxRetry(int times, int maxRetry)
+        {
             var replay = RetryPolicy.ForAllException().WithMaxRetry(maxRetry);
             var expectedType = typeof(BadImageFormatException);
             _FakeTask.SetUpExceptions(times, expectedType);
@@ -504,7 +521,8 @@ namespace ComposableAsync.Resilient.Test
         [InlineData(1, 1)]
         [InlineData(5, 10)]
         [InlineData(10, 20)]
-        public async Task ForAllException_WithMax_Enqueue_Task_T_DoesNotThrow_WhenLessThanMaxRetry(int times, int maxRetry) {
+        public async Task ForAllException_WithMax_Enqueue_Task_T_DoesNotThrow_WhenLessThanMaxRetry(int times, int maxRetry)
+        {
             var replay = RetryPolicy.ForAllException().WithMaxRetry(maxRetry);
             _FakeTaskT.SetUpExceptions(times, 1);
             Func<Task<int>> @do = async () => await replay.Enqueue(_FakeTaskT);
@@ -517,7 +535,8 @@ namespace ComposableAsync.Resilient.Test
         [InlineData(2, 1)]
         [InlineData(10, 5)]
         [InlineData(1000, 3)]
-        public async Task ForAllException_WithMax_Enqueue_Task_T_TillNoNullException_WhenLessThanMaxRetry(int times, int maxRetry) {
+        public async Task ForAllException_WithMax_Enqueue_Task_T_TillNoNullException_WhenLessThanMaxRetry(int times, int maxRetry)
+        {
             var replay = RetryPolicy.ForAllException().WithMaxRetry(maxRetry);
             var expectedType = typeof(BadImageFormatException);
             _FakeTaskT.SetUpExceptions(times, 6, expectedType);
@@ -907,9 +926,9 @@ namespace ComposableAsync.Resilient.Test
         #region Selective WithMaxRetry
 
         [Theory]
-        [InlineData(0,1)]
-        [InlineData(1,1)]
-        [InlineData(5,10)]
+        [InlineData(0, 1)]
+        [InlineData(1, 1)]
+        [InlineData(5, 10)]
         [InlineData(10, 20)]
         public async Task ForException_WithMax_Enqueue_Task_DoesNotThrow_WhenLessThanMaxRetry(int times, int maxRetry)
         {
@@ -922,7 +941,7 @@ namespace ComposableAsync.Resilient.Test
 
         [Theory]
         [InlineData(1, 0)]
-        [InlineData(2, 1)]    
+        [InlineData(2, 1)]
         [InlineData(10, 5)]
         [InlineData(1000, 3)]
         public async Task ForException_WithMax_Enqueue_Task_TillNoNullException_WhenLessThanMaxRetry(int times, int maxRetry)
@@ -933,6 +952,129 @@ namespace ComposableAsync.Resilient.Test
             await @do.Should().ThrowAsync<NullReferenceException>();
             await _FakeTask.Received(maxRetry + 1).Invoke();
         }
+        #endregion
+
+        #region ForException none generic
+
+        [Theory]
+        [InlineAutoData(0, 1)]
+        [InlineAutoData(1, 1)]
+        [InlineAutoData(5, 10)]
+        [InlineAutoData(10, 20)]
+        public async Task ForExceptionWithFilter_WithMax_Enqueue_Action_DoesNotThrow_WhenLessThanMaxRetry(int times, int maxRetry, string expectedMessage)
+        {
+            var exception = new Exception(expectedMessage);
+            var replay = RetryPolicy.ForException(ex => ex.Message == expectedMessage).WithMaxRetry(maxRetry);
+            _FakeAction.SetUpExceptions(times, exception);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
+            await @do.Should().NotThrowAsync();
+            _FakeAction.Received(times + 1).Invoke();
+        }
+
+        [Theory]
+        [InlineAutoData(typeof(IndexOutOfRangeException))]
+        [InlineAutoData(typeof(BadImageFormatException))]
+        [InlineAutoData(typeof(Exception))]
+        public async Task ForExceptionWithFilter_WithMax_Enqueue_Action_DoesNotThrow_WhenLessThanMaxRetry_And_Match(Type exceptionType, string expectedMessage)
+        {
+            var exception = (Exception)Activator.CreateInstance(exceptionType, expectedMessage);
+            var replay = RetryPolicy.ForException(ex => ex.Message == expectedMessage).WithMaxRetry(1);
+            _FakeAction.SetUpExceptions(1, exception);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
+            await @do.Should().NotThrowAsync();
+            _FakeAction.Received(2).Invoke();
+        }
+
+        [Theory, AutoData]
+        public async Task ForExceptionWithFilter_WithMax_Enqueue_Action_Throws_WhenExceptionNotMatching(string expectedMessage, string otherMessage)
+        {
+            var exception = new Exception(otherMessage);
+            var replay = RetryPolicy.ForException(ex => ex.Message == expectedMessage).WithMaxRetry(1000);
+            _FakeAction.SetUpExceptions(10, exception);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
+            var exceptionAssertions = await @do.Should().ThrowAsync<Exception>();
+            exceptionAssertions.WithMessage(otherMessage);
+            _FakeAction.Received(1).Invoke();
+        }
+
+        [Theory]
+        [InlineAutoData(1, 0)]
+        [InlineAutoData(2, 1)]
+        [InlineAutoData(10, 5)]
+        [InlineAutoData(1000, 3)]
+        public async Task ForAllExceptionWithFilter_WithMax_Enqueue_Action_TillNoNullException_WhenLessThanMaxRetry(int times, int maxRetry, string expectedMessage)
+        {
+            var exception = new Exception(expectedMessage);
+            var replay = RetryPolicy.ForException(ex => ex.Message == expectedMessage).WithMaxRetry(maxRetry);
+            _FakeAction.SetUpExceptions(times, exception);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
+            var exceptionAssertions = await @do.Should().ThrowAsync<Exception>();
+            exceptionAssertions.WithMessage(expectedMessage);
+            _FakeAction.Received(maxRetry + 1).Invoke();
+        }
+
+        #endregion
+
+        #region ForException generic
+
+        [Theory]
+        [InlineAutoData(0)]
+        [InlineAutoData(1)]
+        [InlineAutoData(5)]
+        [InlineAutoData(10)]
+        public async Task ForExceptionWithGenericFilter_WithMax_Enqueue_Action_DoesNotThrow_WhenLessThanMaxRetry(int times, string expectedMessage)
+        {
+            var exception = new ArgumentException(expectedMessage);
+            var replay = RetryPolicy.For<ArgumentException>(ex => ex.Message == expectedMessage).ForEver();
+            _FakeAction.SetUpExceptions(times, exception);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
+            await @do.Should().NotThrowAsync();
+            _FakeAction.Received(times + 1).Invoke();
+        }
+
+        [Theory, AutoData]
+        public async Task ForExceptionWithGenericFilter_WithMax_Enqueue_Action_Throws_WhenExceptionNotMatching(string expectedMessage, string otherMessage)
+        {
+            var exception = new ArgumentException(otherMessage);
+            var replay = RetryPolicy.For<ArgumentException>(ex => ex.Message == expectedMessage).WithMaxRetry(1000);
+            _FakeAction.SetUpExceptions(10, exception);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
+            var exceptionAssertions = await @do.Should().ThrowAsync<Exception>();
+            exceptionAssertions.WithMessage(otherMessage);
+            _FakeAction.Received(1).Invoke();
+        }
+
+        [Theory]
+        [InlineAutoData(typeof(IndexOutOfRangeException))]
+        [InlineAutoData(typeof(BadImageFormatException))]
+        [InlineAutoData(typeof(Exception))]
+        public async Task ForExceptionWithGenericFilter_WithMax_Enqueue_Action_Throws_WhenExceptionOfDifferentType(Type exceptionType, string message)
+        {
+            var exception = (Exception) Activator.CreateInstance(exceptionType, message); 
+            var replay = RetryPolicy.For<ArgumentException>(ex => ex.Message == message).WithMaxRetry(1000);
+            _FakeAction.SetUpExceptions(10, exception);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
+            var exceptionAssertions = await @do.Should().ThrowAsync<Exception>();
+            exceptionAssertions.Where(ex => ex.GetType() == exceptionType).WithMessage(message);
+            _FakeAction.Received(1).Invoke();
+        }
+
+        //[Theory]
+        //[InlineAutoData(1, 0)]
+        //[InlineAutoData(2, 1)]
+        //[InlineAutoData(10, 5)]
+        //[InlineAutoData(1000, 3)]
+        //public async Task ForAllExceptionWithFilter_WithMax_Enqueue_Action_TillNoNullException_WhenLessThanMaxRetry(int times, int maxRetry, string expectedMessage)
+        //{
+        //    var exception = new Exception(expectedMessage);
+        //    var replay = RetryPolicy.ForException(ex => ex.Message == expectedMessage).WithMaxRetry(maxRetry);
+        //    _FakeAction.SetUpExceptions(times, exception);
+        //    Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
+        //    var exceptionAssertions = await @do.Should().ThrowAsync<Exception>();
+        //    exceptionAssertions.WithMessage(expectedMessage);
+        //    _FakeAction.Received(maxRetry + 1).Invoke();
+        //}
+
         #endregion
     }
 }
