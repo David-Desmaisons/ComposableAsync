@@ -1,5 +1,6 @@
 ﻿using ComposableAsync.Retry;
 using System;
+using ComposableAsync.Retry.ExceptionFilter;
 
 namespace ComposableAsync
 {
@@ -13,9 +14,9 @@ namespace ComposableAsync
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static IRetryBuilder For<T>() where T : Exception
+        public static IRetryWithTypeBuilder For<T>() where T : Exception
         {
-            return new RetryBuilder(typeof(T));
+            return new RetryWithTypeBuilder(typeof(T));
         }
 
         /// <summary>
@@ -24,7 +25,7 @@ namespace ComposableAsync
         /// <returns></returns>
         public static IRetryBuilder ForAllException()
         {
-            return new RetryBuilder();
+            return new RetryBuilder(NoThrow.Instance);
         }
     }
 }

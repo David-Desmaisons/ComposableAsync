@@ -7,25 +7,12 @@ namespace ComposableAsync.Retry
 {
     internal sealed class RetryBuilder: IRetryBuilder
     {
-        private readonly HashSet<Type> _Type = new HashSet<Type>();
         private readonly List<TimeSpan> _Waits = new List<TimeSpan>();
         private readonly IExceptionFilter _ExceptionFilter;
 
-        public RetryBuilder()
+        internal RetryBuilder(IExceptionFilter exceptionFilter)
         {
-            _ExceptionFilter = new NoThrow();
-        }
-
-        public RetryBuilder(Type type)
-        {
-            _Type.Add(type);
-            _ExceptionFilter = new ThrowOnType(_Type);
-        }
-
-        public IRetryBuilder And<T>() where T : Exception
-        {
-            _Type.Add(typeof(T));
-            return this;
+            _ExceptionFilter = exceptionFilter;
         }
 
         public IRetryBuilder WithWaitBetweenRetry(int waitInMilliseconds)

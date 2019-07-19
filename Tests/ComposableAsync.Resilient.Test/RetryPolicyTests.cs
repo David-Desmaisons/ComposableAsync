@@ -226,6 +226,24 @@ namespace ComposableAsync.Resilient.Test
         }
 
         [Theory]
+        [InlineData(1, 100)]
+        [InlineData(2, 300)]
+        [InlineData(3, 600)]
+        [InlineData(4, 700)]
+        public async Task ForAllException_WithWait_Enqueue_Action_TillNoException_WithTimeoutSeries_TimeSpan(int times, int expectedTimeInMs)
+        {
+            var replay = RetryPolicy
+                .ForAllException()
+                .WithWaitBetweenRetry(TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(200), TimeSpan.FromMilliseconds(300), TimeSpan.FromMilliseconds(100))
+                .ForEver();
+            _FakeAction.SetUpExceptions(times);
+            var watch = Stopwatch.StartNew();
+            await replay.Enqueue(_FakeAction);
+            watch.Stop();
+            watch.Elapsed.Should().BeCloseTo(TimeSpan.FromMilliseconds(expectedTimeInMs), 50);
+        }
+
+        [Theory]
         [InlineData(0)]
         [InlineData(1)]
         [InlineData(5)]
@@ -391,6 +409,23 @@ namespace ComposableAsync.Resilient.Test
             await @do.Should().ThrowAsync<BadImageFormatException>();
             watch.Stop();
             watch.Elapsed.Should().BeCloseTo(TimeSpan.FromMilliseconds(_TimeOut* maxRetry), 100);
+        }
+
+        [Theory]
+        [InlineData(1, 0)]
+        [InlineData(2, 1)]
+        [InlineData(10, 5)]
+        [InlineData(1000, 3)]
+        public async Task ForAllException_WithWait_TimeSpan_WithMax_Enqueue_Action_TillNoNullException_WhenLessThanMaxRetry(int times, int maxRetry)
+        {
+            var replay = RetryPolicy.ForAllException().WithWaitBetweenRetry(TimeSpan.FromMilliseconds(_TimeOut)).WithMaxRetry(maxRetry);
+            var expectedType = typeof(BadImageFormatException);
+            _FakeAction.SetUpExceptions(times, expectedType);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
+            var watch = Stopwatch.StartNew();
+            await @do.Should().ThrowAsync<BadImageFormatException>();
+            watch.Stop();
+            watch.Elapsed.Should().BeCloseTo(TimeSpan.FromMilliseconds(_TimeOut * maxRetry), 100);
         }
 
         [Fact]
@@ -799,6 +834,40 @@ namespace ComposableAsync.Resilient.Test
             Func<Task> @do = async () => await _ForArgumentExceptionWithTimeOut.Enqueue(_FakeTaskT, tokenSource.Token);
             await @do.Should().ThrowAsync<OperationCanceledException>();
             await _FakeTaskT.Received(timesToCancel + 1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(1, 0)]
+        [InlineData(2, 1)]
+        [InlineData(10, 5)]
+        [InlineData(1000, 3)]
+        public async Task ForException_WithWait_WithMax_Enqueue_Action_TillNoNullException_WhenLessThanMaxRetry(int times, int maxRetry)
+        {
+            var replay = RetryPolicy.For<BadImageFormatException>().WithWaitBetweenRetry(_TimeOut).WithMaxRetry(maxRetry);
+            var expectedType = typeof(BadImageFormatException);
+            _FakeAction.SetUpExceptions(times, expectedType);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
+            var watch = Stopwatch.StartNew();
+            await @do.Should().ThrowAsync<BadImageFormatException>();
+            watch.Stop();
+            watch.Elapsed.Should().BeCloseTo(TimeSpan.FromMilliseconds(_TimeOut * maxRetry), 100);
+        }
+
+        [Theory]
+        [InlineData(1, 0)]
+        [InlineData(2, 1)]
+        [InlineData(10, 5)]
+        [InlineData(1000, 3)]
+        public async Task ForException_WithWaitTimeSpan_WithMax_Enqueue_Action_TillNoNullException_WhenLessThanMaxRetry(int times, int maxRetry)
+        {
+            var replay = RetryPolicy.For<BadImageFormatException>().WithWaitBetweenRetry(TimeSpan.FromMilliseconds(_TimeOut)).WithMaxRetry(maxRetry);
+            var expectedType = typeof(BadImageFormatException);
+            _FakeAction.SetUpExceptions(times, expectedType);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
+            var watch = Stopwatch.StartNew();
+            await @do.Should().ThrowAsync<BadImageFormatException>();
+            watch.Stop();
+            watch.Elapsed.Should().BeCloseTo(TimeSpan.FromMilliseconds(_TimeOut * maxRetry), 100);
         }
 
         #endregion

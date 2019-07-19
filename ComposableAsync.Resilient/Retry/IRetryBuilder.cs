@@ -8,13 +8,6 @@ namespace ComposableAsync.Retry
     public interface IRetryBuilder
     {
         /// <summary>
-        /// Add the exception type to be caught
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        IRetryBuilder And<T>() where T : Exception;
-
-        /// <summary>
         /// Set a time to wait between retries
         /// </summary>
         /// <param name="waitInMilliseconds"></param>
