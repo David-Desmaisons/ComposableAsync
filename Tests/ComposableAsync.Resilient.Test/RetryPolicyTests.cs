@@ -1059,22 +1059,6 @@ namespace ComposableAsync.Resilient.Test
             _FakeAction.Received(1).Invoke();
         }
 
-        //[Theory]
-        //[InlineAutoData(1, 0)]
-        //[InlineAutoData(2, 1)]
-        //[InlineAutoData(10, 5)]
-        //[InlineAutoData(1000, 3)]
-        //public async Task ForAllExceptionWithFilter_WithMax_Enqueue_Action_TillNoNullException_WhenLessThanMaxRetry(int times, int maxRetry, string expectedMessage)
-        //{
-        //    var exception = new Exception(expectedMessage);
-        //    var replay = RetryPolicy.ForException(ex => ex.Message == expectedMessage).WithMaxRetry(maxRetry);
-        //    _FakeAction.SetUpExceptions(times, exception);
-        //    Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
-        //    var exceptionAssertions = await @do.Should().ThrowAsync<Exception>();
-        //    exceptionAssertions.WithMessage(expectedMessage);
-        //    _FakeAction.Received(maxRetry + 1).Invoke();
-        //}
-
         #endregion
     }
 }
