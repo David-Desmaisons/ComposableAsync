@@ -870,6 +870,38 @@ namespace ComposableAsync.Resilient.Test
             watch.Elapsed.Should().BeCloseTo(TimeSpan.FromMilliseconds(_TimeOut * maxRetry), 100);
         }
 
+        [Theory]
+        [InlineData(1, 100)]
+        [InlineData(2, 300)]
+        [InlineData(3, 600)]
+        [InlineData(4, 700)]
+        public async Task ForException_WithWait_Enqueue_Action_TillNoException_WithTimeoutSeries(int times, int expectedTimeInMs)
+        {
+            var replay = RetryPolicy.For<Exception>().WithWaitBetweenRetry(100, 200, 300, 100).ForEver();
+            _FakeAction.SetUpExceptions(times);
+            var watch = Stopwatch.StartNew();
+            await replay.Enqueue(_FakeAction);
+            watch.Stop();
+            watch.Elapsed.Should().BeCloseTo(TimeSpan.FromMilliseconds(expectedTimeInMs), 50);
+        }
+
+        [Theory]
+        [InlineData(1, 100)]
+        [InlineData(2, 300)]
+        [InlineData(3, 600)]
+        [InlineData(4, 700)]
+        public async Task ForException_WithWait_Enqueue_Action_TillNoException_WithTimeoutSeries_TimeSpan(int times, int expectedTimeInMs)
+        {
+            var replay = RetryPolicy.For<Exception>()
+                .WithWaitBetweenRetry(TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(200), TimeSpan.FromMilliseconds(300), TimeSpan.FromMilliseconds(100))
+                .ForEver();
+            _FakeAction.SetUpExceptions(times);
+            var watch = Stopwatch.StartNew();
+            await replay.Enqueue(_FakeAction);
+            watch.Stop();
+            watch.Elapsed.Should().BeCloseTo(TimeSpan.FromMilliseconds(expectedTimeInMs), 50);
+        }
+
         #endregion
 
         #region Selective WithMaxRetry
