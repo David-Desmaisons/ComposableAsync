@@ -3,7 +3,7 @@ sorted: true
 references:
 - uid: ComposableAsync
   name: ComposableAsync
-  href: resilient-api/ComposableAsync.html
+  href: core-api/ComposableAsync.html
   commentId: N:ComposableAsync
   fullName: ComposableAsync
   nameWithType: ComposableAsync
