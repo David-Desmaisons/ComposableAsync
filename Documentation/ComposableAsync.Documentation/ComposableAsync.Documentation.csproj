@@ -47,7 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
-    <None Include="api\.gitignore" />
+    <None Include="concurrent-api\index.md" />
+    <None Include="resilient-api\index.md" />
+    <None Include="factory-api\index.md" />
+    <None Include="core-api\index.md" />
     <None Include="docfx.json" />
     <None Include="index.md" />
     <None Include="packages.config" />

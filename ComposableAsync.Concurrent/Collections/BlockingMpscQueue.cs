@@ -11,7 +11,7 @@ namespace ComposableAsync.Concurrent.Collections
     /// Ref: http://www.1024cores.net/home/lock-free-algorithms/queues/non-intrusive-mpsc-node-based-queue
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BlockingMpscQueue<T> : IMpScQueue<T> where T: class
+    internal class BlockingMpscQueue<T> : IMpScQueue<T> where T: class
     {
         private readonly SimplifiedEventCount _SimplifiedEventCount = new SimplifiedEventCount();
         private readonly CancellationTokenSource _CancellationTokenSource = new CancellationTokenSource();
