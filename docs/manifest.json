@@ -527,11 +527,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Retry.IRetryBuilder.yml",
+      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.IRetryBuilder.yml",
       "output": {
         ".html": {
-          "relative_path": "resilient-api/ComposableAsync.Retry.IRetryBuilder.html",
-          "hash": "7G1rjceuCiZMLYgbHvok+A=="
+          "relative_path": "resilient-api/ComposableAsync.IRetryBuilder.html",
+          "hash": "S/y8SDt7hD+EaWiAf2V3zw=="
         }
       },
       "is_incremental": false,
@@ -539,23 +539,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Retry.IRetryWithTypeBuilder.yml",
+      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.IRetryWithTypeBuilder.yml",
       "output": {
         ".html": {
-          "relative_path": "resilient-api/ComposableAsync.Retry.IRetryWithTypeBuilder.html",
-          "hash": "2mpOwpoZHeTi7OU1xJ9V4w=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Retry.yml",
-      "output": {
-        ".html": {
-          "relative_path": "resilient-api/ComposableAsync.Retry.html",
-          "hash": "gnArqSFOTtgmxizon1t9eQ=="
+          "relative_path": "resilient-api/ComposableAsync.IRetryWithTypeBuilder.html",
+          "hash": "UvNZ8UO5p0Bl5gl5Bp4GoA=="
         }
       },
       "is_incremental": false,
@@ -567,7 +555,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.RetryPolicy.html",
-          "hash": "QMDSoCpLWWhd4EeZ6tsFvA=="
+          "hash": "AKyVTYqQTGjUjH2YhcJz9Q=="
         }
       },
       "is_incremental": false,
@@ -582,7 +570,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.html",
-          "hash": "kEAmQd1EhtRNITKz+WBfYg=="
+          "hash": "1qLbmlfEJgMBmEnxNvuSow=="
         }
       },
       "is_incremental": false,
@@ -594,7 +582,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/toc.html",
-          "hash": "ysYirm1UHszaXrjNchc3wQ=="
+          "hash": "g2PznjOfRQ4PtjZKft/RoQ=="
         }
       },
       "is_incremental": false,
@@ -655,7 +643,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 41,
+          "total_file_count": 40,
           "skipped_file_count": 0
         }
       }

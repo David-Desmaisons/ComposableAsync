@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ComposableAsync.Retry
+namespace ComposableAsync
 {
     /// <summary>
     /// Retry <see cref="IDispatcher"/> builder

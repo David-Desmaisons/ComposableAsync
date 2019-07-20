@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace ComposableAsync.Retry
+namespace ComposableAsync
 {
     /// <summary>
-    /// Retry <see cref="IDispatcher"/> builder
+    /// Retry <see cref="IDispatcher"/> builder filtering exception based on type
     /// </summary>
     public interface IRetryWithTypeBuilder : IRetryBuilder
     {
