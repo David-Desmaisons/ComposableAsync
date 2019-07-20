@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ComposableAsync.Retry.ExceptionFilter
+namespace ComposableAsync.Resilient.Retry.ExceptionFilter
 {
     internal class NoThrow : IExceptionFilter
     {

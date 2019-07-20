@@ -1,8 +1,8 @@
-﻿using ComposableAsync.Retry;
-using System;
-using ComposableAsync.Retry.ExceptionFilter;
+﻿using System;
+using ComposableAsync.Resilient.Retry;
+using ComposableAsync.Resilient.Retry.ExceptionFilter;
 
-namespace ComposableAsync
+namespace ComposableAsync.Resilient
 {
     /// <summary>
     /// <see cref="IRetryBuilder"/> static factory

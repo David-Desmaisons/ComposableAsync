@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ComposableAsync.Retry.ExceptionFilter;
+using ComposableAsync.Resilient.Retry.ExceptionFilter;
 
-namespace ComposableAsync.Retry
+namespace ComposableAsync.Resilient.Retry
 {
     internal sealed class RetryDispatcher : IBasicDispatcher
     {

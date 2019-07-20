@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ComposableAsync
+namespace ComposableAsync.Resilient
 {
     /// <summary>
     /// Retry <see cref="IDispatcher"/> builder filtering exception based on type

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ComposableAsync.Retry.ExceptionFilter
+namespace ComposableAsync.Resilient.Retry.ExceptionFilter
 {
     internal class ThrowOnType : IExceptionFilter
     {

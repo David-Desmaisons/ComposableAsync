@@ -527,11 +527,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.IRetryBuilder.yml",
+      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.IRetryBuilder.yml",
       "output": {
         ".html": {
-          "relative_path": "resilient-api/ComposableAsync.IRetryBuilder.html",
-          "hash": "S/y8SDt7hD+EaWiAf2V3zw=="
+          "relative_path": "resilient-api/ComposableAsync.Resilient.IRetryBuilder.html",
+          "hash": "KEVruzs+jVMVH3Uf9lD85Q=="
         }
       },
       "is_incremental": false,
@@ -539,11 +539,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.IRetryWithTypeBuilder.yml",
+      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.IRetryWithTypeBuilder.yml",
       "output": {
         ".html": {
-          "relative_path": "resilient-api/ComposableAsync.IRetryWithTypeBuilder.html",
-          "hash": "UvNZ8UO5p0Bl5gl5Bp4GoA=="
+          "relative_path": "resilient-api/ComposableAsync.Resilient.IRetryWithTypeBuilder.html",
+          "hash": "ATv2Ynz3VR1bGNH1pOjAug=="
         }
       },
       "is_incremental": false,
@@ -551,26 +551,23 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.RetryPolicy.yml",
+      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.RetryPolicy.yml",
       "output": {
         ".html": {
-          "relative_path": "resilient-api/ComposableAsync.RetryPolicy.html",
-          "hash": "AKyVTYqQTGjUjH2YhcJz9Q=="
+          "relative_path": "resilient-api/ComposableAsync.Resilient.RetryPolicy.html",
+          "hash": "EpsPbGaHFoWFJj6m/Ts62A=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
-      "log_codes": [
-        "DuplicateUids"
-      ],
       "type": "ManagedReference",
-      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.yml",
+      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.yml",
       "output": {
         ".html": {
-          "relative_path": "resilient-api/ComposableAsync.html",
-          "hash": "1qLbmlfEJgMBmEnxNvuSow=="
+          "relative_path": "resilient-api/ComposableAsync.Resilient.html",
+          "hash": "K5Ebg92jjLPVHTzI/A5EhQ=="
         }
       },
       "is_incremental": false,
@@ -582,7 +579,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/toc.html",
-          "hash": "g2PznjOfRQ4PtjZKft/RoQ=="
+          "hash": "8aERsirZUuOwyTKZfZibUw=="
         }
       },
       "is_incremental": false,
@@ -634,16 +631,16 @@
           "total_file_count": 0,
           "skipped_file_count": 0
         },
-        "ConceptualDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build",
-          "total_file_count": 5,
-          "skipped_file_count": 0
-        },
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 40,
+          "skipped_file_count": 0
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 5,
           "skipped_file_count": 0
         }
       }

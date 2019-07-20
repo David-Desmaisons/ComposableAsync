@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using ComposableAsync.Retry.ExceptionFilter;
+using ComposableAsync.Resilient.Retry.ExceptionFilter;
 
-namespace ComposableAsync.Retry
+namespace ComposableAsync.Resilient.Retry
 {
     internal sealed class RetryWithTypeBuilder : IRetryWithTypeBuilder
     {
