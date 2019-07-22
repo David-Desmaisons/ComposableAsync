@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title> </title>
+    <title>Objective </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content=" ">
+    <meta name="title" content="Objective ">
     <meta name="generator" content="docfx 2.43.1.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -71,7 +71,52 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
+<h1 id="objective">Objective</h1>
 
+<p>ComposableAsync.Resilient provides dispatchers that implement resilient behaviors to handle exceptions.</p>
+<h1 id="features">Features</h1>
+<h2 id="retrypolicy">RetryPolicy</h2>
+<p>RetryPolicy provide a dispatcher factory that will re-execute a statement in case that its previous execution raise an exception.</p>
+<ul>
+<li>For all exceptions:</li>
+</ul>
+<pre><code class="lang-C#">// Create dispatcher that catch all exceptions and retry for ever
+var forEverDispatcher = RetryPolicy.ForAllException().ForEver();
+
+// Use this dispatcher for executing method DoExecute
+forEverDispatcher.Enqueue(() =&gt; DoExecute());
+</code></pre><pre><code class="lang-C#">// Create dispatcher that catch all exceptions and retry up to 5 times, after that the original exception is re-thrown.
+var forEverDispatcher = RetryPolicy.ForAllException().WithMaxRetry(5);
+</code></pre><ul>
+<li>For exception by type:</li>
+</ul>
+<pre><code class="lang-C#">// Create dispatcher that catch all ArgumentException and retry for ever
+var forArgumentExceptionDispatcher = RetryPolicy.For&lt;ArgumentException&gt;().ForEver();
+</code></pre><pre><code class="lang-C#">// Create dispatcher that catch all ArgumentException and NullReferenceException and retry execute action for ever
+var selectiveDispatcher = RetryPolicy.For&lt;ArgumentException&gt;().And&lt;NullReferenceException&gt;().ForEver();
+</code></pre><ul>
+<li>With wait between retries:</li>
+</ul>
+<pre><code class="lang-C#">// Create dispatcher that catch all ArgumentException and retry for ever with a delay of 200 ms
+var forArgumentExceptionDispatcher = RetryPolicy.For&lt;ArgumentException&gt;().WithWaitBetweenRetry(200).ForEver();
+</code></pre><pre><code class="lang-C#">// alternatively
+var forArgumentExceptionDispatcher = RetryPolicy.For&lt;ArgumentException&gt;().WithWaitBetweenRetry(TimeSpan.FromSeconds(0.2)).ForEver();
+</code></pre><ul>
+<li>With variable waits between retries:</li>
+</ul>
+<pre><code class="lang-C#">// Create dispatcher that catch all ArgumentException exception and retry up to three times with a delay of 10ms between first and second try, then 50ms between second and third, then 200ms between third and fourth.
+var forArgumentExceptionDispatcher = RetryPolicy.For&lt;ArgumentException&gt;().WithWaitBetweenRetry(10,50,200).WithMaxRetry(3);
+</code></pre><ul>
+<li>Match a specific exception:</li>
+</ul>
+<pre><code class="lang-C#">// Create dispatcher that catch all Exception with a specific message for ever.
+var forArgumentExceptionDispatcher = RetryPolicy.ForException(ex =&gt; ex.Message == expectedMessageString).ForEver();
+</code></pre><pre><code class="lang-C#">// Create dispatcher that catch all ArgumentException with a specific message for ever.
+var forArgumentExceptionDispatcher = RetryPolicy.For&lt;ArgumentException&gt;(ex =&gt; ex.Message == expectedMessageString).ForEver();
+</code></pre><p>As any dispatcher, <code>ComposableAsync.Resilient</code> dispatchers can also be transformed into httpHandler or used ro proxify POCO thanks to <code>ComposableAsync.Resilient</code> and <code>ComposableAsync.Resilient</code> respectively.</p>
+<h1 id="nuget">Nuget</h1>
+<pre><code>Install-Package ComposableAsync.Resilient
+</code></pre><p><a href="https://www.nuget.org/packages/ComposableAsync.Resilient/">Go nuget packages</a></p>
 </article>
           </div>
           

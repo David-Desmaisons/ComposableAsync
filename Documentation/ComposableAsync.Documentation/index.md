@@ -5,23 +5,21 @@ Composable Async
 [![NuGet Badge](https://buildstats.info/nuget/ComposableAsync.Core?includePreReleases=true)](https://www.nuget.org/packages/ComposableAsync.Core/)
 [![MIT License](https://img.shields.io/github/license/David-Desmaisons/ComposableAsync.svg)](https://github.com/David-Desmaisons/ComposableAsync/blob/master/LICENSE)
 
+Create, compose and inject asynchronous behaviors in .Net Framework and .Net Core.
 
 # Goal
 
-* Create and compose complex asynchronous behavior in .Net.
+* Create asynchronous behavior such as fiber, rate limiter, circuit breaker.
 
-* Use these behaviors as building blocks with [aspect oriented programming](https://www.wikiwand.com/en/Aspect-oriented_programming).
+* Compose these behaviors and use them as building blocks with [aspect oriented programming](https://www.wikiwand.com/en/Aspect-oriented_programming).
 
-* Provide a lightweight way to transform POCOs in [actors](https://en.wikipedia.org/wiki/Actor_model).
-
-* For .Net Framework and .Net Core
-
+* Provide a lightweight way inject these behaviors to transform POCOs in [actors](https://en.wikipedia.org/wiki/Actor_model).
 
 # Motivation
 
 * Leverage C# 5.0 asynchronous API (Task, async , await)
 
-* Simplify concurrent programing getting using Actor model.
+* Simplify concurrent programing.
 
 * Transparent for consumer: factories transform any POCO by adding behaviors and return user defined interface.
 

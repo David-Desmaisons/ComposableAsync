@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title> </title>
+    <title>Objective </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content=" ">
+    <meta name="title" content="Objective ">
     <meta name="generator" content="docfx 2.43.1.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -71,7 +71,42 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
+<h1 id="objective">Objective</h1>
 
+<p>ComposableAsync.Factory provides factories and factory builder to inject dispatcher code into <a href="https://en.wikipedia.org/wiki/Actor_model">POCO</a>.</p>
+<h1 id="features">Features</h1>
+<h2 id="proxyfactory">ProxyFactory</h2>
+<ul>
+<li>Use a dispatcher to create a proxy:</li>
+</ul>
+<p>Given:</p>
+<pre><code class="lang-C#">public interface IBusinessObject
+{
+    Task Execute();
+
+    Task&lt;int&gt; Execute(CancellationToken token);
+}
+</code></pre><p>Note that all methods of the IBusinessObject interface should return <code>Task</code> or <code>Task&lt;T&gt;</code>.</p>
+<pre><code class="lang-C#">IDispatcher dispatcher = //get a dispatcher from factory included in ComposableAsync.Resilient, ComposableAsync.Concurrent or RateLimiter for example
+var originalObject = new BusinessObject();
+var proxyFactory = new ProxyFactory(dispatcher);
+var proxyObject = proxyFactory.Build&lt;IBusinessObject&gt;(originalObject);
+
+// The call to the originalObject will be wrapped into an dispatcher Enqueue call
+var res = proxyObject.Execute(cancellationToken);
+</code></pre><p><code>proxyObject</code> will expose all <code>originalObject</code> methods wrapped with the given <code>dispatcher</code>.</p>
+<p>For example if the dispatcher is:</p>
+<ul>
+<li>a fiber: all methods will be executed on the fiber thread</li>
+<li>a rate limiter: all methods will be executed respecting the time constraint</li>
+</ul>
+<p>Note that ComposableAsync.Concurrent library provides simplified API to create an actor. See below.</p>
+<h1 id="how-it-works">How it works</h1>
+<p>Internally, <code>ComposableAsync.Factory</code> uses <a href="https://github.com/castleproject/Core">Castle Core DynamicProxy</a> to instantiate a proxy for the corresponding interface.
+All calls to the interface methods are intercepted and then redirected to run on the actor Threads.</p>
+<h1 id="nuget">Nuget</h1>
+<pre><code>Install-Package ComposableAsync.Factory
+</code></pre><p><a href="https://www.nuget.org/packages/ComposableAsync.Factory/">Go nuget packages</a></p>
 </article>
           </div>
           
