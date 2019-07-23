@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "C:/Users/david.desmaisons/Documents/project/source/EasyActor/Documentation/ComposableAsync.Documentation",
+  "source_base_path": "C:/Users/David/Documents/Source/ComposableAsync/Documentation/ComposableAsync.Documentation",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "concurrent-api/index.html",
-          "hash": "Ag05OhWOcJ2TI2PbaFZDGA=="
+          "hash": "pKAUtwNTSfR8L01R8kftRQ=="
         }
       },
       "is_incremental": false,
@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "core-api/index.html",
-          "hash": "5iUh4NUs+iXZIx0hl/LrgA=="
+          "hash": "26R2UdEvU6doHMmYkmeZyg=="
         }
       },
       "is_incremental": false,
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "factory-api/index.html",
-          "hash": "pA0AxgJbuw1ALRhjA1TA8Q=="
+          "hash": "ByRCypEOG8V7JARTWOC3vQ=="
         }
       },
       "is_incremental": false,
@@ -45,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "bGtsKQZW94erVh7vFb4nfw=="
+          "hash": "v//TLLHGl2B43xT7Jgyxpg=="
         }
       },
       "is_incremental": false,
@@ -57,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "concurrent-api/ComposableAsync.Concurrent.ActorFactoryBuilder.html",
-          "hash": "gu/b3cezdfh3EeTl8LuZkQ=="
+          "hash": "s/+l6oJaqm5/3UZ6Jx44Sw=="
         }
       },
       "is_incremental": false,
@@ -69,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "concurrent-api/ComposableAsync.Concurrent.Collections.IMpScQueue-1.html",
-          "hash": "QHuQYvjFuKjWCWnnXhuXSA=="
+          "hash": "k4jUA+2ohbx/SWRdFkymIQ=="
         }
       },
       "is_incremental": false,
@@ -93,7 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "concurrent-api/ComposableAsync.Concurrent.Fiber.html",
-          "hash": "e9A8+mEeboimiQFYRuh1zw=="
+          "hash": "BtDBpCtpfHI8mcSPaHyGtw=="
         }
       },
       "is_incremental": false,
@@ -105,7 +105,7 @@
       "output": {
         ".html": {
           "relative_path": "concurrent-api/ComposableAsync.Concurrent.FiberExtension.html",
-          "hash": "nw1whkPf0lddjMlP/D53YQ=="
+          "hash": "BtP9VrMGpaU8DBsAIy0Pfw=="
         }
       },
       "is_incremental": false,
@@ -117,7 +117,7 @@
       "output": {
         ".html": {
           "relative_path": "concurrent-api/ComposableAsync.Concurrent.IActorFactoryBuilder.html",
-          "hash": "knBeV1WZbvhRWl1Vzbl7KA=="
+          "hash": "RSgER5ZaaJR18YoFv4e55w=="
         }
       },
       "is_incremental": false,
@@ -129,7 +129,7 @@
       "output": {
         ".html": {
           "relative_path": "concurrent-api/ComposableAsync.Concurrent.IFiber.html",
-          "hash": "s3hSbpFAIfZ1khb3dQz+Cw=="
+          "hash": "75+u7gd6MeVq3Jk264SdwQ=="
         }
       },
       "is_incremental": false,
@@ -141,7 +141,7 @@
       "output": {
         ".html": {
           "relative_path": "concurrent-api/ComposableAsync.Concurrent.IMonoThreadFiber.html",
-          "hash": "5d+VdFySV6moR5nH0wJAnA=="
+          "hash": "/AMNPtt7d6IZ6HbigL1p9g=="
         }
       },
       "is_incremental": false,
@@ -153,7 +153,7 @@
       "output": {
         ".html": {
           "relative_path": "concurrent-api/ComposableAsync.Concurrent.IStoppableFiber.html",
-          "hash": "GDwSmfQ/Ys6r1SqqJpwV7g=="
+          "hash": "rAeRko/Hxf7G1oXOsDRXiA=="
         }
       },
       "is_incremental": false,
@@ -165,7 +165,7 @@
       "output": {
         ".html": {
           "relative_path": "concurrent-api/ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem-1.html",
-          "hash": "u3x58Z9A4HfLHMSzuYxBZg=="
+          "hash": "09+7qiobUMyVSDS5vwXNBA=="
         }
       },
       "is_incremental": false,
@@ -177,7 +177,7 @@
       "output": {
         ".html": {
           "relative_path": "concurrent-api/ComposableAsync.Concurrent.WorkItems.ITraceableWorkItem.html",
-          "hash": "Gr5JrqSKeXLt+XMC9IttgA=="
+          "hash": "sGTHCCZfjDRCDgBt1Q/wjg=="
         }
       },
       "is_incremental": false,
@@ -189,7 +189,7 @@
       "output": {
         ".html": {
           "relative_path": "concurrent-api/ComposableAsync.Concurrent.WorkItems.IWorkItem.html",
-          "hash": "bkDoa/4lZj2rDbgqmg8g/A=="
+          "hash": "QAqdNWOQX2TsvQuBuSOJeA=="
         }
       },
       "is_incremental": false,
@@ -237,7 +237,7 @@
       "output": {
         ".html": {
           "relative_path": "core-api/ComposableAsync.ComposableAsyncDisposable.html",
-          "hash": "vs85Mx9M9ijXXflOU0m1Uw=="
+          "hash": "eZ18B7m3z+P6zibI9g6xdQ=="
         }
       },
       "is_incremental": false,
@@ -249,7 +249,7 @@
       "output": {
         ".html": {
           "relative_path": "core-api/ComposableAsync.DispatcherAwaiter.html",
-          "hash": "wpI+ufCVVIY5dRE1EvGejQ=="
+          "hash": "W8fYjQ74T2mrz5LNwvQq9Q=="
         }
       },
       "is_incremental": false,
@@ -261,7 +261,7 @@
       "output": {
         ".html": {
           "relative_path": "core-api/ComposableAsync.DispatcherExtension.html",
-          "hash": "lTwMY+VEk7pQ2nbCtFHDgA=="
+          "hash": "WMKdywOXsZmrpLdjE2AHGQ=="
         }
       },
       "is_incremental": false,
@@ -273,7 +273,7 @@
       "output": {
         ".html": {
           "relative_path": "core-api/ComposableAsync.DispatcherProviderExtension.html",
-          "hash": "nfwB+unYn5G2WAyiol+Xvw=="
+          "hash": "nfdfawAHMtKh/1AgiU39sw=="
         }
       },
       "is_incremental": false,
@@ -288,7 +288,7 @@
       "output": {
         ".html": {
           "relative_path": "core-api/ComposableAsync.IBasicDispatcher.html",
-          "hash": "5ZMOqVmxMHM7dJzXHBI/Lw=="
+          "hash": "7FDrS/xW4tPC9HLjpkdupw=="
         }
       },
       "is_incremental": false,
@@ -300,7 +300,7 @@
       "output": {
         ".html": {
           "relative_path": "core-api/ComposableAsync.IDispatcher.html",
-          "hash": "5xZDnnjymnVSGD1rJg51aw=="
+          "hash": "K0AmmnJ7X65DuDbgZk2jTQ=="
         }
       },
       "is_incremental": false,
@@ -312,7 +312,7 @@
       "output": {
         ".html": {
           "relative_path": "core-api/ComposableAsync.IDispatcherManager.html",
-          "hash": "Ul5PJTn4DeHCuxUhHeTHnQ=="
+          "hash": "LuCN9eXfU4PljL5dViOONA=="
         }
       },
       "is_incremental": false,
@@ -324,7 +324,7 @@
       "output": {
         ".html": {
           "relative_path": "core-api/ComposableAsync.IDispatcherProvider.html",
-          "hash": "pNVOWsjxfHtv7Z76X2LATQ=="
+          "hash": "6bym8bDU6L6pa7XIUcNkXw=="
         }
       },
       "is_incremental": false,
@@ -336,7 +336,7 @@
       "output": {
         ".html": {
           "relative_path": "core-api/ComposableAsync.MonoDispatcherManager.html",
-          "hash": "Ho/fmwUzUkBxkvC1C7iTxA=="
+          "hash": "MLyuNWmkeTA24RxqCJk8+Q=="
         }
       },
       "is_incremental": false,
@@ -348,7 +348,7 @@
       "output": {
         ".html": {
           "relative_path": "core-api/ComposableAsync.NullDispatcher.html",
-          "hash": "jrGCaRbTzt+tU6WON2/+Mw=="
+          "hash": "8t+RzgAKxQkZ54bW3Go0oQ=="
         }
       },
       "is_incremental": false,
@@ -375,7 +375,7 @@
       "output": {
         ".html": {
           "relative_path": "core-api/System.IAsyncDisposable.html",
-          "hash": "+ZfLSDSMTDDsef8p1WWYMQ=="
+          "hash": "s/yld/I+ZiBK7hvetXrotA=="
         }
       },
       "is_incremental": false,
@@ -411,7 +411,7 @@
       "output": {
         ".html": {
           "relative_path": "factory-api/ComposableAsync.Factory.DispatcherExtension.html",
-          "hash": "yRZqFq7Oh+729/9YUiN8Lw=="
+          "hash": "PrGUJ4B0wqbLhuGOtxcLLA=="
         }
       },
       "is_incremental": false,
@@ -423,7 +423,7 @@
       "output": {
         ".html": {
           "relative_path": "factory-api/ComposableAsync.Factory.IProxyFactory.html",
-          "hash": "aKOi7rc+ur8X2i7qanKEAA=="
+          "hash": "uv6PDzIT7ZOa8HOm1DQIQA=="
         }
       },
       "is_incremental": false,
@@ -435,7 +435,7 @@
       "output": {
         ".html": {
           "relative_path": "factory-api/ComposableAsync.Factory.IProxyFactoryBuilder.html",
-          "hash": "lc09VgX6WlX84PNpRMynLw=="
+          "hash": "3keX/T5qo9iXKQOWg7chXA=="
         }
       },
       "is_incremental": false,
@@ -447,7 +447,7 @@
       "output": {
         ".html": {
           "relative_path": "factory-api/ComposableAsync.Factory.ProxyFactory.html",
-          "hash": "b3C7DHUrfC0oZ8HwK4Pd3w=="
+          "hash": "k5DN0VZX9rAgLja2HAABqQ=="
         }
       },
       "is_incremental": false,
@@ -459,7 +459,7 @@
       "output": {
         ".html": {
           "relative_path": "factory-api/ComposableAsync.Factory.ProxyFactoryBuilder.html",
-          "hash": "uYgbSCK3yScqL/EV/C5C7w=="
+          "hash": "5gcM1g6bg6A9nsLk24QzWw=="
         }
       },
       "is_incremental": false,
@@ -471,7 +471,7 @@
       "output": {
         ".html": {
           "relative_path": "factory-api/ComposableAsync.Factory.TaskDescription.html",
-          "hash": "RkyOH2dMsvRBeT+B9miCjw=="
+          "hash": "M2judXP0I2lXkXvUkarWGw=="
         }
       },
       "is_incremental": false,
@@ -483,7 +483,7 @@
       "output": {
         ".html": {
           "relative_path": "factory-api/ComposableAsync.Factory.TaskType.html",
-          "hash": "nvGkhHgFNt5pO3DaHuWHSA=="
+          "hash": "ywShDEFNuVh6xnCG1f67qg=="
         }
       },
       "is_incremental": false,
@@ -495,7 +495,7 @@
       "output": {
         ".html": {
           "relative_path": "factory-api/ComposableAsync.Factory.TypeExtension.html",
-          "hash": "GAX43xkV/CexfWHgpUWIIA=="
+          "hash": "vHrLu/o3lrQwA+Ca+TK75w=="
         }
       },
       "is_incremental": false,
@@ -531,7 +531,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.Resilient.IRetryBuilder.html",
-          "hash": "Rg6C1SUUsXWDhWyHslrn7A=="
+          "hash": "KEVruzs+jVMVH3Uf9lD85Q=="
         }
       },
       "is_incremental": false,
@@ -543,7 +543,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.Resilient.IRetryWithTypeBuilder.html",
-          "hash": "ChOhz8iVcmZtNCE/MdfZrw=="
+          "hash": "ATv2Ynz3VR1bGNH1pOjAug=="
         }
       },
       "is_incremental": false,
@@ -555,7 +555,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.Resilient.RetryPolicy.html",
-          "hash": "F0HtU5ZsZfUnrGwzhLEEqw=="
+          "hash": "EpsPbGaHFoWFJj6m/Ts62A=="
         }
       },
       "is_incremental": false,
@@ -591,7 +591,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/index.html",
-          "hash": "qsGDSAoT4AHLXle2ULUYIQ=="
+          "hash": "OjWfmPMyjfwkQ4z7q2QRKw=="
         }
       },
       "is_incremental": false,

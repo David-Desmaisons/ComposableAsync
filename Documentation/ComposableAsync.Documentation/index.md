@@ -52,6 +52,7 @@ Composable Async provides various dispatchers implementation:
 
 
 - Retry:
+
 ```C#
 // Create dispatcher that catch all ArgumentException and retry for ever with a delay of 200 ms
 var retryDispatcher = RetryPolicy.For<ArgumentException>().WithWaitBetweenRetry(TimeSpan.FromSeconds(0.2)).ForEver();
