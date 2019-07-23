@@ -119,11 +119,11 @@ Console.WriteLine($&quot;This is fiber thread {Thread.CurrentThread.ManagedThrea
 </code></pre><ul>
 <li>Transform a dispatcher into <a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpmessagehandler?view=netframework-4.8">HttpMessageHandler</a> with AsDelegatingHandler extension method:
 <code>C#
-/// Using timelimiter nuget
+/// Using time limiter nuget
 var handler = TimeLimiter
   .GetFromMaxCountByInterval(60, TimeSpan.FromMinutes(1))
   .AsDelegatingHandler();
-var client = new HttpClient(handler)</code></li>
+var client = new HttpClient(handler);</code></li>
 </ul>
 <h1 id="nuget">Nuget</h1>
 <pre><code>Install-Package ComposableAsync.Core
@@ -135,9 +135,6 @@ var client = new HttpClient(handler)</code></li>
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
-                  <li>
-                    <a href="https://github.com/David-Desmaisons/EasyActor/blob/circuit_breaker/Documentation/ComposableAsync.Documentation/core-api/index.md/#L1" class="contribution-link">Improve this Doc</a>
-                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
