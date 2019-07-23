@@ -1,24 +1,12 @@
-Composable Async
-================
+# Objective
 
-[![build](https://img.shields.io/appveyor/ci/David-Desmaisons/ComposableAsync.svg)](https://ci.appveyor.com/project/David-Desmaisons/ComposableAsync)
-[![NuGet Badge](https://buildstats.info/nuget/ComposableAsync.Core?includePreReleases=true)](https://www.nuget.org/packages/ComposableAsync.Core/)
-[![MIT License](https://img.shields.io/github/license/David-Desmaisons/ComposableAsync.svg)](https://github.com/David-Desmaisons/ComposableAsync/blob/master/LICENSE)
+ComposableAsync.Core provides dispatcher interface definition and extensions methods.
 
-Create, compose and inject asynchronous behaviors in .Net Framework and .Net Core.
+# Features
 
-# Goal
+## `IDispatcher` abstraction 
 
-* Create asynchronous behavior such as [fiber](https://www.wikiwand.com/en/Fiber_(computer_science)), rate limiter, circuit breaker.
-
-* Compose these behaviors and use them as building blocks with [aspect oriented programming](https://www.wikiwand.com/en/Aspect-oriented_programming).
-
-* Provide a lightweight way inject these behaviors to transform POCOs in [actors](https://en.wikipedia.org/wiki/Actor_model).
-
-
-# Create asynchronous behavior
-
-- Asynchronous behaviors are implemented using [IDispatcher abstraction](). 
+A dispatcher takes an Action, a Function, or a Task and replay it in a different context.
 
 ```C#
 public interface IDispatcher
@@ -48,49 +36,12 @@ public interface IDispatcher
 }
 ```
 
-- Composable Async provides various dispatchers implementation:
-	- Retry
-	```C#
-	// Create dispatcher that catch all ArgumentException and retry for ever with a delay of 200 ms
-	var retryDispatcher = RetryPolicy.For<ArgumentException>().WithWaitBetweenRetry(TimeSpan.FromSeconds(0.2)).ForEver();
-	```
-	See more at [ComposableAsync.Resilient]().
-	
-	- Fiber
-	```C#
-	// Create dispatcher that dispatch all action on the same thread
-	var fiberDispatcher = Fiber.CreateMonoThreadedFiber();
-	```
-	See more at [ComposableAsync.Concurrent]()
-	- RateLimiter
-	```C#
-	// Create dispatcher that dispatch all action on the same thread
-	var timeConstraint = TimeLimiter.GetFromMaxCountByInterval(5, TimeSpan.FromSeconds(1));
-	```
-	See more at [RateLimiter](https://github.com/David-Desmaisons/RateLimiter)
+## Extension methods
+In order to transform, compose and await `IDispatcher`
 
+- Await a dispatcher:
 
-# Compose dispatchers
-
-Use then extension methods to create a dispatcher that will execute sequentially dispatchers
-
-```C#
-/// <summary>
-/// Returns a composed dispatcher applying the given dispatchers sequentially
-/// </summary>
-/// <param name="dispatcher"></param>
-/// <param name="others"></param>
-/// <returns></returns>
-public static IDispatcher Then(this IDispatcher dispatcher, IEnumerable<IDispatcher> others)
-```
-
-```C#
-var composed = fiberDispatcher.Then(timeConstraint);
-```
-
-# Use dispatchers
-
-## Await dispatcher
+The code following a await on a dispatcher will be executed in the dispatcher context.
 
 ```C#
 await fiberDispatcher;
@@ -99,53 +50,25 @@ await fiberDispatcher;
 Console.WriteLine($"This is fiber thread {Thread.CurrentThread.ManagedThreadId}");
 ```
 
-## As httpDelegateHandler
+- Compose two dispatchers:
 
-Transform a dispatcher into [HttpMessageHandler](https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpmessagehandler?view=netframework-4.8) with AsDelegatingHandler extension method:
 ```C#
-/// Using time limiter nuget
+var composed = dispatcher1.Then(dispatcher2);
+```
+
+- Transform a dispatcher into [HttpMessageHandler](https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpmessagehandler?view=netframework-4.8) with AsDelegatingHandler extension method:
+```C#
+/// Using timelimiter nuget
 var handler = TimeLimiter
 	.GetFromMaxCountByInterval(60, TimeSpan.FromMinutes(1))
 	.AsDelegatingHandler();
-var client = new HttpClient(handler);
+var client = new HttpClient(handler)
 ```
-
-## As wrapper for proxy Factory
-
-Using `ComposableAsync.Factory`, with this option all methods call to the proxyfied object are wrapped using the provided dispatcher.
-
-```C#
-var retryDispatcher = RetryPolicy.For<SystemException>().ForEver();
-
-var originalObject = new BusinessObject();
-var proxyFactory = new ProxyFactory(retryDispatcher);
-var proxyObject = proxyFactory.Build<IBusinessObject>(originalObject);
-
-// The call to the originalObject will be wrapped into a retry policy for SystemException
-var res = await proxyObject.Execute(cancellationToken);
-```
-
-See []()
 
 # Nuget
-
-For core functionality:
 
 ```
 Install-Package ComposableAsync.Core
 ```
 
-For factories:
-
-```
-Install-Package ComposableAsync.Factory
-```
-
-For actors:
-
-```
-Install-Package ComposableAsync.Concurrent
-```
-
 [Go nuget packages](https://www.nuget.org/packages/ComposableAsync.Core/)
-

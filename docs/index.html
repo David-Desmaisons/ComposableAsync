@@ -80,54 +80,20 @@
 </li>
 </ul>
 <h1 id="create-asynchronous-behavior">Create asynchronous behavior</h1>
-<p>Asynchronous behaviors are implemented using <a href="">IDispatcher abstraction</a>. </p>
-<pre><code class="lang-C#">public interface IDispatcher
-{
-    /// &lt;summary&gt;
-    /// Enqueue the action and return a task corresponding to
-    /// the completion of the action
-    /// &lt;/summary&gt;
-    Task Enqueue(Action action);
-
-    /// &lt;summary&gt;
-    /// Enqueue the function and return a task corresponding to
-    /// the result of the function
-    /// &lt;/summary&gt;
-    Task&lt;T&gt; Enqueue&lt;T&gt;(Func&lt;T&gt; action);
-
-    /// &lt;summary&gt;
-    /// Enqueue the task and return a task corresponding
-    /// to the execution of the original task
-    /// &lt;/summary&gt;
-    /// &lt;typeparam name=&quot;T&quot;&gt;&lt;/typeparam&gt;
-    /// &lt;param name=&quot;action&quot;&gt;&lt;/param&gt;
-    /// &lt;returns&gt;&lt;/returns&gt;
-    Task&lt;T&gt; Enqueue&lt;T&gt;(Func&lt;Task&lt;T&gt;&gt; action);
-
-    ///...Additional signatures including Task and CancellationToken
-}
-</code></pre><p>Composable Async provides various dispatchers implementation:</p>
-<ul>
-<li>Retry:
-<code>C#
-// Create dispatcher that catch all ArgumentException and retry for ever with a delay of 200 ms
-var retryDispatcher = RetryPolicy.For&lt;ArgumentException&gt;().WithWaitBetweenRetry(TimeSpan.FromSeconds(0.2)).ForEver();</code></li>
-</ul>
-<p>See more at <a href="">ComposableAsync.Resilient</a></p>
-<ul>
-<li>Fiber:
-<code>C#
-// Create dispatcher that dispatch all action on the same thread
-var fiberDispatcher = Fiber.CreateMonoThreadedFiber();</code></li>
-</ul>
-<p>See more at <a href="">ComposableAsync.Concurrent</a></p>
-<ul>
-<li>RateLimit:
-<code>C#
-// Create dispatcher that dispatch all action on the same thread
-var timeConstraint = TimeLimiter.GetFromMaxCountByInterval(5, TimeSpan.FromSeconds(1));</code></li>
-</ul>
-<p>See more at <a href="https://github.com/David-Desmaisons/RateLimiter">RateLimiter</a></p>
+<p>Asynchronous behaviors are implemented using <a href="./core-api/ComposableAsync.IDispatcher.html">IDispatcher abstraction</a>. </p>
+<p>Composable Async provides various dispatchers implementation:</p>
+<h2 id="retry">Retry</h2>
+<pre><code class="lang-C#">// Create dispatcher that catch all ArgumentException and retry for ever with a delay of 200 ms
+var retryDispatcher = RetryPolicy.For&lt;ArgumentException&gt;().WithWaitBetweenRetry(TimeSpan.FromSeconds(0.2)).ForEver();
+</code></pre><p>See more at <a href="./resilient-api/index.html">ComposableAsync.Resilient</a></p>
+<h2 id="fiber">Fiber</h2>
+<pre><code class="lang-C#">// Create dispatcher that dispatch all action on the same thread
+var fiberDispatcher = Fiber.CreateMonoThreadedFiber();
+</code></pre><p>See more at <a href="./concurrent-api/index.html">ComposableAsync.Concurrent</a></p>
+<h2 id="ratelimiter">RateLimiter</h2>
+<pre><code class="lang-C#">// Create dispatcher that dispatch all action on the same thread
+var timeConstraint = TimeLimiter.GetFromMaxCountByInterval(5, TimeSpan.FromSeconds(1));
+</code></pre><p>See more at <a href="https://github.com/David-Desmaisons/RateLimiter">RateLimiter</a></p>
 <h1 id="compose-dispatchers">Compose dispatchers</h1>
 <p>Use then extension methods to create a dispatcher that will execute sequentially dispatchers</p>
 <pre><code class="lang-C#">/// &lt;summary&gt;

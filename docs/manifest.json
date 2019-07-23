@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "core-api/index.html",
-          "hash": "26R2UdEvU6doHMmYkmeZyg=="
+          "hash": "2A5LF4oFCLN3ZADnwE6hFg=="
         }
       },
       "is_incremental": false,
@@ -40,12 +40,15 @@
       "version": ""
     },
     {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
       "type": "Conceptual",
       "source_relative_path": "index.md",
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "v//TLLHGl2B43xT7Jgyxpg=="
+          "hash": "+kBhh7jbOc2TsUI9JTLkfA=="
         }
       },
       "is_incremental": false,

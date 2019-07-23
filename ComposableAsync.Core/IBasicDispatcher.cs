@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 namespace ComposableAsync
 {
     /// <summary>
-    /// Simplified version of <see cref="DispatcherAdapter"/> that can be converted
-    /// to a <see cref="DispatcherAdapter"/> using the ToFullDispatcher extension method
+    /// Simplified version of <see cref="IDispatcher"/> that can be converted
+    /// to a <see cref="IDispatcher"/> using the ToFullDispatcher extension method
     /// </summary>
     public interface IBasicDispatcher
     {

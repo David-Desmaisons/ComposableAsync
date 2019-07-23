@@ -18,57 +18,31 @@ Create, compose and inject asynchronous behaviors in .Net Framework and .Net Cor
 
 # Create asynchronous behavior
 
-Asynchronous behaviors are implemented using [IDispatcher abstraction](). 
-
-```C#
-public interface IDispatcher
-{
-	/// <summary>
-	/// Enqueue the action and return a task corresponding to
-	/// the completion of the action
-	/// </summary>
-	Task Enqueue(Action action);
-
-	/// <summary>
-	/// Enqueue the function and return a task corresponding to
-	/// the result of the function
-	/// </summary>
-	Task<T> Enqueue<T>(Func<T> action);
-
-	/// <summary>
-	/// Enqueue the task and return a task corresponding
-	/// to the execution of the original task
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <param name="action"></param>
-	/// <returns></returns>
-	Task<T> Enqueue<T>(Func<Task<T>> action);
-
-	///...Additional signatures including Task and CancellationToken
-}
-```
+Asynchronous behaviors are implemented using [IDispatcher abstraction](./core-api/ComposableAsync.IDispatcher.html). 
 
 Composable Async provides various dispatchers implementation:
 
 
-- Retry:
+## Retry
 
 ```C#
 // Create dispatcher that catch all ArgumentException and retry for ever with a delay of 200 ms
 var retryDispatcher = RetryPolicy.For<ArgumentException>().WithWaitBetweenRetry(TimeSpan.FromSeconds(0.2)).ForEver();
 ```
 
-See more at [ComposableAsync.Resilient]()
+See more at [ComposableAsync.Resilient](./resilient-api/index.html)
 
-- Fiber:
+## Fiber
+
 ```C#
 // Create dispatcher that dispatch all action on the same thread
 var fiberDispatcher = Fiber.CreateMonoThreadedFiber();
 ```
 
-See more at [ComposableAsync.Concurrent]()
+See more at [ComposableAsync.Concurrent](./concurrent-api/index.html)
 
-- RateLimit:
+##  RateLimiter
+
 ```C#
 // Create dispatcher that dispatch all action on the same thread
 var timeConstraint = TimeLimiter.GetFromMaxCountByInterval(5, TimeSpan.FromSeconds(1));
