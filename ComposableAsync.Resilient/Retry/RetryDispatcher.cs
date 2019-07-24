@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ComposableAsync.Resilient.Retry.ExceptionFilter;
+using ComposableAsync.Resilient.ExceptionFilter;
 
 namespace ComposableAsync.Resilient.Retry
 {
@@ -90,7 +90,7 @@ namespace ComposableAsync.Resilient.Retry
 
         private void ThrowIfNeeded(ref int count, Exception exception)
         {
-            if ((count++ != _MaxRetry) && (!_ExceptionFilter.ShouldBeThrown(exception)))
+            if ((count++ != _MaxRetry) && (!_ExceptionFilter.IsFiltered(exception)))
                 return;
             throw exception;
         }

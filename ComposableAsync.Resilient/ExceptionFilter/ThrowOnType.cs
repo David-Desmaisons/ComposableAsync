@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ComposableAsync.Resilient.Retry.ExceptionFilter
+namespace ComposableAsync.Resilient.ExceptionFilter
 {
     internal class ThrowOnType : IExceptionFilter
     {
@@ -10,10 +10,10 @@ namespace ComposableAsync.Resilient.Retry.ExceptionFilter
 
         internal ThrowOnType(HashSet<Type> types)
         {
-            _Types = types;
+            this._Types = types;
         }
 
-        public bool ShouldBeThrown(Exception exception)
+        public bool IsFiltered(Exception exception)
         {
             var type = exception.GetType();
             return _Types.All(t => t != type && !type.IsSubclassOf(t));

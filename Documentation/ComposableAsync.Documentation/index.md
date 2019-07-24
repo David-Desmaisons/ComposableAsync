@@ -9,7 +9,7 @@ Create, compose and inject asynchronous behaviors in .Net Framework and .Net Cor
 
 # Goal
 
-* Create asynchronous behavior such as [fiber](https://www.wikiwand.com/en/Fiber_(computer_science)), rate limiter, circuit breaker.
+* Create asynchronous behavior such as [fiber](https://www.wikiwand.com/en/Fiber_(computer_science)), rate limiter, [circuit breaker](https://www.wikiwand.com/en/Circuit_breaker_design_pattern).
 
 * Compose these behaviors and use them as building blocks with [aspect oriented programming](https://www.wikiwand.com/en/Aspect-oriented_programming).
 

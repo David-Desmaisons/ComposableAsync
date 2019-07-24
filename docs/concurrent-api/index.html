@@ -76,9 +76,16 @@
 <p>ComposableAsync.Concurrent provides API to create <a href="https://en.wikipedia.org/wiki/Actor_model">Actors</a> and <a href="https://www.wikiwand.com/en/Fiber_(computer_science)">fiber</a> dispatcher.</p>
 <h1 id="features">Features</h1>
 <h2 id="fiber-dispatcher">Fiber dispatcher:</h2>
+<p>For a complete definition of fiber see <a href="https://www.wikiwand.com/en/Fiber_(computer_science)">wiki definition</a>.</p>
+<p><code>ComposableAsync</code> fibers:</p>
 <ul>
-<li>Create a fiber:</li>
+<li>dispatches all action to the same thread</li>
+<li>manages work queue to allow parallelism </li>
 </ul>
+<p>Internally <code>ComposableAsync.Concurrent</code> use a multiple producer, single consumer queue that ensure better performance than .Net 
+<code>BlockingCollection&lt;T&gt;</code>.</p>
+<p>This collection was adapted from <a href="http://www.1024cores.net/home/lock-free-algorithms/queues/non-intrusive-mpsc-node-based-queue">1024cores.net article</a>.</p>
+<h3 id="create-a-fiber">Create a fiber:</h3>
 <pre><code class="lang-C#">var fiberDispatcher = Fiber.CreateMonoThreadedFiber();
 </code></pre><ul>
 <li>Basic usage</li>

@@ -5,7 +5,19 @@ ComposableAsync.Concurrent provides API to create [Actors](https://en.wikipedia.
 # Features
 
 ## Fiber dispatcher:
-- Create a fiber:
+
+For a complete definition of fiber see [wiki definition](https://www.wikiwand.com/en/Fiber_(computer_science)).
+
+`ComposableAsync` fibers:
+- dispatches all action to the same thread
+- manages work queue to allow parallelism 
+
+Internally `ComposableAsync.Concurrent` use a multiple producer, single consumer queue that ensure better performance than .Net 
+`BlockingCollection<T>`.
+
+This collection was adapted from [1024cores.net article](http://www.1024cores.net/home/lock-free-algorithms/queues/non-intrusive-mpsc-node-based-queue).
+
+### Create a fiber:
 
 ```C#
 var fiberDispatcher = Fiber.CreateMonoThreadedFiber();

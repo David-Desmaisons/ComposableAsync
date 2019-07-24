@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ComposableAsync.Resilient.Retry.ExceptionFilter
+namespace ComposableAsync.Resilient.ExceptionFilter
 {
     internal class PredicateExceptionFilter : IExceptionFilter
     {
@@ -8,10 +8,10 @@ namespace ComposableAsync.Resilient.Retry.ExceptionFilter
 
         public PredicateExceptionFilter(Predicate<Exception> predicate)
         {
-            _Predicate = predicate;
+            this._Predicate = predicate;
         }
 
-        public bool ShouldBeThrown(Exception exception)
+        public bool IsFiltered(Exception exception)
         {
             return !_Predicate(exception);
         }
@@ -26,7 +26,7 @@ namespace ComposableAsync.Resilient.Retry.ExceptionFilter
             _Predicate = predicate;
         }
 
-        public bool ShouldBeThrown(Exception exception)
+        public bool IsFiltered(Exception exception)
         {
             if (exception is T typedException)
                 return !_Predicate(typedException);

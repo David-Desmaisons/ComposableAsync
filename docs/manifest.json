@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "concurrent-api/index.html",
-          "hash": "pKAUtwNTSfR8L01R8kftRQ=="
+          "hash": "+Bs8dB0+84bi274acJEMzw=="
         }
       },
       "is_incremental": false,
@@ -48,7 +48,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "+kBhh7jbOc2TsUI9JTLkfA=="
+          "hash": "Hl58RYE7buNZCpLKM7qPhA=="
         }
       },
       "is_incremental": false,
@@ -283,15 +283,12 @@
       "version": ""
     },
     {
-      "log_codes": [
-        "ReferencedXrefPropertyNotString"
-      ],
       "type": "ManagedReference",
       "source_relative_path": "obj/docfx/core-api/ComposableAsync.IBasicDispatcher.yml",
       "output": {
         ".html": {
           "relative_path": "core-api/ComposableAsync.IBasicDispatcher.html",
-          "hash": "7FDrS/xW4tPC9HLjpkdupw=="
+          "hash": "B3cKWlUhn6vFLhVUmNqcuQ=="
         }
       },
       "is_incremental": false,
@@ -358,15 +355,12 @@
       "version": ""
     },
     {
-      "log_codes": [
-        "ReferencedXrefPropertyNotString"
-      ],
       "type": "ManagedReference",
       "source_relative_path": "obj/docfx/core-api/ComposableAsync.yml",
       "output": {
         ".html": {
           "relative_path": "core-api/ComposableAsync.html",
-          "hash": "4rD9IKq+Q6wNNyeFsese1w=="
+          "hash": "lISdx7/Q9OXSH0FP/G+XQg=="
         }
       },
       "is_incremental": false,
@@ -530,6 +524,42 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.CircuitBreakerPolicy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "resilient-api/ComposableAsync.Resilient.CircuitBreakerPolicy.html",
+          "hash": "ZpKUdTncT8R73O1dKfDVVQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.ICircuitBreakerBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "resilient-api/ComposableAsync.Resilient.ICircuitBreakerBuilder.html",
+          "hash": "6PgFI+fSj8smj1RwHRryBQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.ICircuitBreakerWithTypeBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "resilient-api/ComposableAsync.Resilient.ICircuitBreakerWithTypeBuilder.html",
+          "hash": "hS34QEXXU0YkBrjybLjlIA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.IRetryBuilder.yml",
       "output": {
         ".html": {
@@ -570,7 +600,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.Resilient.html",
-          "hash": "K5Ebg92jjLPVHTzI/A5EhQ=="
+          "hash": "qohB5ZNXyuFgjukyq5o93g=="
         }
       },
       "is_incremental": false,
@@ -582,7 +612,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/toc.html",
-          "hash": "8aERsirZUuOwyTKZfZibUw=="
+          "hash": "wZj6bbNFlgIe9N+El4Ry2A=="
         }
       },
       "is_incremental": false,
@@ -643,7 +673,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 40,
+          "total_file_count": 43,
           "skipped_file_count": 0
         }
       }

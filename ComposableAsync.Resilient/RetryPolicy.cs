@@ -1,6 +1,6 @@
 ﻿using System;
+using ComposableAsync.Resilient.ExceptionFilter;
 using ComposableAsync.Resilient.Retry;
-using ComposableAsync.Resilient.Retry.ExceptionFilter;
 
 namespace ComposableAsync.Resilient
 {

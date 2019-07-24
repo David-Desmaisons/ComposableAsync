@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using ComposableAsync.Resilient.Retry.ExceptionFilter;
+using ComposableAsync.Resilient.ExceptionFilter;
 
 namespace ComposableAsync.Resilient.Retry
 {
@@ -92,7 +92,7 @@ namespace ComposableAsync.Resilient.Retry
 
         private async Task<int> ThrowIfNeeded(int count, Exception exception, CancellationToken cancellationToken)
         {
-            if ((count == _MaxRetry) || (_ExceptionFilter.ShouldBeThrown(exception)))
+            if ((count == _MaxRetry) || (_ExceptionFilter.IsFiltered(exception)))
                 throw exception;
 
             var wait = GetWait(count);
