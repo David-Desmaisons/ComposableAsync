@@ -36,8 +36,7 @@ namespace ComposableAsync.Resilient.Test
             _FakeAction.Received(1).Invoke();
         }
 
-        [Theory]
-        [AutoData]
+        [Theory,AutoData]
         public async Task ForAllException_Enqueue_Func_Call_Func(int result)
         {
             _FakeFunction.Invoke().Returns(result);
@@ -55,8 +54,7 @@ namespace ComposableAsync.Resilient.Test
             await _FakeTask.Received(1).Invoke();
         }
 
-        [Theory]
-        [AutoData]
+        [Theory,AutoData]
         public async Task ForAllException_Enqueue_Task_Call_Func_Task_T(int result)
         {
             _FakeTaskT.Invoke().Returns(Task.FromResult(result));
@@ -116,7 +114,6 @@ namespace ComposableAsync.Resilient.Test
             Func<Task<int>> @do = async () => await _ForAll.Enqueue(_FakeTaskT);
 
             (await @do.Should().ThrowAsync<Exception>()).Where(ex => ex.GetType() == exceptionType);
-            await _FakeTaskT.Received(1).Invoke();
         }
     }
 }
