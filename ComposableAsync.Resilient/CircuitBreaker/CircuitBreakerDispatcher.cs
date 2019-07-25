@@ -94,7 +94,7 @@ namespace ComposableAsync.Resilient.CircuitBreaker
 
         private void CheckException(Exception exception)
         {
-            if (!_ExceptionFilter.IsFiltered(exception))
+            if (_ExceptionFilter.IsFiltered(exception))
                 return;
 
             lock (this)
@@ -114,7 +114,7 @@ namespace ComposableAsync.Resilient.CircuitBreaker
                     return;
 
                 case BreakerState.Closed:
-                    if (_SuccessiveFails++ == _Threshold)
+                    if (++_SuccessiveFails == _Threshold)
                         _State = BreakerState.Open;
                     return;
             }

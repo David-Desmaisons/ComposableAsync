@@ -115,5 +115,89 @@ namespace ComposableAsync.Resilient.Test
 
             (await @do.Should().ThrowAsync<Exception>()).Where(ex => ex.GetType() == exceptionType);
         }
+
+        [Theory]
+        [InlineData(typeof(ArgumentException), 1)]
+        [InlineData(typeof(ArgumentNullException), 3)]
+        [InlineData(typeof(SystemException), 2)]
+        [InlineData(typeof(Exception), 1)]
+        public async Task ForAllException_Enqueue_Action_Reach_Open_State_When_MaxAttemps_Reached(Type exceptionType, int maxAttemps)
+        {
+            var circuitBreaker = CircuitBreakerPolicy.ForAllException().WithRetryAndTimeout(maxAttemps, _TimeOut);
+
+            _FakeAction.SetUpExceptions(10, exceptionType);
+            Func<Task> @do = async () => await circuitBreaker.Enqueue(_FakeAction);
+            for(var count=0; count< maxAttemps; count++)
+            {
+                (await @do.Should().ThrowAsync<Exception>()).Where(ex => ex.GetType() == exceptionType);
+            }
+            _FakeAction.Received(maxAttemps).Invoke();
+
+            await @do.Should().ThrowAsync<CircuitBreakerOpenException>();
+            _FakeAction.Received(maxAttemps).Invoke();
+        }
+
+        [Theory]
+        [InlineData(typeof(ArgumentException), 1)]
+        [InlineData(typeof(ArgumentNullException), 3)]
+        [InlineData(typeof(SystemException), 2)]
+        [InlineData(typeof(Exception), 1)]
+        public async Task ForAllException_Enqueue_Func_Reach_Open_State_When_MaxAttemps_Reached(Type exceptionType, int maxAttemps)
+        {
+            var circuitBreaker = CircuitBreakerPolicy.ForAllException().WithRetryAndTimeout(maxAttemps, _TimeOut);
+
+            _FakeFunction.SetUpExceptions(10, 7, exceptionType);
+            Func<Task<int>> @do = async () => await circuitBreaker.Enqueue(_FakeFunction);
+            for(var count=0; count< maxAttemps; count++)
+            {
+                (await @do.Should().ThrowAsync<Exception>()).Where(ex => ex.GetType() == exceptionType);
+            }
+            _FakeFunction.Received(maxAttemps).Invoke();
+
+            await @do.Should().ThrowAsync<CircuitBreakerOpenException>();
+            _FakeFunction.Received(maxAttemps).Invoke();
+        }
+
+        [Theory]
+        [InlineData(typeof(ArgumentException), 1)]
+        [InlineData(typeof(ArgumentNullException), 3)]
+        [InlineData(typeof(SystemException), 2)]
+        [InlineData(typeof(Exception), 1)]
+        public async Task ForAllException_Enqueue_Task_Reach_Open_State_When_MaxAttemps_Reached(Type exceptionType, int maxAttemps)
+        {
+            var circuitBreaker = CircuitBreakerPolicy.ForAllException().WithRetryAndTimeout(maxAttemps, _TimeOut);
+
+            _FakeTask.SetUpExceptions(10, exceptionType);
+            Func<Task> @do = async () => await circuitBreaker.Enqueue(_FakeTask);
+            for(var count=0; count< maxAttemps; count++)
+            {
+                (await @do.Should().ThrowAsync<Exception>()).Where(ex => ex.GetType() == exceptionType);
+            }
+            await _FakeTask.Received(maxAttemps).Invoke();
+
+            await @do.Should().ThrowAsync<CircuitBreakerOpenException>();
+            await _FakeTask.Received(maxAttemps).Invoke();
+        }
+
+        [Theory]
+        [InlineData(typeof(ArgumentException), 1)]
+        [InlineData(typeof(ArgumentNullException), 3)]
+        [InlineData(typeof(SystemException), 2)]
+        [InlineData(typeof(Exception), 1)]
+        public async Task ForAllException_Enqueue_Task_T_Reach_Open_State_When_MaxAttemps_Reached(Type exceptionType, int maxAttemps)
+        {
+            var circuitBreaker = CircuitBreakerPolicy.ForAllException().WithRetryAndTimeout(maxAttemps, _TimeOut);
+
+            _FakeTaskT.SetUpExceptions(10, 7, exceptionType);
+            Func<Task<int>> @do = async () => await circuitBreaker.Enqueue(_FakeTaskT);
+            for(var count=0; count< maxAttemps; count++)
+            {
+                (await @do.Should().ThrowAsync<Exception>()).Where(ex => ex.GetType() == exceptionType);
+            }
+            await _FakeTaskT.Received(maxAttemps).Invoke();
+
+            await @do.Should().ThrowAsync<CircuitBreakerOpenException>();
+            await _FakeTaskT.Received(maxAttemps).Invoke();
+        }
     }
 }
