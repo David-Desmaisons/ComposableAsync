@@ -22,7 +22,7 @@ namespace ComposableAsync.Resilient.Test
         private readonly Func<Task> _FakeTask;
         private readonly Func<Task<int>> _FakeTaskT;
 
-        private readonly int _TimeOut = 200;
+        private const int _TimeOut = 200;
 
         public RetryPolicyTests()
         {
@@ -952,6 +952,39 @@ namespace ComposableAsync.Resilient.Test
             await @do.Should().ThrowAsync<NullReferenceException>();
             await _FakeTask.Received(maxRetry + 1).Invoke();
         }
+
+        [Theory]
+        [InlineData(typeof(ArgumentException))]
+        [InlineData(typeof(ArgumentNullException))]
+        public async Task ForException_WithMax_Throw_Exception_When_Different_From_Type(Type exceptionType)
+        {
+            var replay = RetryPolicy.For<NullReferenceException>().WithMaxRetry(1000);
+            _FakeTask.SetUpExceptions(1, exceptionType);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeTask);
+            await @do.Should().ThrowAsync<ArgumentException>();
+            await _FakeTask.Received(1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(typeof(ArgumentException))]
+        [InlineData(typeof(ArgumentNullException))]
+        public async Task ForException_WithMax_Enqueue_Task_Only_Count_Exception_From_Type(Type exceptionType)
+        {
+            var replay = RetryPolicy.For<NullReferenceException>().WithMaxRetry(3);
+            _FakeTask.SetUpExceptions(100, exceptionType);
+            Func<Task> @do = async () => await replay.Enqueue(_FakeTask);
+            for (var count = 0; count < 3; count++)
+            {
+                (await @do.Should().ThrowAsync<Exception>()).Where(ex => ex.GetType() == exceptionType);
+                await _FakeTask.Received(1 + count).Invoke();
+            }
+
+            var fakeTask = Substitute.For<Func<Task>>();
+            fakeTask.SetUpExceptions(1, typeof(NullReferenceException));
+            @do = async () => await replay.Enqueue(fakeTask);
+            await @do.Should().NotThrowAsync<NullReferenceException>();
+        }
+
         #endregion
 
         #region ForException none generic

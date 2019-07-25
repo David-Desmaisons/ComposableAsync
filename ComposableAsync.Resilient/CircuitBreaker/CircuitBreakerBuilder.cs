@@ -1,4 +1,5 @@
-﻿using ComposableAsync.Resilient.ExceptionFilter;
+﻿using System;
+using ComposableAsync.Resilient.ExceptionFilter;
 
 namespace ComposableAsync.Resilient.CircuitBreaker
 {
@@ -11,9 +12,14 @@ namespace ComposableAsync.Resilient.CircuitBreaker
             _ExceptionFilter = exceptionFilter;
         }
 
-        public IDispatcher From()
+        public IDispatcher WithRetryAndTimeout(int attemptsBeforeOpen, TimeSpan timeoutBeforeRetry)
         {
-            throw new System.NotImplementedException();
+            return new CircuitBreakerDispatcher(_ExceptionFilter, attemptsBeforeOpen, timeoutBeforeRetry).ToFullDispatcher();
+        }
+
+        public IDispatcher WithRetryAndTimeout(int attemptsBeforeOpen, int timeoutBeforeRetryInMilliseconds)
+        {
+            return WithRetryAndTimeout(attemptsBeforeOpen, TimeSpan.FromMilliseconds(timeoutBeforeRetryInMilliseconds));
         }
     }
 }

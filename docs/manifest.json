@@ -524,11 +524,23 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.CircuitBreakerOpenException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "resilient-api/ComposableAsync.Resilient.CircuitBreakerOpenException.html",
+          "hash": "ZOPoKS4/OM4zPQfZwgJGjQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.CircuitBreakerPolicy.yml",
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.Resilient.CircuitBreakerPolicy.html",
-          "hash": "ZpKUdTncT8R73O1dKfDVVQ=="
+          "hash": "q4QDZjDtqZ7bLyoNmWyTkA=="
         }
       },
       "is_incremental": false,
@@ -540,7 +552,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.Resilient.ICircuitBreakerBuilder.html",
-          "hash": "6PgFI+fSj8smj1RwHRryBQ=="
+          "hash": "dbJmRjjYpuK9auICyvykuQ=="
         }
       },
       "is_incremental": false,
@@ -552,7 +564,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.Resilient.ICircuitBreakerWithTypeBuilder.html",
-          "hash": "hS34QEXXU0YkBrjybLjlIA=="
+          "hash": "6VrWw5+Sj/VWe/CkYR59ag=="
         }
       },
       "is_incremental": false,
@@ -600,7 +612,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.Resilient.html",
-          "hash": "qohB5ZNXyuFgjukyq5o93g=="
+          "hash": "TNCK28/xtBAAwpe8Gp3Phg=="
         }
       },
       "is_incremental": false,
@@ -612,7 +624,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/toc.html",
-          "hash": "wZj6bbNFlgIe9N+El4Ry2A=="
+          "hash": "DKdMSo1KDGcEP/3D8h57/g=="
         }
       },
       "is_incremental": false,
@@ -657,13 +669,6 @@
         "full_build_reason_code": "ForceRebuild"
       },
       "processors": {
-        "TocDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build",
-          "total_file_count": 0,
-          "skipped_file_count": 0
-        },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
@@ -673,7 +678,14 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 43,
+          "total_file_count": 44,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
           "skipped_file_count": 0
         }
       }

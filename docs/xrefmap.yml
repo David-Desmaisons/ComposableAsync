@@ -1464,6 +1464,12 @@ references:
   commentId: N:ComposableAsync.Resilient
   fullName: ComposableAsync.Resilient
   nameWithType: ComposableAsync.Resilient
+- uid: ComposableAsync.Resilient.CircuitBreakerOpenException
+  name: CircuitBreakerOpenException
+  href: resilient-api/ComposableAsync.Resilient.CircuitBreakerOpenException.html
+  commentId: T:ComposableAsync.Resilient.CircuitBreakerOpenException
+  fullName: ComposableAsync.Resilient.CircuitBreakerOpenException
+  nameWithType: CircuitBreakerOpenException
 - uid: ComposableAsync.Resilient.CircuitBreakerPolicy
   name: CircuitBreakerPolicy
   href: resilient-api/ComposableAsync.Resilient.CircuitBreakerPolicy.html
@@ -1486,6 +1492,15 @@ references:
   fullName.vb: ComposableAsync.Resilient.CircuitBreakerPolicy.For(Of T)()
   nameWithType: CircuitBreakerPolicy.For<T>()
   nameWithType.vb: CircuitBreakerPolicy.For(Of T)()
+- uid: ComposableAsync.Resilient.CircuitBreakerPolicy.For``1(System.Predicate{``0})
+  name: For<T>(Predicate<T>)
+  href: resilient-api/ComposableAsync.Resilient.CircuitBreakerPolicy.html#ComposableAsync_Resilient_CircuitBreakerPolicy_For__1_System_Predicate___0__
+  commentId: M:ComposableAsync.Resilient.CircuitBreakerPolicy.For``1(System.Predicate{``0})
+  name.vb: For(Of T)(Predicate(Of T))
+  fullName: ComposableAsync.Resilient.CircuitBreakerPolicy.For<T>(System.Predicate<T>)
+  fullName.vb: ComposableAsync.Resilient.CircuitBreakerPolicy.For(Of T)(System.Predicate(Of T))
+  nameWithType: CircuitBreakerPolicy.For<T>(Predicate<T>)
+  nameWithType.vb: CircuitBreakerPolicy.For(Of T)(Predicate(Of T))
 - uid: ComposableAsync.Resilient.CircuitBreakerPolicy.ForAllException
   name: ForAllException()
   href: resilient-api/ComposableAsync.Resilient.CircuitBreakerPolicy.html#ComposableAsync_Resilient_CircuitBreakerPolicy_ForAllException
@@ -1499,25 +1514,47 @@ references:
   isSpec: "True"
   fullName: ComposableAsync.Resilient.CircuitBreakerPolicy.ForAllException
   nameWithType: CircuitBreakerPolicy.ForAllException
+- uid: ComposableAsync.Resilient.CircuitBreakerPolicy.ForException(System.Predicate{System.Exception})
+  name: ForException(Predicate<Exception>)
+  href: resilient-api/ComposableAsync.Resilient.CircuitBreakerPolicy.html#ComposableAsync_Resilient_CircuitBreakerPolicy_ForException_System_Predicate_System_Exception__
+  commentId: M:ComposableAsync.Resilient.CircuitBreakerPolicy.ForException(System.Predicate{System.Exception})
+  name.vb: ForException(Predicate(Of Exception))
+  fullName: ComposableAsync.Resilient.CircuitBreakerPolicy.ForException(System.Predicate<System.Exception>)
+  fullName.vb: ComposableAsync.Resilient.CircuitBreakerPolicy.ForException(System.Predicate(Of System.Exception))
+  nameWithType: CircuitBreakerPolicy.ForException(Predicate<Exception>)
+  nameWithType.vb: CircuitBreakerPolicy.ForException(Predicate(Of Exception))
+- uid: ComposableAsync.Resilient.CircuitBreakerPolicy.ForException*
+  name: ForException
+  href: resilient-api/ComposableAsync.Resilient.CircuitBreakerPolicy.html#ComposableAsync_Resilient_CircuitBreakerPolicy_ForException_
+  commentId: Overload:ComposableAsync.Resilient.CircuitBreakerPolicy.ForException
+  isSpec: "True"
+  fullName: ComposableAsync.Resilient.CircuitBreakerPolicy.ForException
+  nameWithType: CircuitBreakerPolicy.ForException
 - uid: ComposableAsync.Resilient.ICircuitBreakerBuilder
   name: ICircuitBreakerBuilder
   href: resilient-api/ComposableAsync.Resilient.ICircuitBreakerBuilder.html
   commentId: T:ComposableAsync.Resilient.ICircuitBreakerBuilder
   fullName: ComposableAsync.Resilient.ICircuitBreakerBuilder
   nameWithType: ICircuitBreakerBuilder
-- uid: ComposableAsync.Resilient.ICircuitBreakerBuilder.From
-  name: From()
-  href: resilient-api/ComposableAsync.Resilient.ICircuitBreakerBuilder.html#ComposableAsync_Resilient_ICircuitBreakerBuilder_From
-  commentId: M:ComposableAsync.Resilient.ICircuitBreakerBuilder.From
-  fullName: ComposableAsync.Resilient.ICircuitBreakerBuilder.From()
-  nameWithType: ICircuitBreakerBuilder.From()
-- uid: ComposableAsync.Resilient.ICircuitBreakerBuilder.From*
-  name: From
-  href: resilient-api/ComposableAsync.Resilient.ICircuitBreakerBuilder.html#ComposableAsync_Resilient_ICircuitBreakerBuilder_From_
-  commentId: Overload:ComposableAsync.Resilient.ICircuitBreakerBuilder.From
+- uid: ComposableAsync.Resilient.ICircuitBreakerBuilder.WithRetryAndTimeout(System.Int32,System.Int32)
+  name: WithRetryAndTimeout(Int32, Int32)
+  href: resilient-api/ComposableAsync.Resilient.ICircuitBreakerBuilder.html#ComposableAsync_Resilient_ICircuitBreakerBuilder_WithRetryAndTimeout_System_Int32_System_Int32_
+  commentId: M:ComposableAsync.Resilient.ICircuitBreakerBuilder.WithRetryAndTimeout(System.Int32,System.Int32)
+  fullName: ComposableAsync.Resilient.ICircuitBreakerBuilder.WithRetryAndTimeout(System.Int32, System.Int32)
+  nameWithType: ICircuitBreakerBuilder.WithRetryAndTimeout(Int32, Int32)
+- uid: ComposableAsync.Resilient.ICircuitBreakerBuilder.WithRetryAndTimeout(System.Int32,System.TimeSpan)
+  name: WithRetryAndTimeout(Int32, TimeSpan)
+  href: resilient-api/ComposableAsync.Resilient.ICircuitBreakerBuilder.html#ComposableAsync_Resilient_ICircuitBreakerBuilder_WithRetryAndTimeout_System_Int32_System_TimeSpan_
+  commentId: M:ComposableAsync.Resilient.ICircuitBreakerBuilder.WithRetryAndTimeout(System.Int32,System.TimeSpan)
+  fullName: ComposableAsync.Resilient.ICircuitBreakerBuilder.WithRetryAndTimeout(System.Int32, System.TimeSpan)
+  nameWithType: ICircuitBreakerBuilder.WithRetryAndTimeout(Int32, TimeSpan)
+- uid: ComposableAsync.Resilient.ICircuitBreakerBuilder.WithRetryAndTimeout*
+  name: WithRetryAndTimeout
+  href: resilient-api/ComposableAsync.Resilient.ICircuitBreakerBuilder.html#ComposableAsync_Resilient_ICircuitBreakerBuilder_WithRetryAndTimeout_
+  commentId: Overload:ComposableAsync.Resilient.ICircuitBreakerBuilder.WithRetryAndTimeout
   isSpec: "True"
-  fullName: ComposableAsync.Resilient.ICircuitBreakerBuilder.From
-  nameWithType: ICircuitBreakerBuilder.From
+  fullName: ComposableAsync.Resilient.ICircuitBreakerBuilder.WithRetryAndTimeout
+  nameWithType: ICircuitBreakerBuilder.WithRetryAndTimeout
 - uid: ComposableAsync.Resilient.ICircuitBreakerWithTypeBuilder
   name: ICircuitBreakerWithTypeBuilder
   href: resilient-api/ComposableAsync.Resilient.ICircuitBreakerWithTypeBuilder.html

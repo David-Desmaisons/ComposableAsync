@@ -33,7 +33,10 @@ namespace ComposableAsync.Resilient.Retry
                 }
                 catch (Exception exception)
                 {
-                    count = await ThrowIfNeeded(count, exception, cancellationToken);
+                    if (ShouldRethrow(count, exception))
+                        throw;
+
+                    await WaitIfNeeded(count++, cancellationToken);
                 }
             }
         }
@@ -50,7 +53,10 @@ namespace ComposableAsync.Resilient.Retry
                 }
                 catch (Exception exception)
                 {
-                    count = await ThrowIfNeeded(count, exception, cancellationToken);
+                    if (ShouldRethrow(count, exception))
+                        throw;
+
+                    await WaitIfNeeded(count++, cancellationToken);
                 }
             }
         }
@@ -67,7 +73,10 @@ namespace ComposableAsync.Resilient.Retry
                 }
                 catch (Exception exception)
                 {
-                    count = await ThrowIfNeeded(count, exception, cancellationToken);
+                    if (ShouldRethrow(count, exception))
+                        throw;
+
+                    await WaitIfNeeded(count++, cancellationToken);
                 }
             }
         }
@@ -85,22 +94,26 @@ namespace ComposableAsync.Resilient.Retry
                 }
                 catch (Exception exception)
                 {
-                    count = await ThrowIfNeeded(count, exception, cancellationToken);
+                    if (ShouldRethrow(count, exception))
+                        throw;
+
+                    await WaitIfNeeded(count++, cancellationToken);
                 }
             }
         }
 
-        private async Task<int> ThrowIfNeeded(int count, Exception exception, CancellationToken cancellationToken)
+        private bool ShouldRethrow(int count, Exception exception)
         {
-            if ((count == _MaxRetry) || (_ExceptionFilter.IsFiltered(exception)))
-                throw exception;
+            return (count == _MaxRetry) || (_ExceptionFilter.IsFiltered(exception));
+        }
 
+        private async Task WaitIfNeeded(int count, CancellationToken cancellationToken)
+        {
             var wait = GetWait(count);
-            if (Math.Abs(wait.TotalMilliseconds) > 0) {
-                await Task.Delay(wait, cancellationToken);
+            if (Math.Abs(wait.TotalMilliseconds) <= 0) {
+                return;
             }
-            
-            return count + 1;
+            await Task.Delay(wait, cancellationToken);
         }
 
         private TimeSpan GetWait(int count)

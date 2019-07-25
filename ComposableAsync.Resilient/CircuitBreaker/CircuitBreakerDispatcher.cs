@@ -37,7 +37,8 @@ namespace ComposableAsync.Resilient.CircuitBreaker
             }
             catch (Exception exception)
             {
-                throw CheckException(exception);
+                CheckException(exception);
+                throw;
             }
             OnSuccess();
             return Task.FromResult(res);
@@ -52,7 +53,8 @@ namespace ComposableAsync.Resilient.CircuitBreaker
             }
             catch (Exception exception)
             {
-                throw CheckException(exception);
+                CheckException(exception);
+                throw;
             }
             OnSuccess();
             return Task.CompletedTask;
@@ -67,7 +69,8 @@ namespace ComposableAsync.Resilient.CircuitBreaker
             }
             catch (Exception exception)
             {
-                throw CheckException(exception);
+                CheckException(exception);
+                throw;
             }
             OnSuccess();
         }
@@ -82,19 +85,14 @@ namespace ComposableAsync.Resilient.CircuitBreaker
             }
             catch (Exception exception)
             {
-                throw CheckException(exception);
+                CheckException(exception);
+                throw;
             }
             OnSuccess();
             return res;
         }
 
-        private Exception CheckException(Exception exception)
-        {
-            AddFailedCount(exception);
-            return exception;
-        }
-
-        private void AddFailedCount(Exception exception)
+        private void CheckException(Exception exception)
         {
             if (!_ExceptionFilter.IsFiltered(exception))
                 return;

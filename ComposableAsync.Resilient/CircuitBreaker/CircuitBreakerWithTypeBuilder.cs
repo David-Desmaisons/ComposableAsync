@@ -21,9 +21,16 @@ namespace ComposableAsync.Resilient.CircuitBreaker
             return this;
         }
 
-        public IDispatcher From()
+        public IDispatcher WithRetryAndTimeout(int attemptsBeforeOpen, TimeSpan timeoutBeforeRetry)
         {
-            return new CircuitBreakerBuilder(_ThrowOnType).From();
+            return GetCircuitBreakerBuilder().WithRetryAndTimeout(attemptsBeforeOpen, timeoutBeforeRetry);
         }
+
+        public IDispatcher WithRetryAndTimeout(int attemptsBeforeOpen, int timeoutBeforeRetryInMilliseconds)
+        {
+            return GetCircuitBreakerBuilder().WithRetryAndTimeout(attemptsBeforeOpen, timeoutBeforeRetryInMilliseconds);
+        }
+
+        private ICircuitBreakerBuilder GetCircuitBreakerBuilder() => new CircuitBreakerBuilder(_ThrowOnType);
     }
 }
