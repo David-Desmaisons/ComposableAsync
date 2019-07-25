@@ -109,18 +109,13 @@ namespace ComposableAsync.Resilient.CircuitBreaker
             switch (_State)
             {
                 case BreakerState.Open:
-                    return;
-
                 case BreakerState.HalfOpen:
                     _State = BreakerState.Open;
                     return;
 
                 case BreakerState.Closed:
-                    _SuccessiveFails++;
-                    if (_SuccessiveFails == _Threshold)
-                    {
+                    if (_SuccessiveFails++ == _Threshold)
                         _State = BreakerState.Open;
-                    }
                     return;
             }
         }
@@ -146,9 +141,7 @@ namespace ComposableAsync.Resilient.CircuitBreaker
                 case BreakerState.Open:
                     var now = DateTime.Now;
                     if (now.Subtract(_LastFail) < _Delay)
-                    {
                         throw new CircuitBreakerOpenException();
-                    }
                     _State = BreakerState.HalfOpen;
                     return;
             }
@@ -159,6 +152,7 @@ namespace ComposableAsync.Resilient.CircuitBreaker
             lock (this)
             {
                 _SuccessiveFails = 0;
+                _State = BreakerState.Closed;
             }
         }
     }
