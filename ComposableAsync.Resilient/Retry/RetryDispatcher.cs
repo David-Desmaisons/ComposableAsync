@@ -31,7 +31,7 @@ namespace ComposableAsync.Resilient.Retry
                 }
                 catch (Exception exception)
                 {
-                    if ((count++ == _MaxRetry) || (_ExceptionFilter.IsFiltered(exception)))
+                    if (ShouldRethrow(ref count, exception))
                         throw;
                 }
             }
@@ -49,7 +49,7 @@ namespace ComposableAsync.Resilient.Retry
                 }
                 catch (Exception exception)
                 {
-                    if ((count++ == _MaxRetry) || (_ExceptionFilter.IsFiltered(exception)))
+                    if (ShouldRethrow(ref count, exception))
                         throw;
                 }
             }
@@ -67,7 +67,7 @@ namespace ComposableAsync.Resilient.Retry
                 }
                 catch (Exception exception)
                 {
-                    if ((count++ == _MaxRetry) || (_ExceptionFilter.IsFiltered(exception)))
+                    if (ShouldRethrow(ref count, exception))
                         throw;
                 }
             }
@@ -86,10 +86,15 @@ namespace ComposableAsync.Resilient.Retry
                 }
                 catch (Exception exception)
                 {
-                    if ((count++ == _MaxRetry) || (_ExceptionFilter.IsFiltered(exception)))
+                    if (ShouldRethrow(ref count, exception))
                         throw;
                 }
             }
+        }
+
+        private bool ShouldRethrow(ref int count, Exception exception)
+        {
+            return (count++ == _MaxRetry) || (_ExceptionFilter.IsFiltered(exception));
         }
     }
 }
