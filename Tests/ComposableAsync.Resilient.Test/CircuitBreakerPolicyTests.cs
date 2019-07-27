@@ -75,7 +75,7 @@ namespace ComposableAsync.Resilient.Test
             _FakeAction.SetUpExceptions(1, exceptionType);
             Func<Task> @do = async () => await _ForAll.Enqueue(_FakeAction);
 
-            (await @do.Should().ThrowAsync<Exception>()).Where(ex => ex.GetType() == exceptionType);
+            await @do.Should().ThrowAsync(exceptionType);
         }
 
         [Theory]
@@ -88,7 +88,7 @@ namespace ComposableAsync.Resilient.Test
             _FakeFunction.SetUpExceptions(1, 7, exceptionType);
             Func<Task<int>> @do = async () => await _ForAll.Enqueue(_FakeFunction);
 
-            (await @do.Should().ThrowAsync<Exception>()).Where(ex => ex.GetType() == exceptionType);
+            await @do.Should().ThrowAsync(exceptionType);
         }
 
         [Theory]
@@ -101,7 +101,7 @@ namespace ComposableAsync.Resilient.Test
             _FakeTask.SetUpExceptions(1, exceptionType);
             Func<Task> @do = async () => await _ForAll.Enqueue(_FakeTask);
 
-            (await @do.Should().ThrowAsync<Exception>()).Where(ex => ex.GetType() == exceptionType);
+            await @do.Should().ThrowAsync(exceptionType);
         }
 
         [Theory]
@@ -114,7 +114,7 @@ namespace ComposableAsync.Resilient.Test
             _FakeTaskT.SetUpExceptions(1, 4, exceptionType);
             Func<Task<int>> @do = async () => await _ForAll.Enqueue(_FakeTaskT);
 
-            (await @do.Should().ThrowAsync<Exception>()).Where(ex => ex.GetType() == exceptionType);
+            await @do.Should().ThrowAsync(exceptionType);
         }
 
         [Theory]
@@ -268,11 +268,87 @@ namespace ComposableAsync.Resilient.Test
             await _FakeTaskT.DidNotReceive().Invoke();
         }
 
+        [Theory]
+        [InlineData(typeof(ArgumentException), 1)]
+        [InlineData(typeof(ArgumentNullException), 3)]
+        [InlineData(typeof(SystemException), 2)]
+        [InlineData(typeof(Exception), 1)]
+        public async Task ForAllException_Enqueue_Action_Retry_After_Time_Out(Type exceptionType, int maxAttempts)
+        {
+            _FakeAction.SetUpExceptions(10, exceptionType);
+            var circuitBreaker = GetForAllShortTimeOut(maxAttempts);
+            Func<Task> Do = async () => await circuitBreaker.Enqueue(_FakeAction);
+
+            await RetryAndExpectException(Do, maxAttempts, exceptionType);
+            _FakeAction.ClearReceivedCalls();
+            await Task.Delay(ShortTimeOut);
+
+            await Do.Should().ThrowAsync(exceptionType);
+            _FakeAction.Received(1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(typeof(ArgumentException), 1)]
+        [InlineData(typeof(ArgumentNullException), 3)]
+        [InlineData(typeof(SystemException), 2)]
+        [InlineData(typeof(Exception), 1)]
+        public async Task ForAllException_Enqueue_Func_Retry_After_Time_Out(Type exceptionType, int maxAttempts)
+        {
+            _FakeFunction.SetUpExceptions(10, 7, exceptionType);
+            var circuitBreaker = GetForAllShortTimeOut(maxAttempts);
+            Func<Task> Do = async () => await circuitBreaker.Enqueue(_FakeFunction);
+
+            await RetryAndExpectException(Do, maxAttempts, exceptionType);
+            _FakeFunction.ClearReceivedCalls();
+            await Task.Delay(ShortTimeOut);
+
+            await Do.Should().ThrowAsync(exceptionType);
+            _FakeFunction.Received(1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(typeof(ArgumentException), 1)]
+        [InlineData(typeof(ArgumentNullException), 3)]
+        [InlineData(typeof(SystemException), 2)]
+        [InlineData(typeof(Exception), 1)]
+        public async Task ForAllException_Enqueue_Task_Retry_After_Time_Out(Type exceptionType, int maxAttempts)
+        {
+            _FakeTask.SetUpExceptions(10, exceptionType);
+            var circuitBreaker = GetForAllShortTimeOut(maxAttempts);
+            Func<Task> Do = async () => await circuitBreaker.Enqueue(_FakeTask);
+
+            await RetryAndExpectException(Do, maxAttempts, exceptionType);
+            _FakeTask.ClearReceivedCalls();
+            await Task.Delay(ShortTimeOut);
+
+            await Do.Should().ThrowAsync(exceptionType);
+            await _FakeTask.Received(1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(typeof(ArgumentException), 1)]
+        [InlineData(typeof(ArgumentNullException), 3)]
+        [InlineData(typeof(SystemException), 2)]
+        [InlineData(typeof(Exception), 1)]
+        public async Task ForAllException_Enqueue_Task_T_Retry_After_Time_Out(Type exceptionType, int maxAttempts)
+        {
+            _FakeTaskT.SetUpExceptions(10, 55, exceptionType);
+            var circuitBreaker = GetForAllShortTimeOut(maxAttempts);
+            Func<Task> Do = async () => await circuitBreaker.Enqueue(_FakeTaskT);
+
+            await RetryAndExpectException(Do, maxAttempts, exceptionType);
+            _FakeTaskT.ClearReceivedCalls();
+            await Task.Delay(ShortTimeOut);
+
+            await Do.Should().ThrowAsync(exceptionType);
+            await _FakeTaskT.Received(1).Invoke();
+        }
+
         private static async Task RetryAndExpectException<T>(Func<Task<T>> action, int replay, Type expected)
         {
             for (var count = 0; count < replay; count++)
             {
-                (await action.Should().ThrowAsync<Exception>()).Where(ex => ex.GetType() == expected);
+                await action.Should().ThrowAsync(expected);
             }
         }
 
@@ -280,15 +356,7 @@ namespace ComposableAsync.Resilient.Test
         {
             for (var count = 0; count < replay; count++)
             {
-                (await action.Should().ThrowAsync<Exception>()).Where(ex => ex.GetType() == expected);
-            }
-        }
-
-        private static async Task AssertStayOpen<T>(Func<Task<T>> action, int replay)
-        {
-            for (var count = 0; count < replay; count++)
-            {
-                await action.Should().ThrowAsync<CircuitBreakerOpenException>();
+                await action.Should().ThrowAsync(expected);
             }
         }
 
@@ -299,10 +367,6 @@ namespace ComposableAsync.Resilient.Test
                 await action.Should().ThrowAsync<CircuitBreakerOpenException>();
             }
         }
-
-
-
-
 
         private IDispatcher GetForAllShortTimeOut(int maxAttempts)
         {
