@@ -903,14 +903,9 @@ namespace ComposableAsync.Resilient.Test
         [InlineData(300, 3)]
         public async Task ForException_WithWait_WithMax_Enqueue_Action_Using_Time_Out(int timeOut, int maxRetry)
         {
-            var replay = RetryPolicy.For<BadImageFormatException>().WithWaitBetweenRetry(timeOut).WithMaxRetry(maxRetry);
             var expectedType = typeof(BadImageFormatException);
             _FakeAction.SetUpExceptions(100, expectedType);
-            Func<Task> @do = async () => await replay.Enqueue(_FakeAction);
-            var watch = Stopwatch.StartNew();
-            await @do.Should().ThrowAsync<BadImageFormatException>();
-            watch.Stop();
-            watch.Elapsed.Should().BeCloseTo(TimeSpan.FromMilliseconds(timeOut * maxRetry), 70);
+            await CheckElapsedTimeOnRetry(replay => replay.Enqueue(_FakeAction), timeOut, maxRetry, expectedType);
         }
 
         [Theory]

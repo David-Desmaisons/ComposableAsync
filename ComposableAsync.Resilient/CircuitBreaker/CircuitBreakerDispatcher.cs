@@ -22,10 +22,7 @@ namespace ComposableAsync.Resilient.CircuitBreaker
             _Delay = delay;
         }
 
-        public IBasicDispatcher Clone()
-        {
-            return new CircuitBreakerDispatcher(_ExceptionFilter, _Threshold, _Delay);
-        }
+        public IBasicDispatcher Clone() => new CircuitBreakerDispatcher(_ExceptionFilter, _Threshold, _Delay);
 
         public Task<T> Enqueue<T>(Func<T> action, CancellationToken cancellationToken)
         {
