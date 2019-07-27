@@ -110,9 +110,8 @@ namespace ComposableAsync.Resilient.Retry
         private async Task WaitIfNeeded(int count, CancellationToken cancellationToken)
         {
             var wait = GetWait(count);
-            if (Math.Abs(wait.TotalMilliseconds) <= 0) {
+            if (Math.Abs(wait.TotalMilliseconds) <= 0)
                 return;
-            }
             await Task.Delay(wait, cancellationToken);
         }
 
