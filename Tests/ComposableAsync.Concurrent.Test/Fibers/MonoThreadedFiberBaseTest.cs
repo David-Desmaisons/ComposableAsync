@@ -144,7 +144,7 @@ namespace ComposableAsync.Concurrent.Test.Fibers
         }
 
         [Fact]
-        public async Task Enqueue_Task_With_Cancellation_Imediatelly_Cancel_Tasks_Enqueued()
+        public async Task Enqueue_Task_With_Cancellation_Immediately_Cancel_Tasks_Enqueued()
         {
             var target = GetSafeFiber();
             var tester = new TaskEnqueueWithCancellationTester(target);
@@ -184,10 +184,10 @@ namespace ComposableAsync.Concurrent.Test.Fibers
             var tester = new TaskEnqueueWithCancellationTester(target);
 
             var cancelledTask = tester.CancelCancellableRunningTask_T();
-            var expection = await TaskEnqueueWithCancellationTester.AwaitForException(cancelledTask);
+            var exception = await TaskEnqueueWithCancellationTester.AwaitForException(cancelledTask);
 
-            expection.Should().NotBeNull();
-            expection.Should().BeAssignableTo<TaskCanceledException>();
+            exception.Should().NotBeNull();
+            exception.Should().BeAssignableTo<TaskCanceledException>();
             cancelledTask.Status.Should().Be(TaskStatus.Canceled);
         }
 

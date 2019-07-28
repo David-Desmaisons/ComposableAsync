@@ -62,12 +62,6 @@ namespace ComposableAsync.Concurrent.Fibers
             return PrivateEnqueue(new ActionWorkItem(action));
         }
 
-        private Task PrivateEnqueue(ITraceableWorkItem workItem)
-        {
-            SynchronizationContext.Post(_SendOrPostWorkItem, workItem);
-            return workItem.Task;
-        }
-
         private Task<T> PrivateEnqueue<T>(ITraceableWorkItem<T> workItem)
         {
             SynchronizationContext.Post(_SendOrPostWorkItem, workItem);

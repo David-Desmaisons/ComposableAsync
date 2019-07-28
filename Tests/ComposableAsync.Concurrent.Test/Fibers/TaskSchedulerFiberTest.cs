@@ -71,9 +71,24 @@ namespace ComposableAsync.Concurrent.Test.Fibers
         }
 
         [Fact]
+        public async Task Enqueue_Action_With_Cancellation_Runs_On_ThreadPool_Thead()
+        {
+            var thread = default(Thread);
+            await _TaskSchedulerFiber.Enqueue(() => { thread = Thread.CurrentThread; }, CancellationToken.None);
+            thread.IsThreadPoolThread.Should().BeTrue();
+        }
+
+        [Fact]
         public async Task Enqueue_Func_T_Runs_On_ThreadPool_Thead()
         {
             var thread = await _TaskSchedulerFiber.Enqueue(() => Thread.CurrentThread);
+            thread.IsThreadPoolThread.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Enqueue_Func_T_With_Cancellation_Runs_On_ThreadPool_Thead()
+        {
+            var thread = await _TaskSchedulerFiber.Enqueue(() => Thread.CurrentThread, CancellationToken.None);
             thread.IsThreadPoolThread.Should().BeTrue();
         }
 

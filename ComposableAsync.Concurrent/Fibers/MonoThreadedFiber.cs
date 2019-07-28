@@ -48,19 +48,6 @@ namespace ComposableAsync.Concurrent.Fibers
             Enqueue(action).Wait();
         }
 
-        private Task Enqueue(ITraceableWorkItem workItem)
-        {
-            try
-            {
-                _TaskQueue.Enqueue(workItem);
-                return workItem.Task;
-            }
-            catch (OperationCanceledException operationCanceledException)
-            {
-                return Task.FromCanceled(operationCanceledException.CancellationToken);
-            }
-        }
-
         private Task<T> Enqueue<T>(ITraceableWorkItem<T> workItem)
         {
             try
@@ -107,10 +94,7 @@ namespace ComposableAsync.Concurrent.Fibers
             return Enqueue(new AsyncWorkItem<T>(action));
         }
 
-        public IDispatcher Clone()
-        {
-            return new MonoThreadedFiber(_OnCreate);
-        }
+        public IDispatcher Clone() => new MonoThreadedFiber(_OnCreate);
 
         private void Consume()
         {

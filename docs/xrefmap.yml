@@ -19,15 +19,6 @@ references:
   commentId: M:ComposableAsync.ComposableAsyncDisposable.#ctor
   fullName: ComposableAsync.ComposableAsyncDisposable.ComposableAsyncDisposable()
   nameWithType: ComposableAsyncDisposable.ComposableAsyncDisposable()
-- uid: ComposableAsync.ComposableAsyncDisposable.#ctor(System.IAsyncDisposable[])
-  name: ComposableAsyncDisposable(IAsyncDisposable[])
-  href: core-api/ComposableAsync.ComposableAsyncDisposable.html#ComposableAsync_ComposableAsyncDisposable__ctor_System_IAsyncDisposable___
-  commentId: M:ComposableAsync.ComposableAsyncDisposable.#ctor(System.IAsyncDisposable[])
-  name.vb: ComposableAsyncDisposable(IAsyncDisposable())
-  fullName: ComposableAsync.ComposableAsyncDisposable.ComposableAsyncDisposable(System.IAsyncDisposable[])
-  fullName.vb: ComposableAsync.ComposableAsyncDisposable.ComposableAsyncDisposable(System.IAsyncDisposable())
-  nameWithType: ComposableAsyncDisposable.ComposableAsyncDisposable(IAsyncDisposable[])
-  nameWithType.vb: ComposableAsyncDisposable.ComposableAsyncDisposable(IAsyncDisposable())
 - uid: ComposableAsync.ComposableAsyncDisposable.#ctor*
   name: ComposableAsyncDisposable
   href: core-api/ComposableAsync.ComposableAsyncDisposable.html#ComposableAsync_ComposableAsyncDisposable__ctor_

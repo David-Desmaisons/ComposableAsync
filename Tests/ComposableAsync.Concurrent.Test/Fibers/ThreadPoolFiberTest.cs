@@ -27,5 +27,30 @@ namespace ComposableAsync.Concurrent.Test.Fibers
 
             RunningThread.IsThreadPoolThread.Should().BeTrue();
         }
+
+        [Fact]
+        public void Send_Should_Run_On_PoolThread_Thread()
+        {
+            var target = GetSafeFiber();
+            var thread = default(Thread);
+            target.Send(() => thread = Thread.CurrentThread);
+
+            thread.IsThreadPoolThread.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Send_Can_Run_Synchronously()
+        {
+            var target = GetSafeFiber();
+            var thread = default(Thread);
+            var nestedThread = default(Thread);
+            target.Send(() =>
+            {
+                thread = Thread.CurrentThread;
+                target.Send(() => nestedThread = Thread.CurrentThread);
+            });
+
+            thread.Should().Be(nestedThread);
+        }
     }
 }

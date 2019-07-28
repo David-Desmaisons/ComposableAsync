@@ -64,9 +64,24 @@ namespace ComposableAsync.Concurrent.Test.Fibers
         }
 
         [Fact]
+        public async Task Enqueue_Action_With_Cancellation_Runs_On_UI_Thread()
+        {
+            var thread = default(Thread);
+            await _SynchronizationContextFiber.Enqueue(() => { thread = Thread.CurrentThread; }, CancellationToken.None);
+            thread.Should().Be(_UiMessageLoop.UiThread);
+        }
+
+        [Fact]
         public async Task Enqueue_Func_T_Runs_On_UI_Thread()
         {
             var thread = await _SynchronizationContextFiber.Enqueue(() => Thread.CurrentThread);
+            thread.Should().Be(_UiMessageLoop.UiThread);
+        }
+
+        [Fact]
+        public async Task Enqueue_Func_T_With_Cancellation_Runs_On_UI_Thread()
+        {
+            var thread = await _SynchronizationContextFiber.Enqueue(() => Thread.CurrentThread, CancellationToken.None);
             thread.Should().Be(_UiMessageLoop.UiThread);
         }
 

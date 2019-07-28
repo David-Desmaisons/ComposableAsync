@@ -69,15 +69,15 @@ namespace ComposableAsync.Concurrent.Test.SynchronizationContexts
         public async Task Send_Should_Run_Immediately_On_Queue_Thread()
         {
             //arrange
-            var queuethread = await _Fiber.Enqueue(() => Thread.CurrentThread);
+            var queueThread = await _Fiber.Enqueue(() => Thread.CurrentThread);
 
             //act
-            Thread postthread = null;
-            SendOrPostCallback post = (o) => { postthread = Thread.CurrentThread; };
+            Thread postThread = null;
+            SendOrPostCallback post = (o) => { postThread = Thread.CurrentThread; };
             await _Fiber.Enqueue(() => _Dispatcher.Send(post, null));
 
             //assert
-            postthread.Should().Be(queuethread);
+            postThread.Should().Be(queueThread);
         }
 
         [Fact]
