@@ -6,7 +6,6 @@ using AutoFixture.Xunit2;
 using ComposableAsync.Concurrent.Collections;
 using ComposableAsync.Concurrent.WorkItems;
 using ComposableAsync.Test.Helper;
-using Concurrent.Test.Helper;
 using FluentAssertions;
 using Xunit;
 using Xunit.Abstractions;
@@ -328,7 +327,7 @@ namespace ComposableAsync.Concurrent.Test.Fibers
         }
 
         [Fact]
-        public async Task Enqueue_Task_T_With_Cancellation_Imediatelly_Cancel_Tasks_Enqueued()
+        public async Task Enqueue_Task_T_With_Cancellation_Immediately_Cancel_Tasks_Enqueued()
         {
             var target = GetSafeFiber();
             var tester = new TaskEnqueueWithCancellationTester(target);
@@ -367,10 +366,10 @@ namespace ComposableAsync.Concurrent.Test.Fibers
             var tester = new TaskEnqueueWithCancellationTester(target);
 
             var cancelledTask = tester.CancelCancellableRunningTask_T();
-            var expection = await TaskEnqueueWithCancellationTester.AwaitForException(cancelledTask);
+            var exception = await TaskEnqueueWithCancellationTester.AwaitForException(cancelledTask);
 
-            expection.Should().NotBeNull();
-            expection.Should().BeAssignableTo<TaskCanceledException>();
+            exception.Should().NotBeNull();
+            exception.Should().BeAssignableTo<TaskCanceledException>();
             cancelledTask.Status.Should().Be(TaskStatus.Canceled);
         }
 
@@ -381,10 +380,38 @@ namespace ComposableAsync.Concurrent.Test.Fibers
             Thread current = Thread.CurrentThread;
             //arrange
             var target = GetSafeFiber();
-            Func<int> func = () => { RunningThread = Thread.CurrentThread; return value; };
+
+            int Func()
+            {
+                RunningThread = Thread.CurrentThread;
+                return value;
+            }
 
             //act
-           await target.Enqueue(func);
+           await target.Enqueue((Func<int>) Func);
+
+            //assert
+            value.Should().Be(value);
+            RunningThread.Should().NotBeNull();
+            RunningThread.Should().NotBe(current);
+        }
+
+        [Theory, AutoData]
+        public async Task Enqueue_Func_T_With_Cancellation_Should_Work_AsExpected_With_Result(int value)
+        {
+
+            Thread current = Thread.CurrentThread;
+            //arrange
+            var target = GetSafeFiber();
+
+            int Func()
+            {
+                RunningThread = Thread.CurrentThread;
+                return value;
+            }
+
+            //act
+            await target.Enqueue((Func<int>)Func, CancellationToken.None);
 
             //assert
             value.Should().Be(value);
@@ -448,6 +475,54 @@ namespace ComposableAsync.Concurrent.Test.Fibers
             done.Should().BeTrue();
         }
 
+        [Fact]
+        public async Task Enqueue_Action_With_Cancellation_Should_Work_OnAction()
+        {
+            //arrange
+            var target = GetSafeFiber();
+
+            var done = false;
+            void Act() => done = true;
+            //act
+
+            await target.Enqueue((Action) Act, CancellationToken.None);
+
+            //assert
+            done.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Enqueue_Action_With_Cancellation_Is_Cancellable()
+        {
+            //arrange
+            var target = GetSafeFiber();
+
+            var done = false;
+            void Act() => done = true;
+            //act
+
+            Func<Task> @do = () => target.Enqueue((Action) Act, new CancellationToken(true));
+
+            await @do.Should().ThrowAsync<OperationCanceledException>();
+
+            //assert
+            done.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task Enqueue_Action_With_Cancellation_ReThrow_Exception()
+        {
+            //arrange
+            var target = GetSafeFiber();
+
+            void Act() => throw new ArgumentException();
+            //act
+
+            Func<Task> @do = () => target.Enqueue((Action)Act, CancellationToken.None);
+
+            //assert
+            await @do.Should().ThrowAsync<ArgumentException>();
+        }
 
         [Fact]
         public async Task Enqueue_Action_Should_ReDispatch_Exception_OnAction()
@@ -471,7 +546,7 @@ namespace ComposableAsync.Concurrent.Test.Fibers
         }
 
         [Fact]
-        public async Task Enqueue_Task_Should_Not_Cancel_Already_Runing_Task_OnDispose()
+        public async Task Enqueue_Task_Should_Not_Cancel_Already_Running_Task_OnDispose()
         {
             Task newTask = null;
 
@@ -499,19 +574,19 @@ namespace ComposableAsync.Concurrent.Test.Fibers
             var task = fiber.Enqueue(() => TaskFactory());
             await fiber.DisposeAsync();
 
-            var newesttask = fiber.Enqueue(() => TaskFactory());
+            var newestTask = fiber.Enqueue(() => TaskFactory());
 
             TaskCanceledException error = null;
             try
             {
-                await newesttask;
+                await newestTask;
             }
             catch (TaskCanceledException e)
             {
                 error = e;
             }
 
-            newesttask.IsCanceled.Should().BeTrue();
+            newestTask.IsCanceled.Should().BeTrue();
             error.Should().NotBeNull();
         }
 
@@ -523,19 +598,19 @@ namespace ComposableAsync.Concurrent.Test.Fibers
             await fiber.DisposeAsync();
 
             var done = false;
-            var newesttask = fiber.Enqueue(() => { done = true; });
+            var newestTask = fiber.Enqueue(() => { done = true; });
 
             TaskCanceledException error = null;
             try
             {
-                await newesttask;
+                await newestTask;
             }
             catch (TaskCanceledException e)
             {
                 error = e;
             }
 
-            newesttask.IsCanceled.Should().BeTrue();
+            newestTask.IsCanceled.Should().BeTrue();
             error.Should().NotBeNull();
             done.Should().BeFalse();
         }
@@ -548,24 +623,24 @@ namespace ComposableAsync.Concurrent.Test.Fibers
             await fiber.DisposeAsync();
 
             Func<int> func = () => 25;
-            Task newesttask = fiber.Enqueue(func);
+            Task newestTask = fiber.Enqueue(func);
 
             TaskCanceledException error = null;
             try
             {
-                await newesttask;
+                await newestTask;
             }
             catch (TaskCanceledException e)
             {
                 error = e;
             }
 
-            newesttask.IsCanceled.Should().BeTrue();
+            newestTask.IsCanceled.Should().BeTrue();
             error.Should().NotBeNull();
         }
 
         [Fact]
-        public async Task Dispose_Running_Task_Should_Continue_After_Stoping_Queue()
+        public async Task Dispose_Running_Task_Should_Continue_After_Stopping_Queue()
         {
             //arrange  
             var fiber = GetSafeFiber();
@@ -584,7 +659,7 @@ namespace ComposableAsync.Concurrent.Test.Fibers
         }
 
         [Fact]
-        public async Task Dispose_Enqueue_Items_Should_Return_Canceled_Task_After_Stoping_Queue()
+        public async Task Dispose_Enqueue_Items_Should_Return_Canceled_Task_After_Stopping_Queue()
         {
             //arrange  
             var fiber = GetSafeFiber();
@@ -609,7 +684,7 @@ namespace ComposableAsync.Concurrent.Test.Fibers
         [Fact]
         public async Task Enqueue_Task_Should_Cancel_Not_Started_Task_When_OnDispose()
         {
-            Task newTask = null, notstarted = null;
+            Task newTask = null, notStarted = null;
 
             //arrange
             var target = GetSafeFiber(t => t.Priority = ThreadPriority.Highest);
@@ -622,7 +697,7 @@ namespace ComposableAsync.Concurrent.Test.Fibers
             await target.DisposeAsync();
 
             //act
-            notstarted = target.Enqueue(() => TaskFactory(3));
+            notStarted = target.Enqueue(() => TaskFactory(3));
 
             await newTask;
 
@@ -630,14 +705,14 @@ namespace ComposableAsync.Concurrent.Test.Fibers
             TaskCanceledException error = null;
             try
             {
-                await notstarted;
+                await notStarted;
             }
             catch (TaskCanceledException e)
             {
                 error = e;
             }
 
-            notstarted.IsCanceled.Should().BeTrue();
+            notStarted.IsCanceled.Should().BeTrue();
             error.Should().NotBeNull();
         }
 
@@ -645,7 +720,7 @@ namespace ComposableAsync.Concurrent.Test.Fibers
         [Fact]
         public async Task Enqueue_Action_Should_Cancel_Not_Started_Task_When_OnDispose()
         {
-            Task newTask = null, notstarted = null;
+            Task newTask = null, notStarted = null;
             var done = false;
 
             //arrange
@@ -658,21 +733,21 @@ namespace ComposableAsync.Concurrent.Test.Fibers
             }
             await target.DisposeAsync();
 
-            notstarted = target.Enqueue(() => { done = true; });
+            notStarted = target.Enqueue(() => { done = true; });
 
             await newTask;
 
             TaskCanceledException error = null;
             try
             {
-                await notstarted;
+                await notStarted;
             }
             catch (TaskCanceledException e)
             {
                 error = e;
             }
 
-            notstarted.IsCanceled.Should().BeTrue();
+            notStarted.IsCanceled.Should().BeTrue();
             error.Should().NotBeNull();
             done.Should().BeFalse();
         }

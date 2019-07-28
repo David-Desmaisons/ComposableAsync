@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using ComposableAsync.Concurrent.Fibers;
 using ComposableAsync.Concurrent.SynchronizationContexts;
 using ComposableAsync.Test.Helper;
-using Concurrent.Test.Helper;
 using FluentAssertions;
 using Xunit;
 using Xunit.Abstractions;
@@ -125,7 +124,39 @@ namespace ComposableAsync.Concurrent.Test.Fibers
         }
 
         [Fact]
-        public async Task Enqueue_Task_T_With_Cancellation_Imediatelly_Cancel_Tasks_Enqueued()
+        public async Task Enqueue_Task_T_With_Cancellation_Rethrows_Exception()
+        {
+            var tester = new TaskEnqueueWithCancellationTester(_TaskSchedulerFiber);
+
+            Func<Task> @do = () => tester.RunAndThrow<ArgumentException>();
+
+            await @do.Should().ThrowAsync<ArgumentException>();
+        }
+
+        [Fact]
+        public async Task Enqueue_Task_T_With_Cancellation_Rethrows_OperationCanceledException()
+        {
+            var tester = new TaskEnqueueWithCancellationTester(_TaskSchedulerFiber);
+
+            Func<Task> @do = () => tester.RunAndThrow<OperationCanceledException>();
+
+            await @do.Should().ThrowAsync<OperationCanceledException>();
+        }
+
+        [Fact]
+        public async Task Enqueue_Task_T_With_Cancellation_Rethrows_OperationCanceledException_Corresponding_To_Same_Token()
+        {
+            var tester = new TaskEnqueueWithCancellationTester(_TaskSchedulerFiber);
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            Func<Task> @do = () => tester.RunAndThrow(cancellationTokenSource.Token, new OperationCanceledException(cancellationTokenSource.Token),
+                () => cancellationTokenSource.Cancel());
+
+            await @do.Should().ThrowAsync<OperationCanceledException>();
+        }
+
+        [Fact]
+        public async Task Enqueue_Task_T_With_Cancellation_Immediately_Cancel_Tasks_Enqueued()
         {
             var tester = new TaskEnqueueWithCancellationTester(_TaskSchedulerFiber);
 
@@ -145,7 +176,7 @@ namespace ComposableAsync.Concurrent.Test.Fibers
         }
 
         [Fact]
-        public async Task Enqueue_Task_With_Cancellation_Imediatelly_Cancel_Tasks_Enqueued()
+        public async Task Enqueue_Task_With_Cancellation_Immediately_Cancel_Tasks_Enqueued()
         {
             var tester = new TaskEnqueueWithCancellationTester(_TaskSchedulerFiber);
 

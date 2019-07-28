@@ -49,11 +49,11 @@ namespace ComposableAsync.Test.Helper
             }
 
 
-            var stoptWatch = Stopwatch.StartNew();
+            var stopWatch = Stopwatch.StartNew();
             await PrivateStress(SafeAction);
 
-            stoptWatch.Stop();
-            _TestOutputHelper?.WriteLine($"Time to run {MaxThreads} Enqueues in parrallel tasks: {stoptWatch.Elapsed}");
+            stopWatch.Stop();
+            _TestOutputHelper?.WriteLine($"Time to run {MaxThreads} Enqueues in parallel tasks: {stopWatch.Elapsed}");
         }
 
         private async Task PrivateStress(ParameterizedThreadStart safeAction)

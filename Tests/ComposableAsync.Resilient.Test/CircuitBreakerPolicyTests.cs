@@ -344,6 +344,94 @@ namespace ComposableAsync.Resilient.Test
             await _FakeTaskT.Received(1).Invoke();
         }
 
+
+
+
+
+        [Theory]
+        [InlineData(typeof(ArgumentException), 1)]
+        [InlineData(typeof(ArgumentNullException), 3)]
+        public async Task ForException_Enqueue_Action_Reach_Open_State_When_MaxAttempts_Reached(Type exceptionType, int maxAttempts)
+        {
+            _FakeAction.SetUpExceptions(10, exceptionType);
+            var circuitBreaker = GetShortTimeOut<ArgumentException>(maxAttempts);
+            Func<Task> @do = async () => await circuitBreaker.Enqueue(_FakeAction);
+
+            await RetryAndExpectException(@do, maxAttempts, exceptionType);
+
+            _FakeAction.Received(maxAttempts).Invoke();
+            _FakeAction.ClearReceivedCalls();
+
+            await @do.Should().ThrowAsync<CircuitBreakerOpenException>();
+            _FakeAction.DidNotReceive().Invoke();
+        }
+
+        [Theory]
+        [InlineData(typeof(BadImageFormatException), 3)]
+        [InlineData(typeof(SystemException), 2)]
+        [InlineData(typeof(Exception), 1)]
+        public async Task ForException_Enqueue_Action_Do_Not_Reach_Open_State_When_Exception_Is_Not_Matching(Type exceptionType, int maxAttempts)
+        {
+            _FakeAction.SetUpExceptions(10, exceptionType);
+            var circuitBreaker = GetShortTimeOut<ArgumentException>(maxAttempts);
+            Func<Task> @do = async () => await circuitBreaker.Enqueue(_FakeAction);
+
+            await RetryAndExpectException(@do, maxAttempts, exceptionType);
+
+            _FakeAction.Received(maxAttempts).Invoke();
+            _FakeAction.ClearReceivedCalls();
+
+            await @do.Should().ThrowAsync(exceptionType);
+            _FakeAction.Received(1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(typeof(BadImageFormatException), 1)]
+        [InlineData(typeof(ArgumentNullException), 3)]
+        public async Task ForException_And_Enqueue_Action_Reach_Open_State_When_MaxAttempts_Reached(Type exceptionType, int maxAttempts)
+        {
+            _FakeAction.SetUpExceptions(10, exceptionType);
+            var circuitBreaker = CircuitBreakerPolicy.For<BadImageFormatException>().And<ArgumentNullException>().WithRetryAndTimeout(maxAttempts, ShortTimeOut);
+            Func<Task> @do = async () => await circuitBreaker.Enqueue(_FakeAction);
+
+            await RetryAndExpectException(@do, maxAttempts, exceptionType);
+
+            _FakeAction.Received(maxAttempts).Invoke();
+            _FakeAction.ClearReceivedCalls();
+
+            await @do.Should().ThrowAsync<CircuitBreakerOpenException>();
+            _FakeAction.DidNotReceive().Invoke();
+        }
+
+        [Theory]
+        [InlineData(typeof(ArgumentException), 3)]
+        [InlineData(typeof(SystemException), 2)]
+        [InlineData(typeof(Exception), 1)]
+        public async Task ForException_And_Enqueue_Action_Do_Not_Reach_Open_State_When_Exception_Is_Not_Matching(Type exceptionType, int maxAttempts)
+        {
+            _FakeAction.SetUpExceptions(10, exceptionType);
+            var circuitBreaker =  CircuitBreakerPolicy.For<BadImageFormatException>().And<ArgumentNullException>().WithRetryAndTimeout(maxAttempts, ShortTimeOut);
+
+            Func<Task> @do = async () => await circuitBreaker.Enqueue(_FakeAction);
+
+            await RetryAndExpectException(@do, maxAttempts, exceptionType);
+
+            _FakeAction.Received(maxAttempts).Invoke();
+            _FakeAction.ClearReceivedCalls();
+
+            await @do.Should().ThrowAsync(exceptionType);
+            _FakeAction.Received(1).Invoke();
+        }
+
+
+
+
+
+
+
+
+
+
         private static async Task RetryAndExpectException<T>(Func<Task<T>> action, int replay, Type expected)
         {
             for (var count = 0; count < replay; count++)
@@ -368,19 +456,34 @@ namespace ComposableAsync.Resilient.Test
             }
         }
 
-        private IDispatcher GetForAllShortTimeOut(int maxAttempts)
+        private static IDispatcher GetForAllShortTimeOut(int maxAttempts)
         {
             return GetForAll(maxAttempts, ShortTimeOut);
         }
 
-        private IDispatcher GetForAllLongTimeOut(int maxAttempts)
+        private static IDispatcher GetForAllLongTimeOut(int maxAttempts)
         {
             return GetForAll(maxAttempts, LongTimeOut);
         }
 
-        private IDispatcher GetForAll(int maxAttempts, int timeOut)
+        private static IDispatcher GetForAll(int maxAttempts, int timeOut)
         {
             return CircuitBreakerPolicy.ForAllException().WithRetryAndTimeout(maxAttempts, timeOut);
+        }
+
+        private static IDispatcher GetShortTimeOut<T>(int maxAttempts) where T: Exception
+        {
+            return GetCircuitBreaker<T>(maxAttempts, ShortTimeOut);
+        }
+
+        private static IDispatcher GetLongTimeOut<T>(int maxAttempts) where T : Exception
+        {
+            return GetCircuitBreaker<T>(maxAttempts, LongTimeOut);
+        }
+
+        private static IDispatcher GetCircuitBreaker<T>(int maxAttempts, int timeOut) where T : Exception
+        {
+            return CircuitBreakerPolicy.For<T>().WithRetryAndTimeout(maxAttempts, timeOut);
         }
     }
 }

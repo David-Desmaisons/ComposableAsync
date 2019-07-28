@@ -106,7 +106,7 @@ namespace ComposableAsync.Concurrent.Test.Fibers
         }
 
         [Fact]
-        public async Task Enqueue_Task_T_With_Cancellation_Imediatelly_Cancel_Tasks_Enqueued()
+        public async Task Enqueue_Task_T_With_Cancellation_Immediately_Cancel_Tasks_Enqueued()
         {
             var tester = new TaskEnqueueWithCancellationTester(_SynchronizationContextFiber);
 
@@ -126,7 +126,7 @@ namespace ComposableAsync.Concurrent.Test.Fibers
         }
 
         [Fact]
-        public async Task Enqueue_Task_With_Cancellation_Imediatelly_Cancel_Tasks_Enqueued()
+        public async Task Enqueue_Task_With_Cancellation_Immediately_Cancel_Tasks_Enqueued()
         {
             var tester = new TaskEnqueueWithCancellationTester(_SynchronizationContextFiber);
 

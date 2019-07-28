@@ -13,10 +13,7 @@ namespace ComposableAsync
             _BasicDispatcher = basicDispatcher;
         }
 
-        public IDispatcher Clone()
-        {
-            return new DispatcherAdapter(_BasicDispatcher.Clone());
-        }
+        public IDispatcher Clone() => new DispatcherAdapter(_BasicDispatcher.Clone());
 
         public void Dispatch(Action action)
         {

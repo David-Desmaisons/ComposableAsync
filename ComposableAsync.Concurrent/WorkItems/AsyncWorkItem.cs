@@ -29,10 +29,6 @@ namespace ComposableAsync.Concurrent.WorkItems
             {
                 _Source.TrySetResult(await _Do());
             }
-            catch (OperationCanceledException operationCanceledException)
-            {
-                _Source.TrySetException(operationCanceledException);
-            }
             catch (Exception e)
             {
                 _Source.TrySetException(e);
