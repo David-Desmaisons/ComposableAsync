@@ -2,7 +2,7 @@
 
 namespace ComposableAsync.Resilient
 {
-    public interface ICircuitBreakerWithTypeBuilder : ICircuitBreakerBuilder
+    public interface ICircuitBreakerWithTypeBuilder : ICircuitBreakerWithOpenPolicyBuilder
     {
         /// <summary>
         /// Add the exception type to be caught

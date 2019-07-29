@@ -23,9 +23,9 @@ namespace ComposableAsync.Resilient
         /// Creates a <see cref="IRetryBuilder"/> that will caught all exceptions
         /// </summary>
         /// <returns></returns>
-        public static ICircuitBreakerBuilder ForAllException()
+        public static ICircuitBreakerWithOpenPolicyBuilder ForAllException()
         {
-            return new CircuitBreakerBuilder(NoThrow.Instance);
+            return new CircuitBreakerWithOpenPolicyBuilder(NoThrow.Instance);
         }
 
         /// <summary>
@@ -34,9 +34,9 @@ namespace ComposableAsync.Resilient
         /// <typeparam name="T"></typeparam>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public static ICircuitBreakerBuilder For<T>(Predicate<T> filter) where T : Exception
+        public static ICircuitBreakerWithOpenPolicyBuilder For<T>(Predicate<T> filter) where T : Exception
         {
-            return new CircuitBreakerBuilder(new PredicateExceptionFilter<T>(filter));
+            return new CircuitBreakerWithOpenPolicyBuilder(new PredicateExceptionFilter<T>(filter));
         }
 
         /// <summary>
@@ -44,9 +44,9 @@ namespace ComposableAsync.Resilient
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public static ICircuitBreakerBuilder ForException(Predicate<Exception> filter)
+        public static ICircuitBreakerWithOpenPolicyBuilder ForException(Predicate<Exception> filter)
         {
-            return new CircuitBreakerBuilder(new PredicateExceptionFilter(filter));
+            return new CircuitBreakerWithOpenPolicyBuilder(new PredicateExceptionFilter(filter));
         }
     }
 }

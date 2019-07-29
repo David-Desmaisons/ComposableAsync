@@ -1,24 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
+using ComposableAsync.Resilient.CircuitBreaker.Open;
 using ComposableAsync.Resilient.ExceptionFilter;
 
 namespace ComposableAsync.Resilient.CircuitBreaker
 {
-    internal class CircuitBreakerWithTypeBuilder : ICircuitBreakerWithTypeBuilder
+    internal class CircuitBreakerWithOpenPolicyBuilder : ICircuitBreakerWithOpenPolicyBuilder
     {
-        private readonly HashSet<Type> _Type = new HashSet<Type>();
-        private readonly ThrowOnType _ThrowOnType;
+        private readonly IExceptionFilter _ExceptionFilter;
+        private IOpenBehaviourVoid _OpenBehaviour;
+        private IOpenBehaviourReturn _OpenBehaviourReturn;
 
-        internal CircuitBreakerWithTypeBuilder(Type type)
+        internal CircuitBreakerWithOpenPolicyBuilder(IExceptionFilter exceptionFilter)
         {
-            _ThrowOnType = new ThrowOnType(_Type);
-            _Type.Add(type);
-        }
-
-        public ICircuitBreakerWithTypeBuilder And<T>() where T : Exception
-        {
-            _Type.Add(typeof(T));
-            return this;
+            _ExceptionFilter = exceptionFilter; ;
         }
 
         public IDispatcher WithRetryAndTimeout(int attemptsBeforeOpen, TimeSpan timeoutBeforeRetry)
@@ -31,21 +25,24 @@ namespace ComposableAsync.Resilient.CircuitBreaker
             return GetCircuitBreakerBuilder().WithRetryAndTimeout(attemptsBeforeOpen, timeoutBeforeRetryInMilliseconds);
         }
 
-        private ICircuitBreakerWithOpenPolicyBuilder GetCircuitBreakerBuilder() => new CircuitBreakerWithOpenPolicyBuilder(_ThrowOnType);
+        private ICircuitBreakerBuilder GetCircuitBreakerBuilder() => new CircuitBreakerBuilder(_ExceptionFilter, _OpenBehaviour ?? OpenBehaviors.ThrowVoid, _OpenBehaviourReturn ?? OpenBehaviors.ThrowReturn);
 
         public ICircuitBreakerWithOpenPolicyBuilder ReturnsDefaultWhenOpen()
         {
-            return GetCircuitBreakerBuilder().ReturnsDefaultWhenOpen();
+            _OpenBehaviourReturn = OpenBehaviors.DefaultReturn;
+            return this;
         }
 
         public ICircuitBreakerWithOpenPolicyBuilder ReturnsWhenOpen<T>(T value)
         {
-            return GetCircuitBreakerBuilder().ReturnsWhenOpen<T>(value);
+            _OpenBehaviourReturn = OpenBehaviors.Return(value);
+            return this;
         }
 
         public ICircuitBreakerWithOpenPolicyBuilder DoNotThrowForVoid()
         {
-            return GetCircuitBreakerBuilder().DoNotThrowForVoid();
+            _OpenBehaviour = OpenBehaviors.NoThrowVoid;
+            return this;
         }
     }
 }

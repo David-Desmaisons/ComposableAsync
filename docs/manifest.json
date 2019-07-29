@@ -524,6 +524,54 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourReturn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "resilient-api/ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourReturn.html",
+          "hash": "Is/9Dd2fcvLlxBr18gBNdg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourVoid.yml",
+      "output": {
+        ".html": {
+          "relative_path": "resilient-api/ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourVoid.html",
+          "hash": "LQtHg6NlbhFibwfK8ZRqXA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.CircuitBreaker.Open.OpenBehaviors.yml",
+      "output": {
+        ".html": {
+          "relative_path": "resilient-api/ComposableAsync.Resilient.CircuitBreaker.Open.OpenBehaviors.html",
+          "hash": "Zq3QtO4cWdElj/p4iCXi8g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.CircuitBreaker.Open.yml",
+      "output": {
+        ".html": {
+          "relative_path": "resilient-api/ComposableAsync.Resilient.CircuitBreaker.Open.html",
+          "hash": "tuMBukQqar7c7oInbQ/k/w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.CircuitBreakerOpenException.yml",
       "output": {
         ".html": {
@@ -540,7 +588,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.Resilient.CircuitBreakerPolicy.html",
-          "hash": "q4QDZjDtqZ7bLyoNmWyTkA=="
+          "hash": "Wj/MNWzZkh6dHlHVF2rKqw=="
         }
       },
       "is_incremental": false,
@@ -560,11 +608,23 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.ICircuitBreakerWithOpenPolicyBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "resilient-api/ComposableAsync.Resilient.ICircuitBreakerWithOpenPolicyBuilder.html",
+          "hash": "5meOz9kgqwylHLXTM/0agg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.ICircuitBreakerWithTypeBuilder.yml",
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.Resilient.ICircuitBreakerWithTypeBuilder.html",
-          "hash": "6VrWw5+Sj/VWe/CkYR59ag=="
+          "hash": "ePcqx6SKIzb5VYtiozCpNw=="
         }
       },
       "is_incremental": false,
@@ -612,7 +672,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.Resilient.html",
-          "hash": "TNCK28/xtBAAwpe8Gp3Phg=="
+          "hash": "tqgDmbu1E79LhNdUxe7jaA=="
         }
       },
       "is_incremental": false,
@@ -624,7 +684,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/toc.html",
-          "hash": "DKdMSo1KDGcEP/3D8h57/g=="
+          "hash": "zZdOXQBrxZCMbC6V4lLoQQ=="
         }
       },
       "is_incremental": false,
@@ -679,7 +739,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 44,
+          "total_file_count": 49,
           "skipped_file_count": 0
         },
         "ConceptualDocumentProcessor": {
