@@ -665,6 +665,32 @@ namespace ComposableAsync.Resilient.Test
             res.Should().Be(expected);
         }
 
+        [Theory]
+        [InlineAutoData(typeof(ArgumentException), 1)]
+        [InlineAutoData(typeof(ArgumentNullException), 3)]
+        [InlineAutoData(typeof(SystemException), 2)]
+        public async Task ForException_ReturnsWhenOpen_2_Enqueue_Func_Return_Value_When_Reach_Open_State_When_MaxAttempts_Reached(Type exceptionType, int maxAttempts, int expectedInt, string expectedString)
+        {
+            Func<string> explode = () => throw new SystemException();
+            _FakeFunction.SetUpExceptions(10, 50, exceptionType);
+            var circuitBreaker = CircuitBreakerPolicy.For<SystemException>().ReturnsWhenOpen(expectedInt).ReturnsWhenOpen(expectedString).WithRetryAndTimeout(maxAttempts, LongTimeOut);
+
+            async Task Do() => await circuitBreaker.Enqueue(_FakeFunction);
+
+            await RetryAndExpectException(Do, maxAttempts, exceptionType);
+
+            _FakeFunction.Received(maxAttempts).Invoke();
+            _FakeFunction.ClearReceivedCalls();
+
+            var res = await circuitBreaker.Enqueue(explode);
+            _FakeFunction.DidNotReceive().Invoke();
+            res.Should().Be(expectedString);
+
+            var resInt = await circuitBreaker.Enqueue(_FakeFunction);
+            _FakeFunction.DidNotReceive().Invoke();
+            resInt.Should().Be(expectedInt);
+        }
+
 
         [Theory]
         [InlineData(typeof(ArgumentException), 1)]
