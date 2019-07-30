@@ -1,6 +1,7 @@
-﻿using System;
-using ComposableAsync.Resilient.CircuitBreaker.Open;
+﻿using ComposableAsync.Resilient.CircuitBreaker.Open;
 using ComposableAsync.Resilient.ExceptionFilter;
+using System;
+using System.Collections.Generic;
 
 namespace ComposableAsync.Resilient.CircuitBreaker
 {
@@ -8,7 +9,8 @@ namespace ComposableAsync.Resilient.CircuitBreaker
     {
         private readonly IExceptionFilter _ExceptionFilter;
         private IOpenBehaviourVoid _OpenBehaviour;
-        private IOpenBehaviourReturn _OpenBehaviourReturn;
+        private readonly Dictionary<Type, object> _Values = new Dictionary<Type, object>();
+        private bool _UseDefault = false;
 
         internal CircuitBreakerWithOpenPolicyBuilder(IExceptionFilter exceptionFilter)
         {
@@ -25,17 +27,17 @@ namespace ComposableAsync.Resilient.CircuitBreaker
             return GetCircuitBreakerBuilder().WithRetryAndTimeout(attemptsBeforeOpen, timeoutBeforeRetryInMilliseconds);
         }
 
-        private ICircuitBreakerBuilder GetCircuitBreakerBuilder() => new CircuitBreakerBuilder(_ExceptionFilter, _OpenBehaviour ?? OpenBehaviors.ThrowVoid, _OpenBehaviourReturn ?? OpenBehaviors.ThrowReturn);
+        private ICircuitBreakerBuilder GetCircuitBreakerBuilder() => new CircuitBreakerBuilder(_ExceptionFilter, _OpenBehaviour ?? OpenBehaviors.ThrowVoid, OpenBehaviors.Return(_Values, _UseDefault));
 
         public ICircuitBreakerWithOpenPolicyBuilder ReturnsDefaultWhenOpen()
         {
-            _OpenBehaviourReturn = OpenBehaviors.DefaultReturn;
+            _UseDefault = true;
             return this;
         }
 
         public ICircuitBreakerWithOpenPolicyBuilder ReturnsWhenOpen<T>(T value)
         {
-            _OpenBehaviourReturn = OpenBehaviors.Return(value);
+            _Values[typeof(T)] = value;
             return this;
         }
 

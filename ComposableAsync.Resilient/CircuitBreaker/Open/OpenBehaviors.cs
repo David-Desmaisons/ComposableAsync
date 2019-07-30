@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ComposableAsync.Resilient.CircuitBreaker.Open
 {
@@ -6,7 +7,7 @@ namespace ComposableAsync.Resilient.CircuitBreaker.Open
     {
         private class NoThrowBehaviour : IOpenBehaviourVoid
         {
-            public void OnOpen() {}
+            public void OnOpen() { }
         }
 
         private class ThrowBehaviour : IOpenBehaviourVoid
@@ -19,27 +20,31 @@ namespace ComposableAsync.Resilient.CircuitBreaker.Open
             public T OnOpen<T>() => throw new CircuitBreakerOpenException();
         }
 
-        private class DefaultReturnBehaviour : IOpenBehaviourReturn
+        private class ReturnBehaviour : IOpenBehaviourReturn
         {
-            public T OnOpen<T>() => default(T);
-        }
+            private readonly Dictionary<Type, object> _Values;
+            private readonly bool _UseDefault;
 
-        private class ReturnBehaviour<TTarget> : IOpenBehaviourReturn
-        {
-            private readonly TTarget _Value;
-
-            public ReturnBehaviour(TTarget value)
+            public ReturnBehaviour(Dictionary<Type, object> values, bool useDefault)
             {
-                _Value = value;
+                _Values = values;
+                _UseDefault = useDefault;
             }
 
-            public T OnOpen<T>() => typeof(T) == typeof(TTarget) ? (T)(object)_Value: throw new CircuitBreakerOpenException();
+            public T OnOpen<T>()
+            {
+                if (_Values.TryGetValue(typeof(T), out var res))
+                    return (T)res;
+
+                return _UseDefault ? default(T) : throw new CircuitBreakerOpenException();
+            }
         }
+
+        private static IOpenBehaviourReturn ThrowReturn { get; } = new ThrowReturnBehaviour();
 
         internal static IOpenBehaviourVoid ThrowVoid { get; } = new ThrowBehaviour();
         internal static IOpenBehaviourVoid NoThrowVoid { get; } = new NoThrowBehaviour();
-        internal static IOpenBehaviourReturn ThrowReturn { get; } = new ThrowReturnBehaviour();
-        internal static IOpenBehaviourReturn DefaultReturn { get; } = new DefaultReturnBehaviour();
-        internal static IOpenBehaviourReturn Return<T>(T value) =>  new ReturnBehaviour<T>(value);
+        internal static IOpenBehaviourReturn Return(Dictionary<Type, object> values, bool useDefault) =>
+            (!useDefault && values.Count == 0) ? ThrowReturn : new ReturnBehaviour(values, useDefault);
     }
 }
