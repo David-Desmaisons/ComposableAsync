@@ -115,9 +115,9 @@ var proxyObject = proxyFactory.Build<IBusinessObject>(originalObject);
 var res = await proxyObject.Execute(cancellationToken);
 ```
 
-# Create Actor
+# Actors
 
-`ComposableAsync.Concurrent` also provides an actor factory based on fiber and prxo factory.
+`ComposableAsync.Concurrent` also provides an [actor](https://en.wikipedia.org/wiki/Actor_model) factory based on fiber and proxy factory.
 
 ```C#
 // Instantiate actor factory

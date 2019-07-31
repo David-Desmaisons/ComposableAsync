@@ -131,8 +131,8 @@ var proxyObject = proxyFactory.Build&lt;IBusinessObject&gt;(originalObject);
 
 // The call to the originalObject will be wrapped into a retry policy for SystemException
 var res = await proxyObject.Execute(cancellationToken);
-</code></pre><h1 id="create-actor">Create Actor</h1>
-<p><code>ComposableAsync.Concurrent</code> also provides an actor factory based on fiber and prxo factory.</p>
+</code></pre><h1 id="actors">Actors</h1>
+<p><code>ComposableAsync.Concurrent</code> also provides an <a href="https://en.wikipedia.org/wiki/Actor_model">actor</a> factory based on fiber and proxy factory.</p>
 <pre><code class="lang-C#">// Instantiate actor factory
 var builder = new ActorFactoryBuilder();
 var factory = builder.GetActorFactory(shared: false);
