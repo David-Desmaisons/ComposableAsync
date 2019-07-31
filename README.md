@@ -155,5 +155,11 @@ For actors:
 Install-Package ComposableAsync.Concurrent
 ```
 
+For retry and circuit-breaker:
+
+```
+Install-Package ComposableAsync.Resilient
+```
+
 [Go nuget packages](https://www.nuget.org/packages/ComposableAsync.Core/)
 
