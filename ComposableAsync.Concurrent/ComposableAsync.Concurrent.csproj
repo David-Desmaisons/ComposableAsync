@@ -7,9 +7,9 @@
     <RootNamespace>ComposableAsync.Concurrent</RootNamespace>
     <Authors>David Desmaisons</Authors>
     <Version>1.1.0</Version>
-    <PackageProjectUrl></PackageProjectUrl>
-    <RepositoryUrl>https://github.com/David-Desmaisons/EasyActor</RepositoryUrl>
-    <PackageLicenseUrl>https://github.com/David-Desmaisons/EasyActor/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>http://david-desmaisons.github.io/ComposableAsync/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/David-Desmaisons/ComposableAsync</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/David-Desmaisons/ComposableAsync/blob/master/LICENSE</PackageLicenseUrl>
     <Description></Description>
     <PackageId>ComposableAsync.Concurrent</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

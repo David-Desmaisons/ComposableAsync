@@ -10,6 +10,9 @@
     <Company />
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <FileVersion>1.1.0.0</FileVersion>
+    <RepositoryUrl>https://github.com/David-Desmaisons/ComposableAsync</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/David-Desmaisons/ComposableAsync/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>http://david-desmaisons.github.io/ComposableAsync/</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
