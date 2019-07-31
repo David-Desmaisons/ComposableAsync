@@ -118,6 +118,23 @@ var proxyObject = proxyFactory.Build<IBusinessObject>(originalObject);
 var res = await proxyObject.Execute(cancellationToken);
 ```
 
+# Create Actor
+
+`ComposableAsync.Concurrent` also provides an actor factory based on fiber and prxo factory.
+
+```C#
+// Instantiate actor factory
+var builder = new ActorFactoryBuilder();
+var factory = builder.GetActorFactory(shared: false);
+// When shared is true, all actor leaves in the same thread,
+// when shared is false, each actor leaves in its own thread.
+
+// Instantiate an actor from a POCO
+var fooActor = fact.Build<IFoo>(new ConcreteFoo());
+```
+
+See more at [ComposableAsync.Concurrent](http://david-desmaisons.github.io/ComposableAsync/concurrent-api/index.html)
+
 # Nuget
 
 For core functionality:

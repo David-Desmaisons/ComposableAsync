@@ -131,7 +131,18 @@ var proxyObject = proxyFactory.Build&lt;IBusinessObject&gt;(originalObject);
 
 // The call to the originalObject will be wrapped into a retry policy for SystemException
 var res = await proxyObject.Execute(cancellationToken);
-</code></pre><h1 id="nuget">Nuget</h1>
+</code></pre><h1 id="create-actor">Create Actor</h1>
+<p><code>ComposableAsync.Concurrent</code> also provides an actor factory based on fiber and prxo factory.</p>
+<pre><code class="lang-C#">// Instantiate actor factory
+var builder = new ActorFactoryBuilder();
+var factory = builder.GetActorFactory(shared: false);
+// When shared is true, all actor leaves in the same thread,
+// when shared is false, each actor leaves in its own thread.
+
+// Instantiate an actor from a POCO
+var fooActor = fact.Build&lt;IFoo&gt;(new ConcreteFoo());
+</code></pre><p>See more at <a href="./concurrent-api/index.html">ComposableAsync.Concurrent</a></p>
+<h1 id="nuget">Nuget</h1>
 <p>For core functionality:</p>
 <pre><code>Install-Package ComposableAsync.Core
 </code></pre><p>For factories:</p>
@@ -147,7 +158,7 @@ var res = await proxyObject.Execute(cancellationToken);
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/David-Desmaisons/EasyActor/blob/circuit_breaker/Documentation/ComposableAsync.Documentation/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/David-Desmaisons/EasyActor/blob/master/Documentation/ComposableAsync.Documentation/index.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>
