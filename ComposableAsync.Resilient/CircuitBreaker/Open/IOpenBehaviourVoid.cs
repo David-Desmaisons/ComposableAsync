@@ -1,6 +1,6 @@
 ﻿namespace ComposableAsync.Resilient.CircuitBreaker.Open
 {
-    public interface IOpenBehaviourVoid
+    internal interface IOpenBehaviourVoid
     {
         void OnOpen();
     }

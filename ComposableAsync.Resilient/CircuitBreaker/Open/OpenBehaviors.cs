@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ComposableAsync.Resilient.CircuitBreaker.Open
 {
-    public static class OpenBehaviors
+    internal static class OpenBehaviors
     {
         private class NoThrowBehaviour : IOpenBehaviourVoid
         {

@@ -1455,59 +1455,6 @@ references:
   commentId: N:ComposableAsync.Resilient
   fullName: ComposableAsync.Resilient
   nameWithType: ComposableAsync.Resilient
-- uid: ComposableAsync.Resilient.CircuitBreaker.Open
-  name: ComposableAsync.Resilient.CircuitBreaker.Open
-  href: resilient-api/ComposableAsync.Resilient.CircuitBreaker.Open.html
-  commentId: N:ComposableAsync.Resilient.CircuitBreaker.Open
-  fullName: ComposableAsync.Resilient.CircuitBreaker.Open
-  nameWithType: ComposableAsync.Resilient.CircuitBreaker.Open
-- uid: ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourReturn
-  name: IOpenBehaviourReturn
-  href: resilient-api/ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourReturn.html
-  commentId: T:ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourReturn
-  fullName: ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourReturn
-  nameWithType: IOpenBehaviourReturn
-- uid: ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourReturn.OnOpen*
-  name: OnOpen
-  href: resilient-api/ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourReturn.html#ComposableAsync_Resilient_CircuitBreaker_Open_IOpenBehaviourReturn_OnOpen_
-  commentId: Overload:ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourReturn.OnOpen
-  isSpec: "True"
-  fullName: ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourReturn.OnOpen
-  nameWithType: IOpenBehaviourReturn.OnOpen
-- uid: ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourReturn.OnOpen``1
-  name: OnOpen<T>()
-  href: resilient-api/ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourReturn.html#ComposableAsync_Resilient_CircuitBreaker_Open_IOpenBehaviourReturn_OnOpen__1
-  commentId: M:ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourReturn.OnOpen``1
-  name.vb: OnOpen(Of T)()
-  fullName: ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourReturn.OnOpen<T>()
-  fullName.vb: ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourReturn.OnOpen(Of T)()
-  nameWithType: IOpenBehaviourReturn.OnOpen<T>()
-  nameWithType.vb: IOpenBehaviourReturn.OnOpen(Of T)()
-- uid: ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourVoid
-  name: IOpenBehaviourVoid
-  href: resilient-api/ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourVoid.html
-  commentId: T:ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourVoid
-  fullName: ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourVoid
-  nameWithType: IOpenBehaviourVoid
-- uid: ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourVoid.OnOpen
-  name: OnOpen()
-  href: resilient-api/ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourVoid.html#ComposableAsync_Resilient_CircuitBreaker_Open_IOpenBehaviourVoid_OnOpen
-  commentId: M:ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourVoid.OnOpen
-  fullName: ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourVoid.OnOpen()
-  nameWithType: IOpenBehaviourVoid.OnOpen()
-- uid: ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourVoid.OnOpen*
-  name: OnOpen
-  href: resilient-api/ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourVoid.html#ComposableAsync_Resilient_CircuitBreaker_Open_IOpenBehaviourVoid_OnOpen_
-  commentId: Overload:ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourVoid.OnOpen
-  isSpec: "True"
-  fullName: ComposableAsync.Resilient.CircuitBreaker.Open.IOpenBehaviourVoid.OnOpen
-  nameWithType: IOpenBehaviourVoid.OnOpen
-- uid: ComposableAsync.Resilient.CircuitBreaker.Open.OpenBehaviors
-  name: OpenBehaviors
-  href: resilient-api/ComposableAsync.Resilient.CircuitBreaker.Open.OpenBehaviors.html
-  commentId: T:ComposableAsync.Resilient.CircuitBreaker.Open.OpenBehaviors
-  fullName: ComposableAsync.Resilient.CircuitBreaker.Open.OpenBehaviors
-  nameWithType: OpenBehaviors
 - uid: ComposableAsync.Resilient.CircuitBreakerOpenException
   name: CircuitBreakerOpenException
   href: resilient-api/ComposableAsync.Resilient.CircuitBreakerOpenException.html

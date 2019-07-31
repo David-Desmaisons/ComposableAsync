@@ -85,7 +85,11 @@
 <h2 id="retry">Retry</h2>
 <pre><code class="lang-C#">// Create dispatcher that catch all ArgumentException and retry for ever with a delay of 200 ms
 var retryDispatcher = RetryPolicy.For&lt;ArgumentException&gt;().WithWaitBetweenRetry(TimeSpan.FromSeconds(0.2)).ForEver();
-</code></pre><p>See more at <a href="./resilient-api/index.html">ComposableAsync.Resilient</a></p>
+</code></pre><p>See more at <a href="./resilient-api/index.html#retrypolicy">ComposableAsync.Resilient</a></p>
+<h2 id="circuit-breaker">Circuit-Breaker</h2>
+<pre><code class="lang-C#">// Create dispatcher that catch all ArgumentException and retry for ever with a delay of 200 ms
+var retryDispatcher = CircuitBreakerPolicy.For&lt;TimeoutException&gt;().WithRetryAndTimeout(10, TimeSpan.FromMilliseconds(500));
+</code></pre><p>See more at <a href="./resilient-api/index.html#circuitbreakerpolicy">ComposableAsync.Resilient</a></p>
 <h2 id="fiber">Fiber</h2>
 <pre><code class="lang-C#">// Create dispatcher that dispatch all action on the same thread
 var fiberDispatcher = Fiber.CreateMonoThreadedFiber();

@@ -6,7 +6,7 @@
     <AssemblyName>ComposableAsync.Concurrent</AssemblyName>
     <RootNamespace>ComposableAsync.Concurrent</RootNamespace>
     <Authors>David Desmaisons</Authors>
-    <Version>1.0.3</Version>
+    <Version>1.1.0</Version>
     <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/David-Desmaisons/EasyActor</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/David-Desmaisons/EasyActor/blob/master/LICENSE</PackageLicenseUrl>
@@ -14,8 +14,8 @@
     <PackageId>ComposableAsync.Concurrent</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>Actor Model, Asynchronous</PackageTags>
-    <AssemblyVersion>1.0.3.0</AssemblyVersion>
-    <FileVersion>1.0.3.0</FileVersion>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
     <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
 
