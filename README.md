@@ -9,7 +9,7 @@ Create, compose and inject asynchronous behaviors in .Net Framework and .Net Cor
 
 # Goal
 
-* Create asynchronous behavior such as [fiber](https://www.wikiwand.com/en/Fiber_(computer_science)), rate limiter, circuit breaker.
+* Create asynchronous behavior such as [fiber](https://www.wikiwand.com/en/Fiber_(computer_science)), rate limiter, [circuit breaker](https://www.wikiwand.com/en/Circuit_breaker_design_pattern).
 
 * Compose these behaviors and use them as building blocks with [aspect oriented programming](https://www.wikiwand.com/en/Aspect-oriented_programming).
 
@@ -18,56 +18,46 @@ Create, compose and inject asynchronous behaviors in .Net Framework and .Net Cor
 
 # Create asynchronous behavior
 
-- Asynchronous behaviors are implemented using [IDispatcher abstraction](). 
+Asynchronous behaviors are implemented using [IDispatcher abstraction](http://david-desmaisons.github.io/ComposableAsync/core-api/ComposableAsync.IDispatcher.html). 
+
+Composable Async provides various dispatchers implementation:
+
+
+## Retry
 
 ```C#
-public interface IDispatcher
-{
-	/// <summary>
-	/// Enqueue the action and return a task corresponding to
-	/// the completion of the action
-	/// </summary>
-	Task Enqueue(Action action);
-
-	/// <summary>
-	/// Enqueue the function and return a task corresponding to
-	/// the result of the function
-	/// </summary>
-	Task<T> Enqueue<T>(Func<T> action);
-
-	/// <summary>
-	/// Enqueue the task and return a task corresponding
-	/// to the execution of the original task
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <param name="action"></param>
-	/// <returns></returns>
-	Task<T> Enqueue<T>(Func<Task<T>> action);
-
-	///...Additional signatures including Task and CancellationToken
-}
+// Create dispatcher that catch all ArgumentException and retry for ever with a delay of 200 ms
+var retryDispatcher = RetryPolicy.For<ArgumentException>().WithWaitBetweenRetry(TimeSpan.FromSeconds(0.2)).ForEver();
 ```
 
-- Composable Async provides various dispatchers implementation:
-	- Retry
-	```C#
-	// Create dispatcher that catch all ArgumentException and retry for ever with a delay of 200 ms
-	var retryDispatcher = RetryPolicy.For<ArgumentException>().WithWaitBetweenRetry(TimeSpan.FromSeconds(0.2)).ForEver();
-	```
-	See more at [ComposableAsync.Resilient]().
-	
-	- Fiber
-	```C#
-	// Create dispatcher that dispatch all action on the same thread
-	var fiberDispatcher = Fiber.CreateMonoThreadedFiber();
-	```
-	See more at [ComposableAsync.Concurrent]()
-	- RateLimiter
-	```C#
-	// Create dispatcher that dispatch all action on the same thread
-	var timeConstraint = TimeLimiter.GetFromMaxCountByInterval(5, TimeSpan.FromSeconds(1));
-	```
-	See more at [RateLimiter](https://github.com/David-Desmaisons/RateLimiter)
+See more at [ComposableAsync.Resilient](http://david-desmaisons.github.io/ComposableAsync/resilient-api/index.html#retrypolicy)
+
+## Circuit-Breaker
+
+```C#
+// Create dispatcher that catch all ArgumentException and retry for ever with a delay of 200 ms
+var retryDispatcher = CircuitBreakerPolicy.For<TimeoutException>().WithRetryAndTimeout(10, TimeSpan.FromMilliseconds(500));
+```
+
+See more at [ComposableAsync.Resilient](http://david-desmaisons.github.io/ComposableAsync/resilient-api/index.html#circuitbreakerpolicy)
+
+## Fiber
+
+```C#
+// Create dispatcher that dispatch all action on the same thread
+var fiberDispatcher = Fiber.CreateMonoThreadedFiber();
+```
+
+See more at [ComposableAsync.Concurrent](http://david-desmaisons.github.io/ComposableAsync/concurrent-api/index.html)
+
+##  RateLimiter
+
+```C#
+// Create dispatcher that dispatch all action on the same thread
+var timeConstraint = TimeLimiter.GetFromMaxCountByInterval(5, TimeSpan.FromSeconds(1));
+```
+
+See more at [RateLimiter](https://github.com/David-Desmaisons/RateLimiter)
 
 
 # Compose dispatchers
