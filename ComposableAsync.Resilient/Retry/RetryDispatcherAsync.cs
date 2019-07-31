@@ -2,19 +2,20 @@
 using System.Threading;
 using System.Threading.Tasks;
 using ComposableAsync.Resilient.ExceptionFilter;
+using ComposableAsync.Resilient.Retry.TimeOuts;
 
 namespace ComposableAsync.Resilient.Retry
 {
     internal sealed class RetryDispatcherAsync : IBasicDispatcher
     {
         private readonly int _MaxRetry;
-        private readonly TimeSpan[] _TimeSpans;
+        private readonly ITimeOutProvider _TimeOutProvider;
         private readonly IExceptionFilter _ExceptionFilter;
 
-        internal RetryDispatcherAsync(IExceptionFilter exceptionFilter, int maxRetry, TimeSpan[] timeSpans)
+        internal RetryDispatcherAsync(IExceptionFilter exceptionFilter, ITimeOutProvider timeOutProvider, int maxRetry)
         {
             _MaxRetry = maxRetry;
-            _TimeSpans = timeSpans;
+            _TimeOutProvider = timeOutProvider;
             _ExceptionFilter = exceptionFilter;
         }
 
@@ -109,16 +110,10 @@ namespace ComposableAsync.Resilient.Retry
 
         private async Task WaitIfNeeded(int count, CancellationToken cancellationToken)
         {
-            var wait = GetWait(count);
+            var wait = _TimeOutProvider.GetTimeOutForRetry(count);
             if (Math.Abs(wait.TotalMilliseconds) <= 0)
                 return;
             await Task.Delay(wait, cancellationToken);
-        }
-
-        private TimeSpan GetWait(int count)
-        {
-            var length = _TimeSpans.Length - 1;
-            return(count > length) ? _TimeSpans[length] : _TimeSpans[count];
         }
     }
 } 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ComposableAsync.Resilient.ExceptionFilter;
+using ComposableAsync.Resilient.Retry.TimeOuts;
 
 namespace ComposableAsync.Resilient.Retry
 {
@@ -44,8 +45,10 @@ namespace ComposableAsync.Resilient.Retry
 
         private IBasicDispatcher GetBasicDispatcher(int max)
         {
-            return (_Waits.Count > 0) ? (IBasicDispatcher) new RetryDispatcherAsync(_ExceptionFilter, max, _Waits.ToArray()) :
+            return (_Waits.Count > 0) ? (IBasicDispatcher) new RetryDispatcherAsync(_ExceptionFilter, GetTimeOutProvider(), max) :
                 new RetryDispatcher(_ExceptionFilter, max);
         }
+
+        private ITimeOutProvider GetTimeOutProvider() => new ArrayTimeOutProvider(_Waits.ToArray());
     }
 }
