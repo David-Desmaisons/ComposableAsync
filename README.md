@@ -27,7 +27,9 @@ Composable Async provides various dispatchers implementation:
 
 ```C#
 // Create dispatcher that catch all ArgumentException and retry for ever with a delay of 200 ms
-var retryDispatcher = RetryPolicy.For<ArgumentException>().WithWaitBetweenRetry(TimeSpan.FromSeconds(0.2)).ForEver();
+var retryDispatcher = RetryPolicy.For<ArgumentException>()
+			.WithWaitBetweenRetry(TimeSpan.FromSeconds(0.2))
+			.ForEver();
 ```
 
 See more at [ComposableAsync.Resilient](http://david-desmaisons.github.io/ComposableAsync/resilient-api/index.html#retrypolicy)
@@ -36,7 +38,8 @@ See more at [ComposableAsync.Resilient](http://david-desmaisons.github.io/Compos
 
 ```C#
 // Create dispatcher that catch all ArgumentException and retry for ever with a delay of 200 ms
-var retryDispatcher = CircuitBreakerPolicy.For<TimeoutException>().WithRetryAndTimeout(10, TimeSpan.FromMilliseconds(500));
+var retryDispatcher = CircuitBreakerPolicy.For<TimeoutException>()
+			.WithRetryAndTimeout(10, TimeSpan.FromMilliseconds(500));
 ```
 
 See more at [ComposableAsync.Resilient](http://david-desmaisons.github.io/ComposableAsync/resilient-api/index.html#circuitbreakerpolicy)
