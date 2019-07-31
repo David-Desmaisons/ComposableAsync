@@ -8,7 +8,7 @@ namespace ComposableAsync.Concurrent.Collections
     /// Spinning implementation of IMpScQueue
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class SpinningMpscQueue<T> : IMpScQueue<T> where T: class
+    internal class SpinningMpscQueue<T> : IMpScQueue<T> where T: class
     {
         private readonly CancellationTokenSource _CancellationTokenSource = new CancellationTokenSource();
         private Node<T> _Head;

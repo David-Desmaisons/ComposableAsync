@@ -59,29 +59,11 @@ namespace ComposableAsync.Concurrent.Dispatchers
             return Safe(() => _TaskFactory.StartNew(action));
         }
 
-        private Task Enqueue(ITraceableWorkItem workItem)
-        {
-            return Safe(() =>
-            {
-                _TaskFactory.StartNew(workItem.Do);
-                return workItem.Task;
-            });
-        }
-
         private Task<T> Enqueue<T>(ITraceableWorkItem<T> workItem)
         {
             return Safe(() =>
             {
                 _TaskFactory.StartNew(workItem.Do);
-                return workItem.Task;
-            });
-        }
-
-        private Task Enqueue(ITraceableWorkItem workItem, CancellationToken cancellationToken)
-        {
-            return Safe(() =>
-            {
-                _TaskFactory.StartNew(workItem.Do, cancellationToken);
                 return workItem.Task;
             });
         }

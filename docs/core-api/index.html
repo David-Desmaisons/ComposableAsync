@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Objective </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Objective ">
+    <meta name="generator" content="docfx 2.43.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  
+  <a href="https://github.com/David-Desmaisons/ComposableAsync" target="_blank">
+    <img style="position: fixed; top: 0; right: 0; border: 0; z-index:99999" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_gray_6d6d6d.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1">
+  </a>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="objective">Objective</h1>
+
+<p>ComposableAsync.Core provides dispatcher interface definition and extensions methods.</p>
+<h1 id="features">Features</h1>
+<h2 id="idispatcher-abstraction"><code>IDispatcher</code> abstraction</h2>
+<p>A dispatcher takes an Action, a Function, or a Task and replay it in a different context.</p>
+<pre><code class="lang-C#">public interface IDispatcher
+{
+    /// &lt;summary&gt;
+    /// Enqueue the action and return a task corresponding to
+    /// the completion of the action
+    /// &lt;/summary&gt;
+    Task Enqueue(Action action);
+
+    /// &lt;summary&gt;
+    /// Enqueue the function and return a task corresponding to
+    /// the result of the function
+    /// &lt;/summary&gt;
+    Task&lt;T&gt; Enqueue&lt;T&gt;(Func&lt;T&gt; action);
+
+    /// &lt;summary&gt;
+    /// Enqueue the task and return a task corresponding
+    /// to the execution of the original task
+    /// &lt;/summary&gt;
+    /// &lt;typeparam name=&quot;T&quot;&gt;&lt;/typeparam&gt;
+    /// &lt;param name=&quot;action&quot;&gt;&lt;/param&gt;
+    /// &lt;returns&gt;&lt;/returns&gt;
+    Task&lt;T&gt; Enqueue&lt;T&gt;(Func&lt;Task&lt;T&gt;&gt; action);
+
+    ///...Additional signatures including Task and CancellationToken
+}
+</code></pre><h2 id="extension-methods">Extension methods</h2>
+<p>In order to transform, compose and await <code>IDispatcher</code></p>
+<ul>
+<li>Await a dispatcher:</li>
+</ul>
+<p>The code following a await on a dispatcher will be executed in the dispatcher context.</p>
+<pre><code class="lang-C#">await fiberDispatcher;
+// After the await, the code executes in the dispatcher context
+// In this case the code will execute on the fiber thread
+Console.WriteLine($&quot;This is fiber thread {Thread.CurrentThread.ManagedThreadId}&quot;);
+</code></pre><ul>
+<li>Compose two dispatchers:</li>
+</ul>
+<pre><code class="lang-C#">var composed = dispatcher1.Then(dispatcher2);
+</code></pre><ul>
+<li>Transform a dispatcher into <a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpmessagehandler?view=netframework-4.8">HttpMessageHandler</a> with AsDelegatingHandler extension method:
+<code>C#
+/// Using timelimiter nuget
+var handler = TimeLimiter
+  .GetFromMaxCountByInterval(60, TimeSpan.FromMinutes(1))
+  .AsDelegatingHandler();
+var client = new HttpClient(handler)</code></li>
+</ul>
+<h1 id="nuget">Nuget</h1>
+<pre><code>Install-Package ComposableAsync.Core
+</code></pre><p><a href="https://www.nuget.org/packages/ComposableAsync.Core/">Go nuget packages</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/David-Desmaisons/EasyActor/blob/circuit_breaker/Documentation/ComposableAsync.Documentation/core-api/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

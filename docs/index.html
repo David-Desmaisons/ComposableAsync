@@ -69,161 +69,69 @@
 <p><a href="https://ci.appveyor.com/project/David-Desmaisons/ComposableAsync"><img src="https://img.shields.io/appveyor/ci/David-Desmaisons/ComposableAsync.svg" alt="build"></a>
 <a href="https://www.nuget.org/packages/ComposableAsync.Core/"><img src="https://buildstats.info/nuget/ComposableAsync.Core?includePreReleases=true" alt="NuGet Badge"></a>
 <a href="https://github.com/David-Desmaisons/ComposableAsync/blob/master/LICENSE"><img src="https://img.shields.io/github/license/David-Desmaisons/ComposableAsync.svg" alt="MIT License"></a></p>
+<p>Create, compose and inject asynchronous behaviors in .Net Framework and .Net Core.</p>
 <h1 id="goal">Goal</h1>
 <ul>
-<li><p>Create and compose complex asynchronous behavior in .Net.</p>
+<li><p>Create asynchronous behavior such as <a href="https://www.wikiwand.com/en/Fiber_(computer_science)">fiber</a>, rate limiter, <a href="https://www.wikiwand.com/en/Circuit_breaker_design_pattern">circuit breaker</a>.</p>
 </li>
-<li><p>Use these behaviors as building blocks with <a href="https://www.wikiwand.com/en/Aspect-oriented_programming">aspect oriented programming</a>.</p>
+<li><p>Compose these behaviors and use them as building blocks with <a href="https://www.wikiwand.com/en/Aspect-oriented_programming">aspect oriented programming</a>.</p>
 </li>
-<li><p>Provide a lightweight way to transform POCOs in <a href="https://en.wikipedia.org/wiki/Actor_model">actors</a>.</p>
-</li>
-<li><p>For .Net Framework and .Net Core</p>
+<li><p>Provide a lightweight way inject these behaviors to transform POCOs in <a href="https://en.wikipedia.org/wiki/Actor_model">actors</a>.</p>
 </li>
 </ul>
-<h1 id="motivation">Motivation</h1>
-<ul>
-<li><p>Leverage C# 5.0 asynchronous API (Task, async , await)</p>
-</li>
-<li><p>Simplify concurrent programing getting using Actor model.</p>
-</li>
-<li><p>Transparent for consumer: factories transform any POCO by adding behaviors and return user defined interface.</p>
-</li>
-<li><p>Fast: performance overhead should be minimum</p>
-</li>
-</ul>
-<h1 id="features">Features</h1>
-<h2 id="idispatcher-abstraction"><code>IDispatcher</code> abstraction</h2>
-<p>A dispatcher takes an Action, a Function, or a Task and replay it in a different context.</p>
-<pre><code class="lang-CSharp">public interface IDispatcher
-{
-    /// &lt;summary&gt;
-    /// Enqueue the action and return a task corresponding to
-    /// the completion of the action
-    /// &lt;/summary&gt;
-    Task Enqueue(Action action);
-
-    /// &lt;summary&gt;
-    /// Enqueue the function and return a task corresponding to
-    /// the result of the function
-    /// &lt;/summary&gt;
-    Task&lt;T&gt; Enqueue&lt;T&gt;(Func&lt;T&gt; action);
-
-    /// &lt;summary&gt;
-    /// Enqueue the task and return a task corresponding
-    /// to the execution of the original task
-    /// &lt;/summary&gt;
-    /// &lt;typeparam name=&quot;T&quot;&gt;&lt;/typeparam&gt;
-    /// &lt;param name=&quot;action&quot;&gt;&lt;/param&gt;
-    /// &lt;returns&gt;&lt;/returns&gt;
-    Task&lt;T&gt; Enqueue&lt;T&gt;(Func&lt;Task&lt;T&gt;&gt; action);
-
-    ///...Additional signatures including Task and CancellationToken
-}
-</code></pre><h2 id="pre-built-idispatchers">Pre-built <code>IDispatchers</code>:</h2>
-<ul>
-<li><p>Rate limiting with <a href="http://david-desmaisons.github.io/RateLimiter/index.html">RateLimiter</a></p>
-</li>
-<li><p><a href="https://www.wikiwand.com/en/Fiber_(computer_science)">Fiber</a> implementation to build object that uses <a href="https://en.wikipedia.org/wiki/Actor_model">Actor pattern</a>.</p>
-</li>
-<li><p>Circuit-breaker (incoming)</p>
-</li>
-</ul>
-<h2 id="extension-methods">Extension methods</h2>
-<p>In order to transform, compose and await <code>IDispatcher</code></p>
-<h2 id="factories">Factories</h2>
-<p>In order to add <code>IDispatcher</code> behaviors to <a href="https://www.wikipedia.org//wiki/Plain_old_CLR_object">plain old CLR Objects</a></p>
-<h1 id="usage---example">Usage - Example</h1>
-<h2 id="dispatchers">Dispatchers</h2>
-<h3 id="core-functions-composableasynccore-nuget">Core functions (ComposableAsync.Core nuget)</h3>
-<ul>
-<li>Create a dispatcher:</li>
-</ul>
-<pre><code class="lang-CSharp">var fiberDispatcher = Fiber.CreateMonoThreadedFiber();
-</code></pre><ul>
-<li>Basic usage</li>
-</ul>
-<pre><code class="lang-CSharp">for(int i=0; i&lt;1000; i++)
-{
-    await fiberDispatcher.Enqueue(ConsoleIt);
-}
-
-//...
-private void ConsoleIt()
-{
-    Console.WriteLine($&quot;This is fiber thread {Thread.CurrentThread.ManagedThreadId}&quot;);
-}
-</code></pre><ul>
-<li>Await a dispatcher:</li>
-</ul>
-<pre><code class="lang-CSharp">await fiberDispatcher;
+<h1 id="create-asynchronous-behavior">Create asynchronous behavior</h1>
+<p>Asynchronous behaviors are implemented using <a href="./core-api/ComposableAsync.IDispatcher.html">IDispatcher abstraction</a>. </p>
+<p>Composable Async provides various dispatchers implementation:</p>
+<h2 id="retry">Retry</h2>
+<pre><code class="lang-C#">// Create dispatcher that catch all ArgumentException and retry for ever with a delay of 200 ms
+var retryDispatcher = RetryPolicy.For&lt;ArgumentException&gt;().WithWaitBetweenRetry(TimeSpan.FromSeconds(0.2)).ForEver();
+</code></pre><p>See more at <a href="./resilient-api/index.html#retrypolicy">ComposableAsync.Resilient</a></p>
+<h2 id="circuit-breaker">Circuit-Breaker</h2>
+<pre><code class="lang-C#">// Create dispatcher that catch all ArgumentException and retry for ever with a delay of 200 ms
+var retryDispatcher = CircuitBreakerPolicy.For&lt;TimeoutException&gt;().WithRetryAndTimeout(10, TimeSpan.FromMilliseconds(500));
+</code></pre><p>See more at <a href="./resilient-api/index.html#circuitbreakerpolicy">ComposableAsync.Resilient</a></p>
+<h2 id="fiber">Fiber</h2>
+<pre><code class="lang-C#">// Create dispatcher that dispatch all action on the same thread
+var fiberDispatcher = Fiber.CreateMonoThreadedFiber();
+</code></pre><p>See more at <a href="./concurrent-api/index.html">ComposableAsync.Concurrent</a></p>
+<h2 id="ratelimiter">RateLimiter</h2>
+<pre><code class="lang-C#">// Create dispatcher that dispatch all action on the same thread
+var timeConstraint = TimeLimiter.GetFromMaxCountByInterval(5, TimeSpan.FromSeconds(1));
+</code></pre><p>See more at <a href="https://github.com/David-Desmaisons/RateLimiter">RateLimiter</a></p>
+<h1 id="compose-dispatchers">Compose dispatchers</h1>
+<p>Use then extension methods to create a dispatcher that will execute sequentially dispatchers</p>
+<pre><code class="lang-C#">/// &lt;summary&gt;
+/// Returns a composed dispatcher applying the given dispatchers sequentially
+/// &lt;/summary&gt;
+/// &lt;param name=&quot;dispatcher&quot;&gt;&lt;/param&gt;
+/// &lt;param name=&quot;others&quot;&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static IDispatcher Then(this IDispatcher dispatcher, IEnumerable&lt;IDispatcher&gt; others)
+</code></pre><pre><code class="lang-C#">var composed = fiberDispatcher.Then(timeConstraint);
+</code></pre><h1 id="use-dispatchers">Use dispatchers</h1>
+<h2 id="await-dispatcher">Await dispatcher</h2>
+<pre><code class="lang-C#">await fiberDispatcher;
 // After the await, the code executes in the dispatcher context
 // In this case the code will execute on the fiber thread
 Console.WriteLine($&quot;This is fiber thread {Thread.CurrentThread.ManagedThreadId}&quot;);
-</code></pre><ul>
-<li>Compose two dispatchers:</li>
-</ul>
-<pre><code class="lang-CSharp">var composed = dispatcher1.Then(dispatcher2);
-</code></pre><ul>
-<li>Use a dispatcher as a <a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpmessagehandler?view=netframework-4.8">HttpMessageHandler</a>:
-<code>CSharp
+</code></pre><h2 id="as-httpdelegatehandler">As httpDelegateHandler</h2>
+<p>Transform a dispatcher into <a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpmessagehandler?view=netframework-4.8">HttpMessageHandler</a> with AsDelegatingHandler extension method:</p>
+<pre><code class="lang-C#">/// Using time limiter nuget
 var handler = TimeLimiter
-  .GetFromMaxCountByInterval(60, TimeSpan.FromMinutes(1))
-  .AsDelegatingHandler();
-var client = new HttpClient(handler)</code></li>
-</ul>
-<h3 id="with-composableasyncfactory-nuget">With ComposableAsync.Factory nuget:</h3>
-<ul>
-<li>Use a dispatcher to create a proxy:</li>
-</ul>
-<pre><code class="lang-CSharp">var proxyFactory = new ProxyFactory(dispatcher);
-var proxyObject = proxyFactory.Build&lt;IBusinessObject&gt;(new BusinessObject());
-</code></pre><ul>
-<li>Release all factory resources:</li>
-</ul>
-<pre><code class="lang-CSharp">await proxyFactory.DisposeAsync();
-</code></pre><p>Note that ComposableAsync.Concurrent library provides simplified API to create an actor. See below.</p>
-<h3 id="actor-composableasyncconcurrent-nuget">Actor (ComposableAsync.Concurrent nuget)</h3>
-<p>Actor leaves in their own thread and communicate with immutable message. They communicate with other objects asynchronously using Task and Task<t>.<p>
-<p> ComposableAsync.Concurrent provides a factory allowing the transformation of POCO in actor that are then seen through an interface.
-Actor guarantees that all calls to the actor interface will occur in a separated thread, sequentially.</p>
-<p>The target interface should only expose methods returning Task or Task<t>.
-If this not the case, an exception will be raised at runtime when calling a none compliant method.
-Make also sure that all method parameters and return values are immutable to avoid concurrency problems.<p>
-<p>To create an actor:</p>
-<p>1) Define an interface</p>
-<pre><code class="lang-CSharp">// IFoo definition
-public interface IFoo
-{
-    Task Bar();
-}
-</code></pre><p>2) Implement the interface in a POCO    </p>
-<pre><code class="lang-CSharp">// ConcreteFoo definition
-public class ConcreteFoo : IFoo
-{
-    public Task&lt;int&gt; Bar()
-    {
-        return Task.FromResult&lt;int&gt;(2);
-    }
-}
-</code></pre><p>3) Use an ComposableAsync.Factory factory to create an actor from the POCO</p>
-<pre><code class="lang-CSharp">// Instantiate actor factory
-var builder = new ActorFactoryBuilder();
-var factory = builder.GetActorFactory(shared: false);
-// When shared is true, all actor leaves in the same thread,
-// when shared is false, each actor leaves in its own thread.
+    .GetFromMaxCountByInterval(60, TimeSpan.FromMinutes(1))
+    .AsDelegatingHandler();
+var client = new HttpClient(handler);
+</code></pre><h2 id="as-wrapper-for-proxy-factory">As wrapper for proxy Factory</h2>
+<p>Using <code>ComposableAsync.Factory</code>, with this option all methods call to the proxyfied object are wrapped using the provided dispatcher.</p>
+<pre><code class="lang-C#">var retryDispatcher = RetryPolicy.For&lt;SystemException&gt;().ForEver();
 
-// Instantiate an actor from a POCO
-var fooActor = fact.Build&lt;IFoo&gt;(new ConcreteFoo());
-</code></pre><p>4) Use the actor: all methods call will be executed on a dedicated thread</p>
-<pre><code class="lang-CSharp">//This will call ConcreteFoo Bar in its own thread
-var res = await fooActor.Bar();
-</code></pre><p>5) Life cycle</p>
-<p>To release all resources linked to thread management call <code>DisposeAsync</code> on the factory (typically called when closing application and actors won&#39;t be used):</p>
-<pre><code class="lang-CSharp">await proxyFactory.DisposeAsync();
-</code></pre><h2 id="how-it-works">How it works</h2>
-<p>Internally, <code>ComposableAsync.Factory</code> uses <a href="https://github.com/castleproject/Core">Castle Core DynamicProxy</a> to instantiate a proxy for the corresponding interface.
-All calls to the interface methods are intercepted and then redirected to run on the actor Threads.</p>
-<h2 id="nuget">Nuget</h2>
+var originalObject = new BusinessObject();
+var proxyFactory = new ProxyFactory(retryDispatcher);
+var proxyObject = proxyFactory.Build&lt;IBusinessObject&gt;(originalObject);
+
+// The call to the originalObject will be wrapped into a retry policy for SystemException
+var res = await proxyObject.Execute(cancellationToken);
+</code></pre><h1 id="nuget">Nuget</h1>
 <p>For core functionality:</p>
 <pre><code>Install-Package ComposableAsync.Core
 </code></pre><p>For factories:</p>
@@ -231,7 +139,7 @@ All calls to the interface methods are intercepted and then redirected to run on
 </code></pre><p>For actors:</p>
 <pre><code>Install-Package ComposableAsync.Concurrent
 </code></pre><p><a href="https://www.nuget.org/packages/ComposableAsync.Core/">Go nuget packages</a></p>
-</t></t></article>
+</article>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">
@@ -239,7 +147,7 @@ All calls to the interface methods are intercepted and then redirected to run on
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/David-Desmaisons/EasyActor/blob/master/Documentation/ComposableAsync.Documentation/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/David-Desmaisons/EasyActor/blob/circuit_breaker/Documentation/ComposableAsync.Documentation/index.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

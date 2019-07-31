@@ -37,19 +37,6 @@ namespace ComposableAsync.Concurrent.Fibers
             Enqueue(action).Wait();
         }
 
-        private Task PrivateEnqueue(ITraceableWorkItem workItem)
-        {
-            try
-            {
-                _TaskQueue.Enqueue(workItem);
-                return workItem.Task;
-            }
-            catch (OperationCanceledException operationCanceledException)
-            {
-                return Task.FromCanceled(operationCanceledException.CancellationToken);
-            }
-        }
-
         private Task<T> PrivateEnqueue<T>(ITraceableWorkItem<T> workItem)
         {
             try

@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Objective </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Objective ">
+    <meta name="generator" content="docfx 2.43.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  
+  <a href="https://github.com/David-Desmaisons/ComposableAsync" target="_blank">
+    <img style="position: fixed; top: 0; right: 0; border: 0; z-index:99999" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_gray_6d6d6d.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1">
+  </a>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="objective">Objective</h1>
+
+<p>ComposableAsync.Concurrent provides API to create <a href="https://en.wikipedia.org/wiki/Actor_model">Actors</a> and <a href="https://www.wikiwand.com/en/Fiber_(computer_science)">fiber</a> dispatcher.</p>
+<h1 id="features">Features</h1>
+<h2 id="fiber-dispatcher">Fiber dispatcher:</h2>
+<p>For a complete definition of fiber see <a href="https://www.wikiwand.com/en/Fiber_(computer_science)">wiki definition</a>.</p>
+<p><code>ComposableAsync</code> fibers:</p>
+<ul>
+<li>dispatches all action to the same thread</li>
+<li>manages work queue to allow parallelism </li>
+</ul>
+<p>Internally <code>ComposableAsync.Concurrent</code> use a multiple producer, single consumer queue that ensure better performance than .Net 
+<code>BlockingCollection&lt;T&gt;</code>.</p>
+<p>This collection was adapted from <a href="http://www.1024cores.net/home/lock-free-algorithms/queues/non-intrusive-mpsc-node-based-queue">1024cores.net article</a>.</p>
+<h3 id="create-a-fiber">Create a fiber:</h3>
+<pre><code class="lang-C#">var fiberDispatcher = Fiber.CreateMonoThreadedFiber();
+</code></pre><ul>
+<li>Basic usage</li>
+</ul>
+<pre><code class="lang-C#">for(int i=0; i&lt;1000; i++)
+{
+    await fiberDispatcher.Enqueue(ConsoleIt);
+}
+
+//...
+private void ConsoleIt()
+{
+    Console.WriteLine($&quot;This is fiber thread {Thread.CurrentThread.ManagedThreadId}&quot;);
+}
+</code></pre><ul>
+<li>Await a dispatcher:</li>
+</ul>
+<pre><code class="lang-C#">await fiberDispatcher;
+// After the await, the code executes in the dispatcher context
+// In this case the code will execute on the fiber thread
+Console.WriteLine($&quot;This is fiber thread {Thread.CurrentThread.ManagedThreadId}&quot;);
+</code></pre><h2 id="actor">Actor</h2>
+<h3 id="definition">Definition</h3>
+<p>Actor are object that</p>
+<ul>
+<li>leaves in their own thread.</li>
+<li>receives immutable message as input. </li>
+<li>responds asynchronously using <code>Task</code> and <code>Task&lt;T&gt;</code>.</li>
+</ul>
+<h3 id="factory-and-factorybuilder">Factory and FactoryBuilder</h3>
+<p><code>ComposableAsync.Concurrent</code> factories transform POCO in actor.</p>
+<p>To create an actor:</p>
+<p>1) Define an interface</p>
+<pre><code class="lang-C#">// IFoo definition
+public interface IFoo
+{
+    Task Bar();
+}
+</code></pre><p>Note that all methods of the actor interface should return <code>Task</code> or <code>Task&lt;T&gt;</code>.</p>
+<p>2) Implement the interface in a POCO    </p>
+<pre><code class="lang-C#">// ConcreteFoo definition
+public class ConcreteFoo : IFoo
+{
+    public Task&lt;int&gt; Bar()
+    {
+        return Task.FromResult&lt;int&gt;(2);
+    }
+}
+</code></pre><p>3) Use an create a factory from the factory builder and instantiate an actor from the POCO</p>
+<pre><code class="lang-C#">// Instantiate actor factory
+var builder = new ActorFactoryBuilder();
+var factory = builder.GetActorFactory(shared: false);
+// When shared is true, all actor leaves in the same thread,
+// when shared is false, each actor leaves in its own thread.
+
+// Instantiate an actor from a POCO
+var fooActor = fact.Build&lt;IFoo&gt;(new ConcreteFoo());
+</code></pre><p>4) Use the actor: all methods call will be executed on a dedicated thread</p>
+<pre><code class="lang-C#">//This will call ConcreteFoo Bar in its own thread
+var res = await fooActor.Bar();
+</code></pre><h3 id="life-cycle">Life cycle</h3>
+<p>To release all resources linked to thread management call <code>DisposeAsync</code> on the factory (typically called when closing application and actors won&#39;t be used):</p>
+<pre><code class="lang-C#">await proxyFactory.DisposeAsync();
+</code></pre><p>Internally a <code>ComposableAsync.Concurrent</code> use fiber to implement actors.</p>
+<h1 id="nuget">Nuget</h1>
+<pre><code>Install-Package ComposableAsync.Concurrent
+</code></pre><p><a href="https://www.nuget.org/packages/ComposableAsync.Concurrent/">Go nuget packages</a></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/David-Desmaisons/EasyActor/blob/circuit_breaker/Documentation/ComposableAsync.Documentation/concurrent-api/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

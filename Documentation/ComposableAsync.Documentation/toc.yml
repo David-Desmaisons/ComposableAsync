@@ -1,5 +1,13 @@
 
-- name: API Documentation
-  href: api/
-  homepage: api/ComposableAsync.html
+- name: Core
+  href: core-api/
+  homepage: core-api/index.html
+- name: Concurrent
+  href: concurrent-api/index.html
+- name: Factory
+  href: factory-api/
+  homepage: factory-api/index.html
+- name: Resilient
+  href: resilient-api/
+  homepage: resilient-api/index.html
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using ComposableAsync.Concurrent;
@@ -93,8 +94,6 @@ namespace ComposableAsync.Core.Test
             await asyncFunction.Should().ThrowAsync<ArgumentException>();
         }
 
-      
-
         [Fact]
         public void Then_Returns_A_ComposedDispatcher()
         {
@@ -185,6 +184,24 @@ namespace ComposableAsync.Core.Test
             var then = new List<IDispatcher>();
             Action @do = () => first.Then(then);
             @do.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void AsDelegatingHandler_Returns_A_DispatcherDelegatingHandler()
+        {
+            var dispatcher = Substitute.For<IDispatcher>();
+            var handler = dispatcher.AsDelegatingHandler();
+
+            handler.Should().BeOfType<DispatcherDelegatingHandler>();
+        }
+
+        [Fact]
+        public void AsDelegatingHandler_Returns_Has_A_InnerHandler()
+        {
+            var dispatcher = Substitute.For<IDispatcher>();
+            var handler = dispatcher.AsDelegatingHandler();
+
+            handler.InnerHandler.Should().BeOfType<HttpClientHandler>();
         }
 
         private void SetUpDispatcherDispatch()

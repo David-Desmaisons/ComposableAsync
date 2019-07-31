@@ -9,7 +9,7 @@ namespace ComposableAsync.Concurrent.Collections
     /// Implementation of IMpScQueue relying on .Net BlockingCollection
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class StandardMpscQueue<T> : IMpScQueue<T> where T: class
+    internal class StandardMpscQueue<T> : IMpScQueue<T> where T: class
     {
         private readonly BlockingCollection<T> _Queue = new BlockingCollection<T>();
         private readonly CancellationTokenSource _CancellationTokenSource = new CancellationTokenSource();

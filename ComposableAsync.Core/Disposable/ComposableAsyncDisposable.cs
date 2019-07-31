@@ -21,15 +21,6 @@ namespace ComposableAsync
         }
 
         /// <summary>
-        /// Build an ComposableAsyncDisposable from various <see cref="IAsyncDisposable"/> 
-        /// </summary>
-        /// <param name="disposables"></param>
-        public ComposableAsyncDisposable(params IAsyncDisposable[] disposables)
-        {
-            _Disposables = new ConcurrentQueue<IAsyncDisposable>(disposables);
-        }
-
-        /// <summary>
         /// Add an <see cref="IAsyncDisposable"/> to the ComposableAsyncDisposable
         /// and returns it
         /// </summary>

@@ -76,5 +76,15 @@ namespace ComposableAsync
         {
             return new DispatcherDelegatingHandler(dispatcher);
         }
+
+        /// <summary>
+        /// Create a <see cref="IDispatcher"/> from an <see cref="IBasicDispatcher"/>
+        /// </summary>
+        /// <param name="basicDispatcher"></param>
+        /// <returns></returns>
+        public static IDispatcher ToFullDispatcher(this IBasicDispatcher @basicDispatcher)
+        {
+            return new DispatcherAdapter(@basicDispatcher);
+        }
     }
 }

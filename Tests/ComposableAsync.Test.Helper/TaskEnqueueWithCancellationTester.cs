@@ -153,5 +153,20 @@ namespace ComposableAsync.Test.Helper
             var exception = await AwaitForException(toBeCancelled);
             exception.Should().BeAssignableTo<TaskCanceledException>();
         }
+
+        public Task RunAndThrow<T>() where T: Exception
+        {
+            return RunAndThrow(CancellationToken.None, Activator.CreateInstance<T>());
+        }
+
+        public Task RunAndThrow(CancellationToken token, Exception exception, Action before=null)
+        {
+            async Task Explode()
+            {
+                before?.Invoke();
+                throw exception;
+            }
+            return _Dispatcher.Enqueue(Explode, token);
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace ComposableAsync
     /// <summary>
     /// A <see cref="DelegatingHandler"/> implementation based on <see cref="IDispatcher"/>
     /// </summary>
-    public class DispatcherDelegatingHandler : DelegatingHandler
+    internal class DispatcherDelegatingHandler : DelegatingHandler
     {
         private readonly IDispatcher _Dispatcher;
 

@@ -100,6 +100,7 @@
   <ItemGroup>
     <Compile Include="ActorFactoryBuilderTest.cs" />
     <Compile Include="ActorFactoryTest.cs" />
+    <Compile Include="FiberExtensionTest.cs" />
     <Compile Include="Fibers\TaskSchedulerFiberTest.cs" />
     <Compile Include="Fibers\SynchronizationContextFiberTest.cs" />
     <Compile Include="FiberTest.cs" />

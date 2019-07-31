@@ -67,13 +67,37 @@ namespace ComposableAsync.Core.Test.Dispatchers
         }
 
         [Fact]
-        public async Task Enqueue_Action_Calls_Dispatch_On_Second_Dispatcher_Then()
+        public async Task Enqueue_Action_Calls_Enqueue_On_Second_Dispatcher_Then()
         {
             await _ComposedDispatcher.Enqueue(_Action);
             await _DispatchedFuncTask();
 
             await _Second.Received(1).Enqueue(Arg.Any<Action>());
             await _Second.Received().Enqueue(_Action);
+        }
+
+        [Fact]
+        public async Task Enqueue_Action_With_Cancellation_Calls_Dispatch_First_On_First_Dispatcher()
+        {
+            var token = new CancellationToken();
+            await _ComposedDispatcher.Enqueue(_Action, token);
+
+            await _First.Received(1).Enqueue(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>());
+            await _First.Received(1).Enqueue(Arg.Any<Func<Task>>(), token);
+
+            await _Second.DidNotReceive().Enqueue(Arg.Any<Action>(), Arg.Any<CancellationToken>());
+            await _Second.DidNotReceive().Enqueue(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>());
+        }
+
+        [Fact]
+        public async Task Enqueue_Action_With_Cancellation_Calls_Enqueue_On_Second_Dispatcher_Then()
+        {
+            var token = new CancellationToken();
+            await _ComposedDispatcher.Enqueue(_Action, token);
+            await _DispatchedFuncTask();
+
+            await _Second.Received(1).Enqueue(Arg.Any<Action>(), Arg.Any<CancellationToken>());
+            await _Second.Received().Enqueue(_Action, token);
         }
 
         [Fact]
@@ -95,6 +119,31 @@ namespace ComposableAsync.Core.Test.Dispatchers
 
             await _Second.Received(1).Enqueue(Arg.Any<Func<int>>());
             await _Second.Received().Enqueue(_FuncInt);
+        }
+
+        [Fact]
+        public async Task Enqueue_Func_T_With_Cancellation_Calls_Dispatch_First_On_First_Dispatcher()
+        {
+            var token = new CancellationToken();
+            await _ComposedDispatcher.Enqueue(_FuncInt, token);
+
+            await _First.Received(1).Enqueue(Arg.Any<Func<Task<int>>>(), Arg.Any<CancellationToken>());
+            await _First.Received(1).Enqueue(Arg.Any<Func<Task<int>>>(), token);
+
+            await _Second.DidNotReceive().Enqueue(Arg.Any<Action>(), Arg.Any<CancellationToken>());
+            await _Second.DidNotReceive().Enqueue(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>());
+            await _Second.DidNotReceive().Enqueue(Arg.Any<Func<Task<int>>>(), Arg.Any<CancellationToken>());
+        }
+
+        [Fact]
+        public async Task Enqueue_Func_T_With_Cancellation_Calls_Enqueue_On_Second_Dispatcher_Then()
+        {
+            var token = new CancellationToken();
+            await _ComposedDispatcher.Enqueue(_FuncInt, token);
+            await _DispatchedFuncTaskInt();
+
+            await _Second.Received(1).Enqueue(Arg.Any<Func<int>>(), Arg.Any<CancellationToken>());
+            await _Second.Received().Enqueue(_FuncInt, token);
         }
 
         [Fact]

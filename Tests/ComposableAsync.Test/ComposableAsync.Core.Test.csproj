@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DispatcherExtensionTest.cs" />
+    <Compile Include="DispatcherProviderExtensionTests.cs" />
     <Compile Include="Dispatchers\ComposedDispatcherTest.cs" />
     <Compile Include="Dispatchers\NullDispatcherTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,18 +6,18 @@
     <AssemblyName>Concurrent.Channel</AssemblyName>
     <RootNamespace>Concurrent.Channel</RootNamespace>
     <Authors>David Desmaisons</Authors>
-    <Version>1.0.3</Version>
+    <Version>1.1.0</Version>
     <PackageProjectUrl></PackageProjectUrl>
-    <RepositoryUrl>https://github.com/David-Desmaisons/EasyActor</RepositoryUrl>
-    <PackageLicenseUrl>https://github.com/David-Desmaisons/EasyActor/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/David-Desmaisons/ComposableAsync</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/David-Desmaisons/ComposableAsync/blob/master/LICENSE</PackageLicenseUrl>
     <Description>EasyActor provides a factory that transforms POCOs in actors that are then seen trougth an interface. Actor guarantees that all calls to the actor interface will occur in a separated thread, sequencially.
 
 In order to work, The target interface should only expose methods returning Task or Task. If this not the case, an exception will be raised at runtime when calling a none compliant method. Make also sure that all method parameters and return values are immutable to avoid concurrency problems.</Description>
     <PackageId>Concurrent.Channel</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>Actor Model, Asynchronous</PackageTags>
-    <AssemblyVersion>1.0.3.0</AssemblyVersion>
-    <FileVersion>1.0.3.0</FileVersion>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
     <PackageReleaseNotes>Update to .NET Standard</PackageReleaseNotes>
   </PropertyGroup>
 
