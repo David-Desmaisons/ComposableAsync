@@ -37,6 +37,12 @@ namespace ComposableAsync.Resilient.Retry
             return GetRetryBuilder(timeOutProvider);
         }
 
+        public IRetryBuilder WithWaitBetweenRetry(Func<int, TimeSpan> waitProvider)
+        {
+            var timeOutProvider = new FunctionTimeOutProvider(waitProvider);
+            return GetRetryBuilder(timeOutProvider);
+        }
+
         public IDispatcher ForEver() => GetRetryBuilder().ForEver();
 
         public IDispatcher WithMaxRetry(int maxTimes) => GetRetryBuilder().WithMaxRetry(maxTimes);

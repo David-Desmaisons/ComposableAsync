@@ -34,5 +34,14 @@ namespace ComposableAsync.Resilient
         /// <param name="waits"></param>
         /// <returns></returns>
         IRetryBuilder WithWaitBetweenRetry(params int[] waits);
+
+        /// <summary>
+        /// Use a function to compute the wait associated with a given retry
+        /// </summary>
+        /// <param name="waitProvider">
+        /// Function that takes the retry number and provides the time to wait
+        /// </param>
+        /// <returns></returns>
+        IRetryBuilder WithWaitBetweenRetry(Func<int, TimeSpan> waitProvider);
     }
 }
