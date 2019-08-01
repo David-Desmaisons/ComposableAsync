@@ -245,11 +245,30 @@ namespace ComposableAsync.Resilient.Test
         [InlineData(2, 300)]
         [InlineData(3, 600)]
         [InlineData(4, 700)]
+        [InlineData(5, 800)]
         public async Task ForAllException_WithWait_Enqueue_Action_TillNoException_WithTimeoutSeries_TimeSpan(int times, int expectedTimeInMs)
         {
             var replay = RetryPolicy
                 .ForAllException()
                 .WithWaitBetweenRetry(TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(200), TimeSpan.FromMilliseconds(300), TimeSpan.FromMilliseconds(100))
+                .ForEver();
+            _FakeAction.SetUpExceptions(times);
+            var watch = Stopwatch.StartNew();
+            await replay.Enqueue(_FakeAction);
+            watch.Stop();
+            watch.Elapsed.Should().BeCloseTo(TimeSpan.FromMilliseconds(expectedTimeInMs), 50);
+        }
+
+        [Theory]
+        [InlineData(1, 100)]
+        [InlineData(2, 300)]
+        [InlineData(3, 600)]
+        [InlineData(4, 1000)]
+        public async Task ForAllException_WithWaitFunc_Enqueue_Action_TillNoException_WithTimeoutSeries_TimeSpan(int times, int expectedTimeInMs)
+        {
+            var replay = RetryPolicy
+                .ForAllException()
+                .WithWaitBetweenRetry(retry => TimeSpan.FromMilliseconds(retry * 100))
                 .ForEver();
             _FakeAction.SetUpExceptions(times);
             var watch = Stopwatch.StartNew();
