@@ -4,15 +4,16 @@
     <TargetFrameworks>netstandard2.0;net472</TargetFrameworks>
     <RootNamespace>ComposableAsync.Resilient</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <Authors>David Desmaisons</Authors>
     <Product />
     <Company />
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
     <RepositoryUrl>https://github.com/David-Desmaisons/ComposableAsync</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/David-Desmaisons/ComposableAsync/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>http://david-desmaisons.github.io/ComposableAsync/</PackageProjectUrl>
+    <Description>ComposableAsync.Resilient provides dispatchers that implement resilient behaviors to handle exceptions, includient retry and circuit breaker.</Description>
   </PropertyGroup>
 
   <ItemGroup>

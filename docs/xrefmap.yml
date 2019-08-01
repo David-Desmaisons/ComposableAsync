@@ -1648,43 +1648,58 @@ references:
   isSpec: "True"
   fullName: ComposableAsync.Resilient.IRetryBuilder.WithMaxRetry
   nameWithType: IRetryBuilder.WithMaxRetry
-- uid: ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry(System.Int32)
+- uid: ComposableAsync.Resilient.IRetryBuilderWithWait
+  name: IRetryBuilderWithWait
+  href: resilient-api/ComposableAsync.Resilient.IRetryBuilderWithWait.html
+  commentId: T:ComposableAsync.Resilient.IRetryBuilderWithWait
+  fullName: ComposableAsync.Resilient.IRetryBuilderWithWait
+  nameWithType: IRetryBuilderWithWait
+- uid: ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.Func{System.Int32,System.TimeSpan})
+  name: WithWaitBetweenRetry(Func<Int32, TimeSpan>)
+  href: resilient-api/ComposableAsync.Resilient.IRetryBuilderWithWait.html#ComposableAsync_Resilient_IRetryBuilderWithWait_WithWaitBetweenRetry_System_Func_System_Int32_System_TimeSpan__
+  commentId: M:ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.Func{System.Int32,System.TimeSpan})
+  name.vb: WithWaitBetweenRetry(Func(Of Int32, TimeSpan))
+  fullName: ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.Func<System.Int32, System.TimeSpan>)
+  fullName.vb: ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.Func(Of System.Int32, System.TimeSpan))
+  nameWithType: IRetryBuilderWithWait.WithWaitBetweenRetry(Func<Int32, TimeSpan>)
+  nameWithType.vb: IRetryBuilderWithWait.WithWaitBetweenRetry(Func(Of Int32, TimeSpan))
+- uid: ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.Int32)
   name: WithWaitBetweenRetry(Int32)
-  href: resilient-api/ComposableAsync.Resilient.IRetryBuilder.html#ComposableAsync_Resilient_IRetryBuilder_WithWaitBetweenRetry_System_Int32_
-  commentId: M:ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry(System.Int32)
-  fullName: ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry(System.Int32)
-  nameWithType: IRetryBuilder.WithWaitBetweenRetry(Int32)
-- uid: ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry(System.Int32[])
+  href: resilient-api/ComposableAsync.Resilient.IRetryBuilderWithWait.html#ComposableAsync_Resilient_IRetryBuilderWithWait_WithWaitBetweenRetry_System_Int32_
+  commentId: M:ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.Int32)
+  fullName: ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.Int32)
+  nameWithType: IRetryBuilderWithWait.WithWaitBetweenRetry(Int32)
+- uid: ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.Int32[])
   name: WithWaitBetweenRetry(Int32[])
-  href: resilient-api/ComposableAsync.Resilient.IRetryBuilder.html#ComposableAsync_Resilient_IRetryBuilder_WithWaitBetweenRetry_System_Int32___
-  commentId: M:ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry(System.Int32[])
+  href: resilient-api/ComposableAsync.Resilient.IRetryBuilderWithWait.html#ComposableAsync_Resilient_IRetryBuilderWithWait_WithWaitBetweenRetry_System_Int32___
+  commentId: M:ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.Int32[])
   name.vb: WithWaitBetweenRetry(Int32())
-  fullName: ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry(System.Int32[])
-  fullName.vb: ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry(System.Int32())
-  nameWithType: IRetryBuilder.WithWaitBetweenRetry(Int32[])
-  nameWithType.vb: IRetryBuilder.WithWaitBetweenRetry(Int32())
-- uid: ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry(System.TimeSpan)
+  fullName: ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.Int32[])
+  fullName.vb: ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.Int32())
+  nameWithType: IRetryBuilderWithWait.WithWaitBetweenRetry(Int32[])
+  nameWithType.vb: IRetryBuilderWithWait.WithWaitBetweenRetry(Int32())
+- uid: ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.TimeSpan)
   name: WithWaitBetweenRetry(TimeSpan)
-  href: resilient-api/ComposableAsync.Resilient.IRetryBuilder.html#ComposableAsync_Resilient_IRetryBuilder_WithWaitBetweenRetry_System_TimeSpan_
-  commentId: M:ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry(System.TimeSpan)
-  fullName: ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry(System.TimeSpan)
-  nameWithType: IRetryBuilder.WithWaitBetweenRetry(TimeSpan)
-- uid: ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry(System.TimeSpan[])
+  href: resilient-api/ComposableAsync.Resilient.IRetryBuilderWithWait.html#ComposableAsync_Resilient_IRetryBuilderWithWait_WithWaitBetweenRetry_System_TimeSpan_
+  commentId: M:ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.TimeSpan)
+  fullName: ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.TimeSpan)
+  nameWithType: IRetryBuilderWithWait.WithWaitBetweenRetry(TimeSpan)
+- uid: ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.TimeSpan[])
   name: WithWaitBetweenRetry(TimeSpan[])
-  href: resilient-api/ComposableAsync.Resilient.IRetryBuilder.html#ComposableAsync_Resilient_IRetryBuilder_WithWaitBetweenRetry_System_TimeSpan___
-  commentId: M:ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry(System.TimeSpan[])
+  href: resilient-api/ComposableAsync.Resilient.IRetryBuilderWithWait.html#ComposableAsync_Resilient_IRetryBuilderWithWait_WithWaitBetweenRetry_System_TimeSpan___
+  commentId: M:ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.TimeSpan[])
   name.vb: WithWaitBetweenRetry(TimeSpan())
-  fullName: ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry(System.TimeSpan[])
-  fullName.vb: ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry(System.TimeSpan())
-  nameWithType: IRetryBuilder.WithWaitBetweenRetry(TimeSpan[])
-  nameWithType.vb: IRetryBuilder.WithWaitBetweenRetry(TimeSpan())
-- uid: ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry*
+  fullName: ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.TimeSpan[])
+  fullName.vb: ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry(System.TimeSpan())
+  nameWithType: IRetryBuilderWithWait.WithWaitBetweenRetry(TimeSpan[])
+  nameWithType.vb: IRetryBuilderWithWait.WithWaitBetweenRetry(TimeSpan())
+- uid: ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry*
   name: WithWaitBetweenRetry
-  href: resilient-api/ComposableAsync.Resilient.IRetryBuilder.html#ComposableAsync_Resilient_IRetryBuilder_WithWaitBetweenRetry_
-  commentId: Overload:ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry
+  href: resilient-api/ComposableAsync.Resilient.IRetryBuilderWithWait.html#ComposableAsync_Resilient_IRetryBuilderWithWait_WithWaitBetweenRetry_
+  commentId: Overload:ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry
   isSpec: "True"
-  fullName: ComposableAsync.Resilient.IRetryBuilder.WithWaitBetweenRetry
-  nameWithType: IRetryBuilder.WithWaitBetweenRetry
+  fullName: ComposableAsync.Resilient.IRetryBuilderWithWait.WithWaitBetweenRetry
+  nameWithType: IRetryBuilderWithWait.WithWaitBetweenRetry
 - uid: ComposableAsync.Resilient.IRetryWithTypeBuilder
   name: IRetryWithTypeBuilder
   href: resilient-api/ComposableAsync.Resilient.IRetryWithTypeBuilder.html

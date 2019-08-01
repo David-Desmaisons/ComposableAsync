@@ -176,12 +176,12 @@ Creates a <a class="xref" href="ComposableAsync.Resilient.IRetryWithTypeBuilder.
   <a id="ComposableAsync_Resilient_RetryPolicy_For_" data-uid="ComposableAsync.Resilient.RetryPolicy.For*"></a>
   <h4 id="ComposableAsync_Resilient_RetryPolicy_For__1_System_Predicate___0__" data-uid="ComposableAsync.Resilient.RetryPolicy.For``1(System.Predicate{``0})">For&lt;T&gt;(Predicate&lt;T&gt;)</h4>
   <div class="markdown level1 summary">
-Returns a <a class="xref" href="ComposableAsync.Resilient.IRetryBuilder.html">IRetryBuilder</a> for the given predicate and exception type
+Returns a <a class="xref" href="ComposableAsync.Resilient.IRetryBuilderWithWait.html">IRetryBuilderWithWait</a> for the given predicate and exception type
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static IRetryBuilder For&lt;T&gt;(Predicate&lt;T&gt; filter)
+    <pre><code class="lang-csharp hljs">public static IRetryBuilderWithWait For&lt;T&gt;(Predicate&lt;T&gt; filter)
     where T : Exception</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
@@ -211,7 +211,7 @@ Returns a <a class="xref" href="ComposableAsync.Resilient.IRetryBuilder.html">IR
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="ComposableAsync.Resilient.IRetryBuilder.html">IRetryBuilder</a></td>
+        <td><a class="xref" href="ComposableAsync.Resilient.IRetryBuilderWithWait.html">IRetryBuilderWithWait</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -241,12 +241,12 @@ Returns a <a class="xref" href="ComposableAsync.Resilient.IRetryBuilder.html">IR
   <a id="ComposableAsync_Resilient_RetryPolicy_ForAllException_" data-uid="ComposableAsync.Resilient.RetryPolicy.ForAllException*"></a>
   <h4 id="ComposableAsync_Resilient_RetryPolicy_ForAllException" data-uid="ComposableAsync.Resilient.RetryPolicy.ForAllException">ForAllException()</h4>
   <div class="markdown level1 summary">
-Creates a <a class="xref" href="ComposableAsync.Resilient.IRetryBuilder.html">IRetryBuilder</a> that will caught all exceptions
+Creates a <a class="xref" href="ComposableAsync.Resilient.IRetryBuilderWithWait.html">IRetryBuilderWithWait</a> that will caught all exceptions
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static IRetryBuilder ForAllException()</code></pre>
+    <pre><code class="lang-csharp hljs">public static IRetryBuilderWithWait ForAllException()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -258,7 +258,7 @@ Creates a <a class="xref" href="ComposableAsync.Resilient.IRetryBuilder.html">IR
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="ComposableAsync.Resilient.IRetryBuilder.html">IRetryBuilder</a></td>
+        <td><a class="xref" href="ComposableAsync.Resilient.IRetryBuilderWithWait.html">IRetryBuilderWithWait</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -273,12 +273,12 @@ Creates a <a class="xref" href="ComposableAsync.Resilient.IRetryBuilder.html">IR
   <a id="ComposableAsync_Resilient_RetryPolicy_ForException_" data-uid="ComposableAsync.Resilient.RetryPolicy.ForException*"></a>
   <h4 id="ComposableAsync_Resilient_RetryPolicy_ForException_System_Predicate_System_Exception__" data-uid="ComposableAsync.Resilient.RetryPolicy.ForException(System.Predicate{System.Exception})">ForException(Predicate&lt;Exception&gt;)</h4>
   <div class="markdown level1 summary">
-Returns a <a class="xref" href="ComposableAsync.Resilient.IRetryBuilder.html">IRetryBuilder</a> for the given predicate and exception type
+Returns a <a class="xref" href="ComposableAsync.Resilient.IRetryBuilderWithWait.html">IRetryBuilderWithWait</a> for the given predicate and exception type
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static IRetryBuilder ForException(Predicate&lt;Exception&gt; filter)</code></pre>
+    <pre><code class="lang-csharp hljs">public static IRetryBuilderWithWait ForException(Predicate&lt;Exception&gt; filter)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -307,7 +307,7 @@ Returns a <a class="xref" href="ComposableAsync.Resilient.IRetryBuilder.html">IR
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="ComposableAsync.Resilient.IRetryBuilder.html">IRetryBuilder</a></td>
+        <td><a class="xref" href="ComposableAsync.Resilient.IRetryBuilderWithWait.html">IRetryBuilderWithWait</a></td>
         <td></td>
       </tr>
     </tbody>

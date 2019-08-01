@@ -152,6 +152,9 @@ var forArgumentExceptionDispatcher = RetryPolicy.For&lt;ArgumentException&gt;().
 </code></pre><h3 id="with-variable-waits-between-retries">With variable waits between retries:</h3>
 <pre><code class="lang-C#">// Create dispatcher that catch all ArgumentException exception and retry up to three times with a delay of 10ms between first and second try, then 50ms between second and third, then 200ms between third and fourth.
 var forArgumentExceptionDispatcher = RetryPolicy.For&lt;ArgumentException&gt;().WithWaitBetweenRetry(10,50,200).WithMaxRetry(3);
+</code></pre><h3 id="using-a-function-to-compute-waits-between-retries">Using a function to compute waits between retries:</h3>
+<pre><code class="lang-C#">// Create dispatcher that catch all ArgumentException exception and retry up to three times with an variable delay of 100ms * number of retry between try.
+var forArgumentExceptionDispatcher = RetryPolicy.For&lt;ArgumentException&gt;().WithWaitBetweenRetry(retry =&gt; TimeSpan.FromMilliseconds(retry * 100)).WithMaxRetry(3);
 </code></pre><h3 id="match-a-specific-exception">Match a specific exception:</h3>
 <pre><code class="lang-C#">// Create dispatcher that catch all Exception with a specific message for ever.
 var forArgumentExceptionDispatcher = RetryPolicy.ForException(ex =&gt; ex.Message == expectedMessageString).ForEver();

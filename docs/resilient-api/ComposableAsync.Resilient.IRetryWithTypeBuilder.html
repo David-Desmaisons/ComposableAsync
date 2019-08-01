@@ -84,16 +84,19 @@ Retry <a class="xref" href="../core-api/ComposableAsync.IDispatcher.html">IDispa
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
-      <a class="xref" href="ComposableAsync.Resilient.IRetryBuilder.html#ComposableAsync_Resilient_IRetryBuilder_WithWaitBetweenRetry_System_Int32_">IRetryBuilder.WithWaitBetweenRetry(Int32)</a>
+      <a class="xref" href="ComposableAsync.Resilient.IRetryBuilderWithWait.html#ComposableAsync_Resilient_IRetryBuilderWithWait_WithWaitBetweenRetry_System_Int32_">IRetryBuilderWithWait.WithWaitBetweenRetry(Int32)</a>
     </div>
     <div>
-      <a class="xref" href="ComposableAsync.Resilient.IRetryBuilder.html#ComposableAsync_Resilient_IRetryBuilder_WithWaitBetweenRetry_System_TimeSpan_">IRetryBuilder.WithWaitBetweenRetry(TimeSpan)</a>
+      <a class="xref" href="ComposableAsync.Resilient.IRetryBuilderWithWait.html#ComposableAsync_Resilient_IRetryBuilderWithWait_WithWaitBetweenRetry_System_TimeSpan_">IRetryBuilderWithWait.WithWaitBetweenRetry(TimeSpan)</a>
     </div>
     <div>
-      <a class="xref" href="ComposableAsync.Resilient.IRetryBuilder.html#ComposableAsync_Resilient_IRetryBuilder_WithWaitBetweenRetry_System_TimeSpan___">IRetryBuilder.WithWaitBetweenRetry(TimeSpan[])</a>
+      <a class="xref" href="ComposableAsync.Resilient.IRetryBuilderWithWait.html#ComposableAsync_Resilient_IRetryBuilderWithWait_WithWaitBetweenRetry_System_TimeSpan___">IRetryBuilderWithWait.WithWaitBetweenRetry(TimeSpan[])</a>
     </div>
     <div>
-      <a class="xref" href="ComposableAsync.Resilient.IRetryBuilder.html#ComposableAsync_Resilient_IRetryBuilder_WithWaitBetweenRetry_System_Int32___">IRetryBuilder.WithWaitBetweenRetry(Int32[])</a>
+      <a class="xref" href="ComposableAsync.Resilient.IRetryBuilderWithWait.html#ComposableAsync_Resilient_IRetryBuilderWithWait_WithWaitBetweenRetry_System_Int32___">IRetryBuilderWithWait.WithWaitBetweenRetry(Int32[])</a>
+    </div>
+    <div>
+      <a class="xref" href="ComposableAsync.Resilient.IRetryBuilderWithWait.html#ComposableAsync_Resilient_IRetryBuilderWithWait_WithWaitBetweenRetry_System_Func_System_Int32_System_TimeSpan__">IRetryBuilderWithWait.WithWaitBetweenRetry(Func&lt;Int32, TimeSpan&gt;)</a>
     </div>
     <div>
       <a class="xref" href="ComposableAsync.Resilient.IRetryBuilder.html#ComposableAsync_Resilient_IRetryBuilder_ForEver">IRetryBuilder.ForEver()</a>
@@ -106,7 +109,7 @@ Retry <a class="xref" href="../core-api/ComposableAsync.IDispatcher.html">IDispa
   <h6><strong>Assembly</strong>: ComposableAsync.Resilient.dll</h6>
   <h5 id="ComposableAsync_Resilient_IRetryWithTypeBuilder_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public interface IRetryWithTypeBuilder : IRetryBuilder</code></pre>
+    <pre><code class="lang-csharp hljs">public interface IRetryWithTypeBuilder : IRetryBuilderWithWait, IRetryBuilder</code></pre>
   </div>
   <h3 id="methods">Methods
   </h3>

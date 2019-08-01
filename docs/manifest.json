@@ -528,7 +528,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.Resilient.CircuitBreakerOpenException.html",
-          "hash": "E6t5cg5nYAzkZIU7xtCrZA=="
+          "hash": "dKR+rSN3dOYCGO0e1jYkxA=="
         }
       },
       "is_incremental": false,
@@ -588,7 +588,19 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.Resilient.IRetryBuilder.html",
-          "hash": "Hk+0HFt1aZFGBnSXO4FnXw=="
+          "hash": "q0Ot4fezgzMy8P2Eprq18g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/docfx/resilient-api/ComposableAsync.Resilient.IRetryBuilderWithWait.yml",
+      "output": {
+        ".html": {
+          "relative_path": "resilient-api/ComposableAsync.Resilient.IRetryBuilderWithWait.html",
+          "hash": "blG3JARW9QxpcIACLbzFsw=="
         }
       },
       "is_incremental": false,
@@ -600,7 +612,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.Resilient.IRetryWithTypeBuilder.html",
-          "hash": "IZfX5cFm98ZYGe3qHyhLwA=="
+          "hash": "Bi/SL+2BYfSd2nyJfCgMpg=="
         }
       },
       "is_incremental": false,
@@ -612,7 +624,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.Resilient.RetryPolicy.html",
-          "hash": "EnSUPIV5iwT83Lzh7Gn+1A=="
+          "hash": "tIoLSww9x3mXPbZFngxLTw=="
         }
       },
       "is_incremental": false,
@@ -624,7 +636,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/ComposableAsync.Resilient.html",
-          "hash": "tqgDmbu1E79LhNdUxe7jaA=="
+          "hash": "MZp7eqO2SQRz0XAZ5yyYkg=="
         }
       },
       "is_incremental": false,
@@ -636,7 +648,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/toc.html",
-          "hash": "Chg0hGbLktj/D2SXkTLa8g=="
+          "hash": "sLwGuADla945R/lqCpxkFg=="
         }
       },
       "is_incremental": false,
@@ -648,7 +660,7 @@
       "output": {
         ".html": {
           "relative_path": "resilient-api/index.html",
-          "hash": "VJ1gxCg8Ur/rYwXgqM5w/g=="
+          "hash": "NiKVfrlZl0OBsHiFfWuqsQ=="
         }
       },
       "is_incremental": false,
@@ -688,16 +700,16 @@
           "total_file_count": 0,
           "skipped_file_count": 0
         },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 46,
+          "skipped_file_count": 0
+        },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 5,
-          "skipped_file_count": 0
-        },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build",
-          "total_file_count": 45,
           "skipped_file_count": 0
         }
       }

@@ -128,6 +128,13 @@ var forArgumentExceptionDispatcher = RetryPolicy.For<ArgumentException>().WithWa
 var forArgumentExceptionDispatcher = RetryPolicy.For<ArgumentException>().WithWaitBetweenRetry(10,50,200).WithMaxRetry(3);
 ```
 
+### Using a function to compute waits between retries:
+
+```C#
+// Create dispatcher that catch all ArgumentException exception and retry up to three times with an variable delay of 100ms * number of retry between try.
+var forArgumentExceptionDispatcher = RetryPolicy.For<ArgumentException>().WithWaitBetweenRetry(retry => TimeSpan.FromMilliseconds(retry * 100)).WithMaxRetry(3);
+```
+
 ### Match a specific exception:
 
 ```C#
