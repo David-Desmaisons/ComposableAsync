@@ -21,7 +21,7 @@ namespace ComposableAsync.Resilient.Retry
             return this;
         }
 
-        private IRetryBuilder GetRetryBuilder() => new RetryBuilder(_ThrowOnType);
+        private IRetryBuilderWithWait GetRetryBuilder() => new RetryBuilderWithWait(_ThrowOnType);
 
         public IRetryBuilder WithWaitBetweenRetry(int waitInMilliseconds)
             => GetRetryBuilder().WithWaitBetweenRetry(waitInMilliseconds);

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ComposableAsync.Resilient.Retry.TimeOuts
 {
@@ -9,6 +11,11 @@ namespace ComposableAsync.Resilient.Retry.TimeOuts
         internal ArrayTimeOutProvider(TimeSpan[] timeSpans)
         {
             _TimeSpans = timeSpans;
+        }
+
+        internal ArrayTimeOutProvider(IEnumerable<int> timeOutInMilliseconds)
+        {
+            _TimeSpans = timeOutInMilliseconds.Select(t => TimeSpan.FromMilliseconds(t)).ToArray();
         }
 
         public TimeSpan GetTimeOutForRetry(int retryNumber)
