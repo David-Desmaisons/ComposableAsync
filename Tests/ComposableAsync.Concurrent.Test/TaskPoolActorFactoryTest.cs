@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using ComposableAsync.Factory;
 using ComposableAsync.Factory.Test.TestInfra.DummyClass;
@@ -7,7 +6,7 @@ using FluentAssertions;
 using Xunit;
 
 namespace ComposableAsync.Concurrent.Test
-{     
+{
     public class TaskPoolActorFactoryTest
     {
         private readonly IProxyFactory _TaskPoolActorFactory;

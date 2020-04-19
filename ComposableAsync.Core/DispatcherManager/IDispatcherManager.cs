@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ComposableAsync
+﻿namespace ComposableAsync
 {
     /// <summary>
     /// Dispatcher manager

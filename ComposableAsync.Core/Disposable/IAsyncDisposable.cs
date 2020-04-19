@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace System
+namespace ComposableAsync
 {
     /// <summary>
     ///  Asynchronous version of IDisposable

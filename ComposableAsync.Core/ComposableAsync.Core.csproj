@@ -4,12 +4,12 @@
     <TargetFrameworks>netstandard2.0;net472</TargetFrameworks>
     <RootNamespace>ComposableAsync</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Authors>David Desmaisons</Authors>
     <Product />
     <Company />
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyVersion>1.1.1.0</AssemblyVersion>
+    <FileVersion>1.1.1.0</FileVersion>
     <PackageProjectUrl>http://david-desmaisons.github.io/ComposableAsync/</PackageProjectUrl>
     <RepositoryUrl>http://david-desmaisons.github.io/ComposableAsync/</RepositoryUrl>
     <PackageTags>Asynchronous,Parallel,Task</PackageTags>
