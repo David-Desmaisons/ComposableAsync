@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net472</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net472</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>ComposableAsync.Concurrent</AssemblyName>
     <RootNamespace>ComposableAsync.Concurrent</RootNamespace>
     <Authors>David Desmaisons</Authors>
-    <Version>1.1.0</Version>
+    <Version>1.3.0</Version>
     <PackageProjectUrl>http://david-desmaisons.github.io/ComposableAsync/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/David-Desmaisons/ComposableAsync</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/David-Desmaisons/ComposableAsync/blob/master/LICENSE</PackageLicenseUrl>
