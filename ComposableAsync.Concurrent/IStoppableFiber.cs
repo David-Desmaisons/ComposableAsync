@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ComposableAsync.Concurrent
+﻿namespace ComposableAsync.Concurrent
 {
     /// <summary>
     /// Fiber that can be stopped
